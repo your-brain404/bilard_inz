@@ -57,7 +57,7 @@
 				{path: '/news', name: 'Aktualności'},
 				],
 				currentPage: 'news',
-				navbarPhotoSrc: '../img/toolbar/8-ball.jpg',
+				navbarPhotoSrc: '../storage/img/toolbar/8-ball.jpg',
 				
 			}
 		},

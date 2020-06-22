@@ -2196,7 +2196,7 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Aktualności'
       }],
       currentPage: 'news',
-      navbarPhotoSrc: '../img/toolbar/8-ball.jpg'
+      navbarPhotoSrc: '../storage/img/toolbar/8-ball.jpg'
     };
   },
   methods: {
@@ -2254,7 +2254,8 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/about_us/get_all').then(function (res) {
-      _this.about = res.data;
+      console.log(res);
+      if (res.data.length > 0) _this.about = res.data;
 
       _this.$emit('blockDataEmit', _this.about);
     });
@@ -2304,7 +2305,7 @@ __webpack_require__.r(__webpack_exports__);
         photo: '../storage/img/offers/bilard.jpg'
       }, {
         title: 'Tenis Stołowy',
-        subtitle: 'Stół zarówno do gry amatorskiej jak i profesjonalnej',
+        subtitle: 'Stół do gry amatorskiej jak i profesjonalnej',
         description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor aut modi exercitationem voluptatum mollitia quaerat! Nisi dolorum vero repellendus veniam laudantium eaque unde, deleniti recusandae doloribus modi, iusto totam. Fugiat.',
         photo: '../storage/img/offers/ping_pong.jpg'
       }, {

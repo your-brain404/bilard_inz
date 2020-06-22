@@ -26,7 +26,7 @@
 			return{
 				offers: [
 				{title: 'Bilard', subtitle: 'Wysoka jakość stołów bilardowych', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor aut modi exercitationem voluptatum mollitia quaerat! Nisi dolorum vero repellendus veniam laudantium eaque unde, deleniti recusandae doloribus modi, iusto totam. Fugiat.', photo: '../storage/img/offers/bilard.jpg'},
-				{title: 'Tenis Stołowy', subtitle: 'Stół zarówno do gry amatorskiej jak i profesjonalnej', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor aut modi exercitationem voluptatum mollitia quaerat! Nisi dolorum vero repellendus veniam laudantium eaque unde, deleniti recusandae doloribus modi, iusto totam. Fugiat.', photo: '../storage/img/offers/ping_pong.jpg'},
+				{title: 'Tenis Stołowy', subtitle: 'Stół do gry amatorskiej jak i profesjonalnej', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor aut modi exercitationem voluptatum mollitia quaerat! Nisi dolorum vero repellendus veniam laudantium eaque unde, deleniti recusandae doloribus modi, iusto totam. Fugiat.', photo: '../storage/img/offers/ping_pong.jpg'},
 				{title: 'Darty', subtitle: 'Maszyna do gry w rzutki', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor aut modi exercitationem voluptatum mollitia quaerat! Nisi dolorum vero repellendus veniam laudantium eaque unde, deleniti recusandae doloribus modi, iusto totam. Fugiat.', photo: '../storage/img/offers/rzutki.jpg'},
 				]
 			}
