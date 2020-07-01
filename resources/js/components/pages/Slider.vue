@@ -14,9 +14,9 @@
 		data(){
 			return{
 				slides: [
-				{src: '../storage/img/slider/mlodzi_ludzie.jpg', title: 'Bilard', subtitle: 'Oferujemy wysokiej jakości stoły bilardowe'},
-				{src: '../storage/img/slider/tenis_stolowy.jpg', title: 'Tenis stołowy', subtitle: 'Posiadamy także stół do tenisa stołowego'},
-				{src: '../storage/img/slider/dart.jpg', title: 'Dart', subtitle: 'W ofercie także maszyna do gry w Dart'},
+				{id: 1, src: '../storage/img/slider/mlodzi_ludzie.jpg', title: 'Bilard', subtitle: 'Oferujemy wysokiej jakości stoły bilardowe'},
+				{id: 2, src: '../storage/img/slider/tenis_stolowy.jpg', title: 'Tenis stołowy', subtitle: 'Posiadamy także stół do tenisa stołowego'},
+				{id: 3,src: '../storage/img/slider/dart.jpg', title: 'Dart', subtitle: 'W ofercie także maszyna do gry w Dart'},
 				],
 			}
 		},

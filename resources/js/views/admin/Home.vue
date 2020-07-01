@@ -10,10 +10,12 @@
 						<h2 class="table-title first-color ma-0">Akcje</h2>
 						<v-spacer></v-spacer>
 						<v-text-field class="ma-0 pt-0" v-model="search" append-icon="mdi-magnify" label="Szukaj..." single-line hide-details ></v-text-field>
-						<v-btn class="first-bgc white--text ml-5">
-							<v-icon left class="">mdi-plus</v-icon>
-							<span>Dodaj</span>
-						</v-btn>
+						<router-link class="form-link" :to="`/admin-panel/${block.tablename}/form`">
+							<v-btn class="first-bgc white--text ml-5">
+								<v-icon left class="">mdi-plus</v-icon>
+								<span>Dodaj</span>
+							</v-btn>
+						</router-link>
 					</v-card-title>
 					<v-data-table :headers="headers" :items="block.table" :search="search"
 					:items-per-page="5"
@@ -24,10 +26,12 @@
 				@page-count="pageCount = $event" >
 				<template v-slot:item.actions="{ item }">
 					<div class="d-flex justify-content-end">
-						<v-btn small color="warning" class="white--text mr-2">
-							<v-icon left class="">mdi-pencil</v-icon>
-							<span>Edytuj</span>
-						</v-btn>
+						<router-link class="form-link" :to="`/admin-panel/${block.tablename}/form/${item.id}`">
+							<v-btn small color="warning" class="white--text mr-2">
+								<v-icon left class="">mdi-pencil</v-icon>
+								<span>Edytuj</span>
+							</v-btn>
+						</router-link>
 						<v-btn small color="error" class="white--text">
 							<v-icon left class="">mdi-close</v-icon>
 							<span>Usuń</span>
@@ -59,9 +63,9 @@
 			return {
 				search: '',
 				blocks: [
-				{title: 'Slider', component: Slider, table: []},
-				{title: 'O klubie', component: AboutUs, table: []},
-				{title: 'Oferta', component: Offers, table: []},
+				{title: 'Slider', component: Slider, tablename: 'slider', table: []},
+				{title: 'O klubie', component: AboutUs, tablename: 'about_us', table: []},
+				{title: 'Oferta', component: Offers, tablename: 'offers',table: []},
 				],
 				headers: [
 				{
@@ -83,7 +87,7 @@
 	.panel-title-header{
 		font-size: 3rem;
 	}
-	.table-title{
-
+	.form-link{
+		text-decoration: none!important;
 	}
 </style>

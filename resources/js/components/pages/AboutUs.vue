@@ -28,7 +28,6 @@
 		},
 		created(){
 			axios.get('/api/about_us/get_all').then(res => {
-				console.log(res);
 				if(res.data.length > 0) this.about = res.data;
 				this.$emit('blockDataEmit', this.about);
 			});
