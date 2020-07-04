@@ -13,10 +13,10 @@ class CreatePartnersTable extends Migration {
 	public function up() {
 		Schema::create('partners', function (Blueprint $table) {
 			$table->id();
-			$table->text('title');
-			$table->text('description');
-			$table->text('photo');
-			$table->text('photo_alt');
+			$table->text('title')->nullable();
+			$table->text('description')->nullable();
+			$table->text('photo')->nullable();
+			$table->text('photo_alt')->nullable();
 			$table->timestamps();
 		});
 	}

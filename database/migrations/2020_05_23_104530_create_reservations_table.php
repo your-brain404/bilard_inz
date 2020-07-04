@@ -13,10 +13,10 @@ class CreateReservationsTable extends Migration {
 	public function up() {
 		Schema::create('reservations', function (Blueprint $table) {
 			$table->id();
-			$table->dateTime('entry');
-			$table->dateTime('leave');
-			$table->integer('earnings');
-			$table->boolean('is_paid');
+			$table->dateTime('entry')->nullable();
+			$table->dateTime('leave')->nullable();
+			$table->integer('earnings')->nullable();
+			$table->boolean('is_paid')->nullable();
 			$table->timestamps();
 		});
 	}

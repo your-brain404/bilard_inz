@@ -13,11 +13,11 @@ class CreateSubpagesTable extends Migration {
 	public function up() {
 		Schema::create('subpages', function (Blueprint $table) {
 			$table->id();
-			$table->text('title');
-			$table->text('page');
-			$table->text('table_name');
-			$table->text('photo');
-			$table->text('photo_alt');
+			$table->text('title')->nullable();
+			$table->text('page')->nullable();
+			$table->text('table_name')->nullable();
+			$table->text('photo')->nullable();
+			$table->text('photo_alt')->nullable();
 			$table->timestamps();
 		});
 	}

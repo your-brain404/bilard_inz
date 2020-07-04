@@ -13,9 +13,9 @@ class CreatePriceListTable extends Migration {
 	public function up() {
 		Schema::create('price_list', function (Blueprint $table) {
 			$table->id();
-			$table->text('name');
-			$table->text('subtitle');
-			$table->integer('price');
+			$table->text('name')->nullable();
+			$table->text('subtitle')->nullable();
+			$table->integer('price')->nullable();
 			$table->timestamps();
 		});
 	}

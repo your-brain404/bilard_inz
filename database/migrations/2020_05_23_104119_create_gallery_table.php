@@ -13,9 +13,9 @@ class CreateGalleryTable extends Migration {
 	public function up() {
 		Schema::create('gallery', function (Blueprint $table) {
 			$table->id();
-			$table->text('title');
-			$table->text('table_name');
-			$table->integer('photo_id');
+			$table->text('title')->nullable();
+			$table->text('table_name')->nullable();
+			$table->integer('photo_id')->nullable();
 			$table->timestamps();
 		});
 	}

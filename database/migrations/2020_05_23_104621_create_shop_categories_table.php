@@ -13,7 +13,7 @@ class CreateShopCategoriesTable extends Migration {
 	public function up() {
 		Schema::create('shop_categories', function (Blueprint $table) {
 			$table->id();
-			$table->text('title');
+			$table->text('title')->nullable();
 			$table->timestamps();
 		});
 	}

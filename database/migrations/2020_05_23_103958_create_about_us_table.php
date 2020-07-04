@@ -13,12 +13,12 @@ class CreateAboutUsTable extends Migration {
 	public function up() {
 		Schema::create('about_us', function (Blueprint $table) {
 			$table->id();
-			$table->text('title');
-			$table->text('subtitle');
-			$table->text('short_description');
-			$table->text('description');
-			$table->text('photo');
-			$table->text('photo_alt');
+			$table->text('title')->nullable();
+			$table->text('subtitle')->nullable();
+			$table->text('short_description')->nullable();
+			$table->text('description')->nullable();
+			$table->text('photo')->nullable();
+			$table->text('photo_alt')->nullable();
 			$table->timestamps();
 		});
 	}

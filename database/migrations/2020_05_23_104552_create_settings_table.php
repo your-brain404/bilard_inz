@@ -13,14 +13,14 @@ class CreateSettingsTable extends Migration {
 	public function up() {
 		Schema::create('settings', function (Blueprint $table) {
 			$table->id();
-			$table->text('rodo_1');
-			$table->text('rodo_2');
-			$table->text('recaptcha_secret_token');
-			$table->text('recaptcha_site_token');
-			$table->text('meta_title');
-			$table->text('meta_description');
-			$table->text('meta_keywords');
-			$table->text('privace_policy');
+			$table->text('rodo_1')->nullable();
+			$table->text('rodo_2')->nullable();
+			$table->text('recaptcha_secret_token')->nullable();
+			$table->text('recaptcha_site_token')->nullable();
+			$table->text('meta_title')->nullable();
+			$table->text('meta_description')->nullable();
+			$table->text('meta_keywords')->nullable();
+			$table->text('privace_policy')->nullable();
 			$table->timestamps();
 		});
 	}

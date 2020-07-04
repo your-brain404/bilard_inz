@@ -13,17 +13,17 @@ class CreateShopItemsTable extends Migration {
 	public function up() {
 		Schema::create('shop_items', function (Blueprint $table) {
 			$table->id();
-			$table->text('title');
-			$table->text('subtitle');
-			$table->text('description');
-			$table->text('details');
+			$table->text('title')->nullable();
+			$table->text('subtitle')->nullable();
+			$table->text('description')->nullable();
+			$table->text('details')->nullable();
 			$table->bigInteger('category_id')->unsigned();
 			$table->bigInteger('product_id')->unsigned();
-			$table->integer('price');
-			$table->integer('amount');
-			$table->text('brand');
-			$table->integer('opinion');
-			$table->text('color');
+			$table->integer('price')->nullable();
+			$table->integer('amount')->nullable();
+			$table->text('brand')->nullable();
+			$table->integer('opinion')->nullable();
+			$table->text('color')->nullable();
 			$table->timestamps();
 
 		});

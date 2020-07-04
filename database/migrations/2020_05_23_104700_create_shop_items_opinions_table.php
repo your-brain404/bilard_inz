@@ -13,9 +13,9 @@ class CreateShopItemsOpinionsTable extends Migration {
 	public function up() {
 		Schema::create('shop_items_opinions', function (Blueprint $table) {
 			$table->id();
-			$table->text('username');
-			$table->integer('stars');
-			$table->text('opinion');
+			$table->text('username')->nullable();
+			$table->integer('stars')->nullable();
+			$table->text('opinion')->nullable();
 			$table->bigInteger('item_id')->unsigned();
 			$table->bigInteger('user_id')->unsigned();
 			$table->timestamps();

@@ -13,16 +13,16 @@ class CreatePlayersTable extends Migration {
 	public function up() {
 		Schema::create('players', function (Blueprint $table) {
 			$table->id();
-			$table->text('first_name');
-			$table->text('last_name');
-			$table->text('email');
-			$table->text('league');
-			$table->text('subtitle');
-			$table->text('description');
-			$table->text('photo');
-			$table->text('photo_alt');
-			$table->text('banner_photo');
-			$table->text('banner_photo_alt');
+			$table->text('first_name')->nullable();
+			$table->text('last_name')->nullable();
+			$table->text('email')->nullable();
+			$table->text('league')->nullable();
+			$table->text('subtitle')->nullable();
+			$table->text('description')->nullable();
+			$table->text('photo')->nullable();
+			$table->text('photo_alt')->nullable();
+			$table->text('banner_photo')->nullable();
+			$table->text('banner_photo_alt')->nullable();
 			$table->bigInteger('user_id')->unsigned();
 			$table->timestamps();
 

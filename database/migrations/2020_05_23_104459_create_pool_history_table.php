@@ -13,13 +13,13 @@ class CreatePoolHistoryTable extends Migration {
 	public function up() {
 		Schema::create('pool_history', function (Blueprint $table) {
 			$table->id();
-			$table->text('title');
-			$table->text('subtitle');
-			$table->text('description');
-			$table->text('photo');
-			$table->text('photo_alt');
-			$table->text('banner_photo');
-			$table->text('banner_photo_alt');
+			$table->text('title')->nullable();
+			$table->text('subtitle')->nullable();
+			$table->text('description')->nullable();
+			$table->text('photo')->nullable();
+			$table->text('photo_alt')->nullable();
+			$table->text('banner_photo')->nullable();
+			$table->text('banner_photo_alt')->nullable();
 			$table->timestamps();
 		});
 	}
