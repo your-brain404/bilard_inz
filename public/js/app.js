@@ -2504,6 +2504,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2532,6 +2534,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2542,25 +2562,33 @@ __webpack_require__.r(__webpack_exports__);
           return !!v || 'Tytuł jest wymagany!';
         }]
       },
-      alt: '',
+      photo_alt: '',
       title: '',
-      subtitle: ''
+      subtitle: '',
+      file: null
     };
   },
   computed: {
     img: function img() {
-      return 'https://via.placeholder.com/250';
+      return this.file == null ? 'https://via.placeholder.com/250' : URL.createObjectURL(this.file);
+    },
+    formTitle: function formTitle() {
+      return this.$route.params.id ? 'Edycja' : 'Dodawanie';
     }
   },
   methods: {
     validate: function validate() {
-      this.$refs.form.validate();
-    },
-    reset: function reset() {
-      this.$refs.form.reset();
-    },
-    resetValidation: function resetValidation() {
-      this.$refs.form.resetValidation();
+      var formData = {
+        title: this.title,
+        subtitle: this.subtitle,
+        photo_alt: this.photo_alt,
+        file: this.file
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/slider/add', formData).then(function (res) {
+        return console.log(res);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
     }
   }
 });
@@ -4942,6 +4970,19 @@ var render = function() {
           _c(
             "v-card",
             [
+              _c("v-card-title", { staticClass: "justify-content-center" }, [
+                _c(
+                  "h2",
+                  {
+                    staticClass:
+                      " pt-4 font-weight-bold panel-title-header first-color"
+                  },
+                  [_vm._v("Slider " + _vm._s(_vm.formTitle))]
+                )
+              ]),
+              _vm._v(" "),
+              _c("v-divider", { staticClass: "mt-0" }),
+              _vm._v(" "),
               _c(
                 "v-form",
                 {
@@ -4959,89 +5000,135 @@ var render = function() {
                   _c(
                     "v-row",
                     [
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "8" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              color: "primary",
-                              rules: _vm.rules.titleRules,
-                              label: "Tytuł *",
-                              required: ""
-                            },
-                            model: {
-                              value: _vm.title,
-                              callback: function($$v) {
-                                _vm.title = $$v
+                      _c("v-col", { attrs: { cols: "8" } }, [
+                        _c(
+                          "div",
+                          { staticClass: "pa-3" },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                color: "primary",
+                                rules: _vm.rules.titleRules,
+                                label: "Tytuł *",
+                                required: ""
                               },
-                              expression: "title"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            attrs: { color: "primary", label: "Podtytuł" },
-                            model: {
-                              value: _vm.subtitle,
-                              callback: function($$v) {
-                                _vm.subtitle = $$v
-                              },
-                              expression: "subtitle"
-                            }
-                          })
-                        ],
-                        1
-                      ),
+                              model: {
+                                value: _vm.title,
+                                callback: function($$v) {
+                                  _vm.title = $$v
+                                },
+                                expression: "title"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("v-text-field", {
+                              attrs: { color: "primary", label: "Podtytuł" },
+                              model: {
+                                value: _vm.subtitle,
+                                callback: function($$v) {
+                                  _vm.subtitle = $$v
+                                },
+                                expression: "subtitle"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "4" } },
-                        [
-                          _c("v-img", {
-                            attrs: { src: _vm.img, alt: _vm.alt }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            attrs: {
-                              color: "primary",
-                              label: "Tekst alternatywny zdjęcia"
-                            },
-                            model: {
-                              value: _vm.alt,
-                              callback: function($$v) {
-                                _vm.alt = $$v
+                      _c("v-col", { attrs: { cols: "4" } }, [
+                        _c(
+                          "div",
+                          { staticClass: "pa-3" },
+                          [
+                            _c("v-img", {
+                              attrs: { src: _vm.img, alt: _vm.photo_alt }
+                            }),
+                            _vm._v(" "),
+                            _c("v-file-input", {
+                              attrs: {
+                                "show-size": "",
+                                counter: "",
+                                label: "Zdjęcie",
+                                accept:
+                                  "image/png, image/jpeg, image/bmp, image/gif, image/svg",
+                                "prepend-icon": "mdi-camera"
                               },
-                              expression: "alt"
-                            }
-                          })
-                        ],
-                        1
-                      )
+                              model: {
+                                value: _vm.file,
+                                callback: function($$v) {
+                                  _vm.file = $$v
+                                },
+                                expression: "file"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("v-text-field", {
+                              attrs: {
+                                color: "primary",
+                                label: "Tekst alternatywny zdjęcia"
+                              },
+                              model: {
+                                value: _vm.photo_alt,
+                                callback: function($$v) {
+                                  _vm.photo_alt = $$v
+                                },
+                                expression: "photo_alt"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ])
                     ],
                     1
                   ),
                   _vm._v(" "),
+                  _c("v-divider", { staticClass: "mb-0" }),
+                  _vm._v(" "),
                   _c(
                     "v-card-actions",
+                    { staticClass: "pa-4" },
                     [
                       _c(
                         "v-btn",
                         {
-                          staticClass: "mr-4",
-                          attrs: { disabled: !_vm.valid, color: "success" },
+                          staticClass: "mr-2",
+                          attrs: {
+                            disabled: !_vm.valid || _vm.title == "",
+                            color: "success"
+                          },
                           on: { click: _vm.validate }
                         },
-                        [_vm._v("Zatwierdź")]
+                        [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v("mdi-check")
+                          ]),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Zatwierdź")])
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c(
                         "v-btn",
                         {
-                          staticClass: "mr-4",
+                          staticClass: "mr-2",
                           attrs: { color: "error" },
-                          on: { click: _vm.reset }
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.go(-1)
+                            }
+                          }
                         },
-                        [_vm._v("Anuluj")]
+                        [
+                          _c("v-icon", { attrs: { left: "" } }, [
+                            _vm._v("mdi-close")
+                          ]),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Anuluj")])
+                        ],
+                        1
                       )
                     ],
                     1
@@ -62669,12 +62756,11 @@ var routes = [{
 }, {
   path: '/admin-panel/slider/form',
   component: _views_admin_forms_Slider__WEBPACK_IMPORTED_MODULE_5__["default"],
-  name: 'SliderForm',
-  children: [{
-    path: '/:id',
-    component: _views_admin_forms_Slider__WEBPACK_IMPORTED_MODULE_5__["default"],
-    name: 'SliderForm'
-  }]
+  name: 'SliderForm'
+}, {
+  path: '/admin-panel/slider/form/:id',
+  component: _views_admin_forms_Slider__WEBPACK_IMPORTED_MODULE_5__["default"],
+  name: 'SliderForm'
 }];
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes,
