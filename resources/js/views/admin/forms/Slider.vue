@@ -19,7 +19,7 @@
 						<v-col cols="4" >
 							<div class="pa-3">
 								<v-img :src="img" :alt="photo_alt"></v-img>
-								<v-file-input v-model="file" show-size counter label="Zdjęcie" accept="image/png, image/jpeg, image/bmp, image/gif, image/svg" prepend-icon="mdi-camera"></v-file-input>
+								<v-file-input id="file" v-model="file" show-size counter label="Zdjęcie" accept="image/png, image/jpeg, image/bmp, image/gif, image/svg" prepend-icon="mdi-camera"></v-file-input>
 								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
 						</v-col>
@@ -58,7 +58,7 @@
 			photo_alt: '',
 			title: '',
 			subtitle: '',
-			file: null
+			file: null,
 
 		}),
 		computed:{
@@ -71,14 +71,14 @@
 		},
 		methods: {
 			validate () {
-				const formData = {
-					title: this.title,
-					subtitle: this.subtitle,
-					photo_alt: this.photo_alt,
-					file: this.file
-				};
-				axios.post('/api/slider/add', formData).then(res=>console.log(res)).catch(err=>console.log(err));
-			},
+				let formData = new FormData();
+				formData.append('file', this.file);
+				formData.append('title', this.title);
+				formData.append('subtitle', this.subtitle);
+				formData.append('photo_alt', this.photo_alt);
+
+				axios.post('/api/slider/add',formData).then(res=>console.log(res)).catch(err=>console.log(err));
+			}
 		},
 	}
 </script>

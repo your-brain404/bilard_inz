@@ -2578,12 +2578,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     validate: function validate() {
-      var formData = {
-        title: this.title,
-        subtitle: this.subtitle,
-        photo_alt: this.photo_alt,
-        file: this.file
-      };
+      var formData = new FormData();
+      formData.append('file', this.file);
+      formData.append('title', this.title);
+      formData.append('subtitle', this.subtitle);
+      formData.append('photo_alt', this.photo_alt);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/slider/add', formData).then(function (res) {
         return console.log(res);
       })["catch"](function (err) {
@@ -5047,6 +5046,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("v-file-input", {
                               attrs: {
+                                id: "file",
                                 "show-size": "",
                                 counter: "",
                                 label: "Zdjęcie",
@@ -62080,6 +62080,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.axios.interceptors.request.use(functi
   }
 
   config.headers['Access-Control-Allow-Origin'] = '*';
+  config.headers['Content-Type'] = 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2);
   return config;
 }, function (error) {
   return Promise.reject(error);
