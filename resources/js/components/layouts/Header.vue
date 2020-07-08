@@ -23,14 +23,20 @@
 		<v-toolbar-title class="toolbar-title font-weight-bold first-color" tag="router-link" to="/">Bilard Centrum Lubin</v-toolbar-title>
 
 		<v-spacer></v-spacer>
+		<div class="d-flex align-items-center">
+			<v-btn outlined @click="$router.push('/admin-panel')" >
+				<span>Admin Panel</span>
+				<v-icon>mdi-account</v-icon>
+			</v-btn>
 
-		<v-btn icon>
-			<v-icon>mdi-magnify</v-icon>
-		</v-btn>
+			<v-btn icon>
+				<v-icon>mdi-magnify</v-icon>
+			</v-btn>
 
-		<v-btn icon>
-			<v-icon>mdi-facebook</v-icon>
-		</v-btn>
+			<v-btn icon>
+				<v-icon>mdi-facebook</v-icon>
+			</v-btn>
+		</div>
 
 		<template v-slot:extension>
 			<v-tabs color="#da5a33" v-model="currentPage" align-with-title>

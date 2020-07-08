@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helpers\FileHelper;
+use App\Http\Resources\SliderResource;
 use App\Slider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller {
 	/**
@@ -38,24 +39,14 @@ class SliderController extends Controller {
 		$slider->subtitle = $request->input('subtitle');
 		$slider->photo_alt = $request->input('photo_alt');
 
-		// if ($request->hasFile('file')) {
-		// 	$fileNameWithExt = $request->file('file')->getClientOriginalName();
-		// 	$filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-		// 	$extension = $request->file('file')->getClientOriginalExtension();
-		// 	$fileName = $filename . '_' . time() . '.' . $extension;
-		// 	$path = $request->file('file')->storeAs('img/slider', $fileName);
-		// } else {
-		// 	$path = 'noimage.jpg';
-		// }
+		if ($request->file('file')) {
 
-		Storage::put('img/slider', $request->file('file'));
-		// $slider->photo = $path;
+			$slider->photo = FileHelper::store($request->file('file'), 'img/slider/');
+		}
 
-		// if ($slider->save()) {
-		// 	return new SliderResource($slider);
-		// }
-
-		print_r($_POST);
+		if ($slider->save()) {
+			return new SliderResource($slider);
+		}
 
 	}
 

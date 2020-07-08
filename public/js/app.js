@@ -2185,6 +2185,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4431,16 +4437,41 @@ var render = function() {
           _c("v-spacer"),
           _vm._v(" "),
           _c(
-            "v-btn",
-            { attrs: { icon: "" } },
-            [_c("v-icon", [_vm._v("mdi-magnify")])],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            { attrs: { icon: "" } },
-            [_c("v-icon", [_vm._v("mdi-facebook")])],
+            "div",
+            { staticClass: "d-flex align-items-center" },
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: { outlined: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$router.push("/admin-panel")
+                    }
+                  }
+                },
+                [
+                  _c("span", [_vm._v("Admin Panel")]),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v("mdi-account")])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { icon: "" } },
+                [_c("v-icon", [_vm._v("mdi-magnify")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                { attrs: { icon: "" } },
+                [_c("v-icon", [_vm._v("mdi-facebook")])],
+                1
+              )
+            ],
             1
           )
         ],
