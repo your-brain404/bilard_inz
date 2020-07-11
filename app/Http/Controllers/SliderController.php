@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Helpers\FileHelper;
+use App\Http\Helpers\Slider\SliderHelper;
 use App\Http\Resources\SliderResource;
-use App\Slider;
 use Illuminate\Http\Request;
 
 class SliderController extends Controller {
@@ -33,21 +32,9 @@ class SliderController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		$slider = $request->isMethod('put') ? Slider::findOrFail($request->id) : new Slider;
 
-		$slider->title = $request->input('title');
-		$slider->subtitle = $request->input('subtitle');
-		$slider->photo_alt = $request->input('photo_alt');
-
-		if ($request->file('file')) {
-
-			$slider->photo = FileHelper::store($request->file('file'), 'img/slider/');
-		}
-
-		if ($slider->save()) {
-			return new SliderResource($slider);
-		}
-
+		$slider = SliderHelper::saveData($request);
+		return new SliderResource($slider);
 	}
 
 	/**
