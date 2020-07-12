@@ -17,5 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
 	return $request->user();
 });
+
 Route::get('/about_us/get_all/', 'AboutUsController@getAll');
+
 Route::post('/slider/add/', 'SliderController@store');
+
+Route::get('/media/get_photos/', 'MediaController@getPhotos');

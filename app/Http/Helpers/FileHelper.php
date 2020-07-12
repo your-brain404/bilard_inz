@@ -41,6 +41,7 @@ class FileHelper {
 
 		if (in_array($file->getClientMimeType(), self::$webpTypes)) {
 			WebpHelper::convertToWebp($destination, $path);
+			$full_path .= '.webp';
 		}
 
 		self::storeToMedia($file, $full_path);
