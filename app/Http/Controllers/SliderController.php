@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Helpers\Slider\SliderHelper;
+use App\Http\Helpers\SliderHelper;
 use App\Http\Resources\SliderResource;
 use Illuminate\Http\Request;
 
