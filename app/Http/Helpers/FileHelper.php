@@ -30,10 +30,12 @@ class FileHelper {
 		$media->type = $file->getClientMimeType();
 
 		$media->save();
+
+		return $media;
 	}
 
 	public static function store($file, $destination) {
-
+		
 		$path = self::getPath($file);
 
 		Storage::putFileAs($destination, new File($file), $path);
@@ -44,8 +46,8 @@ class FileHelper {
 			$full_path .= '.webp';
 		}
 
-		self::storeToMedia($file, $full_path);
+		$media = self::storeToMedia($file, $full_path);
 
-		return $full_path;
+		return $media;
 	}
 }

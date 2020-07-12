@@ -23,3 +23,4 @@ Route::get('/about_us/get_all/', 'AboutUsController@getAll');
 Route::post('/slider/add/', 'SliderController@store');
 
 Route::get('/media/get_photos/', 'MediaController@getPhotos');
+Route::post('/media/add/', 'MediaController@store');

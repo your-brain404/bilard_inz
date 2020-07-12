@@ -19,8 +19,8 @@
 						<v-col cols="4" >
 							<div class="pa-3">
 								<v-img :src="img" :alt="photo_alt"></v-img>
-								<ImagePicker />
-								<v-file-input id="file" v-model="file" show-size counter label="Zdjęcie" accept="image/png, image/jpeg, image/bmp, image/gif, image/svg" prepend-icon="mdi-camera"></v-file-input>
+								<ImagePicker @loadedImage="img = $event" :img="img"/>
+								
 								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
 						</v-col>
@@ -60,13 +60,12 @@
 			photo_alt: '',
 			title: '',
 			subtitle: '',
-			file: null,
+			file: [],
+			img: 'https://via.placeholder.com/250'
 
 		}),
 		computed:{
-			img(){
-				return this.file == null ? 'https://via.placeholder.com/250' : URL.createObjectURL(this.file);
-			},
+			
 			formTitle(){
 				return this.$route.params.id ? 'Edycja' : 'Dodawanie';
 			}
@@ -74,7 +73,6 @@
 		methods: {
 			validate () {
 				let formData = new FormData();
-				formData.append('file', this.file);
 				formData.append('title', this.title);
 				formData.append('subtitle', this.subtitle);
 				formData.append('photo_alt', this.photo_alt);

@@ -13,11 +13,6 @@ class SliderHelper {
 		$slider->subtitle = $request->input('subtitle');
 		$slider->photo_alt = $request->input('photo_alt');
 
-		if ($request->file('file')) {
-
-			$slider->photo = FileHelper::store($request->file('file'), 'img/slider/');
-		}
-
 		return $slider;
 	}
 
