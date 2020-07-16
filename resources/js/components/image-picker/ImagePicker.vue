@@ -12,8 +12,8 @@
 					<v-icon @click="dialog = false">mdi-close</v-icon>
 				</v-card-title>
 				<v-tabs v-model="tab" background-color="primary" dark>
-					<v-tab v-for="item in items" :key="item.tab">
-						{{ item.tab }}
+					<v-tab v-for="tab in tabs" :key="tab">
+						{{ tab}}
 					</v-tab>
 				</v-tabs>
 
@@ -22,8 +22,8 @@
 						<v-card flat>
 							<v-card-text>
 								<v-container>
-									<v-row class="">
-										<v-col @click="setPhotoClass(photo.id)" class="d-flex align-items-end flex-column" lg="2" md="3" sm="4" v-for="photo in items[0].content" :key="photo.id">
+									<v-row class="d-flex align-items-center">
+										<v-col @click="setPhotoClass(photo.id)" class="d-flex align-items-end flex-column" lg="2" md="3" sm="4" v-for="photo in photos" :key="photo.id">
 											<v-icon class="check-icon" :color="activePhotos.includes(photo.id) ? 'success' : 'white'">mdi-check</v-icon>
 											<v-img class="image-picker-photo" :src="`../${photo.path}`"></v-img>
 										</v-col>
@@ -33,35 +33,9 @@
 						</v-card>
 					</v-tab-item>
 					<v-tab-item >
-						<v-card flat>
-							<v-card-text>
-								<v-row class="d-flex justify-content-center">
-									<v-col cols="6" lg="4" sm="4" md="4">
-										<v-img right contain :position="'center center'"  :src="img"></v-img>
-									</v-col>
-								</v-row>
-								<v-row class="d-flex justify-content-center">
-									<v-col lg="4" sm="12" md="4">
-										<v-file-input id="file" v-model="file" @change="$emit('loadedImage', img)" :multiple="multiple" show-size counter label="Zdjęcie" accept="image/png, image/jpeg, image/bmp, image/gif, image/svg, image/jfif" prepend-icon="mdi-camera"></v-file-input>
-									</v-col>
-								</v-row>
-								
-								
-							</v-card-text>
-						</v-card>
+						<AddPhotos @loadedImage="$emit('loadedImage', $event)" />
 					</v-tab-item>
 				</v-tabs-items>
-				<v-divider class="mb-0"></v-divider>
-				<v-card-actions class="pa-3">
-					<v-btn @click="submit" class="" color="success">
-						<v-icon left class="">mdi-check</v-icon>
-						<span>Zapisz</span>
-					</v-btn>
-					<v-btn class="" color="warning">
-						<v-icon left class="">mdi-close</v-icon>
-						<span>Anuluj</span>
-					</v-btn>
-				</v-card-actions>
 			</v-card>
 		</v-dialog>
 	</v-row>
@@ -69,51 +43,71 @@
 
 <script>
 	import axios from 'axios';
+	import AddPhotos from './AddPhotos.vue';
 
 	export default {
 		data () {
 			return {
 				dialog: false,
 				tab: null,
-				items: [
-				{ tab: 'Wybierz zdjęcie', content: [] },
-				{ tab: 'Dodaj Nowe Zdjęcie', content: [] },
-
-				],
+				tabs: ['Wybierz zdjęcie',  'Dodaj Nowe Zdjęcie'],
+				photos: [],
 				activePhotos: [],
 				multiple: false,
-				file: []
+				test: {}
 
 			}
 		},
-		computed:{
-			img(){
-				return this.file.length == 0 ? 'https://via.placeholder.com/250' : URL.createObjectURL(this.file[0]);
-			},
+		components:{
+			AddPhotos
 		},
+		
 		created(){
-			axios.get('/api/media/get_photos').then(res => this.items[0].content = res.data);
+			this.loadPhotos();
 		},
 		methods:{
-			setPhotoClass(id){
-				if(this.multiple) this.activePhotos.includes(id) ?  this.activePhotos.splice(this.activePhotos.indexOf(id), 1)  : this.activePhotos.push(id); 
-				else if(this.activePhotos.length == 1 && this.activePhotos.includes(id)){ 
-					this.activePhotos.splice(0, 1); 
-				}
-				else {
-					this.activePhotos.splice(0, 1); 
-					this.activePhotos.push(id);
-				}
-
+			
+			
+			loadPhotos(){
+				axios.get('/api/media/get_photos').then(res => this.photos = res.data);
 			},
-			submit(){
-				if(this.file.length == 0) return;
-				for(let i=0 ; i<this.file.length ; i++ ){
-					let formData = new FormData();
-					formData.append('file', this.file[i]);
-					axios.post('/api/media/add',formData).then(res=>console.log(res)).catch(err=>console.log(err));
-				} 
-			}
+			getPhotoLinks(){
+				let links = [];
+				
+				for(let i=0 ; i< this.photos.length ; i++){
+					for(let j = 0 ; j < this.activePhotos.length ; j++){
+						if(this.photos[i].id == this.activePhotos[j]) links[0] = this.photos[i];
+					}
+					
+				}
+				return links;
+			},
+			setPhotoClass(id){
+				// if(this.multiple) this.activePhotos.includes(id) ?  this.activePhotos.splice(this.activePhotos.indexOf(id), 1)  : this.activePhotos.push(id); 
+				// else if(this.activePhotos.length == 1 && this.activePhotos.includes(id)){ 
+				// 	this.activePhotos.splice(0, 1); 
+				// }
+				// else {
+				// 	this.activePhotos.splice(0, 1); 
+				// 	this.activePhotos.push(id);
+				// }
+				// this.photoLinks = this.getPhotoLinks();
+				// this.$emit('photoLinks', this.photoLinks);
+
+				// if(!this.multiple){
+				// 	this.activePhotos.splice(0, 1);
+				// 	if(this.activePhotos[0] != id) this.activePhotos.push(id);
+				// 	else this.activePhotos.splice(0, 1);
+				// }else{
+				// 	if(this.activePhotos.indexOf(id) > -1){
+				// 		this.activePhotos.splice(id, 1);
+				// 	}else{
+				// 		this.activePhotos.push(id);
+				// 	}
+				// }
+				if(this.activePhotos.indexOf(id) < 0) this.activePhotos.push(id); else this.activePhotos.splice(this.activePhotos.indexOf(id), 1);
+				if(!this.multiple && this.activePhotos.length > 0) this.activePhotos.splice(0, 1);
+			},
 
 		}
 	}

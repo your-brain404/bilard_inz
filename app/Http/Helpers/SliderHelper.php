@@ -12,6 +12,7 @@ class SliderHelper {
 		$slider->title = $request->input('title');
 		$slider->subtitle = $request->input('subtitle');
 		$slider->photo_alt = $request->input('photo_alt');
+		$slider->photo = $request->input('photo');
 
 		return $slider;
 	}
