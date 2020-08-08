@@ -2083,7 +2083,7 @@ __webpack_require__.r(__webpack_exports__);
         var formData = new FormData();
         formData.append('file', this.file[i]);
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/media/add', formData).then(function (res) {
-          _this.loadPhotos();
+          _this.$emit('loadPhotos');
         })["catch"](function (err) {
           return console.log(err);
         });
@@ -2175,23 +2175,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deletePhoto: function deletePhoto(id) {
+      var _this = this;
+
       if (confirm('Czy na pewno?')) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/api/media/delete/', {
-          data: {
-            id: id
-          }
-        }).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/api/media/delete/' + id).then(function (res) {
           console.log('Usunięto');
+
+          _this.loadPhotos();
         })["catch"](function (err) {
           return console.log(err);
         });
       }
     },
     loadPhotos: function loadPhotos() {
-      var _this = this;
+      var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/media/get_photos').then(function (res) {
-        return _this.photos = res.data;
+        _this2.photos = res.data;
       });
     },
     getPhotoLinks: function getPhotoLinks() {
@@ -4712,6 +4712,7 @@ var render = function() {
                     [
                       _c("AddPhotos", {
                         on: {
+                          loadPhotos: _vm.loadPhotos,
                           loadedImage: function($event) {
                             return _vm.$emit("loadedImage", $event)
                           }

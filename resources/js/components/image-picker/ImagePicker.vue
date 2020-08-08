@@ -36,7 +36,7 @@
 						</v-card>
 					</v-tab-item>
 					<v-tab-item >
-						<AddPhotos @loadedImage="$emit('loadedImage', $event)" />
+						<AddPhotos @loadPhotos="loadPhotos" @loadedImage="$emit('loadedImage', $event)" />
 					</v-tab-item>
 				</v-tabs-items>
 			</v-card>
@@ -72,18 +72,17 @@
 		methods:{
 			deletePhoto(id){
 				if(confirm('Czy na pewno?')){
-					axios.delete('/api/media/delete/', {
-						data: {
-							id: id
-						}
-					}).then(res => {
-						console.log('Usunięto')
+					axios.delete('/api/media/delete/'+ id).then(res => {
+						console.log('Usunięto');
+						this.loadPhotos();
 					}).catch(err => console.log(err));
 				}
 			},
 			
 			loadPhotos(){
-				axios.get('/api/media/get_photos').then(res => this.photos = res.data);
+				axios.get('/api/media/get_photos').then(res =>{
+					this.photos = res.data;
+				});
 			},
 			getPhotoLinks(){
 				let links = [];

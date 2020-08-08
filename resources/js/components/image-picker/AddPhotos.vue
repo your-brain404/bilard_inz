@@ -42,7 +42,7 @@
 					let formData = new FormData();
 					formData.append('file', this.file[i]);
 					axios.post('/api/media/add',formData).then(res=>{
-						this.loadPhotos()}).catch(err=>console.log(err));
+						this.$emit('loadPhotos')}).catch(err=>console.log(err));
 				} 
 			},
 		}
