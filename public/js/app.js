@@ -2036,6 +2036,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2059,6 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2079,7 +2082,7 @@ __webpack_require__.r(__webpack_exports__);
       for (var i = 0; i < this.file.length; i++) {
         var formData = new FormData();
         formData.append('file', this.file[i]);
-        axios.post('/api/media/add', formData).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/media/add', formData).then(function (res) {
           _this.loadPhotos();
         })["catch"](function (err) {
           return console.log(err);
@@ -2146,6 +2149,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2157,7 +2163,8 @@ __webpack_require__.r(__webpack_exports__);
       photos: [],
       activePhotos: [],
       multiple: false,
-      test: {}
+      test: {},
+      close: false
     };
   },
   components: {
@@ -2167,6 +2174,19 @@ __webpack_require__.r(__webpack_exports__);
     this.loadPhotos();
   },
   methods: {
+    deletePhoto: function deletePhoto(id) {
+      if (confirm('Czy na pewno?')) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/api/media/delete/', {
+          data: {
+            id: id
+          }
+        }).then(function (res) {
+          console.log('Usunięto');
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      }
+    },
     loadPhotos: function loadPhotos() {
       var _this = this;
 
@@ -2901,7 +2921,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.image-picker-photo{\n\tcursor: pointer;\n}\n", ""]);
+exports.push([module.i, "\n.image-picker-photo{\n\tcursor: pointer;\n}\n.close-icon{\n}\n", ""]);
 
 // exports
 
@@ -4604,9 +4624,15 @@ var render = function() {
                                         {
                                           key: photo.id,
                                           staticClass:
-                                            "d-flex align-items-end flex-column",
+                                            "d-flex align-items-between flex-column",
                                           attrs: { lg: "2", md: "3", sm: "4" },
                                           on: {
+                                            mouseout: function($event) {
+                                              _vm.close = false
+                                            },
+                                            mouseover: function($event) {
+                                              _vm.close = true
+                                            },
                                             click: function($event) {
                                               return _vm.setPhotoClass(photo.id)
                                             }
@@ -4614,18 +4640,48 @@ var render = function() {
                                         },
                                         [
                                           _c(
-                                            "v-icon",
+                                            "div",
                                             {
-                                              staticClass: "check-icon",
-                                              attrs: {
-                                                color: _vm.activePhotos.includes(
-                                                  photo.id
-                                                )
-                                                  ? "success"
-                                                  : "white"
-                                              }
+                                              staticClass:
+                                                "d-flex justify-content-between"
                                             },
-                                            [_vm._v("mdi-check")]
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                {
+                                                  staticClass: "check-icon",
+                                                  attrs: {
+                                                    color: _vm.activePhotos.includes(
+                                                      photo.id
+                                                    )
+                                                      ? "success"
+                                                      : "white"
+                                                  }
+                                                },
+                                                [_vm._v("mdi-check")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-icon",
+                                                {
+                                                  staticClass: " close-icon",
+                                                  attrs: {
+                                                    color: _vm.close
+                                                      ? "black"
+                                                      : "white"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.deletePhoto(
+                                                        photo.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [_vm._v("mdi-close")]
+                                              )
+                                            ],
+                                            1
                                           ),
                                           _vm._v(" "),
                                           _c("v-img", {
@@ -63877,8 +63933,8 @@ var opts = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\programy\xampp\htdocs\bilard\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\programy\xampp\htdocs\bilard\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\programy\xampp 7.4\htdocs\bilard\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\programy\xampp 7.4\htdocs\bilard\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

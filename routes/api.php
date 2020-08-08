@@ -24,3 +24,4 @@ Route::post('/slider/add/', 'SliderController@store');
 
 Route::get('/media/get_photos/', 'MediaController@getPhotos');
 Route::post('/media/add/', 'MediaController@store');
+Route::delete('/media/delete/{id}', 'MediaController@destroy');

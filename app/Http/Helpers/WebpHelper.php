@@ -16,7 +16,6 @@ class WebpHelper {
 		$output = storage_path() . '/app/public/' . $destination . $path . '.webp';
 		imagewebp($content, $output);
 		imagedestroy($content);
-		Storage::delete($destination . $path);
 	}
 
 }

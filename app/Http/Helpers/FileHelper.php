@@ -5,6 +5,7 @@ use App\Http\Helpers\WebpHelper;
 use App\Media;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\MediaResource;
 
 class FileHelper {
 
@@ -43,11 +44,28 @@ class FileHelper {
 
 		if (in_array($file->getClientMimeType(), self::$webpTypes)) {
 			WebpHelper::convertToWebp($destination, $path);
-			$full_path .= '.webp';
 		}
 
 		$media = self::storeToMedia($file, $full_path);
 
 		return $media;
+	}
+
+	public static function delete($id){
+
+		$media = Media::find($id);
+
+		if ($media->delete()) {
+			FileHelper::deleteFilesFromStorage($media->path);
+			return new MediaResource($media);
+		}else{
+			return new MediaResource(['message' => 'Something went wrong...']);
+		}
+
+	}
+
+	public static function deleteFilesFromStorage($path){
+		Storage::delete('media/'. explode('/', $path)[3]. '/'. explode('/', $path)[4]);
+		Storage::delete('media/'. explode('/', $path)[3]. '/'. explode('/', $path)[4]. '.webp');
 	}
 }

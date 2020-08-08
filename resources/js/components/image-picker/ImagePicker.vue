@@ -23,8 +23,11 @@
 							<v-card-text>
 								<v-container>
 									<v-row class="d-flex align-items-center">
-										<v-col @click="setPhotoClass(photo.id)" class="d-flex align-items-end flex-column" lg="2" md="3" sm="4" v-for="photo in photos" :key="photo.id">
-											<v-icon class="check-icon" :color="activePhotos.includes(photo.id) ? 'success' : 'white'">mdi-check</v-icon>
+										<v-col @mouseout="close = false" @mouseover="close = true" @click="setPhotoClass(photo.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="photo in photos" :key="photo.id">
+											<div class="d-flex justify-content-between">
+												<v-icon class="check-icon" :color="activePhotos.includes(photo.id) ? 'success' : 'white'">mdi-check</v-icon>
+												<v-icon @click="deletePhoto(photo.id)" :color="close ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
+											</div>
 											<v-img class="image-picker-photo" :src="`../${photo.path}`"></v-img>
 										</v-col>
 									</v-row>
@@ -54,7 +57,8 @@
 				photos: [],
 				activePhotos: [],
 				multiple: false,
-				test: {}
+				test: {},
+				close: false
 
 			}
 		},
@@ -66,7 +70,17 @@
 			this.loadPhotos();
 		},
 		methods:{
-			
+			deletePhoto(id){
+				if(confirm('Czy na pewno?')){
+					axios.delete('/api/media/delete/', {
+						data: {
+							id: id
+						}
+					}).then(res => {
+						console.log('Usunięto')
+					}).catch(err => console.log(err));
+				}
+			},
 			
 			loadPhotos(){
 				axios.get('/api/media/get_photos').then(res => this.photos = res.data);
@@ -115,5 +129,9 @@
 <style>
 	.image-picker-photo{
 		cursor: pointer;
+	}
+
+	.close-icon{
+
 	}
 </style>

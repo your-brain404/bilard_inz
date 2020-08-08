@@ -23,4 +23,11 @@ class MediaController extends Controller {
 			return new MediaResource($media);
 		}
 	}
+
+	public function destroy(String $id, Request $request){
+		if(!$request->isMethod('delete')) return new MediaResource(['message' => 'Wrong request method!']);
+		else{
+			return FileHelper::delete($id);
+		}
+	}
 }
