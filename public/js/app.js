@@ -2162,9 +2162,10 @@ __webpack_require__.r(__webpack_exports__);
       tabs: ['Wybierz zdjęcie', 'Dodaj Nowe Zdjęcie'],
       photos: [],
       activePhotos: [],
+      activePhoto: 0,
       multiple: false,
       test: {},
-      close: false
+      closeIcon: 0
     };
   },
   components: {
@@ -2174,6 +2175,9 @@ __webpack_require__.r(__webpack_exports__);
     this.loadPhotos();
   },
   methods: {
+    showCloseIcon: function showCloseIcon(id) {
+      this.closeIcon = id;
+    },
     deletePhoto: function deletePhoto(id) {
       var _this = this;
 
@@ -2206,29 +2210,23 @@ __webpack_require__.r(__webpack_exports__);
       return links;
     },
     setPhotoClass: function setPhotoClass(id) {
-      // if(this.multiple) this.activePhotos.includes(id) ?  this.activePhotos.splice(this.activePhotos.indexOf(id), 1)  : this.activePhotos.push(id); 
-      // else if(this.activePhotos.length == 1 && this.activePhotos.includes(id)){ 
-      // 	this.activePhotos.splice(0, 1); 
-      // }
-      // else {
-      // 	this.activePhotos.splice(0, 1); 
-      // 	this.activePhotos.push(id);
-      // }
-      // this.photoLinks = this.getPhotoLinks();
-      // this.$emit('photoLinks', this.photoLinks);
-      // if(!this.multiple){
-      // 	this.activePhotos.splice(0, 1);
-      // 	if(this.activePhotos[0] != id) this.activePhotos.push(id);
-      // 	else this.activePhotos.splice(0, 1);
-      // }else{
-      // 	if(this.activePhotos.indexOf(id) > -1){
-      // 		this.activePhotos.splice(id, 1);
-      // 	}else{
-      // 		this.activePhotos.push(id);
-      // 	}
-      // }
-      if (this.activePhotos.indexOf(id) < 0) this.activePhotos.push(id);else this.activePhotos.splice(this.activePhotos.indexOf(id), 1);
-      if (!this.multiple && this.activePhotos.length > 0) this.activePhotos.splice(0, 1);
+      if (this.multiple) {
+        if (!this.activePhotos.includes(id)) this.activePhotos.push(id);else this.activePhotos.splice(this.activePhotos.indexOf(id), 1);
+      } else {
+        this.activePhoto = id;
+      }
+
+      this.sendImageIdToPlaceholder();
+    },
+    sendImageIdToPlaceholder: function sendImageIdToPlaceholder() {
+      this.$emit('loadedImage', this.getPhotoById(this.activePhoto));
+    },
+    getPhotoById: function getPhotoById(id) {
+      for (var i = 0; i < this.photos.length; i++) {
+        if (this.photos[i].id == id) {
+          return this.photos[i].path;
+        }
+      }
     }
   }
 });
@@ -2783,8 +2781,8 @@ __webpack_require__.r(__webpack_exports__);
       title: '',
       subtitle: '',
       file: [],
-      img: 'https://via.placeholder.com/250',
-      photoLinks: []
+      activePhoto: 'https://via.placeholder.com/250',
+      img: ''
     };
   },
   computed: {
@@ -2792,18 +2790,17 @@ __webpack_require__.r(__webpack_exports__);
       return this.$route.params.id ? 'Edycja' : 'Dodawanie';
     }
   },
-  watch: {
-    photoLinks: function photoLinks() {
-      this.img = '../' + this.photoLinks[0].path;
-    }
-  },
   methods: {
+    setImagePlaceholder: function setImagePlaceholder(event) {
+      this.img = event;
+      this.activePhoto = '../' + event;
+    },
     validate: function validate() {
       var formData = new FormData();
       formData.append('title', this.title);
       formData.append('subtitle', this.subtitle);
       formData.append('photo_alt', this.photo_alt);
-      formData.append('photo', this.activePhotos[0]);
+      formData.append('photo', this.img);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/slider/add', formData).then(function (res) {
         return console.log(res);
       })["catch"](function (err) {
@@ -2921,7 +2918,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.image-picker-photo{\n\tcursor: pointer;\n}\n.close-icon{\n}\n", ""]);
+exports.push([module.i, "\n.image-picker-photo{\n\tcursor: pointer;\n}\n\n", ""]);
 
 // exports
 
@@ -4628,10 +4625,10 @@ var render = function() {
                                           attrs: { lg: "2", md: "3", sm: "4" },
                                           on: {
                                             mouseout: function($event) {
-                                              _vm.close = false
+                                              _vm.closeIcon = 0
                                             },
                                             mouseover: function($event) {
-                                              _vm.close = true
+                                              return _vm.showCloseIcon(photo.id)
                                             },
                                             click: function($event) {
                                               return _vm.setPhotoClass(photo.id)
@@ -4651,11 +4648,14 @@ var render = function() {
                                                 {
                                                   staticClass: "check-icon",
                                                   attrs: {
-                                                    color: _vm.activePhotos.includes(
-                                                      photo.id
-                                                    )
-                                                      ? "success"
-                                                      : "white"
+                                                    color:
+                                                      _vm.activePhotos.includes(
+                                                        photo.id
+                                                      ) ||
+                                                      _vm.activePhoto ==
+                                                        photo.id
+                                                        ? "success"
+                                                        : "white"
                                                   }
                                                 },
                                                 [_vm._v("mdi-check")]
@@ -4666,9 +4666,10 @@ var render = function() {
                                                 {
                                                   staticClass: " close-icon",
                                                   attrs: {
-                                                    color: _vm.close
-                                                      ? "black"
-                                                      : "white"
+                                                    color:
+                                                      _vm.closeIcon == photo.id
+                                                        ? "black"
+                                                        : "white"
                                                   },
                                                   on: {
                                                     click: function($event) {
@@ -5706,19 +5707,15 @@ var render = function() {
                           { staticClass: "pa-3" },
                           [
                             _c("v-img", {
-                              attrs: { src: _vm.img, alt: _vm.photo_alt }
+                              attrs: {
+                                src: _vm.activePhoto,
+                                alt: _vm.photo_alt
+                              }
                             }),
                             _vm._v(" "),
                             _c("ImagePicker", {
                               attrs: { img: _vm.img },
-                              on: {
-                                photoLinks: function($event) {
-                                  _vm.photoLinks = $event
-                                },
-                                loadedImage: function($event) {
-                                  _vm.img = $event
-                                }
-                              }
+                              on: { loadedImage: _vm.setImagePlaceholder }
                             }),
                             _vm._v(" "),
                             _c("v-text-field", {

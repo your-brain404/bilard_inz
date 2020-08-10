@@ -23,10 +23,10 @@
 							<v-card-text>
 								<v-container>
 									<v-row class="d-flex align-items-center">
-										<v-col @mouseout="close = false" @mouseover="close = true" @click="setPhotoClass(photo.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="photo in photos" :key="photo.id">
+										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(photo.id)" @click="setPhotoClass(photo.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="photo in photos" :key="photo.id">
 											<div class="d-flex justify-content-between">
-												<v-icon class="check-icon" :color="activePhotos.includes(photo.id) ? 'success' : 'white'">mdi-check</v-icon>
-												<v-icon @click="deletePhoto(photo.id)" :color="close ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
+												<v-icon class="check-icon" :color="activePhotos.includes(photo.id) || activePhoto == photo.id ? 'success' : 'white'">mdi-check</v-icon>
+												<v-icon @click="deletePhoto(photo.id)" :color="closeIcon == photo.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
 											<v-img class="image-picker-photo" :src="`../${photo.path}`"></v-img>
 										</v-col>
@@ -56,9 +56,10 @@
 				tabs: ['Wybierz zdjęcie',  'Dodaj Nowe Zdjęcie'],
 				photos: [],
 				activePhotos: [],
+				activePhoto: 0,
 				multiple: false,
 				test: {},
-				close: false
+				closeIcon: 0
 
 			}
 		},
@@ -70,6 +71,9 @@
 			this.loadPhotos();
 		},
 		methods:{
+			showCloseIcon(id){
+				this.closeIcon = id;
+			},
 			deletePhoto(id){
 				if(confirm('Czy na pewno?')){
 					axios.delete('/api/media/delete/'+ id).then(res => {
@@ -96,31 +100,25 @@
 				return links;
 			},
 			setPhotoClass(id){
-				// if(this.multiple) this.activePhotos.includes(id) ?  this.activePhotos.splice(this.activePhotos.indexOf(id), 1)  : this.activePhotos.push(id); 
-				// else if(this.activePhotos.length == 1 && this.activePhotos.includes(id)){ 
-				// 	this.activePhotos.splice(0, 1); 
-				// }
-				// else {
-				// 	this.activePhotos.splice(0, 1); 
-				// 	this.activePhotos.push(id);
-				// }
-				// this.photoLinks = this.getPhotoLinks();
-				// this.$emit('photoLinks', this.photoLinks);
+				if(this.multiple){
+					if(!this.activePhotos.includes(id)) this.activePhotos.push(id);
+					else this.activePhotos.splice(this.activePhotos.indexOf(id),1);
+				}else{
+					this.activePhoto = id;
+				}
 
-				// if(!this.multiple){
-				// 	this.activePhotos.splice(0, 1);
-				// 	if(this.activePhotos[0] != id) this.activePhotos.push(id);
-				// 	else this.activePhotos.splice(0, 1);
-				// }else{
-				// 	if(this.activePhotos.indexOf(id) > -1){
-				// 		this.activePhotos.splice(id, 1);
-				// 	}else{
-				// 		this.activePhotos.push(id);
-				// 	}
-				// }
-				if(this.activePhotos.indexOf(id) < 0) this.activePhotos.push(id); else this.activePhotos.splice(this.activePhotos.indexOf(id), 1);
-				if(!this.multiple && this.activePhotos.length > 0) this.activePhotos.splice(0, 1);
+				this.sendImageIdToPlaceholder();
 			},
+			sendImageIdToPlaceholder(){
+				this.$emit('loadedImage', this.getPhotoById(this.activePhoto));  
+			},
+			getPhotoById(id){
+				for(let i=0 ; i<this.photos.length ; i++){
+					if(this.photos[i].id == id){
+						return this.photos[i].path;
+					}
+				}
+			}
 
 		}
 	}
@@ -130,7 +128,4 @@
 		cursor: pointer;
 	}
 
-	.close-icon{
-
-	}
 </style>

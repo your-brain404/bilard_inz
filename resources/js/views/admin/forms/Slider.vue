@@ -18,8 +18,8 @@
 
 						<v-col cols="4" >
 							<div class="pa-3">
-								<v-img :src="img" :alt="photo_alt"></v-img>
-								<ImagePicker @photoLinks="photoLinks = $event" @loadedImage="img = $event" :img="img"/>
+								<v-img :src="activePhoto" :alt="photo_alt"></v-img>
+								<ImagePicker  @loadedImage="setImagePlaceholder" :img="img"/>
 								
 								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
@@ -61,8 +61,8 @@
 			title: '',
 			subtitle: '',
 			file: [],
-			img: 'https://via.placeholder.com/250',
-			photoLinks: []
+			activePhoto: 'https://via.placeholder.com/250',
+			img: ''
 
 		}),
 		computed:{
@@ -71,18 +71,17 @@
 				return this.$route.params.id ? 'Edycja' : 'Dodawanie';
 			}
 		},
-		watch:{
-			photoLinks(){
-				this.img = '../'+this.photoLinks[0].path;
-			}
-		},
 		methods: {
+			setImagePlaceholder(event){
+				this.img = event;
+				this.activePhoto = '../'+event;
+			},
 			validate () {
 				let formData = new FormData();
 				formData.append('title', this.title);
 				formData.append('subtitle', this.subtitle);
 				formData.append('photo_alt', this.photo_alt);
-				formData.append('photo', this.activePhotos[0]);
+				formData.append('photo', this.img);
 
 				axios.post('/api/slider/add',formData).then(res=>console.log(res)).catch(err=>console.log(err));
 			}
