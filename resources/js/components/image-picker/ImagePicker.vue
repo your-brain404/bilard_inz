@@ -36,7 +36,7 @@
 						</v-card>
 					</v-tab-item>
 					<v-tab-item >
-						<AddPhotos @loadPhotos="loadPhotos" @loadedImage="$emit('loadedImage', $event)" />
+						<AddPhotos @loadPhotos="loadPhotos" />
 					</v-tab-item>
 				</v-tabs-items>
 			</v-card>

@@ -8,7 +8,7 @@
 			</v-row>
 			<v-row class="d-flex justify-content-center">
 				<v-col lg="4" sm="12" md="4">
-					<v-file-input id="file" v-model="file" @change="$emit('loadedImage', img)" multiple show-size counter label="Zdjęcie" accept="image/png, image/jpeg, image/bmp, image/gif, image/svg, image/jfif" prepend-icon="mdi-camera"></v-file-input>
+					<v-file-input id="file" v-model="file"  multiple show-size counter label="Zdjęcie" accept="image/png, image/jpeg, image/bmp, image/gif, image/svg, image/jfif" prepend-icon="mdi-camera"></v-file-input>
 					<v-btn @click="submit" class="" color="success">
 						<v-icon left class="">mdi-check</v-icon>
 						<span>Wyślij</span>
@@ -23,6 +23,7 @@
 
 <script>
 	import axios from 'axios';
+	import AdminSnackbar from '../snackbar/AdminSnackbar';
 	
 	export default{
 		data(){
@@ -35,6 +36,9 @@
 				return this.file.length == 0 ? 'https://via.placeholder.com/250' : URL.createObjectURL(this.file[0]);
 			},
 		},
+		components:{
+			AdminSnackbar
+		},
 		methods:{
 			submit(){
 				if(this.file.length == 0) return;
@@ -42,7 +46,13 @@
 					let formData = new FormData();
 					formData.append('file', this.file[i]);
 					axios.post('/api/media/add',formData).then(res=>{
-						this.$emit('loadPhotos')}).catch(err=>console.log(err));
+						this.$emit('loadPhotos');
+						this.file = [];
+						this.$store.commit('setSnackbar', 'Pomyślnie dodano!');
+					}).catch(err=>{
+						console.log(err);
+						this.$store.commit('setSnackbar', 'Coś poszło nie tak...');
+					});
 				} 
 			},
 		}

@@ -1,6 +1,6 @@
 <template>
 	<v-content class="">
-		<v-container v-for="(block, i) in blocks" :key="i" class="pa-5">
+		<v-container :id="block.tablename" v-for="(block, i) in blocks" :key="i" class="pa-5">
 			<v-card raised class="">
 				<h2 class="text-center pt-4 font-weight-bold panel-title-header first-color">{{ block.title }}</h2>
 				<v-divider></v-divider>
@@ -48,6 +48,7 @@
 		</v-card>
 
 	</v-card>
+	<AdminSnackbar />
 </v-container>
 </v-content>
 
@@ -57,6 +58,7 @@
 	import Slider from '../../components/pages/Slider'
 	import AboutUs from '../../components/pages/AboutUs'
 	import Offers from '../../components/pages/Offers'
+	import AdminSnackbar from '../../components/snackbar/AdminSnackbar'
 
 	export default{
 		data () {
@@ -76,6 +78,9 @@
 				{ text: '', value: 'actions' },
 				],
 			}
+		},
+		components:{
+			AdminSnackbar
 		},
 	}
 </script>

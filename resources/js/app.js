@@ -5,11 +5,14 @@ import router from './routes'
 import vuetify from '../plugins/vuetify'
 import axios from "axios";
 import VueAxios from 'vue-axios';
+import Vuex from 'vuex';
+import store from './store/store.js';
 
  
 
 Vue.component('app', require('./components/App.vue').default);
 Vue.use(VueAxios, axios);
+
 Vue.axios.defaults.baseURL = window.location.origin;
 Vue.axios.interceptors.request.use(
   (config) => {
@@ -29,5 +32,6 @@ Vue.axios.interceptors.request.use(
 const app = new Vue({
     el: '#app',
     router,
-    vuetify
+    vuetify,
+    store
 });

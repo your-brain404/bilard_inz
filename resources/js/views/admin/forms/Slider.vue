@@ -40,6 +40,7 @@
 					</v-card-actions>
 				</v-form>
 			</v-card>
+			
 		</v-container>
 	</v-content>
 </template>
@@ -47,6 +48,7 @@
 <script>
 	import axios from 'axios';
 	import ImagePicker from '../../../components/image-picker/ImagePicker';
+	import SnackbarAlerts from '../../../data/snackbar-alerts.js'
 
 	export default {
 		data: () => ({
@@ -62,7 +64,8 @@
 			subtitle: '',
 			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
-			img: ''
+			img: '',
+			
 
 		}),
 		computed:{
@@ -70,6 +73,9 @@
 			formTitle(){
 				return this.$route.params.id ? 'Edycja' : 'Dodawanie';
 			}
+		},
+		created(){
+			console.log(this);
 		},
 		methods: {
 			setImagePlaceholder(event){
@@ -83,7 +89,22 @@
 				formData.append('photo_alt', this.photo_alt);
 				formData.append('photo', this.img);
 
-				axios.post('/api/slider/add',formData).then(res=>console.log(res)).catch(err=>console.log(err));
+				axios.post('/api/slider/add',formData).then(res=>{
+					console.log(res);
+					this.$store.commit('setSnackbar', SnackbarAlerts.success);
+					this.resetForm();
+					this.$router.push('/admin-panel#slider');
+				}).catch(err=>{
+					console.log(err);
+					this.$store.commit('setSnackbar', SnackbarAlerts.error);
+				});
+			},
+			resetForm(){
+				this.title = '';
+				this.subtitle = '';
+				this.photo_alt = '';
+				this.photo = '';
+				this.activePhoto = 'https://via.placeholder.com/250';
 			}
 		},
 		components:{
