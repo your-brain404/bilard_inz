@@ -4,7 +4,7 @@
 			<v-card raised class="">
 				<h2 class="text-center pt-4 font-weight-bold panel-title-header first-color">{{ block.title }}</h2>
 				<v-divider></v-divider>
-				<component :is="block.component" @blockDataEmit="block.table = $event" class="panel-slider mb-5"></component>
+				<component :is="block.component" :deleteFlag="deleteFlag" @blockDataEmit="block.table = $event" class="panel-slider mb-5"></component>
 				<v-card shaped class="">
 					<v-card-title class="align-items-center pt-5">
 						<h2 class="table-title first-color ma-0">Akcje</h2>
@@ -32,7 +32,7 @@
 								<span>Edytuj</span>
 							</v-btn>
 						</router-link>
-						<v-btn small color="error" class="white--text">
+						<v-btn @click="deleteItem(block, item)" small color="error" class="white--text">
 							<v-icon left class="">mdi-close</v-icon>
 							<span>Usuń</span>
 						</v-btn>
@@ -59,6 +59,7 @@
 	import AboutUs from '../../components/pages/AboutUs'
 	import Offers from '../../components/pages/Offers'
 	import AdminSnackbar from '../../components/snackbar/AdminSnackbar'
+	import axios from 'axios';
 
 	export default{
 		data () {
@@ -77,11 +78,25 @@
 				},
 				{ text: '', value: 'actions' },
 				],
+				deleteFlag: false
 			}
 		},
 		components:{
 			AdminSnackbar
 		},
+		methods:{
+			deleteItem(block, item){
+				if(confirm(`Na pewno chcesz usunąć trwale przedmiot "${item.title}" z tabeli "${block.title}"? `)){
+					axios.delete(`/api/${block.tablename}/delete/${item.id}`).then(res => {
+						console.log(res);
+						this.deleteFlag = true;
+						setTimeout(()=>{this.deleteFlag = false}, 200);
+					}).catch(err => {
+						console.log(err);
+					})
+				}
+			}
+		}
 	}
 </script>
 

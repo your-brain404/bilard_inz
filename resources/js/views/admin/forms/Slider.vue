@@ -49,6 +49,7 @@
 	import axios from 'axios';
 	import ImagePicker from '../../../components/image-picker/ImagePicker';
 	import SnackbarAlerts from '../../../data/snackbar-alerts.js'
+	import url from '../../../helpers/photo/url.js'
 
 	export default {
 		data: () => ({
@@ -74,13 +75,10 @@
 				return this.$route.params.id ? 'Edycja' : 'Dodawanie';
 			}
 		},
-		created(){
-			console.log(this);
-		},
 		methods: {
 			setImagePlaceholder(event){
 				this.img = event;
-				this.activePhoto = '../'+event;
+				this.activePhoto = url(event);
 			},
 			validate () {
 				let formData = new FormData();
@@ -89,15 +87,8 @@
 				formData.append('photo_alt', this.photo_alt);
 				formData.append('photo', this.img);
 
-				axios.post('/api/slider/add',formData).then(res=>{
-					console.log(res);
-					this.$store.commit('setSnackbar', SnackbarAlerts.success);
-					this.resetForm();
-					this.$router.push('/admin-panel#slider');
-				}).catch(err=>{
-					console.log(err);
-					this.$store.commit('setSnackbar', SnackbarAlerts.error);
-				});
+				this.$route.params.id ? this.edit(formData) : this.add(formData);
+				
 			},
 			resetForm(){
 				this.title = '';
@@ -105,10 +96,40 @@
 				this.photo_alt = '';
 				this.photo = '';
 				this.activePhoto = 'https://via.placeholder.com/250';
+			},
+			add(formData){
+				axios.post('/api/slider/add',formData).then(res=>{
+					this.$store.commit('setSnackbar', SnackbarAlerts.success);
+					this.resetForm();
+					this.$router.push('/admin-panel#slider');
+				}).catch(err=>{
+					this.$store.commit('setSnackbar', SnackbarAlerts.error);
+				});
+			},
+			edit(formData){
+				formData.append('id', this.$route.params.id);
+				axios.put('/api/slider/edit',formData).then(res=>{
+					this.$store.commit('setSnackbar', SnackbarAlerts.success);
+					this.resetForm();
+					this.$router.push('/admin-panel#slider');
+				}).catch(err=>{
+					this.$store.commit('setSnackbar', SnackbarAlerts.error);
+				});
 			}
+
 		},
 		components:{
 			ImagePicker
+		},
+		created(){
+			if(this.$route.params.id){
+				axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
+					this.title = res.data.title;
+					this.subtitle = res.data.subtitle;
+					this.activePhoto = url(res.data.photo);
+					this.photo_alt = res.data.photo_alt;
+				})
+			}
 		}
 	}
 </script>

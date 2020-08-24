@@ -12,7 +12,7 @@ const routes = [
   { path: '/admin-panel', component: Home, name: 'Home'},
   { path: '/admin-panel/news', component: News, name: 'News'},
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
-  { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderForm'},
+  { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
 ]
 
 export default new VueRouter({

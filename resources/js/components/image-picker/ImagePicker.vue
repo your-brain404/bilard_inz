@@ -28,7 +28,7 @@
 												<v-icon class="check-icon" :color="activePhotos.includes(photo.id) || activePhoto == photo.id ? 'success' : 'white'">mdi-check</v-icon>
 												<v-icon @click="deletePhoto(photo.id)" :color="closeIcon == photo.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
-											<v-img class="image-picker-photo" :src="`../${photo.path}`"></v-img>
+											<v-img class="image-picker-photo" :src="getUrl(photo.path)"></v-img>
 										</v-col>
 									</v-row>
 								</v-container>
@@ -47,6 +47,7 @@
 <script>
 	import axios from 'axios';
 	import AddPhotos from './AddPhotos.vue';
+	import url from '../../helpers/photo/url.js';
 
 	export default {
 		data () {
@@ -118,6 +119,9 @@
 						return this.photos[i].path;
 					}
 				}
+			},
+			getUrl(src){
+				return url(src);
 			}
 
 		}

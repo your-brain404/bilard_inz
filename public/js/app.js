@@ -2117,6 +2117,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _AddPhotos_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddPhotos.vue */ "./resources/js/components/image-picker/AddPhotos.vue");
+/* harmony import */ var _helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/photo/url.js */ "./resources/js/helpers/photo/url.js");
 //
 //
 //
@@ -2163,6 +2164,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2238,6 +2240,9 @@ __webpack_require__.r(__webpack_exports__);
           return this.photos[i].path;
         }
       }
+    },
+    getUrl: function getUrl(src) {
+      return Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_2__["default"])(src);
     }
   }
 });
@@ -2554,6 +2559,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2565,29 +2572,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['deleteFlag'],
   data: function data() {
     return {
-      slides: [{
-        id: 1,
-        src: '../storage/img/slider/mlodzi_ludzie.jpg',
-        title: 'Bilard',
-        subtitle: 'Oferujemy wysokiej jakości stoły bilardowe'
-      }, {
-        id: 2,
-        src: '../storage/img/slider/tenis_stolowy.jpg',
-        title: 'Tenis stołowy',
-        subtitle: 'Posiadamy także stół do tenisa stołowego'
-      }, {
-        id: 3,
-        src: '../storage/img/slider/dart.jpg',
-        title: 'Dart',
-        subtitle: 'W ofercie także maszyna do gry w Dart'
-      }]
+      slides: []
     };
   },
   created: function created() {
-    this.$emit('blockDataEmit', this.slides);
+    this.getSlider();
+  },
+  methods: {
+    getSlider: function getSlider() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/slider/get_all').then(function (res) {
+        _this.slides = res.data;
+
+        _this.$emit('blockDataEmit', _this.slides);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    getPhoto: function getPhoto(src) {
+      if (src != null) {
+        return this.$route.path === '/admin-panel' ? '../' + src : src;
+      }
+    }
+  },
+  watch: {
+    deleteFlag: function deleteFlag() {
+      if (this.deleteFlag) {
+        this.getSlider();
+      }
+    }
   }
 });
 
@@ -2653,6 +2672,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_pages_AboutUs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/pages/AboutUs */ "./resources/js/components/pages/AboutUs.vue");
 /* harmony import */ var _components_pages_Offers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/pages/Offers */ "./resources/js/components/pages/Offers.vue");
 /* harmony import */ var _components_snackbar_AdminSnackbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/snackbar/AdminSnackbar */ "./resources/js/components/snackbar/AdminSnackbar.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 //
 //
 //
@@ -2709,6 +2730,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -2740,11 +2762,29 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: '',
         value: 'actions'
-      }]
+      }],
+      deleteFlag: false
     };
   },
   components: {
     AdminSnackbar: _components_snackbar_AdminSnackbar__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  methods: {
+    deleteItem: function deleteItem(block, item) {
+      var _this = this;
+
+      if (confirm("Na pewno chcesz usun\u0105\u0107 trwale przedmiot \"".concat(item.title, "\" z tabeli \"").concat(block.title, "\"? "))) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a["delete"]("/api/".concat(block.tablename, "/delete/").concat(item.id)).then(function (res) {
+          console.log(res);
+          _this.deleteFlag = true;
+          setTimeout(function () {
+            _this.deleteFlag = false;
+          }, 200);
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      }
+    }
   }
 });
 
@@ -2784,6 +2824,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_image_picker_ImagePicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../components/image-picker/ImagePicker */ "./resources/js/components/image-picker/ImagePicker.vue");
 /* harmony import */ var _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../data/snackbar-alerts.js */ "./resources/js/data/snackbar-alerts.js");
+/* harmony import */ var _helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../helpers/photo/url.js */ "./resources/js/helpers/photo/url.js");
 //
 //
 //
@@ -2831,6 +2872,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -2857,35 +2899,18 @@ __webpack_require__.r(__webpack_exports__);
       return this.$route.params.id ? 'Edycja' : 'Dodawanie';
     }
   },
-  created: function created() {
-    console.log(this);
-  },
   methods: {
     setImagePlaceholder: function setImagePlaceholder(event) {
       this.img = event;
-      this.activePhoto = '../' + event;
+      this.activePhoto = Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__["default"])(event);
     },
     validate: function validate() {
-      var _this = this;
-
       var formData = new FormData();
       formData.append('title', this.title);
       formData.append('subtitle', this.subtitle);
       formData.append('photo_alt', this.photo_alt);
       formData.append('photo', this.img);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/slider/add', formData).then(function (res) {
-        console.log(res);
-
-        _this.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
-
-        _this.resetForm();
-
-        _this.$router.push('/admin-panel#slider');
-      })["catch"](function (err) {
-        console.log(err);
-
-        _this.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].error);
-      });
+      this.$route.params.id ? this.edit(formData) : this.add(formData);
     },
     resetForm: function resetForm() {
       this.title = '';
@@ -2893,10 +2918,49 @@ __webpack_require__.r(__webpack_exports__);
       this.photo_alt = '';
       this.photo = '';
       this.activePhoto = 'https://via.placeholder.com/250';
+    },
+    add: function add(formData) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/slider/add', formData).then(function (res) {
+        _this.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
+
+        _this.resetForm();
+
+        _this.$router.push('/admin-panel#slider');
+      })["catch"](function (err) {
+        _this.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].error);
+      });
+    },
+    edit: function edit(formData) {
+      var _this2 = this;
+
+      formData.append('id', this.$route.params.id);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put('/api/slider/edit', formData).then(function (res) {
+        _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
+
+        _this2.resetForm();
+
+        _this2.$router.push('/admin-panel#slider');
+      })["catch"](function (err) {
+        _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].error);
+      });
     }
   },
   components: {
     ImagePicker: _components_image_picker_ImagePicker__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  created: function created() {
+    var _this3 = this;
+
+    if (this.$route.params.id) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/".concat(this.$route.path.split('/')[2], "/get_one/").concat(this.$route.params.id)).then(function (res) {
+        _this3.title = res.data.title;
+        _this3.subtitle = res.data.subtitle;
+        _this3.activePhoto = Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__["default"])(res.data.photo);
+        _this3.photo_alt = res.data.photo_alt;
+      });
+    }
   }
 });
 
@@ -4769,7 +4833,9 @@ var render = function() {
                                           _vm._v(" "),
                                           _c("v-img", {
                                             staticClass: "image-picker-photo",
-                                            attrs: { src: "../" + photo.path }
+                                            attrs: {
+                                              src: _vm.getUrl(photo.path)
+                                            }
                                           })
                                         ],
                                         1
@@ -5381,7 +5447,11 @@ var render = function() {
     _vm._l(_vm.slides, function(slide, i) {
       return _c(
         "v-carousel-item",
-        { key: i, staticClass: "slider-background", attrs: { src: slide.src } },
+        {
+          key: i,
+          staticClass: "slider-background",
+          attrs: { src: _vm.getPhoto(slide.photo) }
+        },
         [
           _c(
             "v-row",
@@ -5529,6 +5599,7 @@ var render = function() {
               _c(block.component, {
                 tag: "component",
                 staticClass: "panel-slider mb-5",
+                attrs: { deleteFlag: _vm.deleteFlag },
                 on: {
                   blockDataEmit: function($event) {
                     block.table = $event
@@ -5662,7 +5733,12 @@ var render = function() {
                                     "v-btn",
                                     {
                                       staticClass: "white--text",
-                                      attrs: { small: "", color: "error" }
+                                      attrs: { small: "", color: "error" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteItem(block, item)
+                                        }
+                                      }
                                     },
                                     [
                                       _c("v-icon", { attrs: { left: "" } }, [
@@ -65027,6 +65103,30 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/helpers/photo/url.js":
+/*!*******************************************!*\
+  !*** ./resources/js/helpers/photo/url.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return url; });
+/* harmony import */ var _routes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../routes.js */ "./resources/js/routes.js");
+
+function url(url) {
+  if (_routes_js__WEBPACK_IMPORTED_MODULE_0__["default"].history.current.params.id) {
+    url = '../../' + url;
+  } else {
+    url = '../' + url;
+  }
+
+  return url;
+}
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -65069,7 +65169,7 @@ var routes = [{
 }, {
   path: '/admin-panel/slider/form/:id',
   component: _views_admin_forms_Slider__WEBPACK_IMPORTED_MODULE_5__["default"],
-  name: 'SliderForm'
+  name: 'SliderFormEdit'
 }];
 /* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes,

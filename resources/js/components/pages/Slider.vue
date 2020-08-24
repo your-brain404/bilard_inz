@@ -1,6 +1,6 @@
 <template>
 	<v-carousel hide-delimiters cycle>
-		<v-carousel-item class="slider-background" v-for="(slide,i) in slides" :key="i" :src="slide.src">
+		<v-carousel-item class="slider-background" v-for="(slide,i) in slides" :key="i" :src="getPhoto(slide.photo)">
 			<v-row class="fill-height flex-column" align="center" justify="center">
 				<h2 class="slider-title font-weight-bold first-color">{{ slide.title }}</h2>
 				<div class="slider-subtitle white--text font-weight-bold">{{ slide.subtitle }}</div>
@@ -10,18 +10,41 @@
 </template>
 
 <script>
+	import axios from 'axios'
+
 	export default{
+		props:['deleteFlag'],
 		data(){
 			return{
-				slides: [
-				{id: 1, src: '../storage/img/slider/mlodzi_ludzie.jpg', title: 'Bilard', subtitle: 'Oferujemy wysokiej jakości stoły bilardowe'},
-				{id: 2, src: '../storage/img/slider/tenis_stolowy.jpg', title: 'Tenis stołowy', subtitle: 'Posiadamy także stół do tenisa stołowego'},
-				{id: 3,src: '../storage/img/slider/dart.jpg', title: 'Dart', subtitle: 'W ofercie także maszyna do gry w Dart'},
-				],
+				slides: [],
 			}
 		},
 		created(){
-			this.$emit('blockDataEmit', this.slides);
+			this.getSlider();
+			
+		},
+		methods:{
+			getSlider(){
+				axios.get('/api/slider/get_all').then(res => {
+					this.slides = res.data;
+					this.$emit('blockDataEmit', this.slides);
+				}).catch(err => {
+					console.log(err);
+				})
+			},
+			getPhoto(src){
+				if(src != null){
+					return this.$route.path === '/admin-panel'  ? '../'+ src : src;
+				}
+				
+			}
+		},
+		watch:{
+			deleteFlag(){
+				if(this.deleteFlag){
+					this.getSlider();
+				}
+			}
 		}
 	}
 </script>

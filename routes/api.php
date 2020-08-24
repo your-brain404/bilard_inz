@@ -20,7 +20,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/about_us/get_all/', 'AboutUsController@getAll');
 
+Route::get('/slider/get_all', 'SliderController@getAll');
+Route::get('/slider/get_one/{id}', 'SliderController@getOne');
 Route::post('/slider/add/', 'SliderController@store');
+Route::delete('/slider/delete/{id}', 'SliderController@destroy');
+Route::put('/slider/edit', 'SliderController@store');
 
 Route::get('/media/get_photos/', 'MediaController@getPhotos');
 Route::post('/media/add/', 'MediaController@store');

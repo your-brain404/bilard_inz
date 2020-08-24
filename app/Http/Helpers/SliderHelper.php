@@ -18,11 +18,26 @@ class SliderHelper {
 	}
 
 	public static function saveData(Request $request) {
-		$slider = $request->isMethod('put') ? Slider::findOrFail($request->id) : new Slider;
+		var_dump($request->input('title')); die;
+		$slider = $request->isMethod('put') ? Slider::find($request->input('id')) : new Slider;
 		$slider = self::prependData($slider, $request);
 
 		if ($slider->save()) {
 			return $slider;
 		}
+	}
+
+	public static function getAll(){
+		return Slider::all();
+	}
+
+	public static function getOne($id){
+		return Slider::find($id);
+	}
+
+	public static function destroy($id){
+		$slider = Slider::find($id);
+		$slider->delete();
+		return $slider;
 	}
 }
