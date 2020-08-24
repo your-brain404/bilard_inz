@@ -18,7 +18,6 @@ class SliderHelper {
 	}
 
 	public static function saveData(Request $request) {
-		var_dump($request->input('title')); die;
 		$slider = $request->isMethod('put') ? Slider::find($request->input('id')) : new Slider;
 		$slider = self::prependData($slider, $request);
 

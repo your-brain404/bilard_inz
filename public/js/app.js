@@ -2936,7 +2936,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       formData.append('id', this.$route.params.id);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put('/api/slider/edit', formData).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put('/api/slider/edit', formData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }).then(function (res) {
         _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
 
         _this2.resetForm();

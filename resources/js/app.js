@@ -22,6 +22,7 @@ Vue.axios.interceptors.request.use(
     }
     config.headers['Access-Control-Allow-Origin'] = '*';
     config.headers['Content-Type'] = 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2);
+
     return config;
   },
   (error) => Promise.reject(error)
