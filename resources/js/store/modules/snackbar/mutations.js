@@ -3,7 +3,7 @@ export default {
 		state.snackbarText = snackbarText;
 		state.snackbar = true;
 	},
-	setSnackbar(state){
+	unsetSnackbar(state){
 		state.snackbarText = '';
 		state.snackbar = false;
 	}

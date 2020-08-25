@@ -28,6 +28,7 @@
 </template>
 
 <script>
+	
 	export default {
 		data () {
 			return {
@@ -38,7 +39,7 @@
 				],
 				color: '#da5a33',
 			}
-		}
+		},
 	}
 </script>
 

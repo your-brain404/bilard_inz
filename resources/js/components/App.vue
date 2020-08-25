@@ -3,6 +3,8 @@
 		<Header v-if="!isPathAdmin" class="header"/>
 		<AdminHeader v-else />
 		<router-view :class="{'admin-body': isPathAdmin }"></router-view>
+		<AdminSnackbar />
+
 		<Footer v-if="!isPathAdmin" />
 		<AdminFooter v-else />
 	</v-app>
@@ -13,10 +15,11 @@
 	import Footer from './layouts/Footer'
 	import AdminHeader from './layouts/AdminHeader'
 	import AdminFooter from './layouts/AdminFooter'
+	import AdminSnackbar from './snackbar/AdminSnackbar';
 
 	export default {
 		components: {
-			Header, Footer, AdminHeader, AdminFooter
+			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar
 		},
 		computed:{
 			isPathAdmin(){

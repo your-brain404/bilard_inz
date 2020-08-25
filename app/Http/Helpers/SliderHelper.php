@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SliderHelper {
 
-	private static function prependData(Slider $slider, Request $request) {
+	private static function prependPostData(Slider $slider, Request $request) {
 
 		$slider->title = $request->input('title');
 		$slider->subtitle = $request->input('subtitle');
@@ -17,14 +17,36 @@ class SliderHelper {
 		return $slider;
 	}
 
+	private static function prependPutData($slider, $data){
+		$slider->title = $data->title;
+		$slider->subtitle = $data->subtitle];
+		$slider->photo_alt = $data->photo_alt;
+		$slider->photo = $data->photo;
+
+		return $slider;
+
+	}
+
 	public static function saveData(Request $request) {
-		$slider = $request->isMethod('put') ? Slider::find($request->input('id')) : new Slider;
-		$slider = self::prependData($slider, $request);
+
+		if($request->isMethod('put')){
+			$data = json_decode(array_keys($request->all())[0]);
+			// print_r($data);die;
+			$slider = Slider::find($data->id);
+			print_r($slider);die;
+			$slider = self::prependPutData($slider, $data);
+
+		} else{
+			$slider = new Slider;
+			$slider = self::prependPostData($slider, $request);
+		}
 
 		if ($slider->save()) {
 			return $slider;
 		}
 	}
+
+	
 
 	public static function getAll(){
 		return Slider::all();

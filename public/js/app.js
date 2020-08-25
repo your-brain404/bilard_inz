@@ -1997,6 +1997,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layouts_Footer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layouts/Footer */ "./resources/js/components/layouts/Footer.vue");
 /* harmony import */ var _layouts_AdminHeader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./layouts/AdminHeader */ "./resources/js/components/layouts/AdminHeader.vue");
 /* harmony import */ var _layouts_AdminFooter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./layouts/AdminFooter */ "./resources/js/components/layouts/AdminFooter.vue");
+/* harmony import */ var _snackbar_AdminSnackbar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./snackbar/AdminSnackbar */ "./resources/js/components/snackbar/AdminSnackbar.vue");
 //
 //
 //
@@ -2007,6 +2008,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 
 
 
@@ -2016,7 +2020,8 @@ __webpack_require__.r(__webpack_exports__);
     Header: _layouts_Header__WEBPACK_IMPORTED_MODULE_0__["default"],
     Footer: _layouts_Footer__WEBPACK_IMPORTED_MODULE_1__["default"],
     AdminHeader: _layouts_AdminHeader__WEBPACK_IMPORTED_MODULE_2__["default"],
-    AdminFooter: _layouts_AdminFooter__WEBPACK_IMPORTED_MODULE_3__["default"]
+    AdminFooter: _layouts_AdminFooter__WEBPACK_IMPORTED_MODULE_3__["default"],
+    AdminSnackbar: _snackbar_AdminSnackbar__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   computed: {
     isPathAdmin: function isPathAdmin() {
@@ -2642,8 +2647,6 @@ __webpack_require__.r(__webpack_exports__);
 
       setTimeout(function () {
         _this.$store.commit('unsetSnackbar');
-
-        console.log('dupa');
       }, 3000);
     }
   },
@@ -2671,9 +2674,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_pages_Slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/pages/Slider */ "./resources/js/components/pages/Slider.vue");
 /* harmony import */ var _components_pages_AboutUs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/pages/AboutUs */ "./resources/js/components/pages/AboutUs.vue");
 /* harmony import */ var _components_pages_Offers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/pages/Offers */ "./resources/js/components/pages/Offers.vue");
-/* harmony import */ var _components_snackbar_AdminSnackbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/snackbar/AdminSnackbar */ "./resources/js/components/snackbar/AdminSnackbar.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 //
 //
 //
@@ -2729,8 +2731,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-
 
 
 
@@ -2766,15 +2766,12 @@ __webpack_require__.r(__webpack_exports__);
       deleteFlag: false
     };
   },
-  components: {
-    AdminSnackbar: _components_snackbar_AdminSnackbar__WEBPACK_IMPORTED_MODULE_3__["default"]
-  },
   methods: {
     deleteItem: function deleteItem(block, item) {
       var _this = this;
 
       if (confirm("Na pewno chcesz usun\u0105\u0107 trwale przedmiot \"".concat(item.title, "\" z tabeli \"").concat(block.title, "\"? "))) {
-        axios__WEBPACK_IMPORTED_MODULE_4___default.a["delete"]("/api/".concat(block.tablename, "/delete/").concat(item.id)).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a["delete"]("/api/".concat(block.tablename, "/delete/").concat(item.id)).then(function (res) {
           console.log(res);
           _this.deleteFlag = true;
           setTimeout(function () {
@@ -2910,7 +2907,16 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('subtitle', this.subtitle);
       formData.append('photo_alt', this.photo_alt);
       formData.append('photo', this.img);
-      this.$route.params.id ? this.edit(formData) : this.add(formData);
+      this.$route.params.id ? this.edit(this.prependEditFormData()) : this.add(formData);
+    },
+    prependEditFormData: function prependEditFormData() {
+      return {
+        'id': this.$route.params.id,
+        'title': this.title,
+        'subtitle': this.subtitle,
+        'photo_alt': this.photo_alt,
+        'photo': this.img
+      };
     },
     resetForm: function resetForm() {
       this.title = '';
@@ -2935,19 +2941,19 @@ __webpack_require__.r(__webpack_exports__);
     edit: function edit(formData) {
       var _this2 = this;
 
-      formData.append('id', this.$route.params.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.put('/api/slider/edit', formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(function (res) {
-        _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
+        _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success); // this.$router.push('/admin-panel#slider');
 
-        _this2.resetForm();
 
-        _this2.$router.push('/admin-panel#slider');
+        console.log(res.data);
       })["catch"](function (err) {
         _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].error);
+
+        console.log(err);
       });
     }
   },
@@ -4514,6 +4520,8 @@ var render = function() {
       _vm._v(" "),
       _c("router-view", { class: { "admin-body": _vm.isPathAdmin } }),
       _vm._v(" "),
+      _c("AdminSnackbar"),
+      _vm._v(" "),
       !_vm.isPathAdmin ? _c("Footer") : _c("AdminFooter")
     ],
     1
@@ -5790,9 +5798,7 @@ var render = function() {
               )
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("AdminSnackbar")
+          )
         ],
         1
       )
@@ -64225,8 +64231,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.axios.interceptors.request.use(functi
     config.headers.Authorization = "Bearer ".concat(token);
   }
 
-  config.headers['Access-Control-Allow-Origin'] = '*';
-  config.headers['Content-Type'] = 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2);
+  config.headers['Access-Control-Allow-Origin'] = '*'; // config.headers['Content-Type'] = 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2);
+
   return config;
 }, function (error) {
   return Promise.reject(error);
@@ -65101,7 +65107,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  success: 'Pomyślnie dodano!',
+  success: 'Pomyślnie dodano/edytowano!',
   error: 'Coś poszło nie tak...'
 });
 
@@ -65250,17 +65256,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
+/* harmony default export */ __webpack_exports__["default"] = ({
   setSnackbar: function setSnackbar(state, snackbarText) {
     state.snackbarText = snackbarText;
     state.snackbar = true;
+  },
+  unsetSnackbar: function unsetSnackbar(state) {
+    state.snackbarText = '';
+    state.snackbar = false;
   }
-}, "setSnackbar", function setSnackbar(state) {
-  state.snackbarText = '';
-  state.snackbar = false;
-}));
+});
 
 /***/ }),
 

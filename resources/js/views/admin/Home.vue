@@ -48,7 +48,6 @@
 		</v-card>
 
 	</v-card>
-	<AdminSnackbar />
 </v-container>
 </v-content>
 
@@ -58,7 +57,6 @@
 	import Slider from '../../components/pages/Slider'
 	import AboutUs from '../../components/pages/AboutUs'
 	import Offers from '../../components/pages/Offers'
-	import AdminSnackbar from '../../components/snackbar/AdminSnackbar'
 	import axios from 'axios';
 
 	export default{
@@ -80,9 +78,6 @@
 				],
 				deleteFlag: false
 			}
-		},
-		components:{
-			AdminSnackbar
 		},
 		methods:{
 			deleteItem(block, item){

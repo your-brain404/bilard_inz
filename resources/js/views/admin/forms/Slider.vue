@@ -87,8 +87,17 @@
 				formData.append('photo_alt', this.photo_alt);
 				formData.append('photo', this.img);
 
-				this.$route.params.id ? this.edit(formData) : this.add(formData);
+				this.$route.params.id ? this.edit(this.prependEditFormData()) : this.add(formData);
 				
+			},
+			prependEditFormData(){
+				return {
+					'id': this.$route.params.id,
+					'title': this.title,
+					'subtitle': this.subtitle,
+					'photo_alt': this.photo_alt,
+					'photo': this.img
+				}
 			},
 			resetForm(){
 				this.title = '';
@@ -107,17 +116,17 @@
 				});
 			},
 			edit(formData){
-				formData.append('id', this.$route.params.id);
-				axios.put('/api/slider/edit',formData, {
+				axios.put('/api/slider/edit', formData, {
 					headers:{
 						'Content-Type': 'application/x-www-form-urlencoded'
 					}
 				}).then(res=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
-					this.resetForm();
-					this.$router.push('/admin-panel#slider');
+					// this.$router.push('/admin-panel#slider');
+					console.log(res.data);
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
+					console.log(err);
 				});
 			}
 

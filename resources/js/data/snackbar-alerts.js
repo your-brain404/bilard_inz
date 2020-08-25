@@ -1,4 +1,4 @@
 export default { 
-	success: 'Pomyślnie dodano!',
+	success: 'Pomyślnie dodano/edytowano!',
 	error: 'Coś poszło nie tak...'
 };
