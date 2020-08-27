@@ -66,6 +66,7 @@
 			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
+			currentObject:{}
 			
 
 		}),
@@ -96,7 +97,7 @@
 					'title': this.title,
 					'subtitle': this.subtitle,
 					'photo_alt': this.photo_alt,
-					'photo': this.img
+					'photo': this.img !== '' ? this.img : this.currentObject.photo
 				}
 			},
 			resetForm(){
@@ -116,6 +117,7 @@
 				});
 			},
 			edit(formData){
+				console.log(formData);
 				axios.put('/api/slider/edit', formData, {
 					headers:{
 						'Content-Type': 'application/x-www-form-urlencoded'
@@ -141,6 +143,7 @@
 					this.subtitle = res.data.subtitle;
 					this.activePhoto = url(res.data.photo);
 					this.photo_alt = res.data.photo_alt;
+					this.currentObject = res.data;
 				})
 			}
 		}

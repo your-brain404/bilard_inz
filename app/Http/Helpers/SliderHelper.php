@@ -19,7 +19,7 @@ class SliderHelper {
 
 	private static function prependPutData($slider, $data){
 		$slider->title = $data->title;
-		$slider->subtitle = $data->subtitle];
+		$slider->subtitle = $data->subtitle;
 		$slider->photo_alt = $data->photo_alt;
 		$slider->photo = $data->photo;
 
@@ -30,10 +30,9 @@ class SliderHelper {
 	public static function saveData(Request $request) {
 
 		if($request->isMethod('put')){
+			var_dump($request->all());die;
 			$data = json_decode(array_keys($request->all())[0]);
-			// print_r($data);die;
 			$slider = Slider::find($data->id);
-			print_r($slider);die;
 			$slider = self::prependPutData($slider, $data);
 
 		} else{
@@ -42,6 +41,7 @@ class SliderHelper {
 		}
 
 		if ($slider->save()) {
+
 			return $slider;
 		}
 	}

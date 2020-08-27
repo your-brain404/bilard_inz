@@ -2888,7 +2888,8 @@ __webpack_require__.r(__webpack_exports__);
       subtitle: '',
       file: [],
       activePhoto: 'https://via.placeholder.com/250',
-      img: ''
+      img: '',
+      currentObject: {}
     };
   },
   computed: {
@@ -2915,7 +2916,7 @@ __webpack_require__.r(__webpack_exports__);
         'title': this.title,
         'subtitle': this.subtitle,
         'photo_alt': this.photo_alt,
-        'photo': this.img
+        'photo': this.img !== '' ? this.img : this.currentObject.photo
       };
     },
     resetForm: function resetForm() {
@@ -2941,6 +2942,7 @@ __webpack_require__.r(__webpack_exports__);
     edit: function edit(formData) {
       var _this2 = this;
 
+      console.log(formData);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.put('/api/slider/edit', formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -2969,6 +2971,7 @@ __webpack_require__.r(__webpack_exports__);
         _this3.subtitle = res.data.subtitle;
         _this3.activePhoto = Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__["default"])(res.data.photo);
         _this3.photo_alt = res.data.photo_alt;
+        _this3.currentObject = res.data;
       });
     }
   }
