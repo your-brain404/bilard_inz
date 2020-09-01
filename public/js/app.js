@@ -65126,16 +65126,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return url; });
-/* harmony import */ var _routes_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../routes.js */ "./resources/js/routes.js");
-
 function url(url) {
-  if (_routes_js__WEBPACK_IMPORTED_MODULE_0__["default"].history.current.params.id) {
-    url = '../../' + url;
-  } else {
-    url = '../' + url;
-  }
-
-  return url;
+  return window.location.origin + '/storage/media/' + url;
 }
 
 /***/ }),

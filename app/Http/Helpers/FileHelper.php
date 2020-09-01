@@ -12,14 +12,14 @@ class FileHelper {
 	private static $name;
 	private static $webpTypes = array('image/jpg', 'image/jpeg', 'image/png', 'image/jfif', 'application/octet-stream');
 
-	private static function getPath($file) {
+	private static function getFileName($file) {
 
 		$fileNameWithExt = $file->getClientOriginalName();
 		self::$name = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
 		$extension = $file->getClientOriginalExtension();
-		$path = self::$name . '_' . time() . '.' . $extension;
+		$name = self::$name . '_' . time() . '.' . $extension;
 
-		return $path;
+		return $name;
 	}
 
 	private static function storeToMedia($file, $path) {
@@ -35,20 +35,27 @@ class FileHelper {
 		return $media;
 	}
 
-	public static function store($file, $destination) {
+	public static function store($file) {
 		
-		$path = self::getPath($file);
-
-		Storage::putFileAs($destination, new File($file), $path);
-		$full_path = '../storage/' . $destination . $path;
+		$name = self::getFileName($file);
+		$destination = date('Y-m-d') . '/';
+		$full_path = $destination . $name;
+		$destination = 'media/'. $destination;
+		
+		Storage::putFileAs($destination, new File($file), $name);
 
 		if (in_array($file->getClientMimeType(), self::$webpTypes)) {
-			WebpHelper::convertToWebp($destination, $path);
+			WebpHelper::convertToWebp($destination, $name);
 		}
 
 		$media = self::storeToMedia($file, $full_path);
 
 		return $media;
+	}
+
+	public static function deleteFilesFromStorage($path){
+		Storage::delete('media/'. explode('/', $path)[3]. '/'. explode('/', $path)[4]);
+		Storage::delete('media/'. explode('/', $path)[3]. '/'. explode('/', $path)[4]. '.webp');
 	}
 
 	public static function delete($id){
@@ -64,8 +71,4 @@ class FileHelper {
 
 	}
 
-	public static function deleteFilesFromStorage($path){
-		Storage::delete('media/'. explode('/', $path)[3]. '/'. explode('/', $path)[4]);
-		Storage::delete('media/'. explode('/', $path)[3]. '/'. explode('/', $path)[4]. '.webp');
-	}
 }

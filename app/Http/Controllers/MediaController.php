@@ -19,7 +19,7 @@ class MediaController extends Controller {
 
 		if(!$request->isMethod('post')) return new MediaResource(['message' => 'Wrong request method!']);
 		else {
-			$media = FileHelper::store($request->file('file'), 'media/'. date('Y-m-d') . '/');
+			$media = FileHelper::store($request->file('file'));
 			return new MediaResource($media);
 		}
 	}
