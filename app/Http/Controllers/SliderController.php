@@ -20,7 +20,6 @@ class SliderController extends Controller {
 
 	
 	public function store(Request $request) {
-
 		$slider = SliderHelper::saveData($request);
 		return new SliderResource($slider);
 	}

@@ -25,7 +25,8 @@
 			isPathAdmin(){
 				return this.$route.path.split('/')[1] == 'admin-panel' ? true : false;
 			}
-		}
+		},
+		
 	}
 </script>
 

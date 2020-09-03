@@ -3,14 +3,14 @@
 		<v-container>
 			<v-card>
 				<v-card-title class="justify-content-center">
-					<h2 class=" pt-4 font-weight-bold panel-title-header first-color"> 
-						Slider {{ formTitle }}
+					<h2 class=" pt-4 font-weight-bold panel-title-header first-color">
+						O klubie {{ formTitle }}
 					</h2>
 				</v-card-title>
 				<v-divider class="mt-0"></v-divider>
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
-						
+
 						<v-col class="" cols="8">
 							<div class="pa-3">
 								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
@@ -22,7 +22,7 @@
 							<div class="pa-3">
 								<v-img :src="activePhoto" :alt="photo_alt"></v-img>
 								<ImagePicker  @loadedImage="setImagePlaceholder" :img="img"/>
-								
+
 								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
 						</v-col>
@@ -42,7 +42,7 @@
 					</v-card-actions>
 				</v-form>
 			</v-card>
-			
+
 		</v-container>
 	</v-content>
 </template>
@@ -72,7 +72,6 @@
 			
 
 		}),
-		
 		computed:{
 			
 			formTitle(){
@@ -120,7 +119,6 @@
 				});
 			},
 			edit(formData){
-				console.log(formData);
 				axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, formData, {
 					headers:{
 						'Content-Type': 'application/x-www-form-urlencoded'
@@ -149,6 +147,6 @@
 					this.currentObject = res.data;
 				})
 			}
-		},
+		}
 	}
 </script>

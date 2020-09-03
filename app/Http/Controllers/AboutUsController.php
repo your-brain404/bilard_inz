@@ -1,14 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\AboutUs;
-use App\Http\Resources\AboutUsResource;
-use Illuminate\Routing\Controller as BaseController;
 
-class AboutUsController extends BaseController {
+use App\Http\Resources\AboutUsResource;
+use App\Http\Helpers\AboutUsHelper;
+
+class AboutUsController extends Controller {
 
 	public function getAll() {
-		$about_us = AboutUs::all();
+		$about_us = AboutUsHelper::getAll();
+		return new AboutUsResource($about_us);
+	}
+
+	public function getOne($id) {
+		$about_us = AboutUsHelper::getOne($id);
+		return new AboutUsResource($about_us);
+	}
+
+	public function store(Request $request) {
+		$about_us = AboutUsHelper::saveData($request);
 		return new AboutUsResource($about_us);
 	}
 }

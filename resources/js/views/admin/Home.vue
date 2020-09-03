@@ -10,7 +10,7 @@
 						<h2 class="table-title first-color ma-0">Akcje</h2>
 						<v-spacer></v-spacer>
 						<v-text-field class="ma-0 pt-0" v-model="search" append-icon="mdi-magnify" label="Szukaj..." single-line hide-details ></v-text-field>
-						<router-link class="form-link" :to="`/admin-panel/${block.tablename}/form`">
+						<router-link v-if="block.multiple" class="form-link" :to="`/admin-panel/${block.tablename}/form`">
 							<v-btn class="first-bgc white--text ml-5">
 								<v-icon left class="">mdi-plus</v-icon>
 								<span>Dodaj</span>
@@ -32,7 +32,7 @@
 								<span>Edytuj</span>
 							</v-btn>
 						</router-link>
-						<v-btn @click="deleteItem(block, item)" small color="error" class="white--text">
+						<v-btn v-if="block.multiple" @click="deleteItem(block, item)" small color="error" class="white--text">
 							<v-icon left class="">mdi-close</v-icon>
 							<span>Usuń</span>
 						</v-btn>
@@ -64,9 +64,9 @@
 			return {
 				search: '',
 				blocks: [
-				{title: 'Slider', component: Slider, tablename: 'slider', table: []},
-				{title: 'O klubie', component: AboutUs, tablename: 'about_us', table: []},
-				{title: 'Oferta', component: Offers, tablename: 'offers',table: []},
+				{title: 'Slider', component: Slider, tablename: 'slider', table: [], multiple:true},
+				{title: 'O klubie', component: AboutUs, tablename: 'about_us', table: [], multiple:false},
+				{title: 'Oferta', component: Offers, tablename: 'offers',table: [], multiple:true},
 				],
 				headers: [
 				{

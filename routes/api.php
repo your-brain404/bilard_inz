@@ -19,6 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/about_us/get_all/', 'AboutUsController@getAll');
+Route::get('/about_us/get_one/{id}', 'AboutUsController@getOne');
+Route::put('/about_us/edit', 'AboutUsController@store');
 
 Route::get('/slider/get_all', 'SliderController@getAll');
 Route::get('/slider/get_one/{id}', 'SliderController@getOne');

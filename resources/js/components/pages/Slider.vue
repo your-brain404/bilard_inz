@@ -11,6 +11,7 @@
 
 <script>
 	import axios from 'axios'
+	import url from '../../helpers/photo/url.js'
 
 	export default{
 		props:['deleteFlag'],
@@ -34,7 +35,7 @@
 			},
 			getPhoto(src){
 				if(src != null){
-					return this.$route.path === '/admin-panel'  ? '../'+ src : src;
+					return url(src);
 				}
 				
 			}
