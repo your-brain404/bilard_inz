@@ -3091,13 +3091,13 @@ __webpack_require__.r(__webpack_exports__);
       this.$route.params.id ? this.edit(this.prependEditFormData()) : this.add(formData);
     },
     prependEditFormData: function prependEditFormData() {
-      return {
-        'id': this.$route.params.id,
-        'title': this.title,
-        'subtitle': this.subtitle,
-        'photo_alt': this.photo_alt,
-        'photo': this.img !== '' ? this.img : this.currentObject.photo
-      };
+      var formData = new FormData();
+      formData.append('id', this.$route.params.id);
+      formData.append('title', this.title);
+      formData.append('subtitle', this.subtitle);
+      formData.append('photo_alt', this.photo_alt);
+      formData.append('photo', this.img !== '' ? this.img : this.currentObject.photo);
+      return formData;
     },
     resetForm: function resetForm() {
       this.title = '';
@@ -3122,15 +3122,19 @@ __webpack_require__.r(__webpack_exports__);
     edit: function edit(formData) {
       var _this2 = this;
 
-      console.log(formData);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/".concat(this.$route.path.split('/')[2], "/edit"), formData, {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/".concat(this.$route.path.split('/')[2], "/edit"), {
+        id: this.$route.params.id,
+        title: this.title,
+        subtitle: this.subtitle,
+        photo_alt: this.photo_alt,
+        photo: this.img !== '' ? this.img : this.currentObject.photo
+      }, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/json'
         }
       }).then(function (res) {
-        _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
+        _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success); // this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
 
-        _this2.$router.push("/admin-panel#".concat(_this2.$route.path.split('/')[2]));
 
         console.log(res.data);
       })["catch"](function (err) {

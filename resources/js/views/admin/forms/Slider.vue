@@ -95,13 +95,13 @@
 				
 			},
 			prependEditFormData(){
-				return {
-					'id': this.$route.params.id,
-					'title': this.title,
-					'subtitle': this.subtitle,
-					'photo_alt': this.photo_alt,
-					'photo': this.img !== '' ? this.img : this.currentObject.photo
-				}
+				let formData = new FormData();
+				formData.append('id', this.$route.params.id);
+				formData.append('title', this.title);
+				formData.append('subtitle', this.subtitle);
+				formData.append('photo_alt', this.photo_alt);
+				formData.append('photo',  this.img !== '' ? this.img : this.currentObject.photo);
+				return formData;
 			},
 			resetForm(){
 				this.title = '';
@@ -120,14 +120,20 @@
 				});
 			},
 			edit(formData){
-				console.log(formData);
-				axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, formData, {
+				
+				axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, {
+					id: this.$route.params.id,
+					title: this.title,
+					subtitle: this.subtitle,
+					photo_alt: this.photo_alt,
+					photo: this.img !== '' ? this.img : this.currentObject.photo
+				}, {
 					headers:{
-						'Content-Type': 'application/x-www-form-urlencoded'
+						'Content-Type': 'application/json'
 					}
 				}).then(res=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
-					this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
+					// this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
 					console.log(res.data);
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
