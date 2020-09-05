@@ -21,7 +21,7 @@
 						<v-col cols="4" >
 							<div class="pa-3">
 								<v-img :src="activePhoto" :alt="photo_alt"></v-img>
-								<ImagePicker  @loadedImage="setImagePlaceholder" :img="img"/>
+								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img"/>
 								
 								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
@@ -68,8 +68,8 @@
 			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
-			currentObject:{}
-			
+			currentObject:{},
+
 
 		}),
 		
@@ -80,9 +80,17 @@
 			}
 		},
 		methods: {
+			getImageDefaultPlaceholder(){
+				return 'https://via.placeholder.com/250';
+			},
 			setImagePlaceholder(event){
-				this.img = event;
-				this.activePhoto = url(event);
+				if(event === 'placeholder'){
+					this.img = '',
+					this.activePhoto = this.getImageDefaultPlaceholder();
+				} else{
+					this.img = event;
+					this.activePhoto = url(event);
+				}
 			},
 			validate () {
 				let formData = new FormData();
@@ -108,7 +116,7 @@
 				this.subtitle = '';
 				this.photo_alt = '';
 				this.photo = '';
-				this.activePhoto = 'https://via.placeholder.com/250';
+				this.activePhoto = this.getImageDefaultPlaceholder();
 			},
 			add(formData){
 				axios.post(`/api/${this.$route.path.split('/')[2]}/add`,formData).then(res=>{
@@ -139,6 +147,10 @@
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
 					console.log(err);
 				});
+			},
+			updateDeletedPhoto(){
+				let formData = this.prependEditFormData();
+				this.edit(formData);
 			}
 
 		},

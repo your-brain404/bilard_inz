@@ -23,12 +23,12 @@
 							<v-card-text>
 								<v-container>
 									<v-row class="d-flex align-items-center">
-										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(photo.id)" @click="setPhotoClass(photo.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="photo in photos" :key="photo.id">
+										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(photo.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="photo in photos" :key="photo.id">
 											<div class="d-flex justify-content-between">
 												<v-icon class="check-icon" :color="activePhotos.includes(photo.id) || activePhoto == photo.id ? 'success' : 'white'">mdi-check</v-icon>
 												<v-icon @click="deletePhoto(photo.id)" :color="closeIcon == photo.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
-											<v-img class="image-picker-photo" :src="getUrl(photo.path)"></v-img>
+											<v-img  @click="setPhotoClass(photo.id)" class="image-picker-photo" :src="getUrl(photo.path)"></v-img>
 										</v-col>
 									</v-row>
 								</v-container>
@@ -50,6 +50,7 @@
 	import url from '../../helpers/photo/url.js';
 
 	export default {
+		props:['activePhotoPath'],
 		data () {
 			return {
 				dialog: false,
@@ -68,26 +69,37 @@
 			AddPhotos
 		},
 		
-		created(){
-			this.loadPhotos();
-		},
+		
 		methods:{
 			showCloseIcon(id){
 				this.closeIcon = id;
 			},
-			deletePhoto(id){
-				if(confirm('Czy na pewno?')){
-					axios.delete('/api/media/delete/'+ id).then(res => {
-						console.log('Usunięto');
-						this.loadPhotos();
-					}).catch(err => console.log(err));
+			isActivePhotoDeleted(id){
+				if(this.activePhotoPath !== null){
+					for(let photo of this.photos){
+
+						if(this.activePhotoPath == photo.path && photo.id == id){
+							console.log(this.activePhotoPath, photo.path, photo.id, id);
+							this.$emit('loadedImage', 'placeholder');
+							this.$emit('updateDeletedPhoto');
+						}
+					}
 				}
 			},
-			
 			loadPhotos(){
 				axios.get('/api/media/get_photos').then(res =>{
 					this.photos = res.data;
 				});
+			},
+
+			deletePhoto(id){
+				if(confirm('Czy na pewno?')){
+					axios.delete('/api/media/delete/'+ id).then(res => {
+						console.log(res);
+						this.isActivePhotoDeleted(id);
+						this.loadPhotos();
+					}).catch(err => console.log(err));
+				}
 			},
 			getPhotoLinks(){
 				let links = [];
@@ -124,7 +136,10 @@
 				return url(src);
 			}
 
-		}
+		},
+		created(){
+			this.loadPhotos();
+		},
 	}
 </script>
 <style>

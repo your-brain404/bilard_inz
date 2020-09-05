@@ -54,8 +54,8 @@ class FileHelper {
 	}
 
 	public static function deleteFilesFromStorage($path){
-		Storage::delete('media/'. explode('/', $path)[3]. '/'. explode('/', $path)[4]);
-		Storage::delete('media/'. explode('/', $path)[3]. '/'. explode('/', $path)[4]. '.webp');
+		Storage::delete('media/'. explode('/', $path)[0]. '/'. explode('/', $path)[1]);
+		Storage::delete('media/'. explode('/', $path)[0]. '/'. explode('/', $path)[1]. '.webp');
 	}
 
 	public static function delete($id){

@@ -2123,6 +2123,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _AddPhotos_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddPhotos.vue */ "./resources/js/components/image-picker/AddPhotos.vue");
 /* harmony import */ var _helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/photo/url.js */ "./resources/js/helpers/photo/url.js");
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -2173,6 +2179,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['activePhotoPath'],
   data: function data() {
     return {
       dialog: false,
@@ -2189,32 +2196,53 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     AddPhotos: _AddPhotos_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  created: function created() {
-    this.loadPhotos();
-  },
   methods: {
     showCloseIcon: function showCloseIcon(id) {
       this.closeIcon = id;
     },
-    deletePhoto: function deletePhoto(id) {
+    isActivePhotoDeleted: function isActivePhotoDeleted(id) {
+      if (this.activePhotoPath !== null) {
+        var _iterator = _createForOfIteratorHelper(this.photos),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var photo = _step.value;
+
+            if (this.activePhotoPath == photo.path && photo.id == id) {
+              console.log(this.activePhotoPath, photo.path, photo.id, id);
+              this.$emit('loadedImage', 'placeholder');
+              this.$emit('updateDeletedPhoto');
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      }
+    },
+    loadPhotos: function loadPhotos() {
       var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/media/get_photos').then(function (res) {
+        _this.photos = res.data;
+      });
+    },
+    deletePhoto: function deletePhoto(id) {
+      var _this2 = this;
 
       if (confirm('Czy na pewno?')) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/api/media/delete/' + id).then(function (res) {
-          console.log('Usunięto');
+          console.log(res);
 
-          _this.loadPhotos();
+          _this2.isActivePhotoDeleted(id);
+
+          _this2.loadPhotos();
         })["catch"](function (err) {
           return console.log(err);
         });
       }
-    },
-    loadPhotos: function loadPhotos() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/media/get_photos').then(function (res) {
-        _this2.photos = res.data;
-      });
     },
     getPhotoLinks: function getPhotoLinks() {
       var links = [];
@@ -2249,6 +2277,9 @@ __webpack_require__.r(__webpack_exports__);
     getUrl: function getUrl(src) {
       return Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_2__["default"])(src);
     }
+  },
+  created: function created() {
+    this.loadPhotos();
   }
 });
 
@@ -3078,9 +3109,16 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    getImageDefaultPlaceholder: function getImageDefaultPlaceholder() {
+      return 'https://via.placeholder.com/250';
+    },
     setImagePlaceholder: function setImagePlaceholder(event) {
-      this.img = event;
-      this.activePhoto = Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__["default"])(event);
+      if (event === 'placeholder') {
+        this.img = '', this.activePhoto = this.getImageDefaultPlaceholder();
+      } else {
+        this.img = event;
+        this.activePhoto = Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__["default"])(event);
+      }
     },
     validate: function validate() {
       var formData = new FormData();
@@ -3104,7 +3142,7 @@ __webpack_require__.r(__webpack_exports__);
       this.subtitle = '';
       this.photo_alt = '';
       this.photo = '';
-      this.activePhoto = 'https://via.placeholder.com/250';
+      this.activePhoto = this.getImageDefaultPlaceholder();
     },
     add: function add(formData) {
       var _this = this;
@@ -3142,6 +3180,10 @@ __webpack_require__.r(__webpack_exports__);
 
         console.log(err);
       });
+    },
+    updateDeletedPhoto: function updateDeletedPhoto() {
+      var formData = this.prependEditFormData();
+      this.edit(formData);
     }
   },
   components: {
@@ -4975,9 +5017,6 @@ var render = function() {
                                             },
                                             mouseover: function($event) {
                                               return _vm.showCloseIcon(photo.id)
-                                            },
-                                            click: function($event) {
-                                              return _vm.setPhotoClass(photo.id)
                                             }
                                           }
                                         },
@@ -5035,6 +5074,13 @@ var render = function() {
                                             staticClass: "image-picker-photo",
                                             attrs: {
                                               src: _vm.getUrl(photo.path)
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.setPhotoClass(
+                                                  photo.id
+                                                )
+                                              }
                                             }
                                           })
                                         ],
@@ -6350,8 +6396,14 @@ var render = function() {
                             }),
                             _vm._v(" "),
                             _c("ImagePicker", {
-                              attrs: { img: _vm.img },
-                              on: { loadedImage: _vm.setImagePlaceholder }
+                              attrs: {
+                                activePhotoPath: _vm.currentObject.photo,
+                                img: _vm.img
+                              },
+                              on: {
+                                updateDeletedPhoto: _vm.updateDeletedPhoto,
+                                loadedImage: _vm.setImagePlaceholder
+                              }
                             }),
                             _vm._v(" "),
                             _c("v-text-field", {
