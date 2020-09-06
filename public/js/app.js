@@ -2209,8 +2209,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
             var photo = _step.value;
 
-            if (this.activePhotoPath == photo.path && photo.id == id) {
-              console.log(this.activePhotoPath, photo.path, photo.id, id);
+            if (photo.id == id && id == this.activePhoto) {
+              console.log(String(this.activePhotoPath) == String(photo.path), photo.id, id);
+              console.log(this.activePhotoPath, photo.path);
               this.$emit('loadedImage', 'placeholder');
               this.$emit('updateDeletedPhoto');
             }
@@ -3120,22 +3121,18 @@ __webpack_require__.r(__webpack_exports__);
         this.activePhoto = Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__["default"])(event);
       }
     },
-    validate: function validate() {
-      var formData = new FormData();
-      formData.append('title', this.title);
-      formData.append('subtitle', this.subtitle);
-      formData.append('photo_alt', this.photo_alt);
-      formData.append('photo', this.img);
-      this.$route.params.id ? this.edit(this.prependEditFormData()) : this.add(formData);
+    getFormData: function getFormData() {
+      return {
+        id: this.$route.params.id,
+        title: this.title,
+        subtitle: this.subtitle,
+        photo_alt: this.photo_alt,
+        photo: this.img !== '' ? this.img : this.currentObject.photo
+      };
     },
-    prependEditFormData: function prependEditFormData() {
-      var formData = new FormData();
-      formData.append('id', this.$route.params.id);
-      formData.append('title', this.title);
-      formData.append('subtitle', this.subtitle);
-      formData.append('photo_alt', this.photo_alt);
-      formData.append('photo', this.img !== '' ? this.img : this.currentObject.photo);
-      return formData;
+    validate: function validate() {
+      var formData = this.getFormData();
+      this.$route.params.id ? this.edit(formData) : this.add(formData);
     },
     resetForm: function resetForm() {
       this.title = '';
@@ -3147,7 +3144,11 @@ __webpack_require__.r(__webpack_exports__);
     add: function add(formData) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/".concat(this.$route.path.split('/')[2], "/add"), formData).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/".concat(this.$route.path.split('/')[2], "/add"), formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (res) {
         _this.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
 
         _this.resetForm();
@@ -3160,13 +3161,7 @@ __webpack_require__.r(__webpack_exports__);
     edit: function edit(formData) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/".concat(this.$route.path.split('/')[2], "/edit"), {
-        id: this.$route.params.id,
-        title: this.title,
-        subtitle: this.subtitle,
-        photo_alt: this.photo_alt,
-        photo: this.img !== '' ? this.img : this.currentObject.photo
-      }, {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/".concat(this.$route.path.split('/')[2], "/edit"), formData, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -3182,8 +3177,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateDeletedPhoto: function updateDeletedPhoto() {
-      var formData = this.prependEditFormData();
-      this.edit(formData);
+      this.edit(this.getFormData());
     }
   },
   components: {

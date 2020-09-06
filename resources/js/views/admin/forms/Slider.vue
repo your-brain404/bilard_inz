@@ -92,24 +92,19 @@
 					this.activePhoto = url(event);
 				}
 			},
-			validate () {
-				let formData = new FormData();
-				formData.append('title', this.title);
-				formData.append('subtitle', this.subtitle);
-				formData.append('photo_alt', this.photo_alt);
-				formData.append('photo', this.img);
-
-				this.$route.params.id ? this.edit(this.prependEditFormData()) : this.add(formData);
-				
+			getFormData(){
+				return {
+					id: this.$route.params.id,
+					title: this.title,
+					subtitle: this.subtitle,
+					photo_alt: this.photo_alt,
+					photo: this.img !== '' ? this.img : this.currentObject.photo
+				};
 			},
-			prependEditFormData(){
-				let formData = new FormData();
-				formData.append('id', this.$route.params.id);
-				formData.append('title', this.title);
-				formData.append('subtitle', this.subtitle);
-				formData.append('photo_alt', this.photo_alt);
-				formData.append('photo',  this.img !== '' ? this.img : this.currentObject.photo);
-				return formData;
+			validate () {
+				
+				let formData = this.getFormData();
+				this.$route.params.id ? this.edit(formData) : this.add(formData);
 			},
 			resetForm(){
 				this.title = '';
@@ -119,7 +114,11 @@
 				this.activePhoto = this.getImageDefaultPlaceholder();
 			},
 			add(formData){
-				axios.post(`/api/${this.$route.path.split('/')[2]}/add`,formData).then(res=>{
+				axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{
+					headers:{
+						'Content-Type': 'application/json'
+					}
+				}).then(res=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
 					this.resetForm();
 					this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
@@ -129,13 +128,7 @@
 			},
 			edit(formData){
 				
-				axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, {
-					id: this.$route.params.id,
-					title: this.title,
-					subtitle: this.subtitle,
-					photo_alt: this.photo_alt,
-					photo: this.img !== '' ? this.img : this.currentObject.photo
-				}, {
+				axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, formData, {
 					headers:{
 						'Content-Type': 'application/json'
 					}
@@ -149,8 +142,7 @@
 				});
 			},
 			updateDeletedPhoto(){
-				let formData = this.prependEditFormData();
-				this.edit(formData);
+				this.edit(this.getFormData());
 			}
 
 		},

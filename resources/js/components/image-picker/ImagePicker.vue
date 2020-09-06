@@ -76,10 +76,12 @@
 			},
 			isActivePhotoDeleted(id){
 				if(this.activePhotoPath !== null){
+
 					for(let photo of this.photos){
 
-						if(this.activePhotoPath == photo.path && photo.id == id){
-							console.log(this.activePhotoPath, photo.path, photo.id, id);
+						if(photo.id == id && id == this.activePhoto){
+							console.log(String(this.activePhotoPath) == String(photo.path), photo.id, id);
+							console.log(this.activePhotoPath, photo.path);
 							this.$emit('loadedImage', 'placeholder');
 							this.$emit('updateDeletedPhoto');
 						}
