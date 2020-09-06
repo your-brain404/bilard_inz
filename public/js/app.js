@@ -2498,34 +2498,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      about: [{
-        title: '',
-        subtitle: '',
-        short_description: '',
-        description: '',
-        photo: '',
-        photo_alt: ''
-      }]
+      about: []
     };
-  },
-  created: function created() {
-    var _this = this;
-
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/about_us/get_all').then(function (res) {
-      if (res.data.length > 0) _this.about = res.data;
-
-      _this.$emit('blockDataEmit', _this.about);
-    });
   },
   methods: {
     getUrl: function getUrl(src) {
       return Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_1__["default"])(src);
+    },
+    getData: function getData() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/about_us/get_all').then(function (res) {
+        if (res.data.length > 0) _this.about = res.data;
+
+        _this.$emit('blockDataEmit', _this.about);
+      });
     }
+  },
+  created: function created() {
+    this.getData();
   }
 });
 
@@ -2638,9 +2636,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getPhoto: function getPhoto(src) {
-      if (src != null) {
-        return Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_1__["default"])(src);
-      }
+      return Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_1__["default"])(src);
     }
   },
   watch: {
@@ -5533,45 +5529,56 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    [
-      _c("v-row", { staticClass: "justify-content-center" }, [
-        _c(
-          "h2",
-          {
-            staticClass: "about-title font-weight-bold text-center first-color"
-          },
-          [_vm._v(_vm._s(_vm.about[0].title))]
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "v-row",
+    _vm._l(_vm.about, function(row) {
+      return _c(
+        "div",
+        { key: row.id },
         [
-          _c("v-col", { attrs: { cols: "12", md: "8" } }, [
-            _c("img", {
-              staticClass: "about-photo",
-              attrs: { src: _vm.getUrl(_vm.about[0].photo), alt: "" }
-            })
+          _c("v-row", { staticClass: "justify-content-center" }, [
+            _c(
+              "h2",
+              {
+                staticClass:
+                  "about-title font-weight-bold text-center first-color"
+              },
+              [_vm._v(_vm._s(row.title))]
+            )
           ]),
           _vm._v(" "),
           _c(
-            "v-col",
-            { staticClass: "about-content", attrs: { cols: "12", md: "4" } },
+            "v-row",
             [
-              _c("h3", { staticClass: "about-content-title" }, [
-                _vm._v(_vm._s(_vm.about[0].subtitle))
+              _c("v-col", { attrs: { cols: "12", md: "8" } }, [
+                _c("img", {
+                  staticClass: "about-photo",
+                  attrs: { src: _vm.getUrl(row.photo), alt: "" }
+                })
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "about-content-text" }, [
-                _vm._v(_vm._s(_vm.about[0].description))
-              ])
-            ]
+              _c(
+                "v-col",
+                {
+                  staticClass: "about-content",
+                  attrs: { cols: "12", md: "4" }
+                },
+                [
+                  _c("h3", { staticClass: "about-content-title" }, [
+                    _vm._v(_vm._s(row.subtitle))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "about-content-text" }, [
+                    _vm._v(_vm._s(row.description))
+                  ])
+                ]
+              )
+            ],
+            1
           )
         ],
         1
       )
-    ],
-    1
+    }),
+    0
   )
 }
 var staticRenderFns = []
@@ -5692,7 +5699,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-carousel",
-    { attrs: { "hide-delimiters": "", cycle: "" } },
+    { attrs: { "hide-delimiters": "" } },
     _vm._l(_vm.slides, function(slide, i) {
       return _c(
         "v-carousel-item",

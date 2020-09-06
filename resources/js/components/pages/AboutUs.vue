@@ -1,17 +1,19 @@
 <template>
 	<v-container>
-		<v-row class="justify-content-center">
-			<h2 class="about-title font-weight-bold text-center first-color">{{ about[0].title }}</h2>
-		</v-row>
-		<v-row>
-			<v-col cols="12" md="8">
-				<img class="about-photo" :src="getUrl(about[0].photo)" alt="">
-			</v-col>
-			<v-col class="about-content" cols="12" md="4">
-				<h3 class="about-content-title">{{ about[0].subtitle }}</h3>
-				<p class="about-content-text">{{ about[0].description }}</p>
-			</v-col>
-		</v-row>
+		<div v-for="row in about" :key="row.id">
+			<v-row class="justify-content-center">
+				<h2 class="about-title font-weight-bold text-center first-color">{{ row.title }}</h2>
+			</v-row>
+			<v-row>
+				<v-col cols="12" md="8">
+					<img class="about-photo" :src="getUrl(row.photo)" alt="">
+				</v-col>
+				<v-col class="about-content" cols="12" md="4">
+					<h3 class="about-content-title">{{ row.subtitle }}</h3>
+					<p class="about-content-text">{{ row.description }}</p>
+				</v-col>
+			</v-row>
+		</div>
 	</v-container>
 </template>
 
@@ -22,23 +24,24 @@
 	export default{
 		data(){
 			return{
-				about:[
-				{title:'', subtitle: '', short_description: '', description: '', photo: '', photo_alt: ''}
-				]
+				about:[]
 			}
 		},
-		created(){
-			axios.get('/api/about_us/get_all').then(res => {
-				if(res.data.length > 0) this.about = res.data;
-				this.$emit('blockDataEmit', this.about);
-			});
-			
-		},
+		
 		methods:{
 			getUrl(src){
 				return url(src);
+			},
+			getData(){
+				axios.get('/api/about_us/get_all').then(res => {
+					if(res.data.length > 0) this.about = res.data;
+					this.$emit('blockDataEmit', this.about);
+				});
 			}
-		}
+		},
+		created(){
+			this.getData();
+		},
 	}
 </script>
 
