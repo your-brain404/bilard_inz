@@ -69,12 +69,8 @@
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
 			currentObject:{},
-
-
 		}),
-		
 		computed:{
-			
 			formTitle(){
 				return this.$route.params.id ? 'Edycja' : 'Dodawanie';
 			}
@@ -100,11 +96,6 @@
 					photo_alt: this.photo_alt,
 					photo: this.img !== '' ? this.img : this.currentObject.photo
 				};
-			},
-			validate () {
-				
-				let formData = this.getFormData();
-				this.$route.params.id ? this.edit(formData) : this.add(formData);
 			},
 			resetForm(){
 				this.title = '';
@@ -134,12 +125,15 @@
 					}
 				}).then(res=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
-					// this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
-					console.log(res.data);
+					this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
 					console.log(err);
 				});
+			},
+			validate () {
+				let formData = this.getFormData();
+				this.$route.params.id ? this.edit(formData) : this.add(formData);
 			},
 			updateDeletedPhoto(){
 				this.edit(this.getFormData());

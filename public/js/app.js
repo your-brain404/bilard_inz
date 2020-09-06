@@ -2210,8 +2210,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             var photo = _step.value;
 
             if (photo.id == id && id == this.activePhoto) {
-              console.log(String(this.activePhotoPath) == String(photo.path), photo.id, id);
-              console.log(this.activePhotoPath, photo.path);
               this.$emit('loadedImage', 'placeholder');
               this.$emit('updateDeletedPhoto');
             }
@@ -2235,8 +2233,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       if (confirm('Czy na pewno?')) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]('/api/media/delete/' + id).then(function (res) {
-          console.log(res);
-
           _this2.isActivePhotoDeleted(id);
 
           _this2.loadPhotos();
@@ -2484,6 +2480,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/photo/url.js */ "./resources/js/helpers/photo/url.js");
 //
 //
 //
@@ -2501,6 +2498,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2523,6 +2521,11 @@ __webpack_require__.r(__webpack_exports__);
 
       _this.$emit('blockDataEmit', _this.about);
     });
+  },
+  methods: {
+    getUrl: function getUrl(src) {
+      return Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_1__["default"])(src);
+    }
   }
 });
 
@@ -2809,7 +2812,6 @@ __webpack_require__.r(__webpack_exports__);
 
       if (confirm("Na pewno chcesz usun\u0105\u0107 trwale przedmiot \"".concat(item.title, "\" z tabeli \"").concat(block.title, "\"? "))) {
         axios__WEBPACK_IMPORTED_MODULE_3___default.a["delete"]("/api/".concat(block.tablename, "/delete/").concat(item.id)).then(function (res) {
-          console.log(res);
           _this.deleteFlag = true;
           setTimeout(function () {
             _this.deleteFlag = false;
@@ -2937,25 +2939,24 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    getImageDefaultPlaceholder: function getImageDefaultPlaceholder() {
+      return 'https://via.placeholder.com/250';
+    },
     setImagePlaceholder: function setImagePlaceholder(event) {
-      this.img = event;
-      this.activePhoto = Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__["default"])(event);
+      if (event === 'placeholder') {
+        this.img = '', this.activePhoto = this.getImageDefaultPlaceholder();
+      } else {
+        this.img = event;
+        this.activePhoto = Object(_helpers_photo_url_js__WEBPACK_IMPORTED_MODULE_3__["default"])(event);
+      }
     },
-    validate: function validate() {
-      var formData = new FormData();
-      formData.append('title', this.title);
-      formData.append('subtitle', this.subtitle);
-      formData.append('photo_alt', this.photo_alt);
-      formData.append('photo', this.img);
-      this.$route.params.id ? this.edit(this.prependEditFormData()) : this.add(formData);
-    },
-    prependEditFormData: function prependEditFormData() {
+    getFormData: function getFormData() {
       return {
-        'id': this.$route.params.id,
-        'title': this.title,
-        'subtitle': this.subtitle,
-        'photo_alt': this.photo_alt,
-        'photo': this.img !== '' ? this.img : this.currentObject.photo
+        id: this.$route.params.id,
+        title: this.title,
+        subtitle: this.subtitle,
+        photo_alt: this.photo_alt,
+        photo: this.img !== '' ? this.img : this.currentObject.photo
       };
     },
     resetForm: function resetForm() {
@@ -2963,12 +2964,16 @@ __webpack_require__.r(__webpack_exports__);
       this.subtitle = '';
       this.photo_alt = '';
       this.photo = '';
-      this.activePhoto = 'https://via.placeholder.com/250';
+      this.activePhoto = this.getImageDefaultPlaceholder();
     },
     add: function add(formData) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/".concat(this.$route.path.split('/')[2], "/add"), formData).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/".concat(this.$route.path.split('/')[2], "/add"), formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (res) {
         _this.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
 
         _this.resetForm();
@@ -2983,19 +2988,24 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/".concat(this.$route.path.split('/')[2], "/edit"), formData, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/json'
         }
       }).then(function (res) {
         _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
 
         _this2.$router.push("/admin-panel#".concat(_this2.$route.path.split('/')[2]));
-
-        console.log(res.data);
       })["catch"](function (err) {
         _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].error);
 
         console.log(err);
       });
+    },
+    validate: function validate() {
+      var formData = this.getFormData();
+      this.$route.params.id ? this.edit(formData) : this.add(formData);
+    },
+    updateDeletedPhoto: function updateDeletedPhoto() {
+      this.edit(this.getFormData());
     }
   },
   components: {
@@ -3130,10 +3140,6 @@ __webpack_require__.r(__webpack_exports__);
         photo: this.img !== '' ? this.img : this.currentObject.photo
       };
     },
-    validate: function validate() {
-      var formData = this.getFormData();
-      this.$route.params.id ? this.edit(formData) : this.add(formData);
-    },
     resetForm: function resetForm() {
       this.title = '';
       this.subtitle = '';
@@ -3166,15 +3172,18 @@ __webpack_require__.r(__webpack_exports__);
           'Content-Type': 'application/json'
         }
       }).then(function (res) {
-        _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success); // this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
+        _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].success);
 
-
-        console.log(res.data);
+        _this2.$router.push("/admin-panel#".concat(_this2.$route.path.split('/')[2]));
       })["catch"](function (err) {
         _this2.$store.commit('setSnackbar', _data_snackbar_alerts_js__WEBPACK_IMPORTED_MODULE_2__["default"].error);
 
         console.log(err);
       });
+    },
+    validate: function validate() {
+      var formData = this.getFormData();
+      this.$route.params.id ? this.edit(formData) : this.add(formData);
     },
     updateDeletedPhoto: function updateDeletedPhoto() {
       this.edit(this.getFormData());
@@ -5541,7 +5550,7 @@ var render = function() {
           _c("v-col", { attrs: { cols: "12", md: "8" } }, [
             _c("img", {
               staticClass: "about-photo",
-              attrs: { src: _vm.about[0].photo, alt: "" }
+              attrs: { src: _vm.getUrl(_vm.about[0].photo), alt: "" }
             })
           ]),
           _vm._v(" "),
@@ -6110,7 +6119,7 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n\t\t\t\t\tO klubie " +
+                      " \n\t\t\t\t\tO klubie " +
                         _vm._s(_vm.formTitle) +
                         "\n\t\t\t\t"
                     )
@@ -6186,8 +6195,14 @@ var render = function() {
                             }),
                             _vm._v(" "),
                             _c("ImagePicker", {
-                              attrs: { img: _vm.img },
-                              on: { loadedImage: _vm.setImagePlaceholder }
+                              attrs: {
+                                activePhotoPath: _vm.currentObject.photo,
+                                img: _vm.img
+                              },
+                              on: {
+                                updateDeletedPhoto: _vm.updateDeletedPhoto,
+                                loadedImage: _vm.setImagePlaceholder
+                              }
                             }),
                             _vm._v(" "),
                             _c("v-text-field", {
@@ -65574,7 +65589,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return url; });
 function url(url) {
-  return window.location.origin + '/storage/media/' + url;
+  return url !== null ? window.location.origin + '/storage/media/' + url : '';
 }
 
 /***/ }),

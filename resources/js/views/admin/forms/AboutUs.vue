@@ -3,14 +3,14 @@
 		<v-container>
 			<v-card>
 				<v-card-title class="justify-content-center">
-					<h2 class=" pt-4 font-weight-bold panel-title-header first-color">
+					<h2 class=" pt-4 font-weight-bold panel-title-header first-color"> 
 						O klubie {{ formTitle }}
 					</h2>
 				</v-card-title>
 				<v-divider class="mt-0"></v-divider>
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
-
+						
 						<v-col class="" cols="8">
 							<div class="pa-3">
 								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
@@ -21,8 +21,8 @@
 						<v-col cols="4" >
 							<div class="pa-3">
 								<v-img :src="activePhoto" :alt="photo_alt"></v-img>
-								<ImagePicker  @loadedImage="setImagePlaceholder" :img="img"/>
-
+								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img"/>
+								
 								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
 						</v-col>
@@ -42,7 +42,7 @@
 					</v-card-actions>
 				</v-form>
 			</v-card>
-
+			
 		</v-container>
 	</v-content>
 </template>
@@ -68,49 +68,48 @@
 			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
-			currentObject:{}
-			
-
+			currentObject:{},
 		}),
 		computed:{
-			
 			formTitle(){
 				return this.$route.params.id ? 'Edycja' : 'Dodawanie';
 			}
 		},
 		methods: {
+			getImageDefaultPlaceholder(){
+				return 'https://via.placeholder.com/250';
+			},
 			setImagePlaceholder(event){
-				this.img = event;
-				this.activePhoto = url(event);
-			},
-			validate () {
-				let formData = new FormData();
-				formData.append('title', this.title);
-				formData.append('subtitle', this.subtitle);
-				formData.append('photo_alt', this.photo_alt);
-				formData.append('photo', this.img);
-
-				this.$route.params.id ? this.edit(this.prependEditFormData()) : this.add(formData);
-				
-			},
-			prependEditFormData(){
-				return {
-					'id': this.$route.params.id,
-					'title': this.title,
-					'subtitle': this.subtitle,
-					'photo_alt': this.photo_alt,
-					'photo': this.img !== '' ? this.img : this.currentObject.photo
+				if(event === 'placeholder'){
+					this.img = '',
+					this.activePhoto = this.getImageDefaultPlaceholder();
+				} else{
+					this.img = event;
+					this.activePhoto = url(event);
 				}
+			},
+			getFormData(){
+				return {
+					id: this.$route.params.id,
+					title: this.title,
+					subtitle: this.subtitle,
+					photo_alt: this.photo_alt,
+					photo: this.img !== '' ? this.img : this.currentObject.photo
+				};
 			},
 			resetForm(){
 				this.title = '';
 				this.subtitle = '';
 				this.photo_alt = '';
 				this.photo = '';
-				this.activePhoto = 'https://via.placeholder.com/250';
+				this.activePhoto = this.getImageDefaultPlaceholder();
 			},
 			add(formData){
-				axios.post(`/api/${this.$route.path.split('/')[2]}/add`,formData).then(res=>{
+				axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{
+					headers:{
+						'Content-Type': 'application/json'
+					}
+				}).then(res=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
 					this.resetForm();
 					this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
@@ -119,18 +118,25 @@
 				});
 			},
 			edit(formData){
+				
 				axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, formData, {
 					headers:{
-						'Content-Type': 'application/x-www-form-urlencoded'
+						'Content-Type': 'application/json'
 					}
 				}).then(res=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
 					this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
-					console.log(res.data);
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
 					console.log(err);
 				});
+			},
+			validate () {
+				let formData = this.getFormData();
+				this.$route.params.id ? this.edit(formData) : this.add(formData);
+			},
+			updateDeletedPhoto(){
+				this.edit(this.getFormData());
 			}
 
 		},
@@ -147,6 +153,6 @@
 					this.currentObject = res.data;
 				})
 			}
-		}
+		},
 	}
 </script>

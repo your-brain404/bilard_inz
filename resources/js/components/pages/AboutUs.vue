@@ -5,7 +5,7 @@
 		</v-row>
 		<v-row>
 			<v-col cols="12" md="8">
-				<img class="about-photo" :src="about[0].photo" alt="">
+				<img class="about-photo" :src="getUrl(about[0].photo)" alt="">
 			</v-col>
 			<v-col class="about-content" cols="12" md="4">
 				<h3 class="about-content-title">{{ about[0].subtitle }}</h3>
@@ -17,6 +17,7 @@
 
 <script>
 	import axios from 'axios'
+	import url from '../../helpers/photo/url.js'
 
 	export default{
 		data(){
@@ -32,6 +33,11 @@
 				this.$emit('blockDataEmit', this.about);
 			});
 			
+		},
+		methods:{
+			getUrl(src){
+				return url(src);
+			}
 		}
 	}
 </script>

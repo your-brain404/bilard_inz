@@ -76,12 +76,8 @@
 			},
 			isActivePhotoDeleted(id){
 				if(this.activePhotoPath !== null){
-
 					for(let photo of this.photos){
-
 						if(photo.id == id && id == this.activePhoto){
-							console.log(String(this.activePhotoPath) == String(photo.path), photo.id, id);
-							console.log(this.activePhotoPath, photo.path);
 							this.$emit('loadedImage', 'placeholder');
 							this.$emit('updateDeletedPhoto');
 						}
@@ -97,7 +93,6 @@
 			deletePhoto(id){
 				if(confirm('Czy na pewno?')){
 					axios.delete('/api/media/delete/'+ id).then(res => {
-						console.log(res);
 						this.isActivePhotoDeleted(id);
 						this.loadPhotos();
 					}).catch(err => console.log(err));

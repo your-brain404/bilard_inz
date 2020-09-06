@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\AboutUsResource;
 use App\Http\Helpers\AboutUsHelper;
+use Illuminate\Http\Request;
 
 class AboutUsController extends Controller {
 

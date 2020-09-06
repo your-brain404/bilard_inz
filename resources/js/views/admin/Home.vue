@@ -83,7 +83,6 @@
 			deleteItem(block, item){
 				if(confirm(`Na pewno chcesz usunąć trwale przedmiot "${item.title}" z tabeli "${block.title}"? `)){
 					axios.delete(`/api/${block.tablename}/delete/${item.id}`).then(res => {
-						console.log(res);
 						this.deleteFlag = true;
 						setTimeout(()=>{this.deleteFlag = false}, 200);
 					}).catch(err => {
