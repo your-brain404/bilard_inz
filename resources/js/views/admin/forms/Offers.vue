@@ -4,7 +4,7 @@
 			<v-card>
 				<v-card-title class="justify-content-center">
 					<h2 class=" pt-4 font-weight-bold panel-title-header first-color"> 
-						O klubie {{ formTitle }}
+						Oferta {{ formTitle }}
 					</h2>
 				</v-card-title>
 				<v-divider class="mt-0"></v-divider>
@@ -20,11 +20,9 @@
 						</v-col>
 
 						<v-col cols="4" >
-							<div class="pa-5 d-flex flex-column justify-content-between">
-								<div>
-									<v-img :src="activePhoto" :alt="photo_alt"></v-img>
-									<ImagePicker  @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img"/>
-								</div>
+							<div class="pa-5">
+								<v-img :src="activePhoto" :alt="photo_alt"></v-img>
+								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img"/>
 								
 								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
@@ -67,8 +65,8 @@
 			},
 			photo_alt: '',
 			title: '',
-			subtitle: '',
 			description: '',
+			subtitle: '',
 			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
@@ -97,8 +95,8 @@
 					id: this.$route.params.id,
 					title: this.title,
 					subtitle: this.subtitle,
-					photo_alt: this.photo_alt,
 					description: this.description,
+					photo_alt: this.photo_alt,
 					photo: this.img !== '' ? this.img : this.currentObject.photo
 				};
 			},

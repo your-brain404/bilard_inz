@@ -5,8 +5,8 @@
 		</v-row>
 		<v-row>
 			<v-col v-for="(offer, i) in offers" :key="i" cols="12" sm="6" md="4">
-				<v-card class="mx-auto" max-width="400" >
-					<v-img class="white--text align-end" height="200px" :src="offer.photo">
+				<v-card @mouseover="setPhotoClass(i)" flat class="mx-auto offer-card" max-width="400">
+					<v-img class="white--text align-end offer-card-photo" height="200px" :alt="offer.photo_alt" :src="getPhoto(offer.photo)">
 						<v-card-title>{{ offer.title }}</v-card-title>
 					</v-img>
 					<v-card-subtitle class="pb-2">{{ offer.subtitle }}</v-card-subtitle>
@@ -15,24 +15,64 @@
 					</v-card-text>
 				</v-card>
 			</v-col>
-			<v-btn class="my-5"  link x-large block color="#da5a33" outlined>CZYTAJ WIĘCEJ</v-btn>
+			<v-btn class="my-5 offer-button"  link x-large block color="#da5a33" outlined>CZYTAJ WIĘCEJ</v-btn>
 		</v-row>
 	</v-container>
 </template>
 
 <script>
+	import axios from 'axios'
+	import url from '../../helpers/photo/url.js'
+
 	export default{
+		props:['deleteFlag'],
 		data(){
 			return{
-				offers: [
-				{title: 'Bilard', subtitle: 'Wysoka jakość stołów bilardowych', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor aut modi exercitationem voluptatum mollitia quaerat! Nisi dolorum vero repellendus veniam laudantium eaque unde, deleniti recusandae doloribus modi, iusto totam. Fugiat.', photo: '../storage/img/offers/bilard.jpg'},
-				{title: 'Tenis Stołowy', subtitle: 'Stół do gry amatorskiej jak i profesjonalnej', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor aut modi exercitationem voluptatum mollitia quaerat! Nisi dolorum vero repellendus veniam laudantium eaque unde, deleniti recusandae doloribus modi, iusto totam. Fugiat.', photo: '../storage/img/offers/ping_pong.jpg'},
-				{title: 'Darty', subtitle: 'Maszyna do gry w rzutki', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor aut modi exercitationem voluptatum mollitia quaerat! Nisi dolorum vero repellendus veniam laudantium eaque unde, deleniti recusandae doloribus modi, iusto totam. Fugiat.', photo: '../storage/img/offers/rzutki.jpg'},
-				]
+				offers: []
 			}
 		},
 		created(){
-			this.$emit('blockDataEmit', this.offers);
+			this.getOffers();
+		},
+		methods:{
+			setPhotoClass(id){
+
+			},
+			getOffers(){
+				axios.get('/api/offers/get_all').then(res => {
+					this.offers = res.data;
+					this.$emit('blockDataEmit', this.offers);
+				}).catch(err => {
+					console.log(err);
+				})
+			},
+			getPhoto(src){
+				return url(src);
+			},
+		},
+		watch:{
+			deleteFlag(){
+				if(this.deleteFlag){
+					this.getOffers();
+				}
+			}
 		}
+
 	}
 </script>
+
+<style>
+	.offer-button, .offer-card, .offer-card-photo{
+		transition: all 0.15s!important;
+	}
+	.offer-button:hover{
+		color:white!important;
+		background-color: var(--first-color); 
+	}
+	.offer-card:hover{
+		box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)!important;
+	}
+	.offer-card:hover .offer-card-photo{
+		opacity: 0.6;
+	}
+</style>

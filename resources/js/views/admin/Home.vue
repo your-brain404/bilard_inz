@@ -1,6 +1,6 @@
 <template>
 	<v-content class="">
-		<v-container :id="block.tablename" v-for="(block, i) in blocks" :key="i" class="pa-5">
+		<v-container :id="block.tablename" :ref="block.tablename" v-for="(block, i) in blocks" :key="i" class="pa-5">
 			<v-card raised class="">
 				<h2 class="text-center pt-4 font-weight-bold panel-title-header first-color">{{ block.title }}</h2>
 				<v-divider></v-divider>
@@ -89,8 +89,8 @@
 						console.log(err);
 					})
 				}
-			}
-		}
+			},
+		},
 	}
 </script>
 

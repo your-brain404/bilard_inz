@@ -6,7 +6,7 @@
 			</v-row>
 			<v-row>
 				<v-col cols="12" md="8">
-					<img class="about-photo" :src="getUrl(row.photo)" alt="">
+					<img @click="lightbox = true" class="about-photo" :src="getUrl(row.photo)" :alt="row.photo_alt">
 				</v-col>
 				<v-col class="about-content" cols="12" md="4">
 					<h3 class="about-content-title">{{ row.subtitle }}</h3>
@@ -14,17 +14,20 @@
 				</v-col>
 			</v-row>
 		</div>
+		<Lightbox :props="{gallery: [about[0].photo], activePhotoId: 0, lightbox: lightbox}" @closeLightbox="lightbox = false" />
 	</v-container>
 </template>
 
 <script>
 	import axios from 'axios'
 	import url from '../../helpers/photo/url.js'
+	import Lightbox from '../lightbox/Lightbox';
 
 	export default{
 		data(){
 			return{
-				about:[]
+				about:[{photo: null}],
+				lightbox: false
 			}
 		},
 		
@@ -41,7 +44,11 @@
 		},
 		created(){
 			this.getData();
+
 		},
+		components:{
+			Lightbox
+		}
 	}
 </script>
 
@@ -54,6 +61,7 @@
 	.about-photo{
 		width:100%;
 		height:auto;
+		cursor: pointer;
 	}
 	.about-content{
 		display: flex;

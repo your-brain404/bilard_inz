@@ -42,7 +42,7 @@
 	.first-bgc{
 		background-color: #da5a33!important;
 	}
-	.admin-body{
-		
+	:root{
+		--first-color: rgb(218, 90, 51);
 	}
 </style>

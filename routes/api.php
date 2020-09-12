@@ -28,6 +28,12 @@ Route::post('/slider/add/', 'SliderController@store');
 Route::delete('/slider/delete/{id}', 'SliderController@destroy');
 Route::put('/slider/edit', 'SliderController@store');
 
+Route::get('/offers/get_all', 'OffersController@getAll');
+Route::get('/offers/get_one/{id}', 'OffersController@getOne');
+Route::post('/offers/add/', 'OffersController@store');
+Route::delete('/offers/delete/{id}', 'OffersController@destroy');
+Route::put('/offers/edit', 'OffersController@store');
+
 Route::get('/media/get_photos/', 'MediaController@getPhotos');
 Route::post('/media/add/', 'MediaController@store');
 Route::delete('/media/delete/{id}', 'MediaController@destroy');

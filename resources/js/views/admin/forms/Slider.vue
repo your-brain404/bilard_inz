@@ -12,14 +12,14 @@
 					<v-row>
 						
 						<v-col class="" cols="8">
-							<div class="pa-3">
+							<div class="pa-5">
 								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field  color="primary" v-model="subtitle" label="Podtytuł"></v-text-field>
 							</div>
 						</v-col>
 
 						<v-col cols="4" >
-							<div class="pa-3">
+							<div class="pa-5">
 								<v-img :src="activePhoto" :alt="photo_alt"></v-img>
 								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img"/>
 								

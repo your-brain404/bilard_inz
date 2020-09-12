@@ -1,6 +1,6 @@
 <template>
 	<v-carousel hide-delimiters >
-		<v-carousel-item class="slider-background" v-for="(slide,i) in slides" :key="i" :src="getPhoto(slide.photo)">
+		<v-carousel-item class="slider-background" v-for="(slide,i) in slides" :alt="slide.photo_alt" :key="i" :src="getPhoto(slide.photo)">
 			<v-row class="fill-height flex-column" align="center" justify="center">
 				<h2 class="slider-title font-weight-bold first-color">{{ slide.title }}</h2>
 				<div class="slider-subtitle white--text font-weight-bold">{{ slide.subtitle }}</div>
