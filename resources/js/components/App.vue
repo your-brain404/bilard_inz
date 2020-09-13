@@ -16,6 +16,7 @@
 	import AdminHeader from './layouts/AdminHeader'
 	import AdminFooter from './layouts/AdminFooter'
 	import AdminSnackbar from './snackbar/AdminSnackbar';
+	
 
 	export default {
 		components: {
@@ -24,7 +25,8 @@
 		computed:{
 			isPathAdmin(){
 				return this.$route.path.split('/')[1] == 'admin-panel' ? true : false;
-			}
+			},
+			
 		},
 		
 	}
@@ -44,5 +46,8 @@
 	}
 	:root{
 		--first-color: rgb(218, 90, 51);
+	}
+	a:hover{
+		text-decoration: none!important;
 	}
 </style>

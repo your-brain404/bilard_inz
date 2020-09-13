@@ -54,20 +54,15 @@
 </template>
 
 <script>
-	import Slider from '../../components/pages/Slider'
-	import AboutUs from '../../components/pages/AboutUs'
-	import Offers from '../../components/pages/Offers'
+	
 	import axios from 'axios';
+	import panelBlocks from '../../data/admin-panel-blocks.js';
 
 	export default{
 		data () {
 			return {
 				search: '',
-				blocks: [
-				{title: 'Slider', component: Slider, tablename: 'slider', table: [], multiple:true},
-				{title: 'O klubie', component: AboutUs, tablename: 'about_us', table: [], multiple:false},
-				{title: 'Oferta', component: Offers, tablename: 'offers',table: [], multiple:true},
-				],
+				blocks:[],
 				headers: [
 				{
 					text: 'Tytuł',
@@ -90,7 +85,22 @@
 					})
 				}
 			},
+			setBlocks(){
+				if(this.$route.path.split('/')[2] == 'news'){
+					this.blocks = panelBlocks.news;
+				}else if(this.$route.path.split('/')[2] == null){
+					this.blocks = panelBlocks.main;
+				}
+			}
 		},
+		watch:{
+			'$route'(){
+				this.setBlocks();
+			}
+		},
+		created(){
+			this.setBlocks();
+		}
 	}
 </script>
 

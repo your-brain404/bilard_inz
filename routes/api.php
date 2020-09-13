@@ -34,6 +34,12 @@ Route::post('/offers/add/', 'OffersController@store');
 Route::delete('/offers/delete/{id}', 'OffersController@destroy');
 Route::put('/offers/edit', 'OffersController@store');
 
+Route::get('/news/get_all', 'NewsController@getAll');
+Route::get('/news/get_one/{id}', 'NewsController@getOne');
+Route::post('/news/add/', 'NewsController@store');
+Route::delete('/news/delete/{id}', 'NewsController@destroy');
+Route::put('/news/edit', 'NewsController@store');
+
 Route::get('/media/get_photos/', 'MediaController@getPhotos');
 Route::post('/media/add/', 'MediaController@store');
 Route::delete('/media/delete/{id}', 'MediaController@destroy');

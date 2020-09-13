@@ -35,7 +35,7 @@
 				drawer: true,
 				items: [
 				{ title: 'Strona główna', icon: 'mdi-view-dashboard', path: '/admin-panel' },
-				{ title: 'Aktualizacje', icon: 'mdi-newspaper', path: '/admin-panel/news' },
+				{ title: 'Aktualności', icon: 'mdi-newspaper', path: '/admin-panel/news' },
 				],
 				color: '#da5a33',
 			}

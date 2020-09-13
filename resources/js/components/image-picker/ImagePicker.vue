@@ -3,7 +3,7 @@
 		<v-dialog v-model="dialog" persistent>
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn color="primary" dark v-bind="attrs" v-on="on" class="w-100">
-					Dodaj zdjęcie
+					Dodaj zdjęcie {{ banner ? 'banerowe' : '' }}
 				</v-btn>
 			</template>
 			<v-card>
@@ -50,7 +50,7 @@
 	import url from '../../helpers/photo/url.js';
 
 	export default {
-		props:['activePhotoPath'],
+		props:['activePhotoPath', 'banner'],
 		data () {
 			return {
 				dialog: false,

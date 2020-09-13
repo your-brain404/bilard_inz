@@ -2,17 +2,17 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from './views/public/Main'
 import Home from './views/admin/Home'
-import News from './views/admin/News'
 import SliderForm from './views/admin/forms/Slider'
 import AboutUsForm from './views/admin/forms/AboutUs'
 import OffersForm from './views/admin/forms/Offers'
+import NewsForm from './views/admin/forms/News'
 
 Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: Main, name: 'Main' },
   { path: '/admin-panel', component: Home, name: 'Home'},
-  { path: '/admin-panel/news', component: News, name: 'News'},
+  { path: '/admin-panel/news', component: Home, name: 'News'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -22,6 +22,9 @@ const routes = [
 
   { path: '/admin-panel/offers/form', component: OffersForm, name: 'OffersForm'},
   { path: '/admin-panel/offers/form/:id', component: OffersForm, name: 'OffersFormEdit'},
+
+  { path: '/admin-panel/news/form', component: NewsForm, name: 'NewsForm'},
+  { path: '/admin-panel/news/form/:id', component: NewsForm, name: 'NewsFormEdit'},
 ]
 
 export default new VueRouter({
