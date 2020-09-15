@@ -14,7 +14,9 @@
 						<v-col class="" cols="8">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
-								<v-text-field  color="primary" v-model="subtitle" label="Podtytuł"></v-text-field>
+								<v-text-field  color="primary" v-model="category" label="Kategoria"></v-text-field>
+								<v-text-field  color="primary" v-model="button_name" label="Napis na przycisku"></v-text-field>
+								<TagsInput />
 								<v-textarea counter label="Krótki opis" v-model="short_description" ></v-textarea>
 								<v-textarea counter label="Opis" v-model="description" ></v-textarea>
 							</div>
@@ -61,6 +63,7 @@
 	import ImagePicker from '../../../components/image-picker/ImagePicker';
 	import SnackbarAlerts from '../../../data/snackbar-alerts.js'
 	import url from '../../../helpers/photo/url.js'
+	import TagsInput from '../../../components/tagsinput/TagsInput.vue'
 
 	export default {
 		data: () => ({
@@ -74,7 +77,10 @@
 			photo_alt: '',
 			banner_photo_alt: '',
 			title: '',
+			category: '',
 			description: '',
+			button_name: '',
+			tags: [],
 			short_description: '',
 			subtitle: '',
 			file: [],
@@ -116,6 +122,9 @@
 					id: this.$route.params.id,
 					title: this.title,
 					subtitle: this.subtitle,
+					category: this.category,
+					tags: this.tags,
+					button_name: this.button_name,
 					description: this.description,
 					short_description: this.short_description,
 					photo_alt: this.photo_alt,
@@ -128,6 +137,9 @@
 				this.title = '';
 				this.subtitle = '';
 				this.photo_alt = '';
+				this.category = '';
+				this.button_name = '';
+				this.tags = '';
 				this.banner_photo_alt = '';
 				this.photo = '';
 				this.description = '';
@@ -172,13 +184,16 @@
 
 		},
 		components:{
-			ImagePicker
+			ImagePicker, TagsInput
 		},
 		created(){
 			if(this.$route.params.id){
 				axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
 					this.title = res.data.title;
 					this.subtitle = res.data.subtitle;
+					this.category = res.data.category;
+					this.button_name = res.data.button_name;
+					this.tags = res.data.tags;
 					this.description = res.data.description;
 					this.short_description = res.data.short_description;
 					this.activePhoto = res.data.photo !== null ? url(res.data.photo) : this.activePhoto;

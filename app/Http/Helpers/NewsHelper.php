@@ -16,8 +16,13 @@ class NewsHelper {
 		$news->banner_photo_alt = $request->input('banner_photo_alt');
 		$news->photo = $request->input('photo');
 		$news->banner_photo = $request->input('banner_photo');
+		$news->category = $request->input('category');
+		$news->tags = $request->input('tags');
+		$news->button_name = $request->input('button_name');
 		$news->description = $request->input('description');
 		$news->short_description = $request->input('short_description');
+
+		var_dump($news);die;
 
 		return $news;
 	}

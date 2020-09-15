@@ -16,7 +16,6 @@
 	import AdminHeader from './layouts/AdminHeader'
 	import AdminFooter from './layouts/AdminFooter'
 	import AdminSnackbar from './snackbar/AdminSnackbar';
-	
 
 	export default {
 		components: {
@@ -28,7 +27,7 @@
 			},
 			
 		},
-		
+
 	}
 </script>
 

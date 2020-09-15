@@ -12,7 +12,7 @@
 						</v-col>
 					</v-row>
 					<v-row class="d-flex justify-content-center">
-						<v-col @click="activePhoto = photo" v-for="photo in props.gallery" cols="2">
+						<v-col @click="activePhoto = photo" v-for="(photo, i) in props.gallery" :key="i" cols="2">
 							<div class="bg-picture" :style="`background-image: url('${getUrl(photo)}')`" ></div>
 						</v-col>
 					</v-row>
