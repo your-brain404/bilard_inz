@@ -31,9 +31,9 @@
 							<i class="mr-2 text--secondary">3</i>
 						</div>
 						<v-icon @click="like(info.id)" color="primary" class="thumb-up mr-1">mdi-thumb-up-outline</v-icon>
-						<i class="mr-2 text--secondary">42</i>
-						<v-icon color="primary" class="thumb-down mr-1">mdi-thumb-down-outline</v-icon>
-						<i class="mr-2 text--secondary">3</i>
+						<i class="mr-2 text--secondary">{{ likesLength }}</i>
+						<v-icon @click="dislike(info.id)" color="primary" class="thumb-down mr-1">mdi-thumb-down-outline</v-icon>
+						<i class="mr-2 text--secondary">{{ dislikesLength }}</i>
 
 					</div>
 					<v-divider></v-divider>
@@ -58,16 +58,15 @@
 		props:['deleteFlag'],
 		data(){
 			return{
-				news: []
+				news: [],
 			}
 		},
 		created(){
 			this.getNews();
+			this.fetchLikes();
+			this.fetchDislikes();
 		},
 		methods:{
-			setPhotoClass(id){
-
-			},
 			getNews(){
 				axios.get('/api/news/get_all').then(res => {
 					this.news = res.data;
@@ -76,11 +75,36 @@
 					console.log(err);
 				})
 			},
+			fetchLikes(){
+				this.$store.dispatch('fetchLikes');
+			},
+			fetchDislikes(){
+				this.$store.dispatch('fetchDislikes');
+			},
 			getPhoto(src){
 				return url(src);
 			},
 			like(id){
-				db.collection('news-likes').add({news_id: id, user_id: 1}).then(res => console.log(res));
+				this.$store.commit('setLikesLength', this.likesLength+1);
+				db.collection('news-likes').add({news_id: id, user_id: 1}).then(res => this.fetchLikes());
+			},
+			dislike(id){
+				this.$store.commit('setDislikesLength', this.dislikesLength+1);
+				db.collection('news-dislikes').add({news_id: id, user_id: 1}).then(res => this.fetchLikes());
+			}
+		},
+		computed:{
+			likes(){
+				return this.$store.getters.getLikes;
+			},
+			likesLength(){
+				return this.$store.getters.getLikesLength;
+			},
+			dislikes(){
+				return this.$store.getters.getDislikes;
+			},
+			dislikesLength(){
+				return this.$store.getters.getDislikesLength;
 			}
 		},
 		watch:{
