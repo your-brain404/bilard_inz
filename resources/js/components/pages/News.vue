@@ -27,13 +27,9 @@
 							<i class="category">{{ info.category }}</i>
 						</router-link>
 						<div class="comments">
-							<v-icon color="primary">mdi-comment-text-outline</v-icon>
+							<v-icon @click="showCom(info.id)" color="primary">mdi-comment-text-outline</v-icon>
 							<i class="mr-2 text--secondary">3</i>
 						</div>
-						<v-icon @click="like(info.id)" color="primary" class="thumb-up mr-1">mdi-thumb-up-outline</v-icon>
-						<i class="mr-2 text--secondary">{{ likesLength }}</i>
-						<v-icon @click="dislike(info.id)" color="primary" class="thumb-down mr-1">mdi-thumb-down-outline</v-icon>
-						<i class="mr-2 text--secondary">{{ dislikesLength }}</i>
 
 					</div>
 					<v-divider></v-divider>
@@ -41,6 +37,19 @@
 						<v-icon color="primary">mdi-tag-multiple-outline</v-icon>
 						<v-chip color="primary" small><i class="">#amatorzy</i></v-chip>
 						<v-chip color="primary" small><i class="">#turniej</i></v-chip>
+					</div>
+					<div v-if="showComments[i].show">
+						<v-divider></v-divider>
+						<div class="d-flex justify-content-between">
+							<div class="d-flex flex-column align-items-center">
+								<v-avatar size="50">
+									<img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="">
+								</v-avatar>
+								<h4 class="m-0">Jarek</h4>
+								<i>13.09.2020 13:59:23</i>
+							</div>
+							<p class="m-0 d-flex align-items-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, obcaecati nesciunt.</p>
+						</div>
 					</div>
 				</v-col>
 			</v-row>
@@ -59,53 +68,30 @@
 		data(){
 			return{
 				news: [],
+				showComments: []
 			}
 		},
 		created(){
 			this.getNews();
-			this.fetchLikes();
-			this.fetchDislikes();
 		},
 		methods:{
 			getNews(){
 				axios.get('/api/news/get_all').then(res => {
 					this.news = res.data;
+					for(let info of this.news) this.showComments.push({id: info.id, show: false});
 					this.$emit('blockDataEmit', this.news);
 				}).catch(err => {
 					console.log(err);
 				})
 			},
-			fetchLikes(){
-				this.$store.dispatch('fetchLikes');
-			},
-			fetchDislikes(){
-				this.$store.dispatch('fetchDislikes');
-			},
-			getPhoto(src){
-				return url(src);
-			},
-			like(id){
-				this.$store.commit('setLikesLength', this.likesLength+1);
-				db.collection('news-likes').add({news_id: id, user_id: 1}).then(res => this.fetchLikes());
-			},
-			dislike(id){
-				this.$store.commit('setDislikesLength', this.dislikesLength+1);
-				db.collection('news-dislikes').add({news_id: id, user_id: 1}).then(res => this.fetchLikes());
+			showCom(id){
+				for(let i=0 ; i< this.showComments.length ; i++){
+					if(this.showComments[i].id === id){
+						this.showComments[i].show = !this.showComments[i].show;
+					}
+				}
 			}
-		},
-		computed:{
-			likes(){
-				return this.$store.getters.getLikes;
-			},
-			likesLength(){
-				return this.$store.getters.getLikesLength;
-			},
-			dislikes(){
-				return this.$store.getters.getDislikes;
-			},
-			dislikesLength(){
-				return this.$store.getters.getDislikesLength;
-			}
+			
 		},
 		watch:{
 			deleteFlag(){
