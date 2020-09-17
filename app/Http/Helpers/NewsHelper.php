@@ -11,7 +11,6 @@ class NewsHelper {
 	private static function prependData(News $news, Request $request): News {
 
 		$news->title = $request->input('title');
-		$news->subtitle = $request->input('subtitle');
 		$news->photo_alt = $request->input('photo_alt');
 		$news->banner_photo_alt = $request->input('banner_photo_alt');
 		$news->photo = $request->input('photo');
@@ -21,8 +20,6 @@ class NewsHelper {
 		$news->button_name = $request->input('button_name');
 		$news->description = $request->input('description');
 		$news->short_description = $request->input('short_description');
-
-		var_dump($news);die;
 
 		return $news;
 	}
