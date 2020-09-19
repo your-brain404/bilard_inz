@@ -14,13 +14,13 @@
 
 					<v-checkbox dark class="" v-model="regulations" :error-messages="regulationsErrors"  required @change="$v.regulations.$touch()" @blur="$v.regulations.$touch()">
 						<span slot="label">
-							Regulamin sklepu <router-link class="register-checkbox-link" to="/regulamin"><v-btn dark class="register-button" small outlined>Pokaż</v-btn></router-link>
+							Regulamin sklepu <router-link class="register-checkbox-link" to="/regulamin"><v-btn dark class="register-button ml-2" small outlined>Pokaż</v-btn></router-link>
 						</span>
 					</v-checkbox>
 
 					<v-checkbox dark class="pt-0 mt-0" v-model="privace" :error-messages="privaceErrors" label="Polityka prywatności*" required @change="$v.privace.$touch()" @blur="$v.privace.$touch()">
 						<span slot="label">
-							Polityka Prywatności <router-link class="register-checkbox-link" to="/polityka-prywatnosci"><v-btn dark class="register-button" small outlined>Pokaż</v-btn></router-link>
+							Polityka Prywatności <router-link class="register-checkbox-link" to="/polityka-prywatnosci"><v-btn dark class="register-button ml-2" small outlined>Pokaż</v-btn></router-link>
 						</span>
 					</v-checkbox>
 
@@ -30,7 +30,7 @@
 				<v-btn dark outlined class="mr-4 w-100 register-button" @click="submit">
 					Załóż konto
 				</v-btn>
-				<h5 class="text-center white--text py-4 m-0">lub</h5>
+				<h5 class="text-center white--text py-4 m-0 font-weight-lighter">lub</h5>
 
 
 				<v-btn color="#4569b1" class="white--text w-100">
