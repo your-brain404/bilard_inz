@@ -12,9 +12,13 @@ const opts = {
 	theme: {
 		themes:{
 			light:{
-				primary: '#da5a33',}
+				primary: '#da5a33',
 			}
-		},
-	};
+		}
+	},
+	options:{
+		customProperties: true,
+	}
+};
 
-	export default new Vuetify(opts);
+export default new Vuetify(opts);

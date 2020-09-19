@@ -7,10 +7,11 @@ import axios from "axios";
 import VueAxios from 'vue-axios';
 import Vuex from 'vuex';
 import store from './store/store.js';
-
- 
+import Vuelidate from 'vuelidate';
 
 Vue.component('app', require('./components/App.vue').default);
+
+Vue.use(Vuelidate);
 Vue.use(VueAxios, axios);
 
 Vue.axios.defaults.baseURL = window.location.origin;
@@ -21,7 +22,6 @@ Vue.axios.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     config.headers['Access-Control-Allow-Origin'] = '*';
-    // config.headers['Content-Type'] = 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2);
 
     return config;
   },

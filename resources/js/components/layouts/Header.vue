@@ -33,9 +33,7 @@
 				<v-icon>mdi-magnify</v-icon>
 			</v-btn>
 
-			<v-btn icon>
-				<v-icon>mdi-facebook</v-icon>
-			</v-btn>
+			<Register />
 		</div>
 
 		<template v-slot:extension>
@@ -55,6 +53,8 @@
 </template>
 
 <script>
+	import Register from '../auth/Register'
+
 	export default{
 		data(){
 			return{
@@ -71,6 +71,9 @@
 			redirect(path){
 				return this.$route.path != path ? this.$router.push(path) : true;
 			}
+		},
+		components:{
+			Register
 		}
 
 	}

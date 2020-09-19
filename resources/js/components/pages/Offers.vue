@@ -62,9 +62,6 @@
 </script>
 
 <style>
-	.offer-button, .offer-card, .offer-card-photo{
-		transition: all 0.15s!important;
-	}
 	.offer-button:hover{
 		color:white!important;
 		background-color: var(--first-color); 
