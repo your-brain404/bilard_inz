@@ -33,7 +33,8 @@
 				<v-icon>mdi-magnify</v-icon>
 			</v-btn>
 
-			<Register />
+			<Login  @openRegister="register = true"  />
+			<Register :dialog="register" @closeRegister="register = false"/>
 		</div>
 
 		<template v-slot:extension>
@@ -54,6 +55,7 @@
 
 <script>
 	import Register from '../auth/Register'
+	import Login from '../auth/Login'
 
 	export default{
 		data(){
@@ -64,6 +66,7 @@
 				],
 				currentPage: 'news',
 				navbarPhotoSrc: '../storage/img/toolbar/8-ball.jpg',
+				register: false
 				
 			}
 		},
@@ -73,7 +76,7 @@
 			}
 		},
 		components:{
-			Register
+			Register, Login
 		}
 
 	}

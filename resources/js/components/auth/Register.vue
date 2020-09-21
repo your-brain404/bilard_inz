@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<v-btn icon dark @click="dialog = true">
-			<v-icon>mdi-account</v-icon>
-		</v-btn>
-		<v-dialog v-model="dialog">
+		<v-dialog @input="v => v || closeRegister()" v-model="dialog" persistent>
 			<v-card class="register-card position-relative register-bg" raised style="background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(../storage/img/toolbar/8-ball.jpg)">
+				<div @click="closeRegister" class="position-absolute close-button">
+					<v-icon color="white">mdi-close</v-icon>
+				</div>
 				<form class="position-relative register-form">
 					<h1 class="about-title font-weight-bold text-center text-white mt-0">Zarejestruj się</h1>
 					<v-text-field dark v-model="first_name" :error-messages="firstNameErrors" :counter="15" label="Imię" required @input="$v.first_name.$touch()" @blur="$v.first_name.$touch()" class="primary-text"></v-text-field>
@@ -37,6 +37,7 @@
 					<v-icon left>mdi-facebook</v-icon>
 					<span>Zaloguj się przez Facebooka</span>
 				</v-btn>
+
 			</v-card>
 		</v-dialog>
 	</div>
@@ -47,6 +48,7 @@
 	import { required, maxLength, email } from 'vuelidate/lib/validators'
 
 	export default {
+		props:['dialog'],
 		mixins: [validationMixin],
 
 		validations: {
@@ -73,7 +75,7 @@
 		watch:{
 			'$route'(){
 				this.dialog = false;
-			}
+			},
 		},
 
 		data: () => ({
@@ -89,7 +91,6 @@
 			regulations: false,
 			privace: false,
 			rodo: false,
-			dialog: false
 		}),
 
 		computed: {
@@ -119,13 +120,13 @@
 			},
 			firstNameErrors () {
 				const errors = []
-				if (!this.$v.select.$dirty) return errors
+				if (!this.$v.first_name.$dirty) return errors
 					!this.$v.first_name.required && errors.push('To pole jest wymagane')
 				return errors
 			},
 			lastNameErrors () {
 				const errors = []
-				if (!this.$v.select.$dirty) return errors
+				if (!this.$v.last_name.$dirty) return errors
 					!this.$v.last_name.required  && errors.push('To pole jest wymagane')
 				return errors
 			},
@@ -159,6 +160,9 @@
 				this.privace = false
 				this.rodo = false
 			},
+			closeRegister(){
+				this.$emit('closeRegister');
+			}
 		},
 	}
 </script>
@@ -179,6 +183,11 @@
 		background-color: white;
 		color: #000;
 		
+	}
+	.close-button{
+		top:1%;
+		left:97%;
+		cursor: pointer;
 	}
 	.register-card{
 		padding: 4rem 17rem;
