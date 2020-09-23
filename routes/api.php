@@ -43,3 +43,6 @@ Route::put('/news/edit', 'NewsController@store');
 Route::get('/media/get_photos/', 'MediaController@getPhotos');
 Route::post('/media/add/', 'MediaController@store');
 Route::delete('/media/delete/{id}', 'MediaController@destroy');
+
+Route::post('/auth/register', 'Auth\api\RegisterController@register');
+Route::post('/auth/login', 'Auth\api\LoginController@login');
