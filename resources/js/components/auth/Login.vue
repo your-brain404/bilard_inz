@@ -34,6 +34,7 @@
 <script>
 	import { validationMixin } from 'vuelidate'
 	import { required, maxLength, email } from 'vuelidate/lib/validators'
+	import axios from 'axios'
 
 	export default {
 		mixins: [validationMixin],
@@ -73,7 +74,8 @@
 
 		methods: {
 			submit () {
-				this.$v.$touch()
+				this.$v.$touch();
+				axios.post('api/auth/login', {email: this.email, password: this.password}).then(res => console.log(res)).catch(err => console.log(err));
 			},
 			clear () {
 				this.$v.$reset()
