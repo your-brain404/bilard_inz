@@ -26,7 +26,7 @@ class AddTagsColumnToNewsTable extends Migration
     public function down()
     {
         Schema::table('news', function (Blueprint $table) {
-            Schema::dropColumn('tags');
+            $table->dropColumn('tags');
         });
     }
 }

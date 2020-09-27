@@ -1,8 +1,5 @@
 export default {
-	getSnackbar(state){
-		return state.snackbar;
-	},
-	getSnackbarText(state){
-		return state.snackbarText;
-	}
+	getSnackbar: state => state.snackbar,
+	getSnackbarText: state => state.snackbarText
+		
 }

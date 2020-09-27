@@ -15,7 +15,7 @@ trait LoginTrait {
 			'password' => 'required|string',
 		]);
 
-		return $validator->fails();
+		return !$validator->fails();
 	}
 
 	public static function findUser(array $data): bool {
@@ -23,10 +23,13 @@ trait LoginTrait {
 		return self::$user ? true : false;
 	}
 
-	public static function login(array $data) {
+	public static function login(array $data): bool {
 		if(self::$user) {
 			if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'] ])) {
 				self::$token = Auth::user()->createToken('authToken')->accessToken;
+				return true;
+			} else{
+				return false;
 			}
 		}
 	}

@@ -18,10 +18,7 @@
 				</v-btn>
 				<h5 class="text-center white--text py-2 m-0 font-weight-lighter">lub</h5>
 
-				<v-btn @click="fbLogin" color="#4569b1" class="white--text w-100">
-					<v-icon left>mdi-facebook</v-icon>
-					<span>Zaloguj się przez Facebooka</span>
-				</v-btn>
+				<Facebook />
 
 				<p @click="openRegister" class="white--text text-center mt-5" style="cursor: pointer">Nie masz konta? Zarejestruj się</p>	
 
@@ -34,6 +31,7 @@
 	import { validationMixin } from 'vuelidate'
 	import { required, maxLength, email } from 'vuelidate/lib/validators'
 	import axios from 'axios'
+	import Facebook from './FacebookLogin'
 
 	export default {
 		mixins: [validationMixin],
@@ -47,12 +45,15 @@
 				this.dialog = false;
 			}
 		},
+		components:{
+			Facebook
+		},
 
 		data: () => ({
 			email: '',
 			password: '',
 			dialog: false,
-			fbLink: window.location.origin+ '/api/facebook/login'
+			
 		}),
 
 		computed: {
@@ -74,8 +75,11 @@
 
 		methods: {
 			submit () {
-				this.$v.$touch();
-				axios.post('api/auth/login', {email: this.email, password: this.password}).then(res => console.log(res)).catch(err => console.log(err));
+				if(!this.$v.$anyError) {
+					this.$store.dispatch('authLogin', {email: this.email, password: this.password});
+					this.dialog = false;
+				}
+				
 			},
 			clear () {
 				this.$v.$reset()
@@ -86,10 +90,7 @@
 				this.dialog = false;
 				this.$emit('openRegister');
 			},
-			fbLogin(){
-				sessionStorage.setItem('fbLogin', true);
-				window.location.replace(this.fbLink);
-			}
+			
 		},
 	}
 </script>

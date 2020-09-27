@@ -19,10 +19,9 @@ class LoginHelper {
 	public static function login(Request $request) {
 
 		$data = $request->all();
-
-		if(self::validator($data) || !self::findUser($data)) return ResponseHelper::validateResponse(); 
+		if(!self::validator($data) || !self::findUser($data)) return ResponseHelper::validateResponse();	
 		
-		self::signIn($data);
+		if(!self::signIn($data)) return ResponseHelper::validateResponse();
 
 		return self::getResource();
 	}

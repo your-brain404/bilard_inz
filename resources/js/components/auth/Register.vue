@@ -7,10 +7,10 @@
 				</div>
 				<form class="position-relative register-form">
 					<h1 class="about-title font-weight-bold text-center text-white mt-0">Zarejestruj się</h1>
-					<v-text-field dark v-model="first_name" :error-messages="firstNameErrors" :counter="15" label="Imię" required @input="$v.first_name.$touch()" @blur="$v.first_name.$touch()" class="primary-text"></v-text-field>
-					<v-text-field dark v-model="last_name" :error-messages="lastNameErrors" :counter="20" label="Nazwisko" required @input="$v.last_name.$touch()" @blur="$v.last_name.$touch()"></v-text-field>
+					<v-text-field dark v-model="name" :error-messages="nameErrors" :counter="30" label="Imię i Nazwisko" required @input="$v.name.$touch()" @blur="$v.name.$touch()" class="primary-text"></v-text-field>
 					<v-text-field dark v-model="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()" @blur="$v.email.$touch()"></v-text-field>
-					<v-select dark v-model="select" :items="items" :error-messages="selectErrors" label="Wybierz typ konta" required @change="$v.select.$touch()" @blur="$v.select.$touch()"></v-select>
+					<v-text-field type="password" dark v-model="password" :error-messages="passwordErrors" label="Hasło" required @input="$v.password.$touch()" @blur="$v.password.$touch()"></v-text-field>
+					<v-text-field type="password" dark v-model="passwordConf" :error-messages="passwordConfErrors" label="Potwierdź Hasło" required @input="$v.passwordConf.$touch()" @blur="$v.passwordConf.$touch()"></v-text-field>
 
 					<v-checkbox dark class="" v-model="regulations" :error-messages="regulationsErrors"  required @change="$v.regulations.$touch()" @blur="$v.regulations.$touch()">
 						<span slot="label">
@@ -33,10 +33,7 @@
 				<h5 class="text-center white--text py-4 m-0 font-weight-lighter">lub</h5>
 
 
-				<v-btn color="#4569b1" class="white--text w-100">
-					<v-icon left>mdi-facebook</v-icon>
-					<span>Zaloguj się przez Facebooka</span>
-				</v-btn>
+				<Facebook />
 
 			</v-card>
 		</v-dialog>
@@ -46,16 +43,17 @@
 <script>
 	import { validationMixin } from 'vuelidate'
 	import { required, maxLength, email } from 'vuelidate/lib/validators'
+	import Facebook from './FacebookLogin';
 
 	export default {
 		props:['dialog'],
 		mixins: [validationMixin],
 
 		validations: {
-			first_name: { required },
-			last_name: { required },
+			name: { required },
 			email: { required, email },
-			select: { required },
+			password: { required },
+			passwordConf: { required },
 			regulations: {
 				checked (val) {
 					return val
@@ -79,15 +77,10 @@
 		},
 
 		data: () => ({
-			first_name: '',
-			last_name: '',
+			name: '',
 			email: '',
-			select: null,
-			items: [
-			'Klient',
-			'Zawodnik',
-			'Trener',
-			],
+			password: '',
+			passwordConf: '',
 			regulations: false,
 			privace: false,
 			rodo: false,
@@ -112,22 +105,24 @@
 					!this.$v.rodo.checked && errors.push('Proszę zaakceptować politykę RODO, aby kontynuować.')
 				return errors
 			},
-			selectErrors () {
+			nameErrors () {
 				const errors = []
-				if (!this.$v.select.$dirty) return errors
-					!this.$v.select.required && errors.push('To pole jest wymagane')
+				if (!this.$v.name.$dirty) return errors
+					!this.$v.name.required && errors.push('To pole jest wymagane')
 				return errors
 			},
-			firstNameErrors () {
+			passwordErrors () {
 				const errors = []
-				if (!this.$v.first_name.$dirty) return errors
-					!this.$v.first_name.required && errors.push('To pole jest wymagane')
+				if (!this.$v.password.$dirty) return errors
+					this.password.length >= 8 || errors.push('Hasło musi mieć co najmniej 8 liter!')
+				!this.$v.password.required && errors.push('To pole jest wymagane')
 				return errors
 			},
-			lastNameErrors () {
+			passwordConfErrors () {
 				const errors = []
-				if (!this.$v.last_name.$dirty) return errors
-					!this.$v.last_name.required  && errors.push('To pole jest wymagane')
+				if (!this.$v.passwordConf.$dirty) return errors
+					this.passwordConf === this.password || errors.push('Hasła muszą być takie same!');
+				!this.$v.passwordConf.required && errors.push('To pole jest wymagane')
 				return errors
 			},
 			emailErrors () {
@@ -148,14 +143,17 @@
 
 		methods: {
 			submit () {
-				this.$v.$touch()
+				if(!this.$v.$anyError) {
+					this.$store.dispatch('register', {email: this.email, name: this.name, password: this.password, photo: '' });
+					this.closeRegister();
+				}
 			},
 			clear () {
 				this.$v.$reset()
-				this.first_name = ''
-				this.last_name = ''
+				this.name = ''
 				this.email = ''
-				this.select = null
+				this.password = ''
+				this.passwordConf = ''
 				this.regulations = false
 				this.privace = false
 				this.rodo = false
@@ -164,6 +162,9 @@
 				this.$emit('closeRegister');
 			}
 		},
+		components:{
+			Facebook
+		}
 	}
 </script>
 

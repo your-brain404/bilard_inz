@@ -20,13 +20,13 @@ class RegisterHelper {
 		
 		$data = $request->all();
 
-		if(self::validator($data)) return ResponseHelper::validateResponse();
+		if(!self::validator($data)) return ResponseHelper::validateResponse();
 
 		if(self::findUser($data)) return ResponseHelper::findUserResponse(); 
 
 		self::createUser($data);
 		
-		self::login($request);
+		self::login($data);
 
 		$registerResource = new RegisterResource(self::$user);
 		$registerResource->token = self::$token;

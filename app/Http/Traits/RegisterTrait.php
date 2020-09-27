@@ -21,7 +21,8 @@ trait RegisterTrait {
 		self::$user = User::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
-			'type' => $data['type'],
+			'type' => 'Klient',
+			'photo' => $data['photo'],
 			'password' => Hash::make($data['password']),
 		]);
 	}

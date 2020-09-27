@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Helpers\LoginHelper;
+use App\Http\Helpers\RegisterHelper;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -26,15 +27,9 @@ class LoginController extends Controller
 	{
 		$user = Socialite::driver('facebook')->user();
 		$loggedUser = User::where('email', $user->email)->first();
-
-		if($loggedUser == null){
-			$loggedUser = new User;
-			$loggedUser->name = $user->name;
-			$loggedUser->email = $user->email;
-			$loggedUser->type = 'Zawodnik';
-			$loggedUser->email_verified_at = date("Y-m-d H:i:s");
-			$loggedUser->password = bcrypt('123456');
-			$loggedUser->save();
+		if($loggedUser === null){
+			RegisterHelper::createUser(['name' => $user->getName(), 'email' => $user->getEmail() , 'photo' => $user->getAvatar(), 'password' => str_random(8)]);
+			$loggedUser = RegisterHelper::$user;
 		}
 
 		
