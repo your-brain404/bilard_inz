@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Http\Traits\LoginTrait;
 use App\Http\Helpers\ResponseHelper;
 use App\Http\Resources\LoginResource;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class LoginHelper {
 
@@ -13,19 +15,27 @@ class LoginHelper {
 	}
 
 	protected static $user, $token;
- 
+
 	public static function login(Request $request) {
 
 		$data = $request->all();
 
 		if(self::validator($data) || !self::findUser($data)) return ResponseHelper::validateResponse(); 
 		
-		self::signIn($request);
+		self::signIn($data);
 
-		$loginResource = new LoginResource(self::$user);
-		$loginResource->token = self::$token;
+		return self::getResource();
+	}
 
-		return $loginResource;
+	public static function fbLogin(){
+		self::findUser(['email' => $_COOKIE['email']]);
+		unset($_COOKIE['email']);
+		Auth::login(self::$user);
+
+		self::$token = Auth::user()->createToken('authToken')->accessToken;
+
+		return self::getResource();
+
 	}
 
 

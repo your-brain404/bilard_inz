@@ -5,7 +5,7 @@
 		</v-btn>
 		<v-dialog v-model="dialog" persistent>
 			<v-card class="login-card position-relative login-bg" raised style="background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(../storage/img/auth/stol.jpg)">
-				<div @click="dialog = close" class="position-absolute close-button">
+				<div @click="dialog = false" class="position-absolute close-button">
 					<v-icon color="white">mdi-close</v-icon>
 				</div>
 				<form class="position-relative login-form">
@@ -18,8 +18,7 @@
 				</v-btn>
 				<h5 class="text-center white--text py-2 m-0 font-weight-lighter">lub</h5>
 
-
-				<v-btn color="#4569b1" class="white--text w-100">
+				<v-btn @click="fbLogin" color="#4569b1" class="white--text w-100">
 					<v-icon left>mdi-facebook</v-icon>
 					<span>Zaloguj się przez Facebooka</span>
 				</v-btn>
@@ -52,7 +51,8 @@
 		data: () => ({
 			email: '',
 			password: '',
-			dialog: false
+			dialog: false,
+			fbLink: window.location.origin+ '/api/facebook/login'
 		}),
 
 		computed: {
@@ -85,6 +85,10 @@
 			openRegister(){
 				this.dialog = false;
 				this.$emit('openRegister');
+			},
+			fbLogin(){
+				sessionStorage.setItem('fbLogin', true);
+				window.location.replace(this.fbLink);
 			}
 		},
 	}

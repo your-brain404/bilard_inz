@@ -16,6 +16,7 @@
 	import AdminHeader from './layouts/AdminHeader'
 	import AdminFooter from './layouts/AdminFooter'
 	import AdminSnackbar from './snackbar/AdminSnackbar';
+	import axios from 'axios'
 
 	export default {
 		components: {
@@ -27,6 +28,17 @@
 			},
 			
 		},
+		methods:{
+			fbLogin(){
+				if(sessionStorage.getItem('fbLogin')){
+					this.$store.dispatch('fbLogin');
+				}
+			}
+		},
+		created(){
+			this.fbLogin();
+			console.log(this.$store.getters.user);
+		}
 
 	}
 </script>

@@ -13,7 +13,7 @@ class ResponseHelper {
 				'code' => 400,
 				'status' => false
 			]
-		]), 400);
+		]), 200);
 	}
 
 	public static function findUserResponse(){
@@ -23,6 +23,6 @@ class ResponseHelper {
 				'code' => 400,
 				'status' => false
 			]
-		]), 400);
+		]), 200);
 	}
 } 

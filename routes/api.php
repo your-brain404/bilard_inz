@@ -46,3 +46,9 @@ Route::delete('/media/delete/{id}', 'MediaController@destroy');
 
 Route::post('/auth/register', 'Auth\api\RegisterController@register');
 Route::post('/auth/login', 'Auth\api\LoginController@login');
+
+Route::group(['middleware' => ['web']], function () {
+	Route::get('/facebook/login', 'Auth\api\LoginController@redirectToProvider');
+	Route::get('/facebook/login/callback', 'Auth\api\LoginController@handleProviderCallback');
+});
+Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken');

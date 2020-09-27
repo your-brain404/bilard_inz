@@ -24,7 +24,7 @@
 
 		<v-spacer></v-spacer>
 		<div class="d-flex align-items-center">
-			<v-btn outlined @click="$router.push('/admin-panel')" >
+			<v-btn v-if="$store.getters.token" outlined @click="$router.push('/admin-panel')" >
 				<span>Admin Panel</span>
 				<v-icon>mdi-account</v-icon>
 			</v-btn>
@@ -32,9 +32,11 @@
 			<v-btn icon>
 				<v-icon>mdi-magnify</v-icon>
 			</v-btn>
-
-			<Login  @openRegister="register = true"  />
-			<Register :dialog="register" @closeRegister="register = false"/>
+			<div v-if="$store.getters.token">
+				<Login  @openRegister="register = true"  />
+				<Register :dialog="register" @closeRegister="register = false"/>
+			</div>
+			<div v-else></div>
 		</div>
 
 		<template v-slot:extension>
