@@ -32,11 +32,29 @@
 			<v-btn icon>
 				<v-icon>mdi-magnify</v-icon>
 			</v-btn>
-			<div v-if="$store.getters.token">
+			<div v-if="!$store.getters.token">
 				<Login  @openRegister="register = true"  />
 				<Register :dialog="register" @closeRegister="register = false"/>
 			</div>
-			<div v-else></div>
+			<v-menu offset-y v-else>
+				<template v-slot:activator="{ on, attrs }">
+					<v-btn icon dark v-bind="attrs" v-on="on">
+						<v-icon>mdi-account</v-icon>
+					</v-btn>
+				</template>
+				<v-card class="d-flex justify-content-center">
+					<v-col>
+						<div class="w-100 d-flex justify-content-center mb-3">
+							<v-avatar >
+								<img src="https://randomuser.me/api/portraits/men/81.jpg" alt="">
+							</v-avatar>
+						</div>
+						<h4>{{ user.name }}</h4>
+						<v-divider></v-divider>
+						<v-btn @click="logout" text width="100%">Wyloguj</v-btn>
+					</v-col>
+				</v-card>
+			</v-menu>
 		</div>
 
 		<template v-slot:extension>
@@ -75,11 +93,20 @@
 		methods:{
 			redirect(path){
 				return this.$route.path != path ? this.$router.push(path) : true;
+			},
+			logout(){
+				this.$store.dispatch('logout');
 			}
 		},
 		components:{
 			Register, Login
+		},
+		computed:{
+			user(){
+				return this.$store.getters.user;
+			}
 		}
+
 
 	}
 </script>

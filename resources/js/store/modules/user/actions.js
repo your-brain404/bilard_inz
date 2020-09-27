@@ -7,5 +7,11 @@ export default {
 			commit('setToken', res.data.token);
 			commit('setUser', res.data.data);
 		}).catch(err => console.log(err));
+	},
+	logout({commit}){
+		sessionStorage.removeItem('token');
+		sessionStorage.removeItem('fbLogin');
+		commit('setUser', {});
+		commit('setToken', '');
 	}
 }

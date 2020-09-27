@@ -37,7 +37,7 @@
 		},
 		created(){
 			this.fbLogin();
-			console.log(this.$store.getters.user);
+			console.log(this.$store);
 		}
 
 	}
