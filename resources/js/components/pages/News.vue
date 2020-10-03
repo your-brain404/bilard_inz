@@ -40,15 +40,20 @@
 					</div>
 					<div v-if="showComments[i].show">
 						<v-divider></v-divider>
-						<div class="d-flex justify-content-between">
+						<div v-for="(com, i) in comments" :key="com.id" class="d-flex justify-content-between">
 							<div class="d-flex flex-column align-items-center">
-								<v-avatar size="50">
-									<img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="">
-								</v-avatar>
-								<h4 class="m-0">Jarek</h4>
-								<i>13.09.2020 13:59:23</i>
+								<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id).photo)})`"></div>
+								<h4 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h4>
+								<i>{{ com.created }}</i>
 							</div>
-							<p class="m-0 d-flex align-items-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, obcaecati nesciunt.</p>
+							<p class="m-0 d-flex align-items-center">{{ com.text }}</p>
+						</div>
+						<div class="d-flex mt-4 flex-nowrap align-items-center" >
+							<v-text-field class="comment-input mr-2" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-text-field>
+							<v-btn rounded @click="sendComment(info.id)" color="primary">
+								<v-icon left>mdi-billiards</v-icon>
+								<span>Wyślij</span>
+							</v-btn>
 						</div>
 					</div>
 				</v-col>
@@ -61,6 +66,8 @@
 <script>
 	import axios from 'axios'
 	import url from '../../helpers/photo/url.js'
+	import {user} from '../../helpers/users/users.js'
+	import getDate from '../../helpers/date/date.js'
 	import {db} from '../../firebase/firebase.js'
 
 	export default{
@@ -68,21 +75,31 @@
 		data(){
 			return{
 				news: [],
-				showComments: []
+				showComments: [],
+				newComment: '',
+				user: {}
 			}
 		},
 		created(){
 			this.getNews();
+			this.getComments();
 		},
 		methods:{
 			getNews(){
 				axios.get('/api/news/get_all').then(res => {
 					this.news = res.data;
 					for(let info of this.news) this.showComments.push({id: info.id, show: false});
-					this.$emit('blockDataEmit', this.news);
+						this.$emit('blockDataEmit', this.news);
 				}).catch(err => {
 					console.log(err);
 				})
+			},
+			getComments() {
+				if(this.$route.path == '') this.$store.dispatch('fetchCommentsWhere', this.news[0].id);
+				else this.$store.dispatch('fetchAllComments');
+			},
+			getUrl(src) {
+				return url(src);
 			},
 			showCom(id){
 				for(let i=0 ; i< this.showComments.length ; i++){
@@ -90,6 +107,21 @@
 						this.showComments[i].show = !this.showComments[i].show;
 					}
 				}
+			},
+			sendComment(news_id) {
+				db.collection('comments').add({
+					news_id: news_id,
+					user_id: this.$store.getters.user.id,
+					text: this.newComment,
+					created: getDate()
+				}).then(res => {
+					this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
+					this.getComments();
+				}).catch(err => {
+					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak!');
+					console.log(err);
+				});
+				this.newComment = '';
 			}
 			
 		},
@@ -99,6 +131,11 @@
 					this.getNews();
 				}
 			}
+		},
+		computed: {
+			comments() {
+				return this.$store.getters.comments;
+			},
 		}
 
 	}
@@ -121,5 +158,13 @@
 	}
 	.comments, .thumb-up, .thumb-down{
 		cursor: pointer;
+	}
+	.comment-input {
+		height: 40px;
+	}
+	.comment-photo {
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
 	}
 </style>

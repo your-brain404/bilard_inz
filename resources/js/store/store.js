@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Snackbar from './modules/snackbar/index.js';
-import NewsLikes from './modules/news-likes/index.js';
-import NewsDislikes from './modules/news-dislikes/index.js';
-import User from './modules/user/index.js';
+import Auth from './modules/auth/index.js';
+import Users from './modules/users/index.js';
+import Comments from './modules/comments/index.js';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules:{
-  	Snackbar, NewsLikes, NewsDislikes, User
+  	Snackbar, Auth, Comments, Users
   }
 });
 
