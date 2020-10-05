@@ -28,7 +28,7 @@
 						</router-link>
 						<div class="comments">
 							<v-icon @click="showCom(info.id)" color="primary">mdi-comment-text-outline</v-icon>
-							<i class="mr-2 text--secondary">3</i>
+							<i class="mr-2 text--secondary">{{ getCommentsLength(info.id) }}</i>
 						</div>
 
 					</div>
@@ -40,13 +40,17 @@
 					</div>
 					<div v-if="showComments[i].show">
 						<v-divider></v-divider>
-						<div v-for="(com, i) in comments" :key="com.id" class="d-flex justify-content-between">
+						<div class="show-more-comments">
+							<i  v-if="paginateComments < comments.length" @click="paginateComments += 3">Pokaż więcej komentarzy ({{ comments.length - paginateComments }})</i>
+						</div>
+						<div v-if="(j > (comments.length - 1) - paginateComments) && com.news_id === info.id" v-for="(com, j) in comments" :key="com.id" class="d-flex justify-content-between mb-3">
+							<p v-if="$store.getters.user.id != com.user_id" class="m-0 d-flex align-items-center">{{ com.text }}</p>
 							<div class="d-flex flex-column align-items-center">
 								<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id).photo)})`"></div>
-								<h4 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h4>
-								<i>{{ com.created }}</i>
+								<h5 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h5>
+								<i>{{ getLocaleDate(com.created) }}</i>
 							</div>
-							<p class="m-0 d-flex align-items-center">{{ com.text }}</p>
+							<p v-if="$store.getters.user.id == com.user_id" class="m-0 d-flex align-items-center">{{ com.text }}</p>
 						</div>
 						<div class="d-flex mt-4 flex-nowrap align-items-center" >
 							<v-text-field class="comment-input mr-2" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-text-field>
@@ -77,12 +81,12 @@
 				news: [],
 				showComments: [],
 				newComment: '',
-				user: {}
+				user: {},
+				paginateComments: 3
 			}
 		},
 		created(){
 			this.getNews();
-			this.getComments();
 		},
 		methods:{
 			getNews(){
@@ -90,18 +94,27 @@
 					this.news = res.data;
 					for(let info of this.news) this.showComments.push({id: info.id, show: false});
 						this.$emit('blockDataEmit', this.news);
+					this.getComments();
 				}).catch(err => {
 					console.log(err);
 				})
 			},
 			getComments() {
-				if(this.$route.path == '') this.$store.dispatch('fetchCommentsWhere', this.news[0].id);
+				if(this.$route.path == '/') this.$store.dispatch('fetchCommentsWhere', this.news[0].id);
 				else this.$store.dispatch('fetchAllComments');
 			},
 			getUrl(src) {
 				return url(src);
 			},
+			getLocaleDate(seconds) {
+				return getDate(seconds);
+			},
 			showCom(id){
+				this.paginateComments = 3;
+				if(this.$store.getters.token === '') {
+					this.$store.commit('setSnackbar', 'Musisz się zalogować!');
+					return;
+				}
 				for(let i=0 ; i< this.showComments.length ; i++){
 					if(this.showComments[i].id === id){
 						this.showComments[i].show = !this.showComments[i].show;
@@ -113,7 +126,7 @@
 					news_id: news_id,
 					user_id: this.$store.getters.user.id,
 					text: this.newComment,
-					created: getDate()
+					created: Date.now()
 				}).then(res => {
 					this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
 					this.getComments();
@@ -122,7 +135,15 @@
 					console.log(err);
 				});
 				this.newComment = '';
-			}
+			},
+			getCommentsLength(news_id) {
+				let length = 0;
+				for(let com of this.comments) {
+					if(com.news_id === news_id) length++;
+				}
+				return length;
+			},
+			
 			
 		},
 		watch:{
@@ -130,7 +151,7 @@
 				if(this.deleteFlag){
 					this.getNews();
 				}
-			}
+			},
 		},
 		computed: {
 			comments() {
@@ -163,8 +184,12 @@
 		height: 40px;
 	}
 	.comment-photo {
-		width: 80px;
-		height: 80px;
+		width: 60px;
+		height: 60px;
 		border-radius: 50%;
+	}
+	.show-more-comments {
+		cursor: pointer;
+		margin-bottom: 1rem;
 	}
 </style>

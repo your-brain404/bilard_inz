@@ -1,3 +1,3 @@
-export default function getDate() {
-    return new Date().toLocaleString();
+export default function getDate(seconds) {
+    return new Date(seconds).toLocaleString();
 }

@@ -3,7 +3,7 @@ import {db} from '../../../firebase/firebase.js'
 export default {
 	fetchAllComments({commit}) {
 		db.collection("comments")
-		.orderBy('created','desc')
+		.orderBy('created','asc')
 		.get()
 		.then(querySnapshot =>{
 			let comments = [];
@@ -18,7 +18,6 @@ export default {
 	fetchCommentsWhere({commit}, news_id) {
 		db.collection("comments")
 		.where("news_id", "==", news_id)
-		.orderBy('created','desc')
 		.get()
 		.then(querySnapshot => {
 			let comments = [];
@@ -27,6 +26,7 @@ export default {
 				comment.id = doc.id;
 				comments.push(comment);
 			});
+			comments.sort((a,b) => (a.created > b.created) ? 1 : ((b.created > a.created) ? -1 : 0)); 
 			commit('comments', comments);
 		})
 		
