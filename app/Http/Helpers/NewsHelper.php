@@ -45,6 +45,10 @@ class NewsHelper {
 		return News::find($id);
 	}
 
+	public static function getWhere(Request $request) {
+		return News::where($request->all())->get();
+	}
+
 	public static function destroy($id): News{
 		$news = News::find($id);
 		$news->delete();

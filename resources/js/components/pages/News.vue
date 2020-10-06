@@ -21,8 +21,8 @@
 					<v-divider></v-divider>
 					<div class="mb-2 d-flex">
 						<v-icon color="primary" class="mr-1">mdi-calendar-month-outline</v-icon>
-						<i class="text--secondary mr-2">{{ info.created }}</i>
-						<router-link class="text--secondary mr-2" to="/">
+						<i class="text--secondary mr-2">{{ new Date(info.created_at).toLocaleString() }}</i>
+						<router-link class="text--secondary mr-2" :to="`/aktualnosci/kategoria/${info.category}`">
 							<v-icon color="primary">mdi-bookmark-outline</v-icon>
 							<i class="category">{{ info.category }}</i>
 						</router-link>
@@ -90,7 +90,9 @@
 		},
 		methods:{
 			getNews(){
-				axios.get('/api/news/get_all').then(res => {
+				let endpoint = 'get_all';
+				if(this.$route.params.category) endpoint = `get_where/category=${this.$route.params.category}`;
+				axios.get(`/api/news/${endpoint}`).then(res => {
 					this.news = res.data;
 					for(let info of this.news) this.showComments.push({id: info.id, show: false});
 						this.$emit('blockDataEmit', this.news);

@@ -11,6 +11,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', component: Main, name: 'Main' },
+  { path: '/aktualnosci/kategoria/:category', component: News, name: 'NewsCategory' },
   { path: '/admin-panel', component: Home, name: 'Home'},
   { path: '/admin-panel/news', component: Home, name: 'News'},
 

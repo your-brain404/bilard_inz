@@ -18,6 +18,11 @@ class NewsController extends Controller
 		return new NewsResource($news);
 	}
 
+	public function getWhere(Request $request) {
+		$news = NewsHelper::getWhere($request);
+		return new NewsResource($news);
+	}
+
 	
 	public function store(Request $request) {
 		$news = NewsHelper::saveData($request);
