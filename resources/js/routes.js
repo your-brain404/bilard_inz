@@ -6,6 +6,7 @@ import SliderForm from './views/admin/forms/Slider'
 import AboutUsForm from './views/admin/forms/AboutUs'
 import OffersForm from './views/admin/forms/Offers'
 import NewsForm from './views/admin/forms/News'
+import News from './components/pages/News'
 
 Vue.use(VueRouter);
 

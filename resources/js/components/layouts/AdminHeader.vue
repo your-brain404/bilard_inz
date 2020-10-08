@@ -8,7 +8,9 @@
 
 				<v-list-item-content>
 					<v-list-item-title>Panel Administracyjny</v-list-item-title>
-					<v-list-item-subtitle>Bilard Centrum Lubin</v-list-item-subtitle>
+					<router-link to="/">
+						<v-list-item-subtitle>Bilard Centrum Lubin</v-list-item-subtitle>
+					</router-link>
 				</v-list-item-content>
 			</v-list-item>
 

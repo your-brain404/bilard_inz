@@ -7,7 +7,7 @@
 			<v-row>
 
 				<v-col cols="12" md="3">
-					<div class="news-picture" style="background-image: url('../storage/img/news/news1.jpg')"></div>
+					<div class="news-picture" :style="`background-image: url(${getUrl(info.photo)})`"></div>
 				</v-col>
 				<v-col cols="12" md="9">
 					<h2 class="font-weight-bold">{{ info.title }}</h2>
@@ -91,7 +91,7 @@
 		methods:{
 			getNews(){
 				let endpoint = 'get_all';
-				if(this.$route.params.category) endpoint = `get_where/category=${this.$route.params.category}`;
+				if(this.$route.params.category) endpoint = `get_where?category=${this.$route.params.category}`;
 				axios.get(`/api/news/${endpoint}`).then(res => {
 					this.news = res.data;
 					for(let info of this.news) this.showComments.push({id: info.id, show: false});
