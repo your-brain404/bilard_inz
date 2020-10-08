@@ -16,7 +16,7 @@
 								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field  color="primary" v-model="category" label="Kategoria"></v-text-field>
 								<v-text-field  color="primary" v-model="button_name" label="Napis na przycisku"></v-text-field>
-								<TagsInput />
+								<TagsInput @tags="tags = $event" />
 								<v-textarea counter label="Krótki opis" v-model="short_description" ></v-textarea>
 								<v-textarea counter label="Opis" v-model="description" ></v-textarea>
 							</div>
@@ -123,7 +123,6 @@
 					title: this.title,
 					subtitle: this.subtitle,
 					category: this.category,
-					tags: this.tags,
 					button_name: this.button_name,
 					description: this.description,
 					short_description: this.short_description,
@@ -159,6 +158,13 @@
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
 				});
+				for(let tag of this.tags) {
+
+					axios.post("/api/news_tags/add", {
+						text: tag.text,
+						news_id: 
+					})
+				}
 			},
 			edit(formData){
 				
