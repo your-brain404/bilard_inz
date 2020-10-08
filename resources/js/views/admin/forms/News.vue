@@ -124,6 +124,7 @@
 					subtitle: this.subtitle,
 					category: this.category,
 					button_name: this.button_name,
+					tags: this.tags,
 					description: this.description,
 					short_description: this.short_description,
 					photo_alt: this.photo_alt,
@@ -158,13 +159,6 @@
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
 				});
-				for(let tag of this.tags) {
-
-					axios.post("/api/news_tags/add", {
-						text: tag.text,
-						news_id: 
-					})
-				}
 			},
 			edit(formData){
 				

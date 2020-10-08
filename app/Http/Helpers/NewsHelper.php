@@ -3,6 +3,7 @@ namespace App\Http\Helpers;
 
 use App\Http\Helpers\FileHelper;
 use App\News;
+use App\NewsTags;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -23,9 +24,20 @@ class NewsHelper {
 		return $news;
 	}
 
+	private static function saveTags(News $news, String $tags) {
+		foreach ($tags as $tag) {
+			$news_tags = NewsTags::where('news_id', $news->id)->where('text', $tag)->first();
+			if($news_tags == null) $news_tags = new NewsTags();
+			$news_tags->text = $tag;
+
+			$news_tags->save();
+		}
+	}
+
 	public static function saveData(Request $request): News{
 
 		$news = $request->isMethod('put') ? News::find($request->input('id')) : new News;
+		self::saveTags($news, $request->input('tags'));
 		$news = self::prependData($news, $request);
 
 		if ($news->save()) {
