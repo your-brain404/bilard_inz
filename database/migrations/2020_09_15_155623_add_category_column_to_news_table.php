@@ -14,7 +14,7 @@ class AddCategoryColumnToNewsTable extends Migration
     public function up()
     {
         Schema::table('news', function (Blueprint $table) {
-            $table->text('category');
+            $table->text('category')->nullable();
         });
     }
 

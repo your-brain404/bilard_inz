@@ -1,9 +1,9 @@
 <template>
   <v-combobox v-model="model" :hide-no-data="!search" :search-input.sync="search" hide-selected label="Tagi" multiple small-chips append-icon="" >
     <template v-slot:selection="{ attrs, item, parent, selected }">
-      <v-chip v-if="item === Object(item)" v-bind="attrs" :color="`${item.color} lighten-3`" :input-value="selected" label small >
+      <v-chip v-bind="attrs" :color="`primary lighten-3`" :input-value="selected" label small >
         <span class="pr-2">
-          {{ item.text }}
+          {{ item }}
         </span>
         <v-icon small @click="parent.selectItem(item)" >mdi-close</v-icon>
       </v-chip>
@@ -32,13 +32,7 @@
 
           this.model = val.map(v => {
             if (typeof v === 'string') {
-              v = {
-                text: v,
-                color: 'primary',
-              }
-
-              this.items.push(v)
-              this.$emit('tags', this.items);
+              this.$emit('tags', this.model);
 
             }
 

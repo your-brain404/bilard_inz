@@ -24,11 +24,12 @@ class NewsHelper {
 		return $news;
 	}
 
-	private static function saveTags(News $news, String $tags) {
+	private static function saveTags(News $news, array $tags) {
 		foreach ($tags as $tag) {
 			$news_tags = NewsTags::where('news_id', $news->id)->where('text', $tag)->first();
 			if($news_tags == null) $news_tags = new NewsTags();
 			$news_tags->text = $tag;
+			$news_tags->news_id = $news->id;
 
 			$news_tags->save();
 		}
@@ -37,16 +38,26 @@ class NewsHelper {
 	public static function saveData(Request $request): News{
 
 		$news = $request->isMethod('put') ? News::find($request->input('id')) : new News;
-		self::saveTags($news, $request->input('tags'));
 		$news = self::prependData($news, $request);
 
 		if ($news->save()) {
+			self::saveTags($news, $request->input('tags'));
 
 			return $news;
 		}
 	}
 
-	
+	private static function getTags($news) {
+		if($news[0] !== null){
+			foreach($news as $info) {
+				// $info->tags = NewsTags::where('news_id', $info->id);
+			}
+			return $news;
+		}else {
+			// $news->tags = NewsTags::where('news_id', $news->id);
+			return $news;
+		} 
+	}
 
 	public static function getAll(): Collection{
 		return News::all();

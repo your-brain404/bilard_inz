@@ -11,7 +11,7 @@
 				</v-col>
 				<v-col cols="12" md="9">
 					<h2 class="font-weight-bold">{{ info.title }}</h2>
-					<p>{{ info.short_description.substring(0, 200) }}...</p>
+					<p>{{ info.short_description ? info.short_description.substring(0, 200) + '...' : '' }}</p>
 					<v-btn class="mt-5 offer-button"  link large block color="#da5a33" outlined>{{ info.button_name }}</v-btn>
 
 				</v-col>
@@ -94,8 +94,9 @@
 				if(this.$route.params.category) endpoint = `get_where?category=${this.$route.params.category}`;
 				axios.get(`/api/news/${endpoint}`).then(res => {
 					this.news = res.data;
-					for(let info of this.news) this.showComments.push({id: info.id, show: false});
-						this.$emit('blockDataEmit', this.news);
+					for(let info of this.news)
+						this.showComments.push({id: info.id, show: false});
+					this.$emit('blockDataEmit', this.news);
 					this.getComments();
 				}).catch(err => {
 					console.log(err);
