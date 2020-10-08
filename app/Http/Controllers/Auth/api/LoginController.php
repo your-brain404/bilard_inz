@@ -35,7 +35,7 @@ class LoginController extends Controller
 		
 		setcookie('email', $loggedUser->email, time() + (86400 * 30), "/");
 
-		return redirect('/');
+		return redirect()->action('HomeController@index');
 
 
 	}
