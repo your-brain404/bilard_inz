@@ -24,6 +24,11 @@
 				}"
 				class="elevation-1"
 				@page-count="pageCount = $event" >
+				<template v-slot:item.home_page="{ home_page }" >
+					<div class="d-flex justify-content-center">
+						<v-checkbox v-model="home_page"></v-checkbox>
+					</div>
+				</template>
 				<template v-slot:item.actions="{ item }">
 					<div class="d-flex justify-content-end">
 						<router-link class="form-link" :to="`/admin-panel/${block.tablename}/form/${item.id}`">
@@ -57,6 +62,7 @@
 	
 	import axios from 'axios';
 	import panelBlocks from '../../data/admin-panel-blocks.js';
+	import panelTableHeaders from '../../data/admin-panel-table-headers.js';
 
 	export default{
 		data () {
@@ -91,15 +97,37 @@
 				}else if(this.$route.path.split('/')[2] == null){
 					this.blocks = panelBlocks.main;
 				}
+			},
+			findHeaderIndex(object) {
+				return this.headers.findIndex(header => header.value === object.value);
+			},
+			editHeaders(header) {
+				let index = this.findHeaderIndex(header);
+				if(index < 0) this.headers.splice(0, 0, header);
+			},
+			deleteHeader(header) {
+				let index = this.findHeaderIndex(header)
+				if(index > -1) this.headers.splice(index, 1);
+			},
+			headersAction(table, header) {
+				table.includes(this.$route.path.split('/')[2]) ? this.editHeaders(header) : this.deleteHeader(header);
+			},
+			setHeaders() {
+				let tables = panelTableHeaders;
+				let headers = [{text: 'Aktywny', value: 'active', width: '10%'}, {text: 'Pokaż na stronie głównej', value: 'home_page', width: '10%'}];
+				for(let i=0 ; i<tables.length ; i++) this.headersAction(tables[i], headers[i])
+				
 			}
 		},
 		watch:{
 			'$route'(){
 				this.setBlocks();
+				this.setHeaders();
 			}
 		},
 		created(){
 			this.setBlocks();
+			this.setHeaders();
 		}
 	}
 </script>
