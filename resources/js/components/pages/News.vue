@@ -33,10 +33,9 @@
 
 					</div>
 					<v-divider></v-divider>
-					<div>
+					<div v-if="info.tags.length > 0">
 						<v-icon color="primary">mdi-tag-multiple-outline</v-icon>
-						<v-chip color="primary" small><i class="">#amatorzy</i></v-chip>
-						<v-chip color="primary" small><i class="">#turniej</i></v-chip>
+						<v-chip v-for="tag in info.tags" class="mr-1" color="primary" small><i class="">#{{ tag.text }}</i></v-chip>
 					</div>
 					<div v-if="showComments[i].show">
 						<v-divider></v-divider>

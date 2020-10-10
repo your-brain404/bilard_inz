@@ -24,9 +24,14 @@
 				}"
 				class="elevation-1"
 				@page-count="pageCount = $event" >
-				<template v-slot:item.home_page="{ home_page }" >
+				<template v-slot:item.home_page="{ item }" >
 					<div class="d-flex justify-content-center">
-						<v-checkbox v-model="home_page"></v-checkbox>
+						<v-checkbox v-model="item.home_page" @change="setCheckbox(block.tablename, item)"></v-checkbox>
+					</div>
+				</template>
+				<template v-slot:item.active="{ item }" >
+					<div class="d-flex justify-content-center">
+						<v-checkbox v-model="item.active" @change="setCheckbox(block.tablename, item)"></v-checkbox>
 					</div>
 				</template>
 				<template v-slot:item.actions="{ item }">
@@ -97,6 +102,19 @@
 				}else if(this.$route.path.split('/')[2] == null){
 					this.blocks = panelBlocks.main;
 				}
+			},
+			setCheckbox(table, item) {
+				console.log(item)
+				axios.put(`/api/${table}/edit`, item, {
+					headers:{
+						'Content-Type': 'application/json'
+					}
+				}).then(res => {
+					console.log(res)
+					this.$store.commit('setSnackbar', 'Pomyślnie edytowano!');
+				}).catch(err => {
+					this.$store.commit('setSnackbar', 'Coś poszło nie tak...')
+				})
 			},
 			findHeaderIndex(object) {
 				return this.headers.findIndex(header => header.value === object.value);
