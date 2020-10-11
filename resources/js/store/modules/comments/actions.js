@@ -15,11 +15,10 @@ export default {
 			commit('comments', comments);
 		});
 	},
-	fetchCommentsWhere({commit}, news_id) {
-		db.collection("comments")
-		.where("news_id", "==", news_id)
-		.get()
-		.then(querySnapshot => {
+	fetchCommentsWhere({commit}, news_ids) {
+		let query = db.collection("comments")
+		query = query.where("news_id", "in", news_ids)
+		query.get().then(querySnapshot => {
 			let comments = [];
 			querySnapshot.forEach(doc =>{
 				let comment = doc.data();

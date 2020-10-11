@@ -40,7 +40,7 @@
 					<div v-if="showComments[i].show">
 						<v-divider></v-divider>
 						<div class="show-more-comments">
-							<i  v-if="paginateComments < comments.length" @click="paginateComments += 3">Pokaż więcej komentarzy ({{ comments.length - paginateComments }})</i>
+							<i  v-if="paginateComments < getCommentsLength(info.id)" @click="paginateComments += 3">Pokaż więcej komentarzy ({{ getCommentsLength(info.id) - paginateComments }})</i>
 						</div>
 						<div v-if="(j > (comments.length - 1) - paginateComments) && com.news_id === info.id" v-for="(com, j) in comments" :key="com.id" class="d-flex justify-content-between mb-3">
 							<p v-if="$store.getters.user.id != com.user_id" class="m-0 d-flex align-items-center">{{ com.text }}</p>
@@ -88,9 +88,25 @@
 			this.getNews();
 		},
 		methods:{
+			getCommentsLength(news_id) {
+				let length = 0;
+				for(let com of this.comments)
+					if(com.id === news_id) length++;
+				return length;
+			},
+			getComments() {
+				if(this.$route.path == '/') {
+					let news_ids = [];
+					for(let info of this.news) news_ids.push(info.id);
+					this.$store.dispatch('fetchCommentsWhere', news_ids);
+				}
+				else this.$store.dispatch('fetchAllComments');
+			},
 			getNews(){
 				let endpoint = 'get_all';
 				if(this.$route.params.category) endpoint = `get_where?category=${this.$route.params.category}`;
+				if(this.$route.path == '/') endpoint = `get_where?home_page=1&active=1`;
+
 				axios.get(`/api/news/${endpoint}`).then(res => {
 					this.news = res.data;
 					for(let info of this.news)
@@ -100,10 +116,6 @@
 				}).catch(err => {
 					console.log(err);
 				})
-			},
-			getComments() {
-				if(this.$route.path == '/') this.$store.dispatch('fetchCommentsWhere', this.news[0].id);
-				else this.$store.dispatch('fetchAllComments');
 			},
 			getUrl(src) {
 				return url(src);
