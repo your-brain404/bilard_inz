@@ -3,7 +3,7 @@
     <template v-slot:selection="{ attrs, item, parent, selected }">
       <v-chip v-bind="attrs" :color="`primary lighten-3`" :input-value="selected" label small >
         <span class="pr-2">
-          {{ item }}
+          {{ item.text }}
         </span>
         <v-icon small @click="parent.selectItem(item)" >mdi-close</v-icon>
       </v-chip>
@@ -32,12 +32,15 @@
 
           this.model = val.map(v => {
             if (typeof v === 'string') {
-              this.$emit('tags', this.model);
+              v = {
+                text: v
+              }
 
             }
 
             return v
           })
+        this.$emit('tags', this.model);
       },
     },
   }

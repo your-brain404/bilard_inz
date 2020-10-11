@@ -7,12 +7,15 @@ use App\Slider;
 use App\NewsTags;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
+use App\Http\Resources\NewsResource;
 
 class NewsHelper {
 
 	private static function prependData(News $news, Request $request): News {
 
 		$news->title = $request->input('title');
+		$news->active = $request->input('active');
+		$news->home_page = $request->input('home_page');
 		$news->photo_alt = $request->input('photo_alt');
 		$news->banner_photo_alt = $request->input('banner_photo_alt');
 		$news->photo = $request->input('photo');
@@ -27,9 +30,9 @@ class NewsHelper {
 
 	private static function saveTags(News $news, array $tags) {
 		foreach ($tags as $tag) {
-			$news_tags = NewsTags::where('news_id', $news->id)->where('text', $tag)->first();
+			$news_tags = NewsTags::where('news_id', $news->id)->where('text', $tag['text'])->first();
 			if($news_tags == null) $news_tags = new NewsTags();
-			$news_tags->text = $tag;
+			$news_tags->text = $tag['text'];
 			$news_tags->news_id = $news->id;
 
 			$news_tags->save();
@@ -43,7 +46,6 @@ class NewsHelper {
 
 		if ($news->save()) {
 			self::saveTags($news, $request->input('tags'));
-			$news = Slider::find(24);
 			return $news;
 		}
 	}

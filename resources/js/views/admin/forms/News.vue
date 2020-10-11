@@ -148,6 +148,7 @@
 				this.activeBannerPhoto = this.getImageDefaultPlaceholder();
 			},
 			add(formData){
+				console.log(formData)
 				axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{
 					headers:{
 						'Content-Type': 'application/json'
