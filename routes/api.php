@@ -22,6 +22,12 @@ Route::get('/about_us/get_all/', 'AboutUsController@getAll');
 Route::get('/about_us/get_one/{id}', 'AboutUsController@getOne');
 Route::put('/about_us/edit', 'AboutUsController@store');
 
+Route::get('/subpages/get_all/', 'SubpagesController@getAll');
+Route::get('/subpages/get_one/{id}', 'SubpagesController@getOne');
+Route::put('/subpages/edit', 'SubpagesController@store');
+Route::post('/subpages/add/', 'SubpagesController@store');
+Route::delete('/subpages/delete/{id}', 'SubpagesController@destroy');
+
 Route::get('/slider/get_all', 'SliderController@getAll');
 Route::get('/slider/get_one/{id}', 'SliderController@getOne');
 Route::post('/slider/add/', 'SliderController@store');

@@ -35,7 +35,9 @@
 					<v-divider></v-divider>
 					<div v-if="info.tags.length > 0">
 						<v-icon color="primary">mdi-tag-multiple-outline</v-icon>
-						<v-chip v-for="tag in info.tags" class="mr-1" color="primary" small><i class="">#{{ tag.text }}</i></v-chip>
+						<router-link class="-link" v-for="tag in info.tags" :to="`/aktualnosci/tag/${tag.text}`">
+							<v-chip class="mr-1 tag-chip " color="primary" small><i class="">#{{ tag.text }}</i></v-chip>
+						</router-link>
 					</div>
 					<div v-if="showComments[i].show">
 						<v-divider></v-divider>
@@ -98,14 +100,15 @@
 				if(this.$route.path == '/') {
 					let news_ids = [];
 					for(let info of this.news) news_ids.push(info.id);
-					this.$store.dispatch('fetchCommentsWhere', news_ids);
+						this.$store.dispatch('fetchCommentsWhere', news_ids);
 				}
 				else this.$store.dispatch('fetchAllComments');
 			},
 			getNews(){
 				let endpoint = 'get_all';
 				if(this.$route.params.category) endpoint = `get_where?category=${this.$route.params.category}`;
-				if(this.$route.path == '/') endpoint = `get_where?home_page=1&active=1`;
+				else if(this.$route.path == '/') endpoint = `get_where?home_page=1&active=1`;
+				else if(this.$route.params.tag) endpoint = `get_where?tag=${this.$route.params.tag}`; 
 
 				axios.get(`/api/news/${endpoint}`).then(res => {
 					this.news = res.data;
@@ -157,8 +160,8 @@
 				}
 				return length;
 			},
-			
-			
+
+
 		},
 		watch:{
 			deleteFlag(){
@@ -166,6 +169,9 @@
 					this.getNews();
 				}
 			},
+			'$route'() {
+				this.getNews();
+			}
 		},
 		computed: {
 			comments() {
@@ -191,8 +197,8 @@
 		width: 100%;
 		height: 100%;
 	}
-	.comments, .thumb-up, .thumb-down{
-		cursor: pointer;
+	.comments, .thumb-up, .thumb-down, .tag-chip{
+		cursor: pointer!important;
 	}
 	.comment-input {
 		height: 40px;

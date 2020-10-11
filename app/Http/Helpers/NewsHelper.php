@@ -59,7 +59,17 @@ class NewsHelper {
 	}
 
 	public static function getWhere(Request $request) {
-		return News::where($request->all())->get();
+		if($request->input('tag')) {
+			$news_tags = NewsTags::where('text', $request->input('tag'))->get();
+			$news = [];
+			foreach($news_tags as $tag) {
+				array_push($news, $tag->news);
+			}
+			return $news;
+		}else {
+
+			return News::where($request->all())->get();
+		}
 	}
 
 	public static function destroy($id): News{

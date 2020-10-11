@@ -10,7 +10,7 @@
 						<h2 class="table-title first-color ma-0">Akcje</h2>
 						<v-spacer></v-spacer>
 						<v-text-field class="ma-0 pt-0" v-model="search" append-icon="mdi-magnify" label="Szukaj..." single-line hide-details ></v-text-field>
-						<router-link v-if="block.multiple" class="form-link" :to="`/admin-panel/${block.tablename}/form`">
+						<router-link v-if="block.removable" class="form-link" :to="`/admin-panel/${block.tablename}/form`">
 							<v-btn class="first-bgc white--text ml-5">
 								<v-icon left class="">mdi-plus</v-icon>
 								<span>Dodaj</span>
@@ -42,7 +42,7 @@
 								<span>Edytuj</span>
 							</v-btn>
 						</router-link>
-						<v-btn v-if="block.multiple" @click="deleteItem(block, item)" small color="error" class="white--text">
+						<v-btn v-if="block.removable" @click="deleteItem(block, item)" small color="error" class="white--text">
 							<v-icon left class="">mdi-close</v-icon>
 							<span>Usuń</span>
 						</v-btn>
@@ -99,7 +99,11 @@
 			setBlocks(){
 				if(this.$route.path.split('/')[2] == 'news'){
 					this.blocks = panelBlocks.news;
-				}else if(this.$route.path.split('/')[2] == null){
+				}
+				else if(this.$route.path.split('/')[2] == 'subpages'){
+					this.blocks = panelBlocks.subpages;
+				}
+				else if(this.$route.path.split('/')[2] == null){
 					this.blocks = panelBlocks.main;
 				}
 			},
