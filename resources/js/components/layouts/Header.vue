@@ -94,7 +94,7 @@
 			},
 			banner() {
 				for(let page of this.subpages) {
-					if(page.page === this.$route.path) {
+					if(page.page.includes(this.$route.path.split('/')[1])) {
 						return this.getUrl(page.photo);
 					}
 				}

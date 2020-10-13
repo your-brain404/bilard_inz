@@ -26,7 +26,7 @@ class NewsController extends Controller
 	}
 
 	public function getPagination() {
-		return new NewsCollection(News::orderBy('id', 'desc')->paginate());
+		return new NewsCollection(News::orderBy('created_at', 'desc')->paginate());
 	}
 
 	

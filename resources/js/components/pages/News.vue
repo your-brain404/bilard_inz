@@ -3,7 +3,7 @@
 		<v-row class="justify-content-center mb-5">
 			<h2 class="about-title font-weight-bold text-center first-color">Aktualności</h2>
 		</v-row>
-		<Pagination v-if="$route.path != '/'" :length="pagination.last_page" @page="setPath" />
+		<Pagination v-if="$route.name != 'Main'" :length="pagination.last_page" @page="setPath" />
 		<v-container v-for="(info, i) in news" :key="i">
 			<v-row>
 
@@ -74,7 +74,8 @@
 				<v-btn v-if="$route.path == '/'" class="mt-5" color="primary" link large block >Zobacz aktualności</v-btn>
 			</v-col>
 		</router-link>
-		<Pagination v-if="$route.path != '/'" :length="pagination.last_page" @page="setPath"/>
+
+		<Pagination v-if="$route.name != 'Main'" :length="pagination.last_page" @page="setPath"/>
 	</v-container>
 </template>
 
@@ -127,7 +128,7 @@
 				else if(this.$route.params.tag) endpoint = `get_where?tag=${this.$route.params.tag}`; 
 
 				axios.get(`/api/news/${endpoint}`).then(res => {
-					if(endpoint == `get_pagination?page=${page}`) res = res.data;
+					res = res.data;
 					this.pagination = res.meta;
 					this.news = res.data;
 					this.showComments = [];

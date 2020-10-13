@@ -8,6 +8,7 @@ use App\NewsTags;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Resources\NewsResource;
+use Illuminate\Support\Facades\DB;
 
 class NewsHelper {
 
@@ -60,15 +61,20 @@ class NewsHelper {
 
 	public static function getWhere(Request $request) {
 		if($request->input('tag')) {
-			$news_tags = NewsTags::where('text', $request->input('tag'))->get();
-			$news = [];
-			foreach($news_tags as $tag) {
-				array_push($news, $tag->news);
-			}
+			// $news_tags = NewsTags::where('text', $request->input('tag'))->orderBy('created_at', 'desc')->paginate();
+			// $news = [];
+			// foreach($news_tags as $tag) {
+			// 	array_push($news, News::where('id',$tag->id));
+			// }
+
+			$news = DB::select('SELECT news.* FROM news, news_tags WHERE news_tags.text=\'asd1\' AND news.id=news_tags.news_id GROUP BY news_tags.id');
+			// $news = DB::table('news')->join('news_tags', 'news.id', '=', 'news_tags.news_id')->select('news.*')->where('news_tags.text', 'asd1')->where('news.id','=', 'news_tags.news_id')->groupBy('news_tags.id')->get();
+
+			var_dump($news);die;
 			return $news;
 		}else {
 
-			return News::where($request->all())->get();
+			return News::where($request->all())->orderBy('created_at', 'desc')->paginate();
 		}
 	}
 

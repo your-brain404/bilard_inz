@@ -2,9 +2,11 @@
 	<v-footer class="first-bgc" padless >
 		<v-row justify="center" class="flex-column"  no-gutters >
 			<div class="justify-center mx-auto">
-				<v-btn v-for="link in links" :key="link"  color="white" text rounded class="my-2" >
-					{{ link }}
-				</v-btn>
+				<router-link :to="page.page" v-for="page in subpages" :key="page.id">
+					<v-btn color="white" text rounded class="my-2" >
+						{{ page.title }}
+					</v-btn>
+				</router-link>
 			</div>
 			<v-divider class="mt-0"></v-divider>
 			<v-card flat tile class="first-bgc white--text text-center" >
@@ -22,11 +24,10 @@
 
 <script>
 	export default {
-		data: () => ({
-			links: [
-			'Home',
-			'Aktualności'
-			],
-		}),
+		computed: {
+			subpages() {
+				return this.$store.getters.subpages;
+			}
+		}
 	}
 </script>
