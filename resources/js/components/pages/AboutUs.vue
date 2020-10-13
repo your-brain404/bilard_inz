@@ -1,6 +1,6 @@
 <template>
-	<v-container>
-		<div v-for="row in about" :key="row.id">
+	<v-container >
+		<v-container v-for="row in about" :key="row.id">
 			<v-row class="justify-content-center">
 				<h2 class="about-title font-weight-bold text-center first-color">{{ row.title }}</h2>
 			</v-row>
@@ -13,7 +13,7 @@
 					<p class="about-content-text">{{ row.description }}</p>
 				</v-col>
 			</v-row>
-		</div>
+		</v-container>
 		<Lightbox :props="{gallery: [about[0].photo], activePhotoId: 0, lightbox: lightbox}" @closeLightbox="lightbox = false" />
 	</v-container>
 </template>

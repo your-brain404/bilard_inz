@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\NewsHelper;
 use App\Http\Resources\NewsCollection;
 use App\Http\Resources\NewsResource;
+use App\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -22,6 +23,10 @@ class NewsController extends Controller
 	public function getWhere(Request $request) {
 		$news = NewsHelper::getWhere($request);
 		return new NewsCollection($news);
+	}
+
+	public function getPagination() {
+		return new NewsCollection(News::orderBy('id', 'desc')->paginate());
 	}
 
 	

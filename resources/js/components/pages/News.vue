@@ -3,6 +3,7 @@
 		<v-row class="justify-content-center mb-5">
 			<h2 class="about-title font-weight-bold text-center first-color">Aktualności</h2>
 		</v-row>
+		<Pagination v-if="$route.path != '/'" :length="pagination.last_page" @page="setPath" />
 		<v-container v-for="(info, i) in news" :key="i">
 			<v-row>
 
@@ -33,18 +34,21 @@
 
 					</div>
 					<v-divider></v-divider>
+
 					<div v-if="info.tags.length > 0">
 						<v-icon color="primary">mdi-tag-multiple-outline</v-icon>
 						<router-link class="-link" v-for="tag in info.tags" :to="`/aktualnosci/tag/${tag.text}`">
 							<v-chip class="mr-1 tag-chip " color="primary" small><i class="">#{{ tag.text }}</i></v-chip>
 						</router-link>
 					</div>
+
 					<div v-if="showComments[i].show">
 						<v-divider></v-divider>
 						<div class="show-more-comments">
 							<i  v-if="paginateComments < getCommentsLength(info.id)" @click="paginateComments += 3">Pokaż więcej komentarzy ({{ getCommentsLength(info.id) - paginateComments }})</i>
 						</div>
-						<div v-if="(j > (comments.length - 1) - paginateComments) && com.news_id === info.id" v-for="(com, j) in comments" :key="com.id" class="d-flex justify-content-between mb-3">
+
+						<div v-for="(com, j) in comments" v-if="(j > (comments.length - 1) - paginateComments) && com.news_id === info.id" :key="com.id" class="d-flex justify-content-between mb-3">
 							<p v-if="$store.getters.user.id != com.user_id" class="m-0 d-flex align-items-center">{{ com.text }}</p>
 							<div class="d-flex flex-column align-items-center">
 								<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id).photo)})`"></div>
@@ -61,10 +65,16 @@
 							</v-btn>
 						</div>
 					</div>
+
 				</v-col>
 			</v-row>
 		</v-container>
-		<!-- <v-divider></v-divider> -->
+		<router-link to="/aktualnosci">
+			<v-col>
+				<v-btn v-if="$route.path == '/'" class="mt-5" color="primary" link large block >Zobacz aktualności</v-btn>
+			</v-col>
+		</router-link>
+		<Pagination v-if="$route.path != '/'" :length="pagination.last_page" @page="setPath"/>
 	</v-container>
 </template>
 
@@ -74,6 +84,7 @@
 	import {user} from '../../helpers/users/users.js'
 	import getDate from '../../helpers/date/date.js'
 	import {db} from '../../firebase/firebase.js'
+	import Pagination from '../pagination/Pagination'
 
 	export default{
 		props:['deleteFlag'],
@@ -83,13 +94,17 @@
 				showComments: [],
 				newComment: '',
 				user: {},
-				paginateComments: 3
+				paginateComments: 3,
+				pagination: {},
 			}
 		},
 		created(){
 			this.getNews();
 		},
 		methods:{
+			setPath(event) {
+				if(this.$route.params.page != event) this.$router.push({name: 'NewsListingPage', params: {page: event}});
+			},
 			getCommentsLength(news_id) {
 				let length = 0;
 				for(let com of this.comments)
@@ -105,13 +120,17 @@
 				else this.$store.dispatch('fetchAllComments');
 			},
 			getNews(){
-				let endpoint = 'get_all';
+				let page = this.$route.params.page || 1; 
+				let endpoint = `get_pagination?page=${page}`;
 				if(this.$route.params.category) endpoint = `get_where?category=${this.$route.params.category}`;
 				else if(this.$route.path == '/') endpoint = `get_where?home_page=1&active=1`;
 				else if(this.$route.params.tag) endpoint = `get_where?tag=${this.$route.params.tag}`; 
 
 				axios.get(`/api/news/${endpoint}`).then(res => {
+					if(endpoint == `get_pagination?page=${page}`) res = res.data;
+					this.pagination = res.meta;
 					this.news = res.data;
+					this.showComments = [];
 					for(let info of this.news)
 						this.showComments.push({id: info.id, show: false});
 					this.$emit('blockDataEmit', this.news);
@@ -177,6 +196,12 @@
 			comments() {
 				return this.$store.getters.comments;
 			},
+			news_length() {
+				return this.news == null ? 0 : this.news.length;
+			}
+		},
+		components: {
+			Pagination
 		}
 
 	}
@@ -212,4 +237,6 @@
 		cursor: pointer;
 		margin-bottom: 1rem;
 	}
+	
+	
 </style>

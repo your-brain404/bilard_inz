@@ -41,6 +41,7 @@ Route::delete('/offers/delete/{id}', 'OffersController@destroy');
 Route::put('/offers/edit', 'OffersController@store');
 
 Route::get('/news/get_all', 'NewsController@getAll');
+Route::get('/news/get_pagination', 'NewsController@getPagination');
 Route::get('/news/get_one/{id}', 'NewsController@getOne');
 Route::get('/news/get_where/', 'NewsController@getWhere');
 Route::post('/news/add/', 'NewsController@store');
