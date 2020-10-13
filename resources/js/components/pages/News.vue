@@ -48,7 +48,7 @@
 							<i  v-if="paginateComments < getCommentsLength(info.id)" @click="paginateComments += 3">Pokaż więcej komentarzy ({{ getCommentsLength(info.id) - paginateComments }})</i>
 						</div>
 
-						<div v-for="(com, j) in comments" v-if="(j > (comments.length - 1) - paginateComments) && com.news_id === info.id" :key="com.id" class="d-flex justify-content-between mb-3">
+						<div v-for="(com, j) in getPostComments(info.id)" v-if="(j > (getPostComments(info.id).length - 1) - paginateComments)" :key="com.id" class="d-flex justify-content-between mb-3">
 							<p v-if="$store.getters.user.id != com.user_id" class="m-0 d-flex align-items-center">{{ com.text }}</p>
 							<div class="d-flex flex-column align-items-center">
 								<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id).photo)})`"></div>
@@ -179,6 +179,13 @@
 				}
 				return length;
 			},
+			getPostComments(news_id) {
+				let comments = [];
+				for(let com of this.comments) {
+					if(com.news_id === news_id) comments.push(com);
+				}
+				return comments;
+			}
 
 
 		},
