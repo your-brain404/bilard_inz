@@ -13,7 +13,9 @@
 				<v-col cols="12" md="9">
 					<h2 class="font-weight-bold">{{ info.title }}</h2>
 					<p>{{ info.short_description ? info.short_description.substring(0, 200) + '...' : '' }}</p>
-					<v-btn class="mt-5 offer-button"  link large block color="#da5a33" outlined>{{ info.button_name }}</v-btn>
+					<router-link :to="`/aktualnosci/${info.id}/${slug(info.title)}`">
+						<v-btn class="mt-5 offer-button"  link large block color="#da5a33" outlined>{{ info.button_name }}</v-btn>
+					</router-link>
 
 				</v-col>
 			</v-row>
@@ -86,6 +88,7 @@
 	import getDate from '../../helpers/date/date.js'
 	import {db} from '../../firebase/firebase.js'
 	import Pagination from '../pagination/Pagination'
+	import slugify from '../../helpers/links/slug.js'
 
 	export default{
 		props:['deleteFlag'],
@@ -103,6 +106,9 @@
 			this.getNews();
 		},
 		methods:{
+			slug(title) {
+				return slugify(title);
+			},
 			setPath(event) {
 				if(this.$route.params.page != event) this.$router.push({name: 'NewsListingPage', params: {page: event}});
 			},

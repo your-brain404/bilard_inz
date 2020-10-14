@@ -1,8 +1,8 @@
 <template>
 	<v-app class="app">
-		<Header v-if="!isPathAdmin" class="header"/>
+		<Header v-if="!isPathAdmin" class="header" :bannerPhoto="bannerPhoto"/>
 		<AdminHeader v-else />
-		<router-view :class="{'admin-body': isPathAdmin }"></router-view>
+		<router-view :class="{'admin-body': isPathAdmin }" @bannerPhoto="bannerPhoto = $event"></router-view>
 		<AdminSnackbar />
 
 		<Footer v-if="!isPathAdmin" />
@@ -20,6 +20,11 @@
 	import parseJwt from '../helpers/auth/tokenDecoder.js'
 
 	export default {
+		data(){
+			return {
+				bannerPhoto: ''
+			}
+		},
 		components: {
 			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar
 		},

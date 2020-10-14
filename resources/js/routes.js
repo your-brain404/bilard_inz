@@ -8,6 +8,7 @@ import OffersForm from './views/admin/forms/Offers'
 import NewsForm from './views/admin/forms/News'
 import SubpagesForm from './views/admin/forms/Subpages'
 import News from './components/pages/News'
+import SingleNews from './components/pages/SingleNews'
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,7 @@ const routes = [
   { path: '/aktualnosci/:page', component: News, name: 'NewsListingPage' },
   { path: '/aktualnosci/kategoria/:category', component: News, name: 'NewsCategory' },
   { path: '/aktualnosci/tag/:tag', component: News, name: 'NewsTags' },
+  { path: '/aktualnosci/:id/:title', component: SingleNews, name: 'SingleNews' },
 
   { path: '/admin-panel', component: Home, name: 'Home'},
   { path: '/admin-panel/news', component: Home, name: 'News'},
