@@ -108,13 +108,11 @@
 				}
 			},
 			setCheckbox(table, item) {
-				console.log(item)
 				axios.put(`/api/${table}/edit`, item, {
 					headers:{
 						'Content-Type': 'application/json'
 					}
 				}).then(res => {
-					console.log(res)
 					this.$store.commit('setSnackbar', 'Pomyślnie edytowano!');
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Coś poszło nie tak...')

@@ -37,7 +37,7 @@
 
 					<div v-if="info.tags.length > 0">
 						<v-icon color="primary">mdi-tag-multiple-outline</v-icon>
-						<router-link class="-link" v-for="tag in info.tags" :to="`/aktualnosci/tag/${tag.text}`">
+						<router-link class="-link" v-for="tag in info.tags" :key="tag.id" :to="`/aktualnosci/tag/${tag.text}`">
 							<v-chip class="mr-1 tag-chip " color="primary" small><i class="">#{{ tag.text }}</i></v-chip>
 						</router-link>
 					</div>

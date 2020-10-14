@@ -83,6 +83,8 @@
 			tags: [],
 			short_description: '',
 			subtitle: '',
+			active: '',
+			home_page: '',
 			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
 			activeBannerPhoto: 'https://via.placeholder.com/250',
@@ -124,6 +126,8 @@
 					subtitle: this.subtitle,
 					category: this.category,
 					button_name: this.button_name,
+					active: this.active,
+					home_page: this.home_page,
 					tags: this.tags,
 					description: this.description,
 					short_description: this.short_description,
@@ -139,6 +143,8 @@
 				this.photo_alt = '';
 				this.category = '';
 				this.button_name = '';
+				this.active = '';
+				this.home_page = '';
 				this.tags = '';
 				this.banner_photo_alt = '';
 				this.photo = '';
@@ -201,6 +207,8 @@
 					this.activeBannerPhoto = res.data.banner_photo !== null ? url(res.data.banner_photo) : this.activeBannerPhoto;
 					this.photo_alt = res.data.photo_alt;
 					this.banner_photo_alt = res.data.banner_photo_alt;
+					this.active = res.data.active;
+					this.home_page = res.data.home_page;
 					this.currentObject = res.data;
 				})
 			}

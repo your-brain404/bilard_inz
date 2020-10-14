@@ -16,7 +16,7 @@ class NewsCollection extends ResourceCollection
 
     public function toArray($request) {
     	for($i=0 ; $i<$this->count() ; $i++) {
-    		// $this->collection[$i]->tags;
+    		$this->collection[$i]->tags;
     	}
 
     	return parent::toArray($request);
