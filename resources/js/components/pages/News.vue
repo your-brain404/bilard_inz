@@ -6,8 +6,8 @@
 				<h3 v-if="filter" class="first-color text-center ">Filtrowanie po: '{{ filterText }}'</h3>
 			</v-col>
 		</v-row>
-		<Pagination v-if="$route.name != 'Main'" :length="pagination.last_page" @page="setPath" />
-		<v-container v-for="(info, i) in news" :key="i">
+		<Pagination v-if="$route.name != 'Main' && $route.name != 'AdminNews'" :length="pagination.last_page" @page="setPath" />
+		<v-container v-if="($route.path == '/admin-panel/news' && i < 1) || $route.path != '/admin-panel/news' " v-for="(info, i) in news" :key="i">
 			<v-row>
 
 				<v-col cols="12" md="3">
@@ -80,7 +80,7 @@
 			</v-col>
 		</router-link>
 
-		<Pagination v-if="$route.name != 'Main'" :length="pagination.last_page" @page="setPath"/>
+		<Pagination v-if="$route.name != 'Main' && $route.name != 'AdminNews'" :length="pagination.last_page" @page="setPath"/>
 	</v-container>
 </template>
 

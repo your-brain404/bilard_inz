@@ -63,3 +63,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/facebook/login/callback', 'Auth\api\LoginController@handleProviderCallback');
 });
 Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken');
+
+Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos');
+Route::post('/gallery/add', 'GalleryController@store');
+Route::put('/gallery/edit', 'GalleryController@store');
+Route::delete('/gallery/delete/{id}', 'GalleryController@destroy');

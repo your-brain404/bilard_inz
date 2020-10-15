@@ -3,7 +3,7 @@
 		<v-dialog v-model="dialog" persistent>
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn color="primary" dark v-bind="attrs" v-on="on" class="w-100">
-					Dodaj zdjęcie {{ banner ? 'banerowe' : '' }}
+					Dodaj {{ multiple ? 'zdjęcia' : 'zdjęcie' }} {{ banner ? 'banerowe' : '' }}
 				</v-btn>
 			</template>
 			<v-card>
@@ -13,7 +13,7 @@
 				</v-card-title>
 				<v-tabs v-model="tab" background-color="primary" dark>
 					<v-tab v-for="tab in tabs" :key="tab">
-						{{ tab}}
+						{{ tab }}
 					</v-tab>
 				</v-tabs>
 
@@ -50,7 +50,7 @@
 	import url from '../../helpers/photo/url.js';
 
 	export default {
-		props:['activePhotoPath', 'banner'],
+		props:['activePhotoPath', 'banner', 'apiGallery'],
 		data () {
 			return {
 				dialog: false,
@@ -59,7 +59,7 @@
 				photos: [],
 				activePhotos: [],
 				activePhoto: 0,
-				multiple: false,
+				multiple: this.$route.path.split('/')[3] == 'gallery' ? true: false,
 				test: {},
 				closeIcon: 0
 
@@ -71,6 +71,9 @@
 		
 		
 		methods:{
+			getUrl(src){
+				return url(src);
+			},
 			showCloseIcon(id){
 				this.closeIcon = id;
 			},
@@ -84,9 +87,23 @@
 					}
 				}
 			},
+			setApiGallery() {
+				if(this.apiGallery) {
+					let photos = [];
+					for(let i=0 ; i<this.photos.length ; i++) {
+						if(!this.apiGallery.some(a => a.path == this.photos[i].path)) {
+							console.log(this.photos[i].path)
+							if(!photos.includes(this.photos[i])) photos.push(this.photos[i]);
+						}
+					}
+					this.photos = photos;
+				}
+
+			},
 			loadPhotos(){
 				axios.get('/api/media/get_photos').then(res =>{
 					this.photos = res.data;
+					this.setApiGallery();
 				});
 			},
 
@@ -100,14 +117,25 @@
 			},
 			getPhotoLinks(){
 				let links = [];
-				
+
 				for(let i=0 ; i< this.photos.length ; i++){
 					for(let j = 0 ; j < this.activePhotos.length ; j++){
 						if(this.photos[i].id == this.activePhotos[j]) links[0] = this.photos[i];
 					}
-					
+
 				}
 				return links;
+			},
+			sendImageIdToPlaceholder(){
+				let data = [];
+				if(this.multiple) {
+					for(let activePhoto of this.activePhotos) {
+						data.push(this.getPhotoById(activePhoto));
+					}
+
+				} else data = this.getPhotoById(this.activePhoto);
+
+				this.$emit('loadedImage', data);  
 			},
 			setPhotoClass(id){
 				if(this.multiple){
@@ -119,9 +147,6 @@
 
 				this.sendImageIdToPlaceholder();
 			},
-			sendImageIdToPlaceholder(){
-				this.$emit('loadedImage', this.getPhotoById(this.activePhoto));  
-			},
 			getPhotoById(id){
 				for(let i=0 ; i<this.photos.length ; i++){
 					if(this.photos[i].id == id){
@@ -129,9 +154,8 @@
 					}
 				}
 			},
-			getUrl(src){
-				return url(src);
-			}
+
+
 
 		},
 		created(){

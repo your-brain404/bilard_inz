@@ -7,6 +7,7 @@ import AboutUsForm from './views/admin/forms/AboutUs'
 import OffersForm from './views/admin/forms/Offers'
 import NewsForm from './views/admin/forms/News'
 import SubpagesForm from './views/admin/forms/Subpages'
+import GalleryForm from './views/admin/forms/Gallery'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
 
@@ -21,7 +22,7 @@ const routes = [
   { path: '/aktualnosci/:id/:title', component: SingleNews, name: 'SingleNews' },
 
   { path: '/admin-panel', component: Home, name: 'Home'},
-  { path: '/admin-panel/news', component: Home, name: 'News'},
+  { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
   { path: '/admin-panel/subpages', component: Home, name: 'Subpages'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
@@ -38,6 +39,8 @@ const routes = [
 
   { path: '/admin-panel/subpages/form', component: SubpagesForm, name: 'SubpagesForm'},
   { path: '/admin-panel/subpages/form/:id', component: SubpagesForm, name: 'SubpagesFormEdit'},
+
+  { path: '/admin-panel/:table/gallery/:id', component: GalleryForm, name: 'GalleryForm'},
 ]
 
 export default new VueRouter({

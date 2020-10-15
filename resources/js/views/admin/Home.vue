@@ -36,8 +36,14 @@
 				</template>
 				<template v-slot:item.actions="{ item }">
 					<div class="d-flex justify-content-end">
-						<router-link class="form-link" :to="`/admin-panel/${block.tablename}/form/${item.id}`">
+						<router-link v-if="block.gallery" class="form-link" :to="`/admin-panel/${block.tablename}/gallery/${item.id}`">
 							<v-btn small color="warning" class="white--text mr-2">
+								<v-icon left class="">mdi-image-multiple</v-icon>
+								<span>Galeria</span>
+							</v-btn>
+						</router-link>
+						<router-link class="form-link" :to="`/admin-panel/${block.tablename}/form/${item.id}`">
+							<v-btn small color="primary" class="white--text mr-2">
 								<v-icon left class="">mdi-pencil</v-icon>
 								<span>Edytuj</span>
 							</v-btn>
