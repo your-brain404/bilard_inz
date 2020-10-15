@@ -68,7 +68,12 @@
 		components:{
 			AddPhotos
 		},
-		
+		watch: {
+			apiGallery() {
+				this.loadPhotos();
+				this.activePhotos = [];
+			}
+		},
 		
 		methods:{
 			getUrl(src){

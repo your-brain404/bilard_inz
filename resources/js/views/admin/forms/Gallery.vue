@@ -114,6 +114,7 @@
 					}
 				}).then(res=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
+					this.loadGallery();
 					this.resetForm();
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
@@ -127,6 +128,7 @@
 					}
 				}).then(res=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
+					this.loadGallery();
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
 					console.log(err);
@@ -137,33 +139,40 @@
 
 				axios.delete('/api/gallery/delete/' + id).then(res => {
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
+					this.loadGallery();
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
 					console.log(err);
 				});
 			},
 			send() {
-				for(let photo of this.getFormData()) photo.id ? this.edit(photo) : this.add(photo);
+				for(let photo of this.getFormData())
+					photo.id ? this.edit(photo) : this.add(photo);
 			},
-		updateDeletedPhoto(){
-			this.edit(this.getFormData());
-		}
+			updateDeletedPhoto(){
+				this.edit(this.getFormData());
+			},
+			loadCurrentObject() {
+				axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
+					this.currentObject = res.data;
+				})
+			},
+			loadGallery() {
+				axios.get(`/api/gallery/get_photos/${this.$route.path.split('/')[2]}/${this.$route.params.id}`).then(res => {
+					this.apiGallery = res.data;
+					this.gallery = res.data;
+				})
+			},
 
-	},
-	components:{
-		ImagePicker
-	},
-	created(){
-		axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
-			this.currentObject = res.data;
-		})
-
-		axios.get(`/api/gallery/get_photos/${this.$route.path.split('/')[2]}/${this.$route.params.id}`).then(res => {
-			this.apiGallery = res.data;
-			this.gallery = res.data;
-		})
-	},
-}
+		},
+		components:{
+			ImagePicker
+		},
+		created(){
+			this.loadCurrentObject();
+			this.loadGallery();
+		},
+	}
 </script>
 
 <style>
