@@ -135,8 +135,9 @@
 				if(this.$route.params.category) endpoint = `get_where?category=${this.$route.params.category}`;
 				else if(this.$route.path == '/') endpoint = `get_where?home_page=1&active=1`;
 				else if(this.$route.params.tag) endpoint = `get_where?tag=${this.$route.params.tag}`; 
-
+				this.$store.commit('loading', true);
 				axios.get(`/api/news/${endpoint}`).then(res => {
+					this.$store.commit('loading', false);
 					res = res.data;
 					this.pagination = res.meta;
 					this.news = res.data;
@@ -147,6 +148,7 @@
 					this.getComments();
 				}).catch(err => {
 					console.log(err);
+					this.$store.commit('loading', false);
 				})
 			},
 			getUrl(src) {

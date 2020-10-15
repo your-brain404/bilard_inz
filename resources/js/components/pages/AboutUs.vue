@@ -36,9 +36,11 @@
 				return url(src);
 			},
 			getData(){
+				this.$store.commit('loading', true);
 				axios.get('/api/about_us/get_all').then(res => {
 					if(res.data.length > 0) this.about = res.data;
 					this.$emit('blockDataEmit', this.about);
+					this.$store.commit('loading', false);
 				});
 			}
 		},

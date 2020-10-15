@@ -29,9 +29,14 @@
 				return url(src);
 			},
 			getSingleNews() {
+				this.$store.commit('loading', true);
 				axios.get(`/api/news/get_one/${this.$route.params.id}`).then(res => {
+					this.$store.commit('loading', false);
 					this.singleNews = res.data;
-				}).catch(err => console.log(err))
+				}).catch(err => {
+					console.log(err)
+					this.$store.commit('loading', false);
+				})
 			}
 		},
 		created() {

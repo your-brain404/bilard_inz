@@ -3,6 +3,7 @@
 		<Header v-if="!isPathAdmin" class="header" />
 		<AdminHeader v-else />
 		<router-view :class="{'admin-body': isPathAdmin }" ></router-view>
+		<Loader v-if="loading" />
 		<AdminSnackbar />
 
 		<Footer v-if="!isPathAdmin" />
@@ -16,17 +17,21 @@
 	import AdminHeader from './layouts/AdminHeader'
 	import AdminFooter from './layouts/AdminFooter'
 	import AdminSnackbar from './snackbar/AdminSnackbar';
+	import Loader from './loader/Loader';
 	import axios from 'axios'
 	import parseJwt from '../helpers/auth/tokenDecoder.js'
 
 	export default {
 		components: {
-			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar
+			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar, Loader
 		},
 		computed:{
 			isPathAdmin(){
 				return this.$route.path.split('/')[1] == 'admin-panel' ? true : false;
 			},
+			loading() {
+				return this.$store.getters.loading;
+			}
 			
 		},
 		methods:{

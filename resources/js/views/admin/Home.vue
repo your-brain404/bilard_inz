@@ -94,10 +94,13 @@
 		methods:{
 			deleteItem(block, item){
 				if(confirm(`Na pewno chcesz usunąć trwale przedmiot "${item.title}" z tabeli "${block.title}"? `)){
+					this.$store.commit('loading', true);
 					axios.delete(`/api/${block.tablename}/delete/${item.id}`).then(res => {
 						this.deleteFlag = true;
+						this.$store.commit('loading', false);
 						setTimeout(()=>{this.deleteFlag = false}, 200);
 					}).catch(err => {
+						this.$store.commit('loading', false);
 						console.log(err);
 					})
 				}
@@ -114,13 +117,16 @@
 				}
 			},
 			setCheckbox(table, item) {
+				this.$store.commit('loading', true);
 				axios.put(`/api/${table}/edit`, item, {
 					headers:{
 						'Content-Type': 'application/json'
 					}
 				}).then(res => {
+					this.$store.commit('loading', false);
 					this.$store.commit('setSnackbar', 'Pomyślnie edytowano!');
 				}).catch(err => {
+					this.$store.commit('loading', false);
 					this.$store.commit('setSnackbar', 'Coś poszło nie tak...')
 				})
 			},

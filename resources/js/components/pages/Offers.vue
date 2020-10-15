@@ -43,11 +43,14 @@
 
 			},
 			getOffers(){
+				this.$store.commit('loading', true);
 				axios.get('/api/offers/get_all').then(res => {
+					this.$store.commit('loading', false);
 					this.offers = res.data;
 					this.$emit('blockDataEmit', this.offers);
 				}).catch(err => {
 					console.log(err);
+					this.$store.commit('loading', false);
 				})
 			},
 			getPhoto(src){

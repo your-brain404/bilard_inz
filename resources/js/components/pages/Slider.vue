@@ -26,10 +26,13 @@
 		},
 		methods:{
 			getSlider(){
+				this.$store.commit('loading', true);
 				axios.get('/api/slider/get_all').then(res => {
+					this.$store.commit('loading', false);
 					this.slides = res.data;
 					this.$emit('blockDataEmit', this.slides);
 				}).catch(err => {
+					this.$store.commit('loading', false);
 					console.log(err);
 				})
 			},

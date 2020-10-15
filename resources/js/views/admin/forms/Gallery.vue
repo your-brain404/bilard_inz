@@ -107,45 +107,54 @@
 			resetForm(){
 				this.activePhoto = this.getImageDefaultPlaceholder();
 			},
+			setLoading(state) {
+				this.$store.commit('loading', state);
+			},
 			add(formData){
 				axios.post(`/api/gallery/add`, formData,{
 					headers:{
 						'Content-Type': 'application/json'
 					}
 				}).then(res=>{
+					this.setLoading(false);
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
 					this.loadGallery();
 					this.resetForm();
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
+					this.setLoading(false);
 				});
 			},
 			edit(formData){
-				
 				axios.put(`/api/gallery/edit`, formData, {
 					headers:{
 						'Content-Type': 'application/json'
 					}
 				}).then(res=>{
+					this.setLoading(false);
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
 					this.loadGallery();
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
+					this.setLoading(false);
 					console.log(err);
 				});
 			},
 			destroy(id) {
 				if(!confirm('Czy na pewno chcesz usunąć to zdjęcie?')) return;
-
+				this.setLoading(true);
 				axios.delete('/api/gallery/delete/' + id).then(res => {
+					this.setLoading(false);
 					this.$store.commit('setSnackbar', SnackbarAlerts.success);
 					this.loadGallery();
 				}).catch(err=>{
 					this.$store.commit('setSnackbar', SnackbarAlerts.error);
+					this.setLoading(false);
 					console.log(err);
 				});
 			},
 			send() {
+				this.setLoading(true);
 				for(let photo of this.getFormData())
 					photo.id ? this.edit(photo) : this.add(photo);
 			},
@@ -161,6 +170,7 @@
 				axios.get(`/api/gallery/get_photos/${this.$route.path.split('/')[2]}/${this.$route.params.id}`).then(res => {
 					this.apiGallery = res.data;
 					this.gallery = res.data;
+					this.setLoading(false);
 				})
 			},
 
@@ -171,6 +181,7 @@
 		created(){
 			this.loadCurrentObject();
 			this.loadGallery();
+			this.setLoading(true);
 		},
 	}
 </script>
