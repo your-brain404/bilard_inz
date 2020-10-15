@@ -1,7 +1,10 @@
 <template>
 	<v-container class="">
 		<v-row class="justify-content-center mb-5">
-			<h2 class="about-title font-weight-bold text-center first-color">Aktualności</h2>
+			<v-col>
+				<h2 class="about-title font-weight-bold text-center first-color">Aktualności</h2>
+				<h3 v-if="filter" class="first-color text-center ">Filtrowanie po: '{{ filterText }}'</h3>
+			</v-col>
 		</v-row>
 		<Pagination v-if="$route.name != 'Main'" :length="pagination.last_page" @page="setPath" />
 		<v-container v-for="(info, i) in news" :key="i">
@@ -25,7 +28,7 @@
 					<div class="mb-2 d-flex">
 						<v-icon color="primary" class="mr-1">mdi-calendar-month-outline</v-icon>
 						<i class="text--secondary mr-2">{{ new Date(info.created_at).toLocaleString() }}</i>
-						<router-link class="text--secondary mr-2" :to="`/aktualnosci/kategoria/${info.category}`">
+						<router-link class="text--secondary mr-2" :to="`/aktualnosci/kategoria/${info.category.toLowerCase()}`">
 							<v-icon color="primary">mdi-bookmark-outline</v-icon>
 							<i class="category">{{ info.category }}</i>
 						</router-link>
@@ -212,6 +215,12 @@
 			},
 			news_length() {
 				return this.news == null ? 0 : this.news.length;
+			},
+			filter() {
+				return this.$route.params.category || this.$route.params.tag ? true : false;
+			},
+			filterText() {
+				return this.$route.params.category ? `Kategoria - ${this.$route.path.split('/')[3][0].toUpperCase()}${this.$route.path.split('/')[3].substring(1)}` : `Tagu - ${this.$route.path.split('/')[3]}`; 
 			}
 		},
 		components: {
