@@ -21,6 +21,8 @@
 	import axios from 'axios'
 	import parseJwt from '../helpers/auth/tokenDecoder.js'
 
+	
+
 	export default {
 		components: {
 			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar, Loader

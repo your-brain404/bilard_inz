@@ -28,6 +28,12 @@ Route::put('/subpages/edit', 'SubpagesController@store');
 Route::post('/subpages/add/', 'SubpagesController@store');
 Route::delete('/subpages/delete/{id}', 'SubpagesController@destroy');
 
+Route::get('/partners/get_all/', 'PartnersController@getAll');
+Route::get('/partners/get_one/{id}', 'PartnersController@getOne');
+Route::put('/partners/edit', 'PartnersController@store');
+Route::post('/partners/add/', 'PartnersController@store');
+Route::delete('/partners/delete/{id}', 'PartnersController@destroy');
+
 Route::get('/slider/get_all', 'SliderController@getAll');
 Route::get('/slider/get_one/{id}', 'SliderController@getOne');
 Route::post('/slider/add/', 'SliderController@store');

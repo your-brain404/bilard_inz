@@ -106,14 +106,10 @@
 				}
 			},
 			setBlocks(){
-				if(this.$route.path.split('/')[2] == 'news'){
-					this.blocks = panelBlocks.news;
-				}
-				else if(this.$route.path.split('/')[2] == 'subpages'){
-					this.blocks = panelBlocks.subpages;
-				}
-				else if(this.$route.path.split('/')[2] == null){
+				if(this.$route.path.split('/')[2] == null){
 					this.blocks = panelBlocks.main;
+				} else {
+					this.blocks = panelBlocks[this.$route.path.split('/')[2]];
 				}
 			},
 			setCheckbox(table, item) {

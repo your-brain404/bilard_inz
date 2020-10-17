@@ -7,6 +7,7 @@ import AboutUsForm from './views/admin/forms/AboutUs'
 import OffersForm from './views/admin/forms/Offers'
 import NewsForm from './views/admin/forms/News'
 import SubpagesForm from './views/admin/forms/Subpages'
+import PartnersForm from './views/admin/forms/Partners'
 import GalleryForm from './views/admin/forms/Gallery'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
@@ -27,6 +28,7 @@ const routes = [
   { path: '/admin-panel', component: Home, name: 'Home'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
   { path: '/admin-panel/subpages', component: Home, name: 'Subpages'},
+  { path: '/admin-panel/about_us', component: Home, name: 'AboutUs'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -42,6 +44,9 @@ const routes = [
 
   { path: '/admin-panel/subpages/form', component: SubpagesForm, name: 'SubpagesForm'},
   { path: '/admin-panel/subpages/form/:id', component: SubpagesForm, name: 'SubpagesFormEdit'},
+
+  { path: '/admin-panel/partners/form', component: PartnersForm, name: 'PartnersForm'},
+  { path: '/admin-panel/partners/form/:id', component: PartnersForm, name: 'PartnersFormEdit'},
 
   { path: '/admin-panel/:table/gallery/:id', component: GalleryForm, name: 'GalleryForm'},
 ]

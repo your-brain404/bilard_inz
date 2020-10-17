@@ -38,6 +38,7 @@
 				items: [
 				{ title: 'Strona główna', icon: 'mdi-view-dashboard', path: '/admin-panel' },
 				{ title: 'Aktualności', icon: 'mdi-newspaper', path: '/admin-panel/news' },
+				{ title: 'O Klubie', icon: 'mdi-information', path: '/admin-panel/about_us' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
 				],
 				color: '#da5a33',

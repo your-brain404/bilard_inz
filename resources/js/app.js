@@ -8,6 +8,8 @@ import VueAxios from 'vue-axios';
 import Vuex from 'vuex';
 import store from './store/store.js';
 import Vuelidate from 'vuelidate';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel';
 
 Vue.component('app', require('./components/App.vue').default);
 

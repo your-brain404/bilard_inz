@@ -19,10 +19,18 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="{{ asset('css/owlcarousel/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owlcarousel/owl.theme.default.min.css') }}"> --}}
 </head>
 <body>
     <div id="app">
         @yield('content')
     </div>
+    <script src="{{ asset('js/owlcarousel/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/owlcarousel/highlight.js') }}"></script>
+    <script src="{{ asset('js/owlcarousel/owl.carousel.js') }}"></script> --}}
+    <script>
+        
+  </script>
 </body>
 </html>
