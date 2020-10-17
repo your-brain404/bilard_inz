@@ -4,7 +4,7 @@
 			<v-icon>mdi-account</v-icon>
 		</v-btn>
 		<v-dialog v-model="dialog" persistent>
-			<v-card class="login-card position-relative login-bg" raised style="background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(../storage/img/auth/stol.jpg)">
+			<v-card class="login-card position-relative login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${origin}/storage/img/auth/stol.jpg)`">
 				<div @click="dialog = false" class="position-absolute close-button">
 					<v-icon color="white">mdi-close</v-icon>
 				</div>
@@ -53,6 +53,7 @@
 			email: '',
 			password: '',
 			dialog: false,
+			origin: window.location.origin
 			
 		}),
 

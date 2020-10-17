@@ -14,7 +14,7 @@
 				</v-col>
 			</v-row>
 		</v-container>
-		<Lightbox :props="{gallery: [about[0].photo], activePhotoId: 0, lightbox: lightbox}" @closeLightbox="lightbox = false" />
+		<Lightbox :gallery="[about[0].photo]" :activePhotoId="0" :lightbox="lightbox" @closeLightbox="lightbox = false" />
 	</v-container>
 </template>
 

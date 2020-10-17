@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-dialog @input="v => v || closeRegister()" v-model="dialog" persistent>
-			<v-card class="register-card position-relative register-bg" raised style="background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(../storage/img/toolbar/8-ball.jpg)">
+			<v-card class="register-card position-relative register-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${origin}/storage/img/toolbar/8-ball.jpg)`">
 				<div @click="closeRegister" class="position-absolute close-button">
 					<v-icon color="white">mdi-close</v-icon>
 				</div>
@@ -84,6 +84,7 @@
 			regulations: false,
 			privace: false,
 			rodo: false,
+			origin: window.location.origin
 		}),
 
 		computed: {

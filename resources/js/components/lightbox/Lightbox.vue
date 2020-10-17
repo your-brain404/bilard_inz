@@ -2,20 +2,22 @@
 	<v-row justify="center">
 		<v-col cols="12">
 			<v-row align="center">
-				<v-overlay :opacity="0.46" :value="props.lightbox" :z-index="5">
-					<v-row class="d-flex justify-content-end">
-						<v-icon color="white" @click="$emit('closeLightbox')">mdi-close</v-icon>
-					</v-row>
-					<v-row>
-						<v-col cols="12">
-							<img class="img-fluid" :src="getUrl(activePhoto)">
-						</v-col>
-					</v-row>
-					<v-row class="d-flex justify-content-center">
-						<v-col @click="activePhoto = photo" v-for="(photo, i) in props.gallery" :key="i" cols="2">
-							<div class="bg-picture" :style="`background-image: url('${getUrl(photo)}')`" ></div>
-						</v-col>
-					</v-row>
+				<v-overlay :opacity="0.46" :value="lightbox" :z-index="5">
+					<v-container>
+						<v-row class="d-flex justify-content-end">
+							<v-icon color="white" @click="$emit('closeLightbox')">mdi-close</v-icon>
+						</v-row>
+						<v-row>
+							<v-col cols="12" class="d-flex justify-content-center">
+								<img class="img-fluid" width="90%" :src="getUrl(activePhoto)">
+							</v-col>
+						</v-row>
+						<v-row class="d-flex justify-content-center">
+							<v-col @click="activePhoto = photo" v-for="(photo, i) in gallery" :key="i" cols="2">
+								<div class="bg-picture mx-auto" :style="`background-image: url('${getUrl(photo)}')`" ></div>
+							</v-col>
+						</v-row>
+					</v-container>
 				</v-overlay>
 			</v-row>
 		</v-col>
@@ -26,7 +28,7 @@
 	import url from '../../helpers/photo/url.js'
 
 	export default {
-		props:['props'],
+		props:['gallery', 'activePhotoId', 'lightbox'],
 		methods:{
 			getUrl(src){
 				return url(src);
@@ -38,8 +40,8 @@
 			}
 		},
 		watch:{
-			props(){
-				this.activePhoto = this.props.gallery[this.props.activePhotoId];
+			lightbox(){
+				this.activePhoto = this.gallery[this.activePhotoId];
 			}
 		}
 	}
