@@ -12,6 +12,8 @@ class AboutUsHelper {
 
 		$about_us->title = $request->input('title');
 		$about_us->subtitle = $request->input('subtitle');
+		$about_us->description = $request->input('description');
+		$about_us->short_description = $request->input('short_description');
 		$about_us->photo_alt = $request->input('photo_alt');
 		$about_us->photo = $request->input('photo');
 

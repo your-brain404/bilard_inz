@@ -6,15 +6,32 @@
 			</v-row>
 			<v-row>
 				<v-col cols="12" md="8">
-					<img @click="lightbox = true" class="about-photo" :src="getUrl(row.photo)" :alt="row.photo_alt">
+					<img @click="lightbox = true; activePhotoId = 0" class="about-photo" :src="getUrl(row.photo)" :alt="row.photo_alt">
 				</v-col>
 				<v-col class="about-content" cols="12" md="4">
 					<h3 class="about-content-title">{{ row.subtitle }}</h3>
-					<p class="about-content-text">{{ row.description }}</p>
+					<p class="about-content-text">{{ row.short_description }}</p>
 				</v-col>
 			</v-row>
+			<div v-if="$route.path == '/o-klubie'">
+				<v-row>
+					<v-col>
+						<p class="about-content-text">{{ row.description }}</p>
+					</v-col>
+				</v-row>
+
+				<v-row >
+					<v-col v-for="(photo, i) in lightboxGallery" :key="i" cols="12" lg="4">
+						<div @click="activePhotoId = i+1; lightbox = true" class="bg-picture about-gallery-photo" :style="`background-image: url('${getUrl(photo)}')`"></div>
+					</v-col>
+				</v-row>
+			</div>
+
 		</v-container>
-		<Lightbox :gallery="[about[0].photo]" :activePhotoId="0" :lightbox="lightbox" @closeLightbox="lightbox = false" />
+
+		<Lightbox v-if="$route.path != '/o-klubie'" :gallery="[about[0].photo]" :activePhotoId="activePhotoId" :lightbox="lightbox" @closeLightbox="lightbox = false" />
+
+		<Lightbox v-else :gallery="gallery" :activePhotoId="activePhotoId" :lightbox="lightbox" @closeLightbox="lightbox = false" />
 	</v-container>
 </template>
 
@@ -27,7 +44,9 @@
 		data(){
 			return{
 				about:[{photo: null}],
-				lightbox: false
+				lightbox: false,
+				lightboxGallery: [],
+				activePhotoId: 0
 			}
 		},
 		
@@ -42,10 +61,27 @@
 					this.$emit('blockDataEmit', this.about);
 					this.$store.commit('loading', false);
 				});
+			},
+			setLightboxGallery(gallery) {
+				for(let photo of gallery)
+					this.lightboxGallery.push(photo.path)
+			},
+			getGallery() {
+				this.$store.commit('loading', true);
+				axios.get(`/api/gallery/get_photos/about_us/1`).then(res => {
+					this.$store.commit('loading', false);
+					this.setLightboxGallery(res.data);
+				})
+			},
+		},
+		computed: {
+			gallery() {
+				return [this.about[0].photo].concat(this.lightboxGallery)
 			}
 		},
 		created(){
 			this.getData();
+			this.getGallery();
 
 		},
 		components:{
@@ -78,5 +114,9 @@
 	.about-content-text{
 		text-align:justify;
 		font-size: 1rem!important;
+	}
+	.about-gallery-photo {
+		width: 100%;
+		height: 300px;
 	}
 </style>

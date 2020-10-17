@@ -46,7 +46,7 @@
 
 			<template v-slot:extension>
 				<v-tabs color="#da5a33" v-model="currentPage" align-with-title>
-					<v-tab active-class="tab-active" @click.prevent="redirect(page.page)" v-for="(page, i) in subpages" :key="i" :href="`${page.page}`" class="d-flex align-items-center header-tab" >{{ page.title }}</v-tab>
+					<v-tab active-class="tab-active" v-for="(page, i) in subpages" @click.prevent="redirect(page.page)" :key="i" :href="page.page" class="d-flex align-items-center header-tab" >{{ page.title }}</v-tab>
 				</v-tabs>
 			</template>
 		</v-app-bar>
@@ -64,7 +64,8 @@
 			return{
 				currentPage: this.$route.path,
 				navbarPhotoSrc: '../storage/img/toolbar/8-ball.jpg',
-				register: false
+				register: false,
+				origin: window.location.origin
 				
 			}
 		},

@@ -15,6 +15,7 @@
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field  color="primary" v-model="subtitle" label="Podtytuł"></v-text-field>
+								<v-textarea counter label="Krótki Opis" v-model="short_description" ></v-textarea>
 								<v-textarea counter label="Opis" v-model="description" ></v-textarea>
 							</div>
 						</v-col>
@@ -69,6 +70,7 @@
 			title: '',
 			subtitle: '',
 			description: '',
+			short_description: '',
 			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
@@ -99,6 +101,7 @@
 					subtitle: this.subtitle,
 					photo_alt: this.photo_alt,
 					description: this.description,
+					short_description: this.short_description,
 					photo: this.img !== '' ? this.img : this.currentObject.photo
 				};
 			},
@@ -108,6 +111,7 @@
 				this.photo_alt = '';
 				this.photo = '';
 				this.description = '';
+				this.short_description = '';
 				this.activePhoto = this.getImageDefaultPlaceholder();
 			},
 			add(formData){
@@ -155,6 +159,7 @@
 					this.title = res.data.title;
 					this.subtitle = res.data.subtitle;
 					this.description = res.data.description;
+					this.short_description = res.data.short_description;
 					this.activePhoto = res.data.photo !== null ? url(res.data.photo) : this.activePhoto;
 					this.photo_alt = res.data.photo_alt;
 					this.currentObject = res.data;

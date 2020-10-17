@@ -18,7 +18,7 @@
 		<v-row>
 
 			<v-col cols="12" md="4">
-				<div class="news-picture single-news-picture" :style="`background-image: url(${getUrl(singleNews.photo)})`"></div>
+				<div @click="lightbox = true; activePhotoId = 0" class="news-picture single-news-picture" :style="`background-image: url(${getUrl(singleNews.photo)})`"></div>
 			</v-col>
 			<v-col cols="12" md="8" class="d-flex flex-column justify-content-center">
 				<h2 class="font-weight-bold">{{ singleNews.title }}</h2>
@@ -28,10 +28,10 @@
 		</v-row>
 
 		<v-row>
-			<v-col v-for="(photo, i) in gallery" :key="i" cols="12" lg="4" @click="lightbox = true; activePhotoId = i">
+			<v-col v-for="(photo, i) in gallery" :key="i" cols="12" lg="4" @click="lightbox = true; activePhotoId = i+1">
 				<div class="bg-picture single-news-photo" :style="`background-image: url('${getUrl(photo.path)}')`"></div>
 			</v-col>
-			<Lightbox :lightbox="lightbox" :gallery="galleryLightbox" :activePhotoId="activePhotoId" @closeLightbox="lightbox = false"/>
+			<Lightbox :lightbox="lightbox" :gallery="concatGalleryLightbox" :activePhotoId="activePhotoId" @closeLightbox="lightbox = false"/>
 		</v-row>
 
 	</v-container>
@@ -88,6 +88,11 @@
 		},
 		components: {
 			Lightbox
+		},
+		computed: {
+			concatGalleryLightbox() {
+				return [this.singleNews.photo].concat(this.galleryLightbox)
+			}
 		}
 
 	}
@@ -96,6 +101,7 @@
 <style>
 	.single-news-picture {
 		height: 200px;
+		cursor: pointer;
 	}
 	.single-news-photo {
 		width: 100%;

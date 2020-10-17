@@ -14,6 +14,7 @@
 						<v-col class="" cols="8">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
+								<v-text-field color="primary"  v-model="page" :rules="rules.pageRules" label="Strona *" required></v-text-field>
 							</div>
 						</v-col>
 
@@ -60,7 +61,11 @@
 				titleRules: [
 				v => !!v || 'Tytuł jest wymagany!'
 				],
+				pageRules: [
+				v => !!v || 'Strona jest wymagana!'
+				],
 			},
+			page: '',
 			photo_alt: '',
 			title: '',
 			file: [],
@@ -91,6 +96,7 @@
 					id: this.$route.params.id,
 					title: this.title,
 					photo_alt: this.photo_alt,
+					page: this.page,
 					photo: this.img !== '' ? this.img : this.currentObject.photo
 				};
 			},
@@ -98,6 +104,7 @@
 				this.title = '';
 				this.photo_alt = '';
 				this.photo = '';
+				this.page = '';
 				this.activePhoto = this.getImageDefaultPlaceholder();
 			},
 			add(formData){
@@ -143,6 +150,7 @@
 			if(this.$route.params.id){
 				axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
 					this.title = res.data.title;
+					this.page = res.data.page;
 					this.activePhoto = res.data.photo !== null ? url(res.data.photo) : this.activePhoto;
 					this.photo_alt = res.data.photo_alt;
 					this.currentObject = res.data;

@@ -8,6 +8,7 @@ import OffersForm from './views/admin/forms/Offers'
 import NewsForm from './views/admin/forms/News'
 import SubpagesForm from './views/admin/forms/Subpages'
 import GalleryForm from './views/admin/forms/Gallery'
+import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
 
@@ -20,6 +21,8 @@ const routes = [
   { path: '/aktualnosci/kategoria/:category', component: News, name: 'NewsCategory' },
   { path: '/aktualnosci/tag/:tag', component: News, name: 'NewsTags' },
   { path: '/aktualnosci/:id/:title', component: SingleNews, name: 'SingleNews' },
+
+  { path: '/o-klubie', component: AboutPage, name: 'AboutPage' },
 
   { path: '/admin-panel', component: Home, name: 'Home'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
