@@ -122,12 +122,9 @@
 				return length;
 			},
 			getComments() {
-				if(this.$route.path == '/') {
-					let news_ids = [];
-					for(let info of this.news) news_ids.push(info.id);
-						this.$store.dispatch('fetchCommentsWhere', news_ids);
-				}
-				else this.$store.dispatch('fetchAllComments');
+				let news_ids = [];
+				for(let info of this.news) news_ids.push(info.id);
+					this.$store.dispatch('fetchCommentsWhere', news_ids);
 			},
 			getNews(){
 				let page = this.$route.params.page || 1; 

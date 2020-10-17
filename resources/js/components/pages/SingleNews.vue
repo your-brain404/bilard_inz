@@ -41,6 +41,7 @@
 	import axios from 'axios'
 	import url from '../../helpers/photo/url.js'
 	import Lightbox from '../lightbox/Lightbox'
+	import {db} from '../../firebase/firebase.js'
 
 	export default {
 		data() {
@@ -80,11 +81,15 @@
 				}).catch(err => {
 					this.$store.commit('loading', false);
 				})
+			},
+			getComments() {
+				this.$store.dispatch('fetchCommentsWhere', [this.$route.params.id]);
 			}
 		},
 		created() {
 			this.getSingleNews();
 			this.getGallery();
+			this.getComments();
 		},
 		components: {
 			Lightbox
@@ -92,6 +97,9 @@
 		computed: {
 			concatGalleryLightbox() {
 				return [this.singleNews.photo].concat(this.galleryLightbox)
+			}, 
+			comments() {
+				return this.$store.getters.comments;
 			}
 		}
 
