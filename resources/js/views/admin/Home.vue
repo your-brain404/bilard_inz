@@ -73,7 +73,6 @@
 	
 	import axios from 'axios';
 	import panelBlocks from '../../data/admin-panel-blocks.js';
-	import panelTableHeaders from '../../data/admin-panel-table-headers.js';
 
 	export default{
 		data () {

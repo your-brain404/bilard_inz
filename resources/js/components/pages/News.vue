@@ -107,7 +107,6 @@
 		},
 		created(){
 			this.getNews();
-			console.log(1603009163236 > 1603009135012)
 		},
 		methods:{
 			slug(title) {

@@ -9,11 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 class SliderHelper {
 
 	private static function prependData(Request $request): array {
-
-		$data = $request->all();
-		if($data['id']) unset($data['id']);
-
-		return $data;
+		return $request->all();
 	}
 
 	public static function saveData(Request $request): Slider{

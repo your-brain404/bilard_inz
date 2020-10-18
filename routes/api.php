@@ -45,6 +45,7 @@ Route::get('/offers/get_one/{id}', 'OffersController@getOne');
 Route::post('/offers/add/', 'OffersController@store');
 Route::delete('/offers/delete/{id}', 'OffersController@destroy');
 Route::put('/offers/edit', 'OffersController@store');
+Route::get('/offers/get_where/', 'OffersController@getWhere');
 
 Route::get('/news/get_all', 'NewsController@getAll');
 Route::get('/news/get_pagination', 'NewsController@getPagination');

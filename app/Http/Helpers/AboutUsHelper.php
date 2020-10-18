@@ -8,21 +8,19 @@ use Illuminate\Database\Eloquent\Collection;
 
 class AboutUsHelper {
 
-	private static function prependData(AboutUs $about_us, Request $request): AboutUs {
+	private static function prependData(Request $request): array {
 
-		$about_us->title = $request->input('title');
-		$about_us->subtitle = $request->input('subtitle');
-		$about_us->description = $request->input('description');
-		$about_us->short_description = $request->input('short_description');
-		$about_us->photo_alt = $request->input('photo_alt');
-		$about_us->photo = $request->input('photo');
+		$about_us = $request->all();
+		if($about_us['id']) unset($about_us['id']);
+		if($about_us['created_at']) unset($about_us['created_at']);
+		if($about_us['updated_at']) unset($about_us['updated_at']);
 
 		return $about_us;
 	}
 
 	public static function saveData(Request $request): AboutUs {
-		$about_us = $request->isMethod('put') ? AboutUs::find($request->input('id')) : new AboutUs;
-		$about_us = self::prependData($about_us, $request);
+		$about_us = self::prependData($request);
+		$about_us = $request->isMethod('put') ? AboutUs::where('id', $request->input('id'))->first()->fill($about_us) : AboutUs::create($about_us);
 
 		if ($about_us->save()) {
 

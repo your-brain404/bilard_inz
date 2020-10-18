@@ -8,21 +8,20 @@ use Illuminate\Database\Eloquent\Collection;
 
 class OffersHelper {
 
-	private static function prependData(Offers $offers, Request $request): Offers {
+	private static function prependData(Request $request) {
 
-		$offers->title = $request->input('title');
-		$offers->subtitle = $request->input('subtitle');
-		$offers->photo_alt = $request->input('photo_alt');
-		$offers->photo = $request->input('photo');
-		$offers->description = $request->input('description');
+		$offers = $request->all();
+		if($offers['id']) unset($offers['id']);
+		if($offers['created_at']) unset($offers['created_at']);
+		if($offers['updated_at']) unset($offers['updated_at']);
 
 		return $offers;
 	}
 
 	public static function saveData(Request $request): Offers{
 
-		$offers = $request->isMethod('put') ? Offers::find($request->input('id')) : new Offers;
-		$offers = self::prependData($offers, $request);
+		$offers = self::prependData($request);
+		$offers = $request->isMethod('put') ? Offers::where('id', $request->input('id'))->first()->fill($offers) : Offers::create($offers);
 
 		if ($offers->save()) {
 
@@ -30,7 +29,9 @@ class OffersHelper {
 		}
 	}
 
-	
+	public static function getWhere(Request $request) {
+		return Offers::where($request->all())->orderBy('created_at', 'desc')->get();
+	}
 
 	public static function getAll(): Collection{
 		return Offers::all();

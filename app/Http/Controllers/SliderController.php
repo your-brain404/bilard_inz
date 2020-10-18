@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Helpers\SliderHelper;
+use App\Http\Helpers\CrudHelper;
 use App\Http\Resources\SliderResource;
 use Illuminate\Http\Request;
 
 class SliderController extends Controller {
+
+	public function __construct() {
+		new CrudHelper('App\Slider');
+	}
 	
 	public function getAll() {
-		$slider = SliderHelper::getAll();
+		$slider = CrudHelper::getAll();
 		return new SliderResource($slider);
 	}
 
@@ -20,7 +25,7 @@ class SliderController extends Controller {
 
 	
 	public function store(Request $request) {
-		$slider = SliderHelper::saveData($request);
+		$slider = CrudHelper::saveData($request, 'App\Slider');
 		return new SliderResource($slider);
 	}
 

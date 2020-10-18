@@ -18,7 +18,11 @@ class OffersController extends Controller
 		return new OffersResource($offers);
 	}
 
-	
+	public function getWhere(Request $request) {
+		$offers = OffersHelper::getWhere($request);
+		return new OffersResource($offers);
+	}
+
 	public function store(Request $request) {
 		$offers = OffersHelper::saveData($request);
 		return new OffersResource($offers);

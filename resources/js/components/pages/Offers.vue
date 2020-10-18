@@ -4,7 +4,7 @@
 			<v-row class="justify-content-center">
 				<h2 class="about-title font-weight-bold text-center first-color">A co w ofercie?</h2>
 			</v-row>
-			<v-row>
+			<v-row justify="center">
 				<v-col v-for="(offer, i) in offers" :key="i" cols="12" sm="6" md="4">
 					<v-card @mouseover="setPhotoClass(i)" flat class="mx-auto offer-card" max-width="400">
 						<v-img class="white--text align-end offer-card-photo" height="200px" :alt="offer.photo_alt" :src="getPhoto(offer.photo)">
@@ -16,7 +16,7 @@
 						</v-card-text>
 					</v-card>
 				</v-col>
-				<v-col>
+				<v-col cols="12">
 					<v-btn class="my-5 offer-button"  link x-large block color="#da5a33" outlined>CZYTAJ WIĘCEJ</v-btn>
 				</v-col>
 			</v-row>
@@ -39,12 +39,12 @@
 			this.getOffers();
 		},
 		methods:{
-			setPhotoClass(id){
-
-			},
 			getOffers(){
+				let endpoint = `get_where?active=1`;
+				if(this.$route.path == '/') endpoint = `get_where?active=1&home_page=1`;
+				if(this.$route.path == '/admin-panel') endpoint = `get_all`;
 				this.$store.commit('loading', true);
-				axios.get('/api/offers/get_all').then(res => {
+				axios.get(`/api/offers/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.offers = res.data;
 					this.$emit('blockDataEmit', this.offers);
