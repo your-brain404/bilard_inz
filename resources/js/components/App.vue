@@ -60,12 +60,14 @@
 </script>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300;1,400;1,700;1,900&display=swap');
+	/*@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300;1,400;1,700;1,900&display=swap');*/
+	/*@import url('https://fonts.googleapis.com/css2?family=Candara:1,300;1,400;1,700;1,900&display=swap');*/
 	*{
 		transition: all 0.15s!important;
 	}
 	.app{
-		font-family: 'Merriweather', serif!important;
+		/*font-family: 'Merriweather', serif!important;*/
+		font-family: 'Candara'!important;
 		font-weight: 300;
 	}
 	.first-color{

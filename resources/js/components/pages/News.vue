@@ -1,5 +1,5 @@
 <template>
-	<v-container class="">
+	<v-container class="news">
 		<v-row class="justify-content-center mb-5">
 			<v-col>
 				<h2 class="about-title font-weight-bold text-center first-color">Aktualności</h2>
@@ -32,8 +32,8 @@
 							<v-icon color="primary">mdi-bookmark-outline</v-icon>
 							<i class="category">{{ info.category }}</i>
 						</router-link>
-						<div class="comments">
-							<v-icon @click="showCom(info.id)" color="primary">mdi-comment-text-outline</v-icon>
+						<div @click="showCom(info.id)" class="comments">
+							<v-icon  color="primary">mdi-comment-text-outline</v-icon>
 							<i class="mr-2 text--secondary">{{ getCommentsLength(info.id) }}</i>
 						</div>
 
@@ -54,13 +54,13 @@
 						</div>
 
 						<div v-for="(com, j) in getPostComments(info.id)" v-if="(j > (getPostComments(info.id).length - 1) - paginateComments)" :key="com.id" class="d-flex justify-content-between mb-3">
-							<p v-if="$store.getters.user.id != com.user_id" class="m-0 d-flex align-items-center">{{ com.text }}</p>
+							<v-chip v-if="$store.getters.user.id != com.user_id" class="comment-chip">{{ com.text }}</v-chip>
 							<div class="d-flex flex-column align-items-center">
 								<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id).photo)})`"></div>
 								<h5 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h5>
 								<i>{{ getLocaleDate(com.created) }}</i>
 							</div>
-							<p v-if="$store.getters.user.id == com.user_id" class="m-0 d-flex align-items-center">{{ com.text }}</p>
+							<v-chip v-if="$store.getters.user.id == com.user_id" class="comment-chip" color="primary">{{ com.text }}</v-chip>
 						</div>
 						<div class="d-flex mt-4 flex-nowrap align-items-center" >
 							<v-text-field class="comment-input mr-2" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-text-field>
@@ -234,6 +234,9 @@
 </script>
 
 <style>
+	.news p, .news i {
+		font-size: 1rem;
+	}
 	.category{
 		transition: all 0.15s;
 		color: rgba(0,0,0,.6);

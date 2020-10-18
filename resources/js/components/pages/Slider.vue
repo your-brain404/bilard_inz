@@ -54,6 +54,7 @@
 	.slider-title{
 		font-size: 3rem;
 		text-shadow: 0 0 5px black;
+		margin-bottom: 0;
 	}
 	.slider-subtitle{
 		font-size: 1.5rem;

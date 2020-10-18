@@ -1,5 +1,5 @@
 <template>
-	<v-container class="py-12">
+	<v-container class="py-12 single-news">
 		<v-row>
 			<v-col>
 				<div class="breadcrumb-container">
@@ -117,6 +117,9 @@
 </script>
 
 <style>
+	.single-news p {
+		font-size: 1rem
+	}
 	.single-news-picture {
 		height: 200px;
 		cursor: pointer;
