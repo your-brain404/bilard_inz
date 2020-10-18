@@ -62,11 +62,9 @@
 	export default{
 		data(){
 			return{
-				currentPage: this.$route.path,
+				currentPage: '/' + this.$route.path.split('/')[1],
 				navbarPhotoSrc: '../storage/img/toolbar/8-ball.jpg',
 				register: false,
-				origin: window.location.origin
-				
 			}
 		},
 		methods:{
