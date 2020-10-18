@@ -13,24 +13,24 @@
 						
 						<v-col class="" cols="8">
 							<div class="pa-5">
-								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
-								<v-text-field  color="primary" v-model="subtitle" label="Podtytuł"></v-text-field>
+								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.subtitle" label="Podtytuł"></v-text-field>
 							</div>
 						</v-col>
 
 						<v-col cols="4" >
 							<div class="pa-5">
-								<v-img :src="activePhoto" :alt="photo_alt"></v-img>
+								<v-img :src="activePhoto" :alt="currentObject.photo_alt"></v-img>
 								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img"/>
 								
-								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
+								<v-text-field color="primary"  v-model="currentObject.photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
 						</v-col>
 
 					</v-row>
 					<v-divider class="mb-0"></v-divider>
 					<v-card-actions class="pa-4">
-						<v-btn :disabled="!valid || title==''" color="success" class="mr-2" @click="validate" >
+						<v-btn :disabled="!valid || currentObject.title == '' " color="success" class="mr-2" @click="validate" >
 							<v-icon left>mdi-check</v-icon>
 							<span>Zatwierdź</span>
 						</v-btn>
@@ -56,19 +56,19 @@
 	export default {
 		data: () => ({
 			valid: true,
-			name: '',
 			rules: {
 				titleRules: [
 				v => !!v || 'Tytuł jest wymagany!'
 				],
 			},
-			photo_alt: '',
-			title: '',
-			subtitle: '',
-			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
-			currentObject:{},
+			currentObject:{
+				title: '',
+				subtitle: '',
+				photo: '',
+				photo_alt: '',
+			},
 		}),
 		computed:{
 			formTitle(){
@@ -85,23 +85,17 @@
 					this.activePhoto = this.getImageDefaultPlaceholder();
 				} else{
 					this.img = event;
+					this.currentObject.photo = event;
 					this.activePhoto = url(event);
 				}
 			},
 			getFormData(){
-				return {
-					id: this.$route.params.id,
-					title: this.title,
-					subtitle: this.subtitle,
-					photo_alt: this.photo_alt,
-					photo: this.img !== '' ? this.img : this.currentObject.photo
-				};
+				delete this.currentObject.created_at;
+				delete this.currentObject.updated_at;
+				return this.currentObject;
 			},
 			resetForm(){
-				this.title = '';
-				this.subtitle = '';
-				this.photo_alt = '';
-				this.photo = '';
+				this.currentObject = {};
 				this.activePhoto = this.getImageDefaultPlaceholder();
 			},
 			add(formData){
@@ -146,10 +140,7 @@
 		created(){
 			if(this.$route.params.id){
 				axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
-					this.title = res.data.title;
-					this.subtitle = res.data.subtitle;
 					this.activePhoto = res.data.photo !== null ? url(res.data.photo) : this.activePhoto;
-					this.photo_alt = res.data.photo_alt;
 					this.currentObject = res.data;
 				})
 			}

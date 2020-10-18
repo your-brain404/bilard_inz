@@ -17,7 +17,7 @@
 							</v-btn>
 						</router-link>
 					</v-card-title>
-					<v-data-table :headers="headers" :items="block.table" :search="search"
+					<v-data-table :headers="headers[i]" :items="block.table" :search="search"
 					:items-per-page="5"
 					:footer-props="{
 					'items-per-page-options': [5,10,15]
@@ -80,14 +80,7 @@
 			return {
 				search: '',
 				blocks:[],
-				headers: [
-				{
-					text: 'Tytuł',
-					align: 'start',
-					value: 'title',
-				},
-				{ text: '', value: 'actions' },
-				],
+				headers: [],
 				deleteFlag: false
 			}
 		},
@@ -113,49 +106,39 @@
 				}
 			},
 			setCheckbox(table, item) {
-				this.$store.commit('loading', true);
 				axios.put(`/api/${table}/edit`, item, {
 					headers:{
 						'Content-Type': 'application/json'
 					}
 				}).then(res => {
-					this.$store.commit('loading', false);
 					this.$store.commit('setSnackbar', 'Pomyślnie edytowano!');
 				}).catch(err => {
-					this.$store.commit('loading', false);
 					this.$store.commit('setSnackbar', 'Coś poszło nie tak...')
 				})
 			},
-			findHeaderIndex(object) {
-				return this.headers.findIndex(header => header.value === object.value);
-			},
-			editHeaders(header) {
-				let index = this.findHeaderIndex(header);
-				if(index < 0) this.headers.splice(0, 0, header);
-			},
-			deleteHeader(header) {
-				let index = this.findHeaderIndex(header)
-				if(index > -1) this.headers.splice(index, 1);
-			},
-			headersAction(table, header) {
-				table.includes(this.$route.path.split('/')[2]) ? this.editHeaders(header) : this.deleteHeader(header);
-			},
-			setHeaders() {
-				let tables = panelTableHeaders;
-				let headers = [{text: 'Aktywny', value: 'active', width: '10%'}, {text: 'Pokaż na stronie głównej', value: 'home_page', width: '10%'}];
-				for(let i=0 ; i<tables.length ; i++) this.headersAction(tables[i], headers[i])
+			fillBaseHeaders() {
 				
-			}
+				for(let block of this.blocks) {
+					let headers = [
+					{ text: 'Tytuł', align: 'start', value: 'title' },
+					{ text: '', value: 'actions' },
+					];
+					if(block.active) headers.splice(0,0, { text: 'Aktywny', value: 'active', width: '10%' });
+					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', value: 'home_page', width: '10%' });
+					this.headers.push(headers); 
+				}
+			},
+			
 		},
 		watch:{
 			'$route'(){
 				this.setBlocks();
-				this.setHeaders();
+				this.fillBaseHeaders(); 
 			}
 		},
 		created(){
 			this.setBlocks();
-			this.setHeaders();
+			this.fillBaseHeaders(); 
 		}
 	}
 </script>

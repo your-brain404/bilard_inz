@@ -8,20 +8,18 @@ use Illuminate\Database\Eloquent\Collection;
 
 class SliderHelper {
 
-	private static function prependData(Slider $slider, Request $request): Slider {
+	private static function prependData(Request $request): array {
 
-		$slider->title = $request->input('title');
-		$slider->subtitle = $request->input('subtitle');
-		$slider->photo_alt = $request->input('photo_alt');
-		$slider->photo = $request->input('photo');
+		$data = $request->all();
+		if($data['id']) unset($data['id']);
 
-		return $slider;
+		return $data;
 	}
 
 	public static function saveData(Request $request): Slider{
 
-		$slider = $request->isMethod('put') ? Slider::find($request->input('id')) : new Slider;
-		$slider = self::prependData($slider, $request);
+		$slider = self::prependData($request);
+		$slider = $request->isMethod('put') ? Slider::where('id', $request->input('id'))->first()->fill($slider) : Slider::create($slider);
 
 		if ($slider->save()) {
 
