@@ -19,7 +19,7 @@ export default {
 		let comments = [];
 		for(let id of news_ids) {
 			db.collection("comments")
-			.where("news_id", "==", id)
+			.where("news_id", "==", parseInt(id))
 			.get().then(querySnapshot => {
 				querySnapshot.forEach(doc =>{
 					let comment = doc.data();
@@ -28,8 +28,6 @@ export default {
 				});
 			}).catch(err => console.log(err))
 		}
-		comments.sort((a,b) => (a.created > b.created) ? 1 : ((b.created > a.created) ? -1 : 0)); 
-		
 		commit('comments', comments);
 		
 	}

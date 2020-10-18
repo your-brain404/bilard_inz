@@ -33,6 +33,17 @@
 			</v-col>
 			<Lightbox :lightbox="lightbox" :gallery="concatGalleryLightbox" :activePhotoId="activePhotoId" @closeLightbox="lightbox = false"/>
 		</v-row>
+		<v-divider></v-divider>
+		<v-row>
+			<v-col>
+				<h4 class="single-news-comments-title">Masz pytania lub chcesz podzielić się swoją opinią? Napisz komentarz!</h4>
+			</v-col>
+		</v-row>
+		<v-row>
+			<v-col>
+				<Comments />
+			</v-col>
+		</v-row>
 
 	</v-container>
 </template>
@@ -42,6 +53,7 @@
 	import url from '../../helpers/photo/url.js'
 	import Lightbox from '../lightbox/Lightbox'
 	import {db} from '../../firebase/firebase.js'
+	import Comments from './Comments'
 
 	export default {
 		data() {
@@ -82,17 +94,15 @@
 					this.$store.commit('loading', false);
 				})
 			},
-			getComments() {
-				this.$store.dispatch('fetchCommentsWhere', [this.$route.params.id]);
-			}
+			
 		},
 		created() {
 			this.getSingleNews();
 			this.getGallery();
-			this.getComments();
+			
 		},
 		components: {
-			Lightbox
+			Lightbox, Comments
 		},
 		computed: {
 			concatGalleryLightbox() {
@@ -133,6 +143,11 @@
 	}
 	.breadcrumb-link:hover {
 		text-decoration: underline!important;
+	}
+	.single-news-comments-title {
+		color: var(--first-color);
+		font-weight: 700;
+		font-size: 1.7rem;
 	}
 
 
