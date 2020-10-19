@@ -13,35 +13,30 @@
 						
 						<v-col class="" cols="8">
 							<div class="pa-5">
-								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
-								<v-text-field  color="primary" v-model="category" label="Kategoria"></v-text-field>
-								<v-text-field  color="primary" v-model="button_name" label="Napis na przycisku"></v-text-field>
-								<TagsInput @tags="tags = $event" />
-								<v-textarea counter label="Krótki opis" v-model="short_description" ></v-textarea>
-								<v-textarea counter label="Opis" v-model="description" ></v-textarea>
+								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.category" label="Kategoria"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.button_name" label="Napis na przycisku"></v-text-field>
+								<TagsInput @tags="currentObject.tags = $event" />
+								<v-textarea counter label="Krótki opis" v-model="currentObject.short_description" ></v-textarea>
+								<v-textarea counter label="Opis" v-model="currentObject.description" ></v-textarea>
 							</div>
 						</v-col>
 
 						<v-col cols="4" >
 							<div class="pa-5">
-								<v-img :src="activePhoto" :alt="photo_alt"></v-img>
-								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img"/>
+								<v-img :src="activePhoto" :alt="currentObject.photo_alt"></v-img>
+								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="currentObject.photo"/>
 								
-								<v-text-field color="primary" v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
+								<v-text-field color="primary" v-model="currentObject.photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
 
-							<div class="pa-5">
-								<v-img :src="activeBannerPhoto" :alt="banner_photo_alt"></v-img>
-								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.banner_photo" @loadedImage="setBannerImagePlaceholder" :banner="true" :img="banner_img"/>
-								
-								<v-text-field color="primary" v-model="banner_photo_alt" label="Tekst alternatywny zdjęcia banera"></v-text-field>
-							</div>
+							
 						</v-col>
 
 					</v-row>
 					<v-divider class="mb-0"></v-divider>
 					<v-card-actions class="pa-4">
-						<v-btn :disabled="!valid || title==''" color="success" class="mr-2" @click="validate" >
+						<v-btn :disabled=" !valid || currentObject.title == '' " color="success" class="mr-2" @click="validate" >
 							<v-icon left>mdi-check</v-icon>
 							<span>Zatwierdź</span>
 						</v-btn>
@@ -71,8 +66,11 @@
 				currentObject:{
 					title: '',
 					subtitle: '',
+					category: '',
+					button_name: '',
 					short_description: '',
 					description: '',
+					tags: [],
 					photo: '',
 					photo_alt: '',
 				},

@@ -54,13 +54,21 @@
 						</div>
 
 						<div v-for="(com, j) in getPostComments(info.id)" v-if="(j > (getPostComments(info.id).length - 1) - paginateComments)" :key="com.id" class="d-flex justify-content-between mb-3">
-							<v-chip v-if="$store.getters.user.id != com.user_id" class="comment-chip" v-html="com.text.replace('\n', '<br>') "></v-chip>
+							<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
+								<v-chip class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
+								</v-chip>
+								<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">Usuń</p>
+							</div>
 							<div class="d-flex flex-column align-items-center">
 								<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id).photo)})`"></div>
 								<h5 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h5>
 								<i>{{ getLocaleDate(com.created) }}</i>
 							</div>
-							<v-chip v-if="$store.getters.user.id == com.user_id" class="comment-chip" color="primary" v-html="com.text.replace('\n', '<br>') "></v-chip>
+							<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
+								<v-chip  color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
+								</v-chip>
+								<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">Usuń</p>
+							</div>
 						</div>
 						<div class="d-flex mt-4 flex-nowrap align-items-center" >
 							<v-text-field class="comment-input mr-2" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-text-field>
@@ -114,6 +122,14 @@
 			},
 			setPath(event) {
 				if(this.$route.params.page != event) this.$router.push({name: 'NewsListingPage', params: {page: event}});
+			},
+			deleteComment(comment) {
+				this.$store.commit('deleteComment', comment.id);
+				db.collection('comments').doc(comment.id).delete().then(() => {
+					this.$store.commit('setSnackbar', 'Pomyślnie usunięto komentarz!');
+				}).catch(err => {
+					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak...');
+				})
 			},
 			getCommentsLength(news_id) {
 				let length = 0;
@@ -170,14 +186,16 @@
 			},
 			sendComment(news_id) {
 				if(this.newComment == '') return;
-				db.collection('comments').add({
-					news_id: news_id,
+				let comment = {
+					news_id: parseInt(news_id),
 					user_id: this.$store.getters.user.id,
 					text: this.newComment,
 					created: Date.now()
-				}).then(res => {
+				};
+				this.$store.commit('addComment', comment);
+				db.collection('comments').add(comment).then(res => {
 					this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
-					this.getComments();
+					this.$store.commit('addIdToNewComment', res.id)
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak!');
 					console.log(err);

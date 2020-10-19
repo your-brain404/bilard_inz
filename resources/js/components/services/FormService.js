@@ -2,7 +2,7 @@ import axios from 'axios';
 import ImagePicker from '../image-picker/ImagePicker';
 import SnackbarAlerts from '../../data/snackbar-alerts.js'
 import url from '../../helpers/photo/url.js'
-import TagsInput from '../../../components/tagsinput/TagsInput.vue'
+import TagsInput from '../tagsinput/TagsInput.vue'
 
 export default {
 	data: {

@@ -4,7 +4,7 @@
 		<div v-if="comments.length > 3 && paginateComments < comments.length" class="show-more-comments">
 			<i v-if="paginateComments < comments.length" @click="paginateComments += 3">Pokaż więcej komentarzy ({{ comments.length - paginateComments }})</i>
 		</div>
-		<div v-else class="show-more-comments">
+		<div v-if="paginateComments != 3" class="show-more-comments">
 			<i @click="paginateComments = 3">Zwiń komentarze</i>
 		</div>
 
@@ -13,7 +13,7 @@
 			<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
 				<v-chip class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
-				<p class="error--text text-right delete-comment" @click="deleteComment(com.id)">Usuń</p>
+				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">Usuń</p>
 			</div>
 			<div class="d-flex flex-column align-items-center">
 				<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
@@ -24,7 +24,7 @@
 			<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
 				<v-chip  color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
-				<p class="error--text text-right delete-comment" @click="deleteComment(com.id)">Usuń</p>
+				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">Usuń</p>
 			</div>
 		</div>
 		<div class="d-flex mt-12 flex-nowrap align-items-center" >
@@ -76,12 +76,11 @@
 				let length = 0;
 				for(let com of this.comments)
 					if(com.id == news_id) length++;
-				console.log(length)
 				return length;
 			},
-			deleteComment(id) {
-				db.collection('comments').delete(id).then(res => {
-					this.getComments();
+			deleteComment(comment) {
+				this.$store.commit('deleteComment', comment.id);
+				db.collection('comments').doc(comment.id).delete().then(() => {
 					this.$store.commit('setSnackbar', 'Pomyślnie usunięto komentarz!');
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak...');
@@ -89,14 +88,16 @@
 			},
 			sendComment(news_id) {
 				if(this.newComment == '') return;
-				db.collection('comments').add({
+				let comment = {
 					news_id: parseInt(news_id),
 					user_id: this.$store.getters.user.id,
 					text: this.newComment,
 					created: Date.now()
-				}).then(res => {
+				};
+				this.$store.commit('addComment', comment);
+				db.collection('comments').add(comment).then(res => {
 					this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
-					this.getComments();
+					this.$store.commit('addIdToNewComment', res.id)
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak!');
 					console.log(err);
