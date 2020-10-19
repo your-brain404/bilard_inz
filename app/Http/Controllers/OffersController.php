@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Service\CrudService;
+use App\Http\Services\CrudService;
 use App\Http\Resources\OffersResource;
 use Illuminate\Http\Request;
 

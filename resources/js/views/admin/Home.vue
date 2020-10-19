@@ -116,7 +116,7 @@
 				})
 			},
 			fillBaseHeaders() {
-				
+				this.headers = [];
 				for(let block of this.blocks) {
 					let headers = [
 					{ text: 'Tytuł', align: 'start', value: 'title' },

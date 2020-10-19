@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Helpers\NewsHelper;
-use App\Http\Service\CrudService;
+use App\Http\Services\CrudService;
 use App\Http\Resources\NewsCollection;
 use App\Http\Resources\NewsResource;
 use App\News;

@@ -3,16 +3,13 @@ namespace App\Http\Helpers;
 
 use App\News;
 use App\NewsTags;
+use App\Http\Services\CrudService;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Resources\NewsResource;
 use Illuminate\Support\Facades\DB;
 
 class NewsHelper {
-
-	private static function prependData(Request $request): array {
-		return $request->all();
-	}
 
 	private static function saveTags(News $news, array $tags) {
 		foreach ($tags as $tag) {
@@ -27,7 +24,7 @@ class NewsHelper {
 
 	public static function saveData(Request $request){
 
-		$data = self::prependData($request);
+		$data = CrudService::prependData($request);
 		$news = $request->isMethod('put') ? News::where('id',$request->input('id'))->first()->fill($data) : News::create($data);
 
 		if ($news->save()) {

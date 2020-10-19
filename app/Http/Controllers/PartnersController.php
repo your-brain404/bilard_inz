@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Service\CrudService;
+use App\Http\Services\CrudService;
 use App\Http\Resources\PartnersResource;
 use Illuminate\Http\Request;
 
@@ -19,6 +19,11 @@ class PartnersController extends Controller
 
 	public function getOne($id) {
 		$partners = CrudService::getOne($id);
+		return new PartnersResource($partners);
+	}
+
+	public function getWhere(Request $request) {
+		$partners = CrudService::getWhere($request, 'asc');
 		return new PartnersResource($partners);
 	}
 

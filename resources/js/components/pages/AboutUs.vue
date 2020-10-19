@@ -13,7 +13,7 @@
 					<p class="about-content-text">{{ row.short_description }}</p>
 				</v-col>
 			</v-row>
-			<div v-if="$route.path == '/o-klubie'">
+			<div v-if="$route.path == '/o-klubie' || $route.path == '/admin-panel/about_us'">
 				<v-row>
 					<v-col>
 						<p class="about-content-text">{{ row.description }}</p>

@@ -15,12 +15,6 @@
 	import url from '../../helpers/photo/url.js'
 	import carousel from 'vue-owl-carousel2'
 
-	// $(document).ready(function(){
-	// 	$('.owl-carousel').owlCarousel({
-	// 		loop: true
-	// 	});
-	// });
-
 	export default {
 		props:['deleteFlag'],
 		data() {
@@ -33,8 +27,10 @@
 		
 		methods:{
 			getPartners(){
+				let endpoint = 'get_all';
+				if(this.$route.path == '/o-klubie') endpoint = 'get_where?active=1';
 				this.$store.commit('loading', true);
-				axios.get('/api/partners/get_all').then(res => {
+				axios.get(`/api/partners/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.partners = res.data;
 					this.$emit('blockDataEmit', this.partners);

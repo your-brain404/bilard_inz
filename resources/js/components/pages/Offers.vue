@@ -6,7 +6,7 @@
 			</v-row>
 			<v-row justify="center">
 				<v-col v-for="(offer, i) in offers" :key="i" cols="12" sm="6" md="4">
-					<v-card @mouseover="setPhotoClass(i)" flat class="mx-auto offer-card" max-width="400">
+					<v-card flat class="mx-auto offer-card" max-width="400">
 						<v-img class="white--text align-end offer-card-photo" height="200px" :alt="offer.photo_alt" :src="getPhoto(offer.photo)">
 							<v-card-title>{{ offer.title }}</v-card-title>
 						</v-img>

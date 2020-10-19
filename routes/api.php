@@ -33,6 +33,7 @@ Route::get('/partners/get_one/{id}', 'PartnersController@getOne');
 Route::put('/partners/edit', 'PartnersController@store');
 Route::post('/partners/add/', 'PartnersController@store');
 Route::delete('/partners/delete/{id}', 'PartnersController@destroy');
+Route::get('/partners/get_where/', 'PartnersController@getWhere');
 
 Route::get('/slider/get_all', 'SliderController@getAll');
 Route::get('/slider/get_one/{id}', 'SliderController@getOne');

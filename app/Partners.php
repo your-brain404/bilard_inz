@@ -8,5 +8,5 @@ class Partners extends Model
 {
     protected $table = 'partners';
 
-    protected $fillable = ['title', 'photo', 'photo_alt'];
+    protected $fillable = ['title', 'photo', 'photo_alt', 'active'];
 }
