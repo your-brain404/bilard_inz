@@ -11,7 +11,7 @@
 				<form class="position-relative login-form">
 					<h1 class="about-title font-weight-bold text-center text-white mt-0">Zaloguj się</h1>
 					<v-text-field dark v-model="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()" @blur="$v.email.$touch()"></v-text-field>
-					<v-text-field dark v-model="password" type="password" :error-messages="passwordErrors" :counter="20" label="Nazwisko" required @input="$v.password.$touch()" @blur="$v.password.$touch()"></v-text-field>
+					<v-text-field dark v-model="password" type="password" :error-messages="passwordErrors" :counter="20" label="Hasło" required @input="$v.password.$touch()" @blur="$v.password.$touch()"></v-text-field>
 				</form>
 				<v-btn dark outlined class="mr-4 w-100 login-button mt-5" @click="submit">
 					Zaloguj się
