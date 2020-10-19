@@ -13,28 +13,28 @@
 						
 						<v-col class="" cols="8">
 							<div class="pa-5">
-								<v-text-field color="primary"  v-model="title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
-								<v-text-field  color="primary" v-model="subtitle" label="Podtytuł"></v-text-field>
-								<v-textarea counter label="Krótki Opis" v-model="short_description" ></v-textarea>
-								<v-textarea counter label="Opis" v-model="description" ></v-textarea>
+								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.subtitle" label="Podtytuł"></v-text-field>
+								<v-textarea counter label="Krótki Opis" v-model="currentObject.short_description" ></v-textarea>
+								<v-textarea counter label="Opis" v-model="currentObject.description" ></v-textarea>
 							</div>
 						</v-col>
 
 						<v-col cols="4" >
 							<div class="pa-5 d-flex flex-column justify-content-between">
 								<div>
-									<v-img :src="activePhoto" :alt="photo_alt"></v-img>
-									<ImagePicker  @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img"/>
+									<v-img :src="activePhoto" :alt="currentObject.photo_alt"></v-img>
+									<ImagePicker  @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="currentObject.photo"/>
 								</div>
 								
-								<v-text-field color="primary"  v-model="photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
+								<v-text-field color="primary"  v-model="currentObject.photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
 							</div>
 						</v-col>
 
 					</v-row>
 					<v-divider class="mb-0"></v-divider>
 					<v-card-actions class="pa-4">
-						<v-btn :disabled="!valid || title==''" color="success" class="mr-2" @click="validate" >
+						<v-btn :disabled=" !valid || currentObject.title == '' " color="success" class="mr-2" @click="validate" >
 							<v-icon left>mdi-check</v-icon>
 							<span>Zatwierdź</span>
 						</v-btn>
@@ -52,119 +52,24 @@
 </template>
 
 <script>
-	import axios from 'axios';
-	import ImagePicker from '../../../components/image-picker/ImagePicker';
-	import SnackbarAlerts from '../../../data/snackbar-alerts.js'
-	import url from '../../../helpers/photo/url.js'
-
+	import FormService from '../../../components/services/FormService.js'
+	let data = FormService.data;
+	delete FormService.data;
+	
 	export default {
-		data: () => ({
-			valid: true,
-			name: '',
-			rules: {
-				titleRules: [
-				v => !!v || 'Tytuł jest wymagany!'
-				],
-			},
-			photo_alt: '',
-			title: '',
-			subtitle: '',
-			description: '',
-			short_description: '',
-			file: [],
-			activePhoto: 'https://via.placeholder.com/250',
-			img: '',
-			currentObject:{},
-		}),
-		computed:{
-			formTitle(){
-				return this.$route.params.id ? 'Edycja' : 'Dodawanie';
+		data() {
+			return {
+				...data,
+				currentObject:{
+					title: '',
+					subtitle: '',
+					short_description: '',
+					description: '',
+					photo: '',
+					photo_alt: '',
+				},
 			}
 		},
-		methods: {
-			getImageDefaultPlaceholder(){
-				return 'https://via.placeholder.com/250';
-			},
-			setImagePlaceholder(event){
-				if(event === 'placeholder'){
-					this.img = '',
-					this.activePhoto = this.getImageDefaultPlaceholder();
-				} else{
-					this.img = event;
-					this.activePhoto = url(event);
-				}
-			},
-			getFormData(){
-				return {
-					id: this.$route.params.id,
-					title: this.title,
-					subtitle: this.subtitle,
-					photo_alt: this.photo_alt,
-					description: this.description,
-					short_description: this.short_description,
-					photo: this.img !== '' ? this.img : this.currentObject.photo
-				};
-			},
-			resetForm(){
-				this.title = '';
-				this.subtitle = '';
-				this.photo_alt = '';
-				this.photo = '';
-				this.description = '';
-				this.short_description = '';
-				this.activePhoto = this.getImageDefaultPlaceholder();
-			},
-			add(formData){
-				axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{
-					headers:{
-						'Content-Type': 'application/json'
-					}
-				}).then(res=>{
-					this.$store.commit('setSnackbar', SnackbarAlerts.success);
-					this.resetForm();
-					this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
-				}).catch(err=>{
-					this.$store.commit('setSnackbar', SnackbarAlerts.error);
-				});
-			},
-			edit(formData){
-				
-				axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, formData, {
-					headers:{
-						'Content-Type': 'application/json'
-					}
-				}).then(res=>{
-					this.$store.commit('setSnackbar', SnackbarAlerts.success);
-					this.$router.push(`/admin-panel#${this.$route.path.split('/')[2]}`);
-				}).catch(err=>{
-					this.$store.commit('setSnackbar', SnackbarAlerts.error);
-					console.log(err);
-				});
-			},
-			validate () {
-				let formData = this.getFormData();
-				this.$route.params.id ? this.edit(formData) : this.add(formData);
-			},
-			updateDeletedPhoto(){
-				this.edit(this.getFormData());
-			}
-
-		},
-		components:{
-			ImagePicker
-		},
-		created(){
-			if(this.$route.params.id){
-				axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
-					this.title = res.data.title;
-					this.subtitle = res.data.subtitle;
-					this.description = res.data.description;
-					this.short_description = res.data.short_description;
-					this.activePhoto = res.data.photo !== null ? url(res.data.photo) : this.activePhoto;
-					this.photo_alt = res.data.photo_alt;
-					this.currentObject = res.data;
-				})
-			}
-		},
+		...FormService
 	}
 </script>

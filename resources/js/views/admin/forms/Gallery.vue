@@ -73,7 +73,6 @@
 			pickedGallery: [],
 			gallery: [],
 			currentObject: {},
-			file: [],
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
 		}),

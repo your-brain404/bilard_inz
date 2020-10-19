@@ -12,6 +12,8 @@ import GalleryForm from './views/admin/forms/Gallery'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
+import SingleOffer from './components/pages/SingleOffer'
+import Offers from './components/pages/Offers'
 
 Vue.use(VueRouter);
 
@@ -24,6 +26,9 @@ const routes = [
   { path: '/aktualnosci/:id/:title', component: SingleNews, name: 'SingleNews' },
 
   { path: '/o-klubie', component: AboutPage, name: 'AboutPage' },
+
+  { path: '/oferta', component: Offers, name: 'OffersListing' },
+  { path: '/oferta/:id/:title', component: SingleOffer, name: 'SingleOffer' },
 
   { path: '/admin-panel', component: Home, name: 'Home'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},

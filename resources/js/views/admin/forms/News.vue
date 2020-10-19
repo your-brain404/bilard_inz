@@ -58,160 +58,26 @@
 	</v-content>
 </template>
 
+	
 <script>
-	import axios from 'axios';
-	import ImagePicker from '../../../components/image-picker/ImagePicker';
-	import SnackbarAlerts from '../../../data/snackbar-alerts.js'
-	import url from '../../../helpers/photo/url.js'
-	import TagsInput from '../../../components/tagsinput/TagsInput.vue'
-
+	import FormService from '../../../components/services/FormService.js'
+	let data = FormService.data;
+	delete FormService.data;
+	
 	export default {
-		data: () => ({
-			valid: true,
-			name: '',
-			rules: {
-				titleRules: [
-				v => !!v || 'Tytuł jest wymagany!'
-				],
-			},
-			photo_alt: '',
-			banner_photo_alt: '',
-			title: '',
-			category: '',
-			description: '',
-			button_name: '',
-			tags: [],
-			short_description: '',
-			subtitle: '',
-			active: '',
-			home_page: '',
-			file: [],
-			activePhoto: 'https://via.placeholder.com/250',
-			activeBannerPhoto: 'https://via.placeholder.com/250',
-			img: '',
-			banner_img: '',
-			currentObject:{},
-		}),
-		computed:{
-			formTitle(){
-				return this.$route.params.id ? 'Edycja' : 'Dodawanie';
+		data() {
+			return {
+				...data,
+				currentObject:{
+					title: '',
+					subtitle: '',
+					short_description: '',
+					description: '',
+					photo: '',
+					photo_alt: '',
+				},
 			}
 		},
-		methods: {
-			getImageDefaultPlaceholder(){
-				return 'https://via.placeholder.com/250';
-			},
-			setImagePlaceholder(event){
-				if(event === 'placeholder'){
-					this.img = '',
-					this.activePhoto = this.getImageDefaultPlaceholder();
-				} else{
-					this.img = event;
-					this.activePhoto = url(event);
-				}
-			},
-			setBannerImagePlaceholder(event){
-				if(event === 'placeholder'){
-					this.banner_img = '',
-					this.activeBannerPhoto = this.getImageDefaultPlaceholder();
-				} else{
-					this.banner_img = event;
-					this.activeBannerPhoto = url(event);
-				}
-			},
-			getFormData(){
-				return {
-					id: this.$route.params.id,
-					title: this.title,
-					subtitle: this.subtitle,
-					category: this.category,
-					button_name: this.button_name,
-					active: this.active,
-					home_page: this.home_page,
-					tags: this.tags,
-					description: this.description,
-					short_description: this.short_description,
-					photo_alt: this.photo_alt,
-					banner_photo_alt: this.banner_photo_alt,
-					photo: this.img !== '' ? this.img : this.currentObject.photo,
-					banner_photo: this.banner_img !== '' ? this.banner_img : this.currentObject.banner_photo
-				};
-			},
-			resetForm(){
-				this.title = '';
-				this.subtitle = '';
-				this.photo_alt = '';
-				this.category = '';
-				this.button_name = '';
-				this.active = '';
-				this.home_page = '';
-				this.tags = '';
-				this.banner_photo_alt = '';
-				this.photo = '';
-				this.description = '';
-				this.short_description = '';
-				this.activePhoto = this.getImageDefaultPlaceholder();
-				this.activeBannerPhoto = this.getImageDefaultPlaceholder();
-			},
-			add(formData){
-				console.log(formData)
-				axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{
-					headers:{
-						'Content-Type': 'application/json'
-					}
-				}).then(res=>{
-					this.$store.commit('setSnackbar', SnackbarAlerts.success);
-					this.resetForm();
-					this.$router.push(`/admin-panel/${this.$route.path.split('/')[2]}`);
-				}).catch(err=>{
-					this.$store.commit('setSnackbar', SnackbarAlerts.error);
-				});
-			},
-			edit(formData){
-				
-				axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, formData, {
-					headers:{
-						'Content-Type': 'application/json'
-					}
-				}).then(res=>{
-					this.$store.commit('setSnackbar', SnackbarAlerts.success);
-					this.$router.push(`/admin-panel/${this.$route.path.split('/')[2]}`);
-				}).catch(err=>{
-					this.$store.commit('setSnackbar', SnackbarAlerts.error);
-					console.log(err);
-				});
-			},
-			validate () {
-				let formData = this.getFormData();
-				this.$route.params.id ? this.edit(formData) : this.add(formData);
-			},
-			updateDeletedPhoto(){
-				this.edit(this.getFormData());
-			}
-
-		},
-		components:{
-			ImagePicker, TagsInput
-		},
-		created(){
-			if(this.$route.params.id){
-				axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
-					this.title = res.data.title;
-					this.subtitle = res.data.subtitle;
-					this.category = res.data.category;
-					this.button_name = res.data.button_name;
-					this.tags = res.data.tags;
-					this.description = res.data.description;
-					this.short_description = res.data.short_description;
-					this.activePhoto = res.data.photo !== null ? url(res.data.photo) : this.activePhoto;
-					this.activeBannerPhoto = res.data.banner_photo !== null ? url(res.data.banner_photo) : this.activeBannerPhoto;
-					this.photo_alt = res.data.photo_alt;
-					this.banner_photo_alt = res.data.banner_photo_alt;
-					this.active = res.data.active;
-					this.home_page = res.data.home_page;
-					this.currentObject = res.data;
-				})
-			}
-		},
+		...FormService
 	}
 </script>
