@@ -108,9 +108,6 @@
 			concatGalleryLightbox() {
 				return [this.singleNews.photo].concat(this.galleryLightbox)
 			}, 
-			comments() {
-				return this.$store.getters.comments;
-			}
 		}
 
 	}

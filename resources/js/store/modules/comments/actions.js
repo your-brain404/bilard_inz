@@ -16,19 +16,20 @@ export default {
 		});
 	},
 	fetchCommentsWhere({commit}, news_ids) {
-		let comments = [];
-		for(let id of news_ids) {
-			db.collection("comments")
-			.where("news_id", "==", parseInt(id))
-			.get().then(querySnapshot => {
-				querySnapshot.forEach(doc =>{
-					let comment = doc.data();
-					comment.id = doc.id;
-					comments.push(comment);
-				});
-			}).catch(err => console.log(err))
-		}
-		commit('comments', comments);
-		
+		console.log(news_ids)
+		db.collection("comments")
+		.onSnapshot(querySnapshot => {
+			let comments = [];
+			querySnapshot.forEach(doc => {
+				let comment = doc.data();
+				comment.id = doc.id;
+				if(news_ids.includes(comment.news_id)) comments.push(comment);
+			});
+			console.log(comments)
+			commit('comments', comments)
+		})
 	}
+
+
+
 }

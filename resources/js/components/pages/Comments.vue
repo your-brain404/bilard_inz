@@ -9,7 +9,7 @@
 		</div>
 
 
-		<div v-for="(com, j) in getPostComments($route.params.id)" v-if="(j > (getPostComments($route.params.id).length - 1) - paginateComments)" :key="com.id" class="d-flex justify-content-between align-items-start mb-3">
+		<div v-for="(com, j) in comments" v-if="(j > (comments.length - 1) - paginateComments)" :key="com.id" class="d-flex justify-content-between align-items-start mb-3">
 			<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
 				<v-chip class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
@@ -57,7 +57,7 @@
 		},
 		methods: {
 			getComments() {
-				this.$store.dispatch('fetchCommentsWhere', [this.$route.params.id]);
+				this.$store.dispatch('fetchCommentsWhere', [parseInt(this.$route.params.id)]);
 			},
 			getUrl(src) {
 				return url(src);
@@ -79,7 +79,6 @@
 				return length;
 			},
 			deleteComment(comment) {
-				this.$store.commit('deleteComment', comment.id);
 				db.collection('comments').doc(comment.id).delete().then(() => {
 					this.$store.commit('setSnackbar', 'Pomyślnie usunięto komentarz!');
 				}).catch(err => {
@@ -94,14 +93,8 @@
 					text: this.newComment,
 					created: Date.now()
 				};
-				this.$store.commit('addComment', comment);
-				db.collection('comments').add(comment).then(res => {
-					this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
-					this.$store.commit('addIdToNewComment', res.id)
-				}).catch(err => {
-					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak!');
-					console.log(err);
-				});
+				db.collection('comments').add(comment);
+				this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
 				this.newComment = '';
 			},
 		},

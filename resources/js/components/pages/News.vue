@@ -124,7 +124,6 @@
 				if(this.$route.params.page != event) this.$router.push({name: 'NewsListingPage', params: {page: event}});
 			},
 			deleteComment(comment) {
-				this.$store.commit('deleteComment', comment.id);
 				db.collection('comments').doc(comment.id).delete().then(() => {
 					this.$store.commit('setSnackbar', 'Pomyślnie usunięto komentarz!');
 				}).catch(err => {
@@ -139,8 +138,10 @@
 			},
 			getComments() {
 				let news_ids = [];
-				for(let info of this.news) news_ids.push(info.id);
-					this.$store.dispatch('fetchCommentsWhere', news_ids);
+				for(let info of this.news) {
+					news_ids.push(info.id);
+				}
+				this.$store.dispatch('fetchCommentsWhere', news_ids);
 			},
 			getNews(){
 				let page = this.$route.params.page || 1; 
@@ -192,10 +193,8 @@
 					text: this.newComment,
 					created: Date.now()
 				};
-				this.$store.commit('addComment', comment);
 				db.collection('comments').add(comment).then(res => {
 					this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
-					this.$store.commit('addIdToNewComment', res.id)
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak!');
 					console.log(err);
