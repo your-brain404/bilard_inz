@@ -1,12 +1,11 @@
 <?php
-namespace App\Http\Helpers;
+namespace App\Http\Services;
 
-use App\Http\Helpers\FileHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 
-class CrudHelper {
+class CrudService {
 
 	private static $model;
 
@@ -18,7 +17,7 @@ class CrudHelper {
 		return $request->all();
 	}
 
-	public static function saveData(Request $request, String $model): Model{
+	public static function saveData(Request $request): Model{
 
 		$data = self::prependData($request);
 		$model = $request->isMethod('put') ? self::$model::where('id', $request->input('id'))->first()->fill($data) : self::$model::create($data);
@@ -29,7 +28,9 @@ class CrudHelper {
 		}
 	}
 
-	
+	public static function getWhere(Request $request, String $sort) {
+		return self::$model::where($request->all())->orderBy('created_at', $sort)->get();
+	}
 
 	public static function getAll(): Collection{
 		return self::$model::all();

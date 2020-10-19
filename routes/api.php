@@ -39,6 +39,7 @@ Route::get('/slider/get_one/{id}', 'SliderController@getOne');
 Route::post('/slider/add/', 'SliderController@store');
 Route::delete('/slider/delete/{id}', 'SliderController@destroy');
 Route::put('/slider/edit', 'SliderController@store');
+Route::get('/slider/get_where/', 'SliderController@getWhere');
 
 Route::get('/offers/get_all', 'OffersController@getAll');
 Route::get('/offers/get_one/{id}', 'OffersController@getOne');

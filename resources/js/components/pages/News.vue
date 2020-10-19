@@ -54,17 +54,17 @@
 						</div>
 
 						<div v-for="(com, j) in getPostComments(info.id)" v-if="(j > (getPostComments(info.id).length - 1) - paginateComments)" :key="com.id" class="d-flex justify-content-between mb-3">
-							<v-chip v-if="$store.getters.user.id != com.user_id" class="comment-chip">{{ com.text }}</v-chip>
+							<v-chip v-if="$store.getters.user.id != com.user_id" class="comment-chip" v-html="com.text.replace('\n', '<br>') "></v-chip>
 							<div class="d-flex flex-column align-items-center">
 								<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id).photo)})`"></div>
 								<h5 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h5>
 								<i>{{ getLocaleDate(com.created) }}</i>
 							</div>
-							<v-chip v-if="$store.getters.user.id == com.user_id" class="comment-chip" color="primary">{{ com.text }}</v-chip>
+							<v-chip v-if="$store.getters.user.id == com.user_id" class="comment-chip" color="primary" v-html="com.text.replace('\n', '<br>') "></v-chip>
 						</div>
 						<div class="d-flex mt-4 flex-nowrap align-items-center" >
 							<v-text-field class="comment-input mr-2" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-text-field>
-							<v-btn rounded @click="sendComment(info.id)" color="primary">
+							<v-btn :disabled="newComment == ''" rounded @click="sendComment(info.id)" color="primary">
 								<v-icon left>mdi-billiards</v-icon>
 								<span>Wyślij</span>
 							</v-btn>
@@ -169,6 +169,7 @@
 				}
 			},
 			sendComment(news_id) {
+				if(this.newComment == '') return;
 				db.collection('comments').add({
 					news_id: news_id,
 					user_id: this.$store.getters.user.id,
