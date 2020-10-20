@@ -3,9 +3,9 @@
 		<v-btn icon dark @click="dialog = true">
 			<v-icon>mdi-account</v-icon>
 		</v-btn>
-		<v-dialog v-model="dialog" persistent>
-			<v-card class="login-card position-relative login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${origin}/storage/img/auth/stol.jpg)`">
-				<div @click="dialog = false" class="position-absolute close-button">
+		<v-dialog class="position-relative" v-model="dialog" persistent>
+			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${origin}/storage/img/auth/stol.jpg)`">
+				<div @click="dialog = false" class="close-button">
 					<v-icon color="white">mdi-close</v-icon>
 				</div>
 				<form class="position-relative login-form">
@@ -115,6 +115,26 @@
 	}
 	.login-card{
 		padding: 4rem 17rem;
+	}
+	@media(max-width: 992px) {
+		.login-card, .register-card{
+			padding: 4rem 10rem;
+		}
+	}
+	@media(max-width: 768px) {
+		.login-card, .register-card{
+			padding: 4rem 6rem;
+		}
+	}
+	@media(max-width: 576px) {
+		.login-card, .register-card{
+			padding: 4rem 3rem;
+		}
+	}
+	@media(max-width: 430px) {
+		.login-card, .register-card{
+			padding: 4rem 1rem;
+		}
 	}
 	.login-form{
 		z-index: 300;
