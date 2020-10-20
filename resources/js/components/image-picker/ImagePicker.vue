@@ -97,7 +97,6 @@
 					let photos = [];
 					for(let i=0 ; i<this.photos.length ; i++) {
 						if(!this.apiGallery.some(a => a.path == this.photos[i].path)) {
-							console.log(this.photos[i].path)
 							if(!photos.includes(this.photos[i])) photos.push(this.photos[i]);
 						}
 					}

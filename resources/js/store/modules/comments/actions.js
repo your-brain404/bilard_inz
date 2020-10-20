@@ -16,7 +16,6 @@ export default {
 		});
 	},
 	fetchCommentsWhere({commit}, news_ids) {
-		console.log(news_ids)
 		db.collection("comments")
 		.onSnapshot(querySnapshot => {
 			let comments = [];
@@ -25,7 +24,6 @@ export default {
 				comment.id = doc.id;
 				if(news_ids.includes(comment.news_id)) comments.push(comment);
 			});
-			console.log(comments)
 			commit('comments', comments)
 		})
 	}

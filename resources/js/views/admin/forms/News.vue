@@ -55,9 +55,11 @@
 
 	
 <script>
-	import FormService from '../../../components/services/FormService.js'
-	let data = FormService.data;
-	delete FormService.data;
+	import FormService from '../../../services/FormService.js'
+	let data = {};
+	let vueComponents = {};
+	
+	Object.entries(FormService).forEach(form => form[0] != 'data' ? vueComponents[form[0]] = form[1] : data = form[1] )
 	
 	export default {
 		data() {
@@ -76,6 +78,6 @@
 				},
 			}
 		},
-		...FormService
+		...vueComponents
 	}
 </script>

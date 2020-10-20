@@ -13,7 +13,7 @@ class CrudService {
 		self::$model = $model;
 	}
 
-	private static function prependData(Request $request): array {
+	public static function prependData(Request $request): array {
 		return $request->all();
 	}
 
