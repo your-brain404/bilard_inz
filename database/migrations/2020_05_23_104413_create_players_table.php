@@ -15,18 +15,13 @@ class CreatePlayersTable extends Migration {
 			$table->id();
 			$table->text('first_name')->nullable();
 			$table->text('last_name')->nullable();
-			$table->text('email')->nullable();
 			$table->text('league')->nullable();
 			$table->text('subtitle')->nullable();
 			$table->text('description')->nullable();
 			$table->text('photo')->nullable();
 			$table->text('photo_alt')->nullable();
-			$table->text('banner_photo')->nullable();
-			$table->text('banner_photo_alt')->nullable();
-			$table->bigInteger('user_id')->unsigned();
 			$table->timestamps();
 
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
 	}
 

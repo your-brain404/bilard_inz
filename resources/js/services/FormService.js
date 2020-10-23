@@ -12,7 +12,7 @@ export default {
 		name: '',
 		rules: {
 			titleRules: [
-			v => !!v || 'Tytuł jest wymagany!'
+			v => !!v || 'To pole jest wymagane!'
 			],
 		},
 		activePhoto: 'https://via.placeholder.com/250',
@@ -50,12 +50,11 @@ export default {
 				block[1].forEach(table => {
 					if(table.tablename == this.$route.path.split('/')[2]) {
 						redirect = `/${block[0]}`;
-						if(redirect == 'main') redirect = '/';
+						if(redirect == '/main') redirect = '';
 					}
 				})
 			})
-			console.log(redirect)
-			// this.$router.push(`/admin-panel${redirect}#${this.$route.path.split('/')[2]}`);
+			this.$router.push(`/admin-panel${redirect}#${this.$route.path.split('/')[2]}`);
 		},
 		add(formData){
 			axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{
@@ -103,6 +102,5 @@ export default {
 				this.currentObject = res.data;
 			})
 		}
-		
 	},
 }

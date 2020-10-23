@@ -35,6 +35,13 @@ Route::post('/partners/add/', 'PartnersController@store');
 Route::delete('/partners/delete/{id}', 'PartnersController@destroy');
 Route::get('/partners/get_where/', 'PartnersController@getWhere');
 
+Route::get('/players/get_all/', 'PlayersController@getAll');
+Route::get('/players/get_one/{id}', 'PlayersController@getOne');
+Route::put('/players/edit', 'PlayersController@store');
+Route::post('/players/add/', 'PlayersController@store');
+Route::delete('/players/delete/{id}', 'PlayersController@destroy');
+Route::get('/players/get_where/', 'PlayersController@getWhere');
+
 Route::get('/slider/get_all', 'SliderController@getAll');
 Route::get('/slider/get_one/{id}', 'SliderController@getOne');
 Route::post('/slider/add/', 'SliderController@store');

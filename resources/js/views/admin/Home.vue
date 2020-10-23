@@ -34,6 +34,9 @@
 						<v-checkbox v-model="item.active" @change="setCheckbox(block.tablename, item)"></v-checkbox>
 					</div>
 				</template>
+				<template v-slot:item.name="{ item }" >
+					{{ item.first_name + ' ' + item.last_name }}
+				</template>
 				<template v-slot:item.actions="{ item }">
 					<div class="d-flex justify-content-end">
 						<router-link v-if="block.gallery" class="form-link" :to="`/admin-panel/${block.tablename}/gallery/${item.id}`">
@@ -122,6 +125,7 @@
 					{ text: 'Tytuł', align: 'start', value: 'title' },
 					{ text: '', value: 'actions' },
 					];
+					if(block.tablename == 'players') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
 					if(block.active) headers.splice(0,0, { text: 'Aktywny', value: 'active', width: '10%' });
 					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', value: 'home_page', width: '10%' });
 					this.headers.push(headers); 

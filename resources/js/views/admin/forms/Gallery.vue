@@ -3,8 +3,8 @@
 		<v-container>
 			<v-card>
 				<v-card-title class="justify-content-center">
-					<h2 class=" pt-4 font-weight-bold panel-title-header first-color"> 
-						Galeria - {{ currentObject.title }}
+					<h2 v-if="formTitle != 'undefined undefined'" class=" pt-4 font-weight-bold panel-title-header first-color"> 
+						Galeria - {{ formTitle }}
 					</h2>
 				</v-card-title>
 				<v-divider class="mt-0"></v-divider>
@@ -76,6 +76,12 @@
 			activePhoto: 'https://via.placeholder.com/250',
 			img: '',
 		}),
+		computed: {
+			formTitle() {
+				if(this.$route.path.split('/')[2] == 'players') return `${this.currentObject.first_name} ${this.currentObject.last_name}`;
+				else return this.currentObject.title;
+			}
+		},
 		methods: {
 			getUrl(src) {
 				return url(src);

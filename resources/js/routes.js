@@ -9,10 +9,12 @@ import NewsForm from './views/admin/forms/News'
 import SubpagesForm from './views/admin/forms/Subpages'
 import PartnersForm from './views/admin/forms/Partners'
 import GalleryForm from './views/admin/forms/Gallery'
+import PlayersForm from './views/admin/forms/Players'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
 import SingleOffer from './components/pages/SingleOffer'
+import Players from './components/pages/Players'
 import Offers from './components/pages/Offers'
 
 Vue.use(VueRouter);
@@ -27,13 +29,18 @@ const routes = [
 
   { path: '/o-klubie', component: AboutPage, name: 'AboutPage' },
 
+
   { path: '/oferta', component: Offers, name: 'OffersListing' },
   { path: '/oferta/:id/:title', component: SingleOffer, name: 'SingleOffer' },
 
-  { path: '/admin-panel', component: Home, name: 'Home'},
+  { path: '/zawodnicy', component: Players, name: 'PlayersListing' },
+
+  { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
-  { path: '/admin-panel/subpages', component: Home, name: 'Subpages'},
-  { path: '/admin-panel/about_us', component: Home, name: 'AboutUs'},
+  { path: '/admin-panel/subpages', component: Home, name: 'AdminSubpages'},
+  { path: '/admin-panel/about_us', component: Home, name: 'AdminAboutUs'},
+  { path: '/admin-panel/offers', component: Home, name: 'AdminOffers'},
+  { path: '/admin-panel/players', component: Home, name: 'AdminPlayers'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -52,6 +59,9 @@ const routes = [
 
   { path: '/admin-panel/partners/form', component: PartnersForm, name: 'PartnersForm'},
   { path: '/admin-panel/partners/form/:id', component: PartnersForm, name: 'PartnersFormEdit'},
+
+  { path: '/admin-panel/players/form', component: PlayersForm, name: 'PlayersForm'},
+  { path: '/admin-panel/players/form/:id', component: PlayersForm, name: 'PlayersFormEdit'},
 
   { path: '/admin-panel/:table/gallery/:id', component: GalleryForm, name: 'GalleryForm'},
 ]
