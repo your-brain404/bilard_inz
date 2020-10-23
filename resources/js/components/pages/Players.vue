@@ -6,19 +6,21 @@
 		<v-row justify="center">
 			<v-col v-for="(player, i) in players" :key="i" cols="12" lg="6">
 				<router-link :to="`/zawodnicy/${player.id}/${slug(getFullName(player))}`">
-					<v-card flat class="offer-card">
+					<v-card flat class="offer-card p-3">
 						<div class="bg-picture player-photo" :style="`background-image: url('${getUrl(player.photo)}')`"></div>
-						<v-card-title class="player-name">
-							{{ getFullName(player) }}
-						</v-card-title>
+						<div class="card-content">
+							<v-card-title class="player-name px-0">
+								{{ getFullName(player) }}
+							</v-card-title>
 
-						<v-card-subtitle class="pb-0">
-							{{ player.subtitle }}
-						</v-card-subtitle>
+							<v-card-subtitle class="pb-0 px-0">
+								{{ player.subtitle }}
+							</v-card-subtitle>
 
-						<v-card-actions>
-							<v-btn color="primary" text>Czytaj więcej</v-btn>
-						</v-card-actions>
+							<v-card-actions class="px-0">
+								<v-btn color="primary" text>{{ player.button_name }}</v-btn>
+							</v-card-actions>
+						</div>
 					</v-card>
 				</router-link>
 			</v-col>
@@ -66,6 +68,10 @@
 	.player-photo {
 		height: 400px;
 		width: 100%;
+	}
+	.card-content {
+		padding-left: -1rem;
+		padding-right: -1rem;
 	}
 
 	.player-name {

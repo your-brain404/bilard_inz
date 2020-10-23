@@ -22,9 +22,9 @@
 			</v-col>
 			<v-col cols="12" md="8" class="d-flex flex-column justify-content-center">
 				<h2 class="font-weight-bold">{{ singleNews.title }}</h2>
-				<p>{{ singleNews.short_description }}</p>
+				<p v-html="singleNews.short_description"></p>
 			</v-col>
-			<v-col> {{ singleNews.description }} </v-col>
+			<v-col v-html="singleNews.description"></v-col>
 		</v-row>
 
 		<v-row>

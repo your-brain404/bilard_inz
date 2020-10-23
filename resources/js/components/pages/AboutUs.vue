@@ -10,13 +10,13 @@
 				</v-col>
 				<v-col class="about-content" cols="12" md="4">
 					<h3 class="about-content-title">{{ row.subtitle }}</h3>
-					<p class="about-content-text">{{ row.short_description }}</p>
+					<p class="about-content-text" v-html="row.short_description"></p>
 				</v-col>
 			</v-row>
 			<div v-if="$route.path == '/o-klubie' || $route.path == '/admin-panel/about_us'">
 				<v-row>
 					<v-col>
-						<p class="about-content-text">{{ row.description }}</p>
+						<p class="about-content-text" v-html="row.description"></p>
 					</v-col>
 				</v-row>
 

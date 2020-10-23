@@ -42,6 +42,13 @@ Route::post('/players/add/', 'PlayersController@store');
 Route::delete('/players/delete/{id}', 'PlayersController@destroy');
 Route::get('/players/get_where/', 'PlayersController@getWhere');
 
+Route::get('/cups/get_all/', 'CupsController@getAll');
+Route::get('/cups/get_one/{id}', 'CupsController@getOne');
+Route::put('/cups/edit', 'CupsController@store');
+Route::post('/cups/add/', 'CupsController@store');
+Route::delete('/cups/delete/{id}', 'CupsController@destroy');
+Route::get('/cups/get_where/', 'CupsController@getWhere');
+
 Route::get('/slider/get_all', 'SliderController@getAll');
 Route::get('/slider/get_one/{id}', 'SliderController@getOne');
 Route::post('/slider/add/', 'SliderController@store');

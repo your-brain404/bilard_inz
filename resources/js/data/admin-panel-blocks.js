@@ -5,8 +5,9 @@ import News from '../components/pages/News'
 import Partners from '../components/pages/Partners'
 import Players from '../components/pages/Players'
 import Subpages from '../components/layouts/Subpages'
+import Cups from '../components/pages/Cups'
 
-export default{
+export default {
 	main:[
 	{title: 'Slider', component: Slider, tablename: 'slider', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false},
 	],
@@ -30,6 +31,10 @@ export default{
 
 	players: [
 	{title: 'Zawodnicy', component: Players, tablename: 'players',table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
-	]
+	],
+
+	cups: [
+	{title: 'Puchary', component: Cups, tablename: 'cups',table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
+	],
 
 }

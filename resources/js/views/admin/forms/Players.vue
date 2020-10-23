@@ -17,6 +17,7 @@
 								<v-text-field  color="primary" v-model="currentObject.last_name" :rules="rules.titleRules" label="Nazwisko *" required></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.subtitle"  label="Obecny tytuł"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.league"  label="Liga"></v-text-field>
+								<v-text-field color="primary"  v-model="currentObject.button_name" label="Napis na przycisku" ></v-text-field>
 								
 								<div class="mt-3">
 									<p class="mb-1">Opis</p>
@@ -70,6 +71,7 @@
 					last_name: '',
 					subtitle: '',
 					league: '',
+					button_name: '',
 					description: '',
 					photo: '',
 					photo_alt: '',

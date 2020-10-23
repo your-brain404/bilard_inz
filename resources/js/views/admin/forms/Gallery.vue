@@ -16,8 +16,11 @@
 								<div class="gallery-container">
 									<v-row>
 										<v-col v-for="photo in gallery" :key="photo.path" cols="12" lg="4" md="4">
-											<div class="bg-picture w-100 d-flex align-items-start justify-content-end" :style="`background-image: url('${getUrl(photo.path)}')`">
-												<v-icon v-if="photo.id" @click="destroy(photo.id)" class="pr-1 pt-1" color="white" >mdi-close</v-icon>
+											<div class="position-relative">
+												<img class="img-fluid" :src="getUrl(photo.path)" alt="">
+												<div class="close-icon-container">
+													<v-icon v-if="photo.id" @click="destroy(photo.id)" class="pr-1 pt-1 close-icon" color="grey" >mdi-close</v-icon>
+												</div>
 											</div>
 											<v-text-field label="Tekst alternatywny" v-model="photo.photo_alt"></v-text-field>
 										</v-col>
@@ -31,7 +34,7 @@
 								<div>
 									<ImagePicker  @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img" :apiGallery="apiGallery"/>
 								</div>
-								
+
 							</div>
 						</v-col>
 
@@ -50,7 +53,7 @@
 					</v-card-actions>
 				</v-form>
 			</v-card>
-			
+
 		</v-container>
 	</v-content>
 </template>
@@ -192,4 +195,24 @@
 </script>
 
 <style>
+	.gallery-form-photo {
+		background-size: cover;
+		width: 100%;
+		height: auto;
+		margin: auto;
+	}
+
+	.close-icon {
+		/*filter: invert(1);*/
+	}
+	.close-icon-container {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: flex-start;
+	}
 </style>

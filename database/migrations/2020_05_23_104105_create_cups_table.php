@@ -14,13 +14,9 @@ class CreateCupsTable extends Migration {
 		Schema::create('cups', function (Blueprint $table) {
 			$table->id();
 			$table->text('title')->nullable();
-			$table->text('subtitle')->nullable();
-			$table->text('short_description')->nullable();
 			$table->text('description')->nullable();
 			$table->text('photo')->nullable();
 			$table->text('photo_alt')->nullable();
-			$table->text('banner_photo')->nullable();
-			$table->text('banner_photo_alt')->nullable();
 			$table->timestamps();
 		});
 	}

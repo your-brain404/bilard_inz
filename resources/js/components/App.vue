@@ -54,6 +54,8 @@
 			if (window.location.hash && window.location.hash == '#_=_') {
 				window.location.href = window.location.origin;
 			}
+
+			$('*').css({"cursor": `'url('${window.location.origin}/storage/img/cursor/cursor.png'), auto'`})
 		}
 
 	}
@@ -64,6 +66,25 @@
 	/*@import url('https://fonts.googleapis.com/css2?family=Candara:1,300;1,400;1,700;1,900&display=swap');*/
 	*{
 		transition: all 0.15s!important;
+		/*cursor: url('http://localhost:8000/storage/img/cursor/cursor.png'), auto;*/
+		cursor: url('D:\\programy\\xampp 7.4\\htdocs\\bilard\\storage\\app\\public\\img\\cursor\\cursor.png'), auto;
+
+	}
+	::-webkit-scrollbar {
+		width: 15px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: rgb(68,0,1);
+		background: linear-gradient(101deg, rgba(68,0,1,1) 21%, rgba(105,63,39,1) 47%, rgba(90,42,15,1) 71%);
+	}
+	::-webkit-scrollbar-thumb {
+		background-image: url(/images/cue.png?be9043c…);
+		width: 900%;
+		height: 223px;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
 	}
 	.app{
 		/*font-family: 'Merriweather', serif!important;*/

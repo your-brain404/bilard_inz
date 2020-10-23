@@ -13,7 +13,7 @@
 							</v-img>
 							<v-card-subtitle class="pb-2">{{ offer.subtitle }}</v-card-subtitle>
 							<v-card-text class="text--primary">
-								<div>{{ offer.short_description }}</div>
+								<div v-html="offer.short_description"></div>
 							</v-card-text>
 						</v-card>
 					</router-link>

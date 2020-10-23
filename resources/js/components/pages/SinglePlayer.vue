@@ -27,7 +27,7 @@
 			</v-col>
 		</v-row>
 		<v-row>
-			<v-col> <p>{{ player.short_description }}</p> </v-col>
+			<v-col> <p v-html="player.short_description"></p> </v-col>
 		</v-row>
 		<v-row>
 			<v-col> <p v-html="player.description"></p> </v-col>
