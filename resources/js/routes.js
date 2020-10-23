@@ -14,6 +14,7 @@ import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
 import SingleOffer from './components/pages/SingleOffer'
+import SinglePlayer from './components/pages/SinglePlayer'
 import Players from './components/pages/Players'
 import Offers from './components/pages/Offers'
 
@@ -34,6 +35,7 @@ const routes = [
   { path: '/oferta/:id/:title', component: SingleOffer, name: 'SingleOffer' },
 
   { path: '/zawodnicy', component: Players, name: 'PlayersListing' },
+  { path: '/zawodnicy/:id/:title', component: SinglePlayer, name: 'SinglePlayer' },
 
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
