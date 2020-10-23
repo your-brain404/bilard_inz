@@ -15,8 +15,14 @@
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.subtitle" label="Podtytuł"></v-text-field>
-								<v-textarea counter label="Krótki Opis" v-model="currentObject.short_description" ></v-textarea>
-								<v-textarea counter label="Opis" v-model="currentObject.description" ></v-textarea>
+								<div class="mt-3">
+									<p class="mb-1">Krótki Opis</p>
+									<vue-editor v-model="currentObject.short_description"></vue-editor>
+								</div>
+								<div class="mt-3">
+									<p class="mb-1">Opis</p>
+									<vue-editor v-model="currentObject.description"></vue-editor>
+								</div>
 							</div>
 						</v-col>
 

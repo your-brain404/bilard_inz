@@ -4,6 +4,7 @@ import SnackbarAlerts from '../data/snackbar-alerts.js'
 import url from '../helpers/photo/url.js'
 import TagsInput from '../components/tagsinput/TagsInput.vue'
 import AdminPanelBlocks from '../data/admin-panel-blocks.js'
+import { VueEditor } from "vue2-editor";
 
 export default {
 	data: {
@@ -53,7 +54,8 @@ export default {
 					}
 				})
 			})
-			this.$router.push(`/admin-panel${redirect}#${this.$route.path.split('/')[2]}`);
+			console.log(redirect)
+			// this.$router.push(`/admin-panel${redirect}#${this.$route.path.split('/')[2]}`);
 		},
 		add(formData){
 			axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{
@@ -92,7 +94,7 @@ export default {
 
 	},
 	components:{
-		ImagePicker, TagsInput
+		ImagePicker, TagsInput, VueEditor
 	},
 	created(){
 		if(this.$route.params.id){

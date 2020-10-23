@@ -17,8 +17,14 @@
 								<v-text-field  color="primary" v-model="currentObject.category" label="Kategoria"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.button_name" label="Napis na przycisku"></v-text-field>
 								<TagsInput @tags="currentObject.tags = $event" />
-								<v-textarea counter label="Krótki opis" v-model="currentObject.short_description" ></v-textarea>
-								<v-textarea counter label="Opis" v-model="currentObject.description" ></v-textarea>
+								<div class="mt-3">
+									<p class="mb-1">Krótki Opis</p>
+									<vue-editor v-model="currentObject.short_description"></vue-editor>
+								</div>
+								<div class="mt-3">
+									<p class="mb-1">Opis</p>
+									<vue-editor v-model="currentObject.description"></vue-editor>
+								</div>
 							</div>
 						</v-col>
 
