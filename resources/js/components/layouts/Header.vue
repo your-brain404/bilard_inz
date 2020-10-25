@@ -99,7 +99,13 @@
 				}
 			},
 
+		},
+		watch: {
+			'$route.path'() {
+				this.currentPage = this.$route.path;
+			}
 		}
+
 
 
 	}

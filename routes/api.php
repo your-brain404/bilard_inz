@@ -35,6 +35,13 @@ Route::post('/partners/add/', 'PartnersController@store');
 Route::delete('/partners/delete/{id}', 'PartnersController@destroy');
 Route::get('/partners/get_where/', 'PartnersController@getWhere');
 
+Route::get('/history/get_all/', 'HistoryController@getAll');
+Route::get('/history/get_one/{id}', 'HistoryController@getOne');
+Route::put('/history/edit', 'HistoryController@store');
+Route::post('/history/add/', 'HistoryController@store');
+Route::delete('/history/delete/{id}', 'HistoryController@destroy');
+Route::get('/history/get_where/', 'HistoryController@getWhere');
+
 Route::get('/players/get_all/', 'PlayersController@getAll');
 Route::get('/players/get_one/{id}', 'PlayersController@getOne');
 Route::put('/players/edit', 'PlayersController@store');

@@ -10,6 +10,7 @@ import NewsForm from './views/admin/forms/News'
 import SubpagesForm from './views/admin/forms/Subpages'
 import PartnersForm from './views/admin/forms/Partners'
 import GalleryForm from './views/admin/forms/Gallery'
+import HistoryForm from './views/admin/forms/History'
 import PlayersForm from './views/admin/forms/Players'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
@@ -18,6 +19,7 @@ import SingleOffer from './components/pages/SingleOffer'
 import SinglePlayer from './components/pages/SinglePlayer'
 import SingleCup from './components/pages/SingleCup'
 import Players from './components/pages/Players'
+import History from './components/pages/History'
 import Cups from './components/pages/Cups'
 import Offers from './components/pages/Offers'
 
@@ -42,6 +44,8 @@ const routes = [
   { path: '/puchary', component: Cups, name: 'CupsListing' },
   { path: '/puchary/:id/:title', component: SingleCup, name: 'SingleCup' },
 
+  { path: '/historia', component: History, name: 'History' },
+
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
   { path: '/admin-panel/subpages', component: Home, name: 'AdminSubpages'},
@@ -49,6 +53,7 @@ const routes = [
   { path: '/admin-panel/offers', component: Home, name: 'AdminOffers'},
   { path: '/admin-panel/players', component: Home, name: 'AdminPlayers'},
   { path: '/admin-panel/cups', component: Home, name: 'AdminCups'},
+  { path: '/admin-panel/history', component: Home, name: 'AdminHistory'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -73,6 +78,9 @@ const routes = [
 
   { path: '/admin-panel/cups/form', component: CupsForm, name: 'CupsForm'},
   { path: '/admin-panel/cups/form/:id', component: CupsForm, name: 'CupsFormEdit'},
+
+  { path: '/admin-panel/history/form', component: HistoryForm, name: 'HistoryForm'},
+  { path: '/admin-panel/history/form/:id', component: HistoryForm, name: 'HistoryFormEdit'},
 
   { path: '/admin-panel/:table/gallery/:id', component: GalleryForm, name: 'GalleryForm'},
 ]

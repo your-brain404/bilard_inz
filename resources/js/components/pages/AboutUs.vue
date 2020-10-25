@@ -11,6 +11,9 @@
 				<v-col class="about-content" cols="12" md="4">
 					<h3 class="about-content-title">{{ row.subtitle }}</h3>
 					<p class="about-content-text" v-html="row.short_description"></p>
+					<router-link to="/o-klubie" class="">
+						<v-btn v-if="$route.path == '/'" outlined color="#da5a33" link class="w-100 offer-button">Czytaj więcej</v-btn>
+					</router-link>
 				</v-col>
 			</v-row>
 			<div v-if="$route.path == '/o-klubie' || $route.path == '/admin-panel/about_us'">

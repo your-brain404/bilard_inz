@@ -55,19 +55,15 @@
 				window.location.href = window.location.origin;
 			}
 
-			$('*').css({"cursor": `'url('${window.location.origin}/storage/img/cursor/cursor.png'), auto'`})
+			$('*').css({"cursor": `url('${window.location.origin}/storage/img/cursor/cursor.png'), auto`})
 		}
 
 	}
 </script>
 
 <style>
-	/*@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300;1,400;1,700;1,900&display=swap');*/
-	/*@import url('https://fonts.googleapis.com/css2?family=Candara:1,300;1,400;1,700;1,900&display=swap');*/
 	*{
 		transition: all 0.15s!important;
-		/*cursor: url('http://localhost:8000/storage/img/cursor/cursor.png'), auto;*/
-		cursor: url('D:\\programy\\xampp 7.4\\htdocs\\bilard\\storage\\app\\public\\img\\cursor\\cursor.png'), auto;
 
 	}
 	::-webkit-scrollbar {
@@ -86,10 +82,12 @@
 		background-size: cover;
 		background-position: center;
 	}
-	.app{
-		/*font-family: 'Merriweather', serif!important;*/
+	.app, .ql-container{
 		font-family: 'Candara'!important;
 		font-weight: 300;
+	}
+	.ql-editing {
+		left: unset!important;
 	}
 	.first-color{
 		color: #da5a33;
@@ -102,5 +100,11 @@
 	}
 	a:hover{
 		text-decoration: none!important;
+	}
+	blockquote {
+		border-left: 4px solid #ccc;
+		margin-bottom: 5px;
+		margin-top: 5px;
+		padding-left: 16px;
 	}
 </style>

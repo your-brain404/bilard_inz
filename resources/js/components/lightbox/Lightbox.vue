@@ -1,20 +1,18 @@
 <template>
-	<div class="lightbox">
-		<v-dialog :scrollable="false" @input="v => v || close()" :value="lightbox" :z-index="5" >
-			<v-container >
-				<v-row >
-					<v-col cols="12" class="d-flex justify-content-center" @click="close">
-						<img class="" width="75%" height="auto" :src="getUrl(activePhoto)">
-					</v-col>
-				</v-row>
-				<v-row class="d-flex justify-content-center">
-					<v-col @click="activePhoto = photo" v-for="(photo, i) in gallery" :key="i" cols="2">
-						<div class="bg-picture mx-auto " :style="`background-image: url('${getUrl(photo)}')`" ></div>
-					</v-col>
-				</v-row>
-			</v-container>
-		</v-dialog>
-	</div>
+	<v-dialog :scrollable="false" @input="v => v || close()" :value="lightbox" :z-index="5" >
+		<v-container >
+			<v-row >
+				<v-col cols="12" class="d-flex justify-content-center" @click="close">
+					<img class="" width="75%" height="auto" :src="getUrl(activePhoto)">
+				</v-col>
+			</v-row>
+			<v-row class="d-flex justify-content-center">
+				<v-col @click="activePhoto = photo" v-for="(photo, i) in gallery" :key="i" cols="2">
+					<div class="bg-picture mx-auto " :style="`background-image: url('${getUrl(photo)}')`" ></div>
+				</v-col>
+			</v-row>
+		</v-container>
+	</v-dialog>
 </template>
 
 <script>

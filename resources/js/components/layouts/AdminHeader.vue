@@ -42,6 +42,7 @@
 				{ title: 'Oferta', icon: 'mdi-tag-multiple', path: '/admin-panel/offers' },
 				{ title: 'Zawodnicy', icon: 'mdi-billiards-rack', path: '/admin-panel/players' },
 				{ title: 'Puchary', icon: 'mdi-trophy', path: '/admin-panel/cups' },
+				{ title: 'Historia', icon: 'mdi-history', path: '/admin-panel/history' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
 				],
 				color: '#da5a33',

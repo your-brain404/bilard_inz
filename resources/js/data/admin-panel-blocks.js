@@ -6,6 +6,7 @@ import Partners from '../components/pages/Partners'
 import Players from '../components/pages/Players'
 import Subpages from '../components/layouts/Subpages'
 import Cups from '../components/pages/Cups'
+import History from '../components/pages/History'
 
 export default {
 	main:[
@@ -26,15 +27,19 @@ export default {
 	],
 
 	offers: [
-	{title: 'Oferta', component: Offers, tablename: 'offers',table: [], multiple: true, removable: true, gallery: true, active: true, home_page: true},
+	{title: 'Oferta', component: Offers, tablename: 'offers', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: true},
 	],
 
 	players: [
-	{title: 'Zawodnicy', component: Players, tablename: 'players',table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
+	{title: 'Zawodnicy', component: Players, tablename: 'players', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
 	],
 
 	cups: [
-	{title: 'Puchary', component: Cups, tablename: 'cups',table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
+	{title: 'Puchary', component: Cups, tablename: 'cups', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
+	],
+
+	history: [
+	{title: 'Historia', component: History, tablename: 'history', table: [], multiple: true, removable: true, gallery: true, active: false, home_page: false},
 	],
 
 }
