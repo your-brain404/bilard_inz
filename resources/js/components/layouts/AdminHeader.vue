@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer v-model="drawer" :color="color" left :permanent="true" app dark >
+	<v-navigation-drawer v-model="drawer" :color="color" left :permanent="true" expand-on-hover app dark >
 		<v-list dense nav class="py-0" >
 			<v-list-item two-line :class="'px-0'">
 				<v-list-item-avatar>

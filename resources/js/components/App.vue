@@ -7,7 +7,7 @@
 		<AdminSnackbar />
 
 		<Footer v-if="!isPathAdmin" />
-		<AdminFooter v-else />
+		<!-- <AdminFooter v-else /> -->
 	</v-app>
 </template>
 

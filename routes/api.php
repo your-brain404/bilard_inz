@@ -105,3 +105,8 @@ Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos');
 Route::post('/gallery/add', 'GalleryController@store');
 Route::put('/gallery/edit', 'GalleryController@store');
 Route::delete('/gallery/delete/{id}', 'GalleryController@destroy');
+
+Route::get('/mails/get_all', 'MailsController@getAll');
+Route::get('/mails/get_one/{id}', 'MailsController@getOne');
+Route::post('/mails/add/', 'MailsController@store');
+Route::delete('/mails/delete/{id}', 'MailsController@destroy');
