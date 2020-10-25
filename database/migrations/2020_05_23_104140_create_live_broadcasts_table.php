@@ -15,7 +15,6 @@ class CreateLiveBroadcastsTable extends Migration {
 			$table->id();
 			$table->text('title')->nullable();
 			$table->text('subtitle')->nullable();
-			$table->text('description')->nullable();
 			$table->text('link')->nullable();
 			$table->timestamps();
 		});

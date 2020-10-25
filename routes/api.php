@@ -35,6 +35,13 @@ Route::post('/partners/add/', 'PartnersController@store');
 Route::delete('/partners/delete/{id}', 'PartnersController@destroy');
 Route::get('/partners/get_where/', 'PartnersController@getWhere');
 
+Route::get('/live_broadcasts/get_all/', 'LiveBroadcastsController@getAll');
+Route::get('/live_broadcasts/get_one/{id}', 'LiveBroadcastsController@getOne');
+Route::put('/live_broadcasts/edit', 'LiveBroadcastsController@store');
+Route::post('/live_broadcasts/add/', 'LiveBroadcastsController@store');
+Route::delete('/live_broadcasts/delete/{id}', 'LiveBroadcastsController@destroy');
+Route::get('/live_broadcasts/get_where/', 'LiveBroadcastsController@getWhere');
+
 Route::get('/history/get_all/', 'HistoryController@getAll');
 Route::get('/history/get_one/{id}', 'HistoryController@getOne');
 Route::put('/history/edit', 'HistoryController@store');

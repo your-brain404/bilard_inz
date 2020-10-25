@@ -7,6 +7,7 @@ import Players from '../components/pages/Players'
 import Subpages from '../components/layouts/Subpages'
 import Cups from '../components/pages/Cups'
 import History from '../components/pages/History'
+import LiveBroadcasts from '../components/pages/LiveBroadcasts'
 
 export default {
 	main:[
@@ -40,6 +41,10 @@ export default {
 
 	history: [
 	{title: 'Historia', component: History, tablename: 'history', table: [], multiple: true, removable: true, gallery: true, active: false, home_page: false},
+	],
+
+	live_broadcasts: [
+	{title: 'Transmisje na żywo', component: LiveBroadcasts, tablename: 'live_broadcasts', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false},
 	],
 
 }

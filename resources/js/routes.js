@@ -12,6 +12,7 @@ import PartnersForm from './views/admin/forms/Partners'
 import GalleryForm from './views/admin/forms/Gallery'
 import HistoryForm from './views/admin/forms/History'
 import PlayersForm from './views/admin/forms/Players'
+import LiveBroadcastsForm from './views/admin/forms/LiveBroadcasts'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -19,6 +20,7 @@ import SingleOffer from './components/pages/SingleOffer'
 import SinglePlayer from './components/pages/SinglePlayer'
 import SingleCup from './components/pages/SingleCup'
 import Players from './components/pages/Players'
+import LiveBroadcasts from './components/pages/LiveBroadcasts'
 import History from './components/pages/History'
 import Cups from './components/pages/Cups'
 import Offers from './components/pages/Offers'
@@ -46,6 +48,8 @@ const routes = [
 
   { path: '/historia', component: History, name: 'History' },
 
+  { path: '/transmisje', component: LiveBroadcasts, name: 'LiveBroadcasts' },
+
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
   { path: '/admin-panel/subpages', component: Home, name: 'AdminSubpages'},
@@ -54,6 +58,7 @@ const routes = [
   { path: '/admin-panel/players', component: Home, name: 'AdminPlayers'},
   { path: '/admin-panel/cups', component: Home, name: 'AdminCups'},
   { path: '/admin-panel/history', component: Home, name: 'AdminHistory'},
+  { path: '/admin-panel/live_broadcasts', component: Home, name: 'AdminLiveBroadcasts'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -81,6 +86,9 @@ const routes = [
 
   { path: '/admin-panel/history/form', component: HistoryForm, name: 'HistoryForm'},
   { path: '/admin-panel/history/form/:id', component: HistoryForm, name: 'HistoryFormEdit'},
+
+  { path: '/admin-panel/live_broadcasts/form', component: LiveBroadcastsForm, name: 'LiveBroadcastsForm'},
+  { path: '/admin-panel/live_broadcasts/form/:id', component: LiveBroadcastsForm, name: 'LiveBroadcastsFormEdit'},
 
   { path: '/admin-panel/:table/gallery/:id', component: GalleryForm, name: 'GalleryForm'},
 ]

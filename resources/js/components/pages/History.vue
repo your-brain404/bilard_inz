@@ -25,7 +25,6 @@
 <script>
 	import axios from 'axios'
 	import url from '../../helpers/photo/url.js'
-	import slugify from '../../helpers/links/slug.js'
 	import Lightbox from '../lightbox/Lightbox'
 
 	export default {
@@ -39,7 +38,6 @@
 			}
 		},
 		methods: {
-			slug: title => slugify(title),
 			getHistory(){
 				this.$store.commit('loading', true);
 				axios.get(`/api/history/get_all`).then(res => {
