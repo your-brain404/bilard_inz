@@ -24,6 +24,7 @@ import LiveBroadcasts from './components/pages/LiveBroadcasts'
 import History from './components/pages/History'
 import Cups from './components/pages/Cups'
 import Offers from './components/pages/Offers'
+import Contact from './components/pages/Contact'
 
 Vue.use(VueRouter);
 
@@ -49,6 +50,8 @@ const routes = [
   { path: '/historia', component: History, name: 'History' },
 
   { path: '/transmisje', component: LiveBroadcasts, name: 'LiveBroadcasts' },
+
+  { path: '/kontakt', component: Contact, name: 'Contact' },
 
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},

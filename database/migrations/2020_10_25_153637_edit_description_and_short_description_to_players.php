@@ -26,7 +26,7 @@ class EditDescriptionAndShortDescriptionToPlayers extends Migration
     public function down()
     {
         Schema::table('players', function (Blueprint $table) {
-            $table->longText('description')->nullable()->change();
+            $table->text('description')->nullable()->change();
         });
     }
 }

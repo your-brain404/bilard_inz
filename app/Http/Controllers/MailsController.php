@@ -14,22 +14,25 @@ class MailsController extends Controller
 	}
 
     public function getAll() {
-		$offers = CrudService::getAll();
-		return new MailsResource($offers);
+		$mails = CrudService::getAll();
+		return new MailsResource($mails);
 	}
 
 	public function getOne($id) {
-		$offers = CrudService::getOne($id);
-		return new MailsResource($offers);
+		$mail = CrudService::getOne($id);
+		return new MailsResource($mail);
 	}
 
 	public function store(Request $request) {
-		$offers = CrudService::saveData($request);
-		return new MailsResource($offers);
+		return MailService::send($request);
+	}
+
+	public function answer(Request $request) {
+		return MailService::answer($request);
 	}
 	
 	public function destroy($id) {
-		$offers = CrudService::destroy($id);
-		return new MailsResource($offers); 
+		$mail = CrudService::destroy($id);
+		return new MailsResource($mail); 
 	}
 }

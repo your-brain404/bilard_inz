@@ -12,8 +12,14 @@ class MailsResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+    public $data;
+
     public function toArray($request)
     {
         return parent::toArray($request);
+    }
+
+    public function with($request) {
+        return $this->data;
     }
 }

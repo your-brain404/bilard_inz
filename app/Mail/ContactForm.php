@@ -30,6 +30,8 @@ class ContactForm extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.contact')->with($this->contact_data);
+        $mail = $this->markdown('mails.contact');
+        if(isset($this->contact_data['attachment'])) $mail = $mail->attachFromStorage('/media/'. $this->contact_data['attachment']);
+        return $mail->subject($this->contact_data['subject'])->with($this->contact_data);
     }
 }
