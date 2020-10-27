@@ -12,27 +12,26 @@ use App\Mail\ContactForm;
 use App\Mail\AnswerForm;
 use App\Http\Resources\MailsResource;
 use App\Mails;
+use App\Attachments;
+use Illuminate\Mail\Mailable;
 
 class MailService {
 
-	protected static $attachment;
 	protected static $email = 'dany97971@gmail.com';
 
-	public static function validate(array $data): bool {
+	public static function questionValidation(array $data): bool {
 		$validator = Validator::make($data, [
 			'email' => 'required|string|email',
 			'subject' => 'required|string',
 			'message' => 'required|string',
 			'name' => 'required|string',
 			'phone' => 'required|string',
-			'rodo1' => 'string',
-			'rodo2' => 'string',
 		]);
 
 		return !$validator->fails();
 	}
 
-	public static function answerValidate(array $data): bool {
+	public static function answerValidation(array $data): bool {
 		$validator = Validator::make($data, [
 			'answer_message' => 'required|string',
 			'subject' => 'required|string',
@@ -53,15 +52,6 @@ class MailService {
 		return $data;
 	}
 
-	public static function addAttachment(array $data, Request $request): array {
-		// var_dump($data);die;
-		self::$attachment = FileHelper::store($data['file'], 'attachments');
-		$data['attachment'] = self::$attachment->path;
-		$request->merge(['attachment' => $data['attachment'] ]);
-
-		return $data;
-	}
-
 	public static function getResponse(Mails $mail): MailsResource {
 		$response = new MailsResource($mail);
 		$response->data = empty(Mail::failures()) ? ResponseHelper::mailSuccessResponse() : ResponseHelper::mailErrorResponse();
@@ -69,52 +59,39 @@ class MailService {
 		return $response;
 	}
 
-	public static function prepareData(Request $request): array {
-		$data = $request->all();
-
-		return self::setRodo($data);
-	} 
-
-	public static function getTemplate(array $data) {
-		if(isset($data['answer'])) return new AnswerForm($data);
-		else return new ContactForm($data);
+	public static function getTemplate(array $data): Mailable {
+		return isset($data['answer']) ? new AnswerForm($data) : new ContactForm($data);
 	}
 
-	public static function saveData(array $request): Mails{
-
-		$mail = isset($request['id']) ? Mails::where('id', $request['id'])->first()->fill($request) : Mails::create($request);
-
-		if ($mail->save()) {
-			return $mail;
+	public static function checkAttachmentsToDelete(array $data) {
+		if(isset($data['answer'])) {
+			$attachments = Attachments::where('mail_id', $data['id'])->get();
+			if(!empty($attachments)) {
+				foreach($attachments as $attachment) {
+					FileHelper::deleteFilesFromStorage($attachment->path, 'attachments');
+					$attachment->delete();
+				}
+			} 
 		}
 	}
 
-	public static function getFillables() {
-		return ['id', 'answer', 'subject', 'answer_message', 'email', 'attachment'];
+	public static function saveData(Request $request) {
+		$data = CrudService::prependData($request);
+		$validation = isset($data['answer']) ? self::answerValidation($data) : self::questionValidation($data);
+
+		return $validation ? CrudService::saveData($request) : ResponseHelper::validateResponse();
 	}
 
 	public static function send(Request $request) {
-		$data = self::prepareData($request);
+		$data = CrudService::prependData($request);
+		$data = self::setRodo($data);
+		$data['mail'] = Mails::find($data['id']);
 		
-		$validation = isset($data['id']) ? self::answerValidate($data) : self::validate($data);
-
-		if(!$validation) return ResponseHelper::validateResponse();
-
-		if(isset($data['file'])) $data = self::addAttachment($data, $request);
-
-		if(isset($data['id'])) {
-			foreach ($data as $key => $value) {
-				if(!in_array($key, self::getFillables())) $request->request->remove($key);
-			}
-		} 
-		
-		$mail = self::saveData($request->all());
-
-		$receiver = isset($data['id']) ? $data['email'] : self::$email;
+		$receiver = isset($data['answer']) ? $data['email'] : self::$email;
 		Mail::to($receiver)->send(self::getTemplate($data));
 
-		if(isset($data['id'])) if(isset($data['attachment'])) FileHelper::delete(self::$attachment->id, 'attachments');
-
-		return self::getResponse($mail);
+		self::checkAttachmentsToDelete($data);
+		
+		return self::getResponse($data['mail']);
 	}
 }

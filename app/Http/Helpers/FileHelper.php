@@ -35,7 +35,7 @@ class FileHelper {
 		return $media;
 	}
 
-	public static function store($file, $folder) {
+	public static function store($file, $folder = 'media') {
 		
 		$name = self::getFileName($file);
 		$destination = date('Y-m-d') . '/';
@@ -48,7 +48,7 @@ class FileHelper {
 			WebpHelper::convertToWebp($destination, $name);
 		}
 
-		$media = self::storeToMedia($file, $full_path);
+		$media = $folder == 'media' ? self::storeToMedia($file, $full_path) : $full_path;
 
 		return $media;
 	}

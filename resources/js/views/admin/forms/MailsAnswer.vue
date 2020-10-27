@@ -22,7 +22,7 @@
 								<v-text-field  color="primary" disabled v-model="mail.phone" label="Telefon"></v-text-field>
 								<v-text-field  color="primary" disabled v-model="mail.subject" label="Temat"></v-text-field>
 								<v-textarea  color="primary" rows="5" disabled v-model="mail.message" label="Wiadomość"></v-textarea>
-								<a v-if="mail.attachment != null" :href="getAttachment(mail.attachment)">
+								<a v-for="(attachment, i) in attachments" :key="i" target="_blank" :href="getAttachment(attachment.path)">
 									<v-btn color="primary">
 										<v-icon>mdi-file</v-icon>
 										<span>Załącznik</span>
@@ -74,7 +74,8 @@
 					v => !!v || 'To pole jest wymagane!'
 					],
 				},
-				valid: true
+				valid: true,
+				attachments: []
 			}
 		},
 		watch: {
@@ -84,6 +85,11 @@
 			}
 		},
 		methods: {
+			getAttachments() {
+				axios.get(`/api/attachments/get_where?mail_id=${this.$route.params.id}`).then(res => {
+					this.attachments = res.data;
+				})
+			},
 			getMail() {
 				axios.get(`/api/mails/get_one/${this.$route.params.id}`).then(res => {
 					this.mail = res.data;
@@ -119,6 +125,7 @@
 		},
 		created() {
 			this.getMail();
+			this.getAttachments();
 		}
 	}
 </script>

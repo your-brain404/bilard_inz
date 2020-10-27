@@ -23,7 +23,8 @@
 								<v-text-field  color="primary" disabled v-model="mail.phone" label="Telefon"></v-text-field>
 								<v-text-field  color="primary" disabled v-model="mail.subject" label="Temat"></v-text-field>
 								<v-textarea  color="primary" rows="5" disabled v-model="mail.message" label="Wiadomość"></v-textarea>
-								<a v-if="mail.attachment != null" :href="getAttachment(mail.attachment)">
+
+								<a v-for="(attachment, i) in attachments" :key="i" :href="getAttachment(attachment.path)">
 									<v-btn color="primary">
 										<v-icon>mdi-file</v-icon>
 										<span>Załącznik</span>

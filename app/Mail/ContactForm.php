@@ -18,8 +18,7 @@ class ContactForm extends Mailable
      */
     protected $contact_data;
 
-    public function __construct(array $contact_data)
-    {
+    public function __construct(array $contact_data) {
         $this->contact_data = $contact_data;
     }
 
@@ -28,10 +27,16 @@ class ContactForm extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function attachments() {
+        return $this->contact_data['mail']->attachments;
+    }
+
+    public function build() {
         $mail = $this->markdown('mails.contact');
-        if(isset($this->contact_data['attachment'])) $mail->attach(storage_path() .'/app/public/attachments/'. $this->contact_data['attachment']);
+
+        if(!empty($this->attachments())) {
+            foreach($this->attachments() as $attachment) $mail->attach(storage_path() .'/app/public/attachments/'. $attachment->path);
+        } 
         
         return $mail->subject($this->contact_data['subject'])->with($this->contact_data);
     }
