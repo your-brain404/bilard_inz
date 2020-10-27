@@ -8,6 +8,7 @@ import Subpages from '../components/layouts/Subpages'
 import Cups from '../components/pages/Cups'
 import History from '../components/pages/History'
 import LiveBroadcasts from '../components/pages/LiveBroadcasts'
+import Mails from '../components/pages/Mails'
 
 export default {
 	main:[
@@ -45,6 +46,10 @@ export default {
 
 	live_broadcasts: [
 	{title: 'Transmisje na żywo', component: LiveBroadcasts, tablename: 'live_broadcasts', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false},
+	],
+
+	mails: [
+	{title: 'Skrzynka pocztowa', component: Mails, tablename: 'mails', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: true},
 	],
 
 }

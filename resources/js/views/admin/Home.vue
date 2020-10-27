@@ -37,6 +37,11 @@
 				<template v-slot:item.name="{ item }" >
 					{{ item.first_name + ' ' + item.last_name }}
 				</template>
+				<template v-slot:item.answer="{ item }" >
+					<div class="d-flex justify-content-center">
+						<v-checkbox v-model="item.answer" disabled></v-checkbox>
+					</div>
+				</template>
 				<template v-slot:item.actions="{ item }">
 					<div class="d-flex justify-content-end">
 						<router-link v-if="block.gallery" class="form-link" :to="`/admin-panel/${block.tablename}/gallery/${item.id}`">
@@ -47,8 +52,8 @@
 						</router-link>
 						<router-link class="form-link" :to="`/admin-panel/${block.tablename}/form/${item.id}`">
 							<v-btn small color="primary" class="white--text mr-2">
-								<v-icon left class="">mdi-pencil</v-icon>
-								<span>Edytuj</span>
+								<v-icon left class="">{{ block.answer ? 'mdi-eye' : 'mdi-pencil' }}</v-icon>
+								<span>{{ block.answer ? 'Pokaż' : 'Edytuj' }}</span>
 							</v-btn>
 						</router-link>
 						<v-btn v-if="block.removable" @click="deleteItem(block, item)" small color="error" class="white--text">
@@ -125,6 +130,10 @@
 					{ text: 'Tytuł', align: 'start', value: 'title' },
 					{ text: '', value: 'actions' },
 					];
+					if(block.answer) {
+						headers[0] = { text: 'Odpowiedziano', align: 'start', value: 'answer', width: '10%'};
+						headers.splice(1,0, {text: 'Temat', align: 'start', value: 'subject', width: '20%'}, {text: 'E-mail', align: 'start', value: 'email', width: '20%'});
+					}
 					if(block.tablename == 'players') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
 					if(block.active) headers.splice(0,0, { text: 'Aktywny', value: 'active', width: '10%' });
 					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', value: 'home_page', width: '10%' });

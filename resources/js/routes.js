@@ -9,6 +9,8 @@ import OffersForm from './views/admin/forms/Offers'
 import NewsForm from './views/admin/forms/News'
 import SubpagesForm from './views/admin/forms/Subpages'
 import PartnersForm from './views/admin/forms/Partners'
+import MailsForm from './views/admin/forms/Mails'
+import MailsAnswerForm from './views/admin/forms/MailsAnswer'
 import GalleryForm from './views/admin/forms/Gallery'
 import HistoryForm from './views/admin/forms/History'
 import PlayersForm from './views/admin/forms/Players'
@@ -62,6 +64,7 @@ const routes = [
   { path: '/admin-panel/cups', component: Home, name: 'AdminCups'},
   { path: '/admin-panel/history', component: Home, name: 'AdminHistory'},
   { path: '/admin-panel/live_broadcasts', component: Home, name: 'AdminLiveBroadcasts'},
+  { path: '/admin-panel/mails', component: Home, name: 'AdminMails'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -92,6 +95,9 @@ const routes = [
 
   { path: '/admin-panel/live_broadcasts/form', component: LiveBroadcastsForm, name: 'LiveBroadcastsForm'},
   { path: '/admin-panel/live_broadcasts/form/:id', component: LiveBroadcastsForm, name: 'LiveBroadcastsFormEdit'},
+
+  { path: '/admin-panel/mails/form', component: MailsForm, name: 'MailsForm'},
+  { path: '/admin-panel/mails/form/:id', component: MailsAnswerForm, name: 'MailsFormEdit'},
 
   { path: '/admin-panel/:table/gallery/:id', component: GalleryForm, name: 'GalleryForm'},
 ]

@@ -35,12 +35,12 @@ class FileHelper {
 		return $media;
 	}
 
-	public static function store($file) {
+	public static function store($file, $folder) {
 		
 		$name = self::getFileName($file);
 		$destination = date('Y-m-d') . '/';
 		$full_path = $destination . $name;
-		$destination = 'media/'. $destination;
+		$destination = "$folder/". $destination;
 		
 		Storage::putFileAs($destination, new File($file), $name);
 
@@ -53,17 +53,17 @@ class FileHelper {
 		return $media;
 	}
 
-	public static function deleteFilesFromStorage($path){
-		Storage::delete('media/'. explode('/', $path)[0]. '/'. explode('/', $path)[1]);
-		Storage::delete('media/'. explode('/', $path)[0]. '/'. explode('/', $path)[1]. '.webp');
+	public static function deleteFilesFromStorage($path, $folder){
+		Storage::delete("$folder/". explode('/', $path)[0]. '/'. explode('/', $path)[1]);
+		Storage::delete("$folder/". explode('/', $path)[0]. '/'. explode('/', $path)[1]. '.webp');
 	}
 
-	public static function delete($id){
+	public static function delete($id, $folder = 'media'){
 
 		$media = Media::find($id);
 
 		if ($media->delete()) {
-			FileHelper::deleteFilesFromStorage($media->path);
+			FileHelper::deleteFilesFromStorage($media->path, $folder);
 			return new MediaResource($media);
 		}else{
 			return new MediaResource(['message' => 'Something went wrong...']);

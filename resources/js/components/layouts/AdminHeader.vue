@@ -44,6 +44,7 @@
 				{ title: 'Puchary', icon: 'mdi-trophy', path: '/admin-panel/cups' },
 				{ title: 'Historia', icon: 'mdi-history', path: '/admin-panel/history' },
 				{ title: 'Transmisje na żywo', icon: 'mdi-antenna', path: '/admin-panel/live_broadcasts' },
+				{ title: 'Skrzynka pocztowa', icon: 'mdi-mailbox', path: '/admin-panel/mails' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
 				],
 				color: '#da5a33',

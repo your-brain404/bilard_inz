@@ -4,7 +4,7 @@ Odpowiedź na mail o temacie: {{ $subject }}
 <br>
 Treść wiadomości: 
 <br>
-{{ $message }}
+{{ $answer_message }}
 
 
 <br>

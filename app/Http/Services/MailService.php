@@ -9,12 +9,14 @@ use App\Http\Helpers\FileHelper;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\ContactForm;
+use App\Mail\AnswerForm;
 use App\Http\Resources\MailsResource;
 use App\Mails;
 
 class MailService {
 
 	protected static $attachment;
+	protected static $email = 'dany97971@gmail.com';
 
 	public static function validate(array $data): bool {
 		$validator = Validator::make($data, [
@@ -25,8 +27,18 @@ class MailService {
 			'phone' => 'required|string',
 			'rodo1' => 'string',
 			'rodo2' => 'string',
-			'answer' => 'number',
-			'id' => 'number'
+		]);
+
+		return !$validator->fails();
+	}
+
+	public static function answerValidate(array $data): bool {
+		$validator = Validator::make($data, [
+			'answer_message' => 'required|string',
+			'subject' => 'required|string',
+			'answer' => 'numeric',
+			'id' => 'numeric',
+			'email' => 'required|string|email'
 		]);
 
 		return !$validator->fails();
@@ -42,7 +54,7 @@ class MailService {
 	}
 
 	public static function addAttachment(array $data, Request $request): array {
-		self::$attachment = FileHelper::store($data['file']);
+		self::$attachment = FileHelper::store($data['file'], 'attachments');
 		$data['attachment'] = self::$attachment->path;
 		$request->merge(['attachment' => $data['attachment'] ]);
 
@@ -67,20 +79,36 @@ class MailService {
 		else return new ContactForm($data);
 	}
 
+	public static function saveData(array $request): Mails{
+
+		$mail = isset($request['id']) ? Mails::where('id', $request['id'])->first()->fill($request) : Mails::create($request);
+
+		if ($mail->save()) {
+			return $mail;
+		}
+	}
+
 	public static function send(Request $request) {
 		$data = self::prepareData($request);
-		if(!self::validate($data)) return ResponseHelper::validateResponse();
+		
+		$validation = isset($data['id']) ? self::answerValidate($data) : self::validate($data);
+
+		if(!$validation) return ResponseHelper::validateResponse();
+
 		if(isset($data['file'])) $data = self::addAttachment($data, $request);
+
 		if(isset($data['id'])) {
 			foreach ($data as $key => $value) {
-				if($key != 'id' && $key != 'answer') $request->request->remove($key);
+				if($key != 'id' && $key != 'answer' && $key != 'subject' && $key != 'answer_message' && $key != 'email') $request->request->remove($key);
 			}
 		} 
-		$mail = CrudService::saveData($request);
+		
+		$mail = self::saveData($request->all());
 
-		Mail::to('dany97971@gmail.com')->send(self::getTemplate($data));
+		$receiver = isset($data['id']) ? $data['email'] : self::$email;
+		Mail::to($receiver)->send(self::getTemplate($data));
 
-		if(isset(self::$attachment)) FileHelper::delete(self::$attachment->id);
+		if(isset($data['id'])) if(isset($data['attachment'])) FileHelper::delete(self::$attachment->id, 'attachments');
 
 		return self::getResponse($mail);
 	}
