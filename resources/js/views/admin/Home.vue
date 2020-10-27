@@ -93,7 +93,7 @@
 		},
 		methods:{
 			deleteItem(block, item){
-				if(confirm(`Na pewno chcesz usunąć trwale przedmiot "${item.title}" z tabeli "${block.title}"? `)){
+				if(confirm(`Na pewno chcesz usunąć trwale przedmiot "${block.answer ? item.subject : item.title }" z tabeli "${block.title}"? `)){
 					this.$store.commit('loading', true);
 					axios.delete(`/api/${block.tablename}/delete/${item.id}`).then(res => {
 						this.deleteFlag = true;

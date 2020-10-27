@@ -12,7 +12,7 @@
 					<v-row class="px-5">
 						<v-col cols="12" lg="8">
 							<v-textarea  color="primary" :rules="rules.titleRules" rows="5" v-model="answer.answer_message" label="Twoja wiadomość"></v-textarea>
-							<v-file-input v-model="answer.files" show-size counter label="Plik (opcjonalnie)" multiple prepend-icon="mdi-file"></v-file-input>
+							<v-file-input v-model="files" show-size counter label="Plik (opcjonalnie)" multiple prepend-icon="mdi-file"></v-file-input>
 
 						</v-col>
 						<v-col class="" cols="12" lg="4">
@@ -23,9 +23,9 @@
 								<v-text-field  color="primary" disabled v-model="mail.subject" label="Temat"></v-text-field>
 								<v-textarea  color="primary" rows="5" disabled v-model="mail.message" label="Wiadomość"></v-textarea>
 								<a v-for="(attachment, i) in attachments" :key="i" target="_blank" :href="getAttachment(attachment.path)">
-									<v-btn color="primary">
-										<v-icon>mdi-file</v-icon>
-										<span>Załącznik</span>
+									<v-btn color="primary" class="w-100 mb-2">
+										<v-icon left>mdi-file</v-icon>
+										<span>Załącznik #{{ i+1 }}</span>
 									</v-btn>
 								</a>
 								
@@ -37,7 +37,7 @@
 					<v-divider class="mb-0"></v-divider>
 
 					<v-card-actions class="pa-4">
-						<v-btn :loading="loading" :disabled="!valid" color="success" class="mr-2" @click="send" >
+						<v-btn :loading="loading" :disabled="!valid" color="success" class="mr-2" @click="editMail" >
 							<v-icon left>mdi-check</v-icon>
 							<span>Wyślij</span>
 						</v-btn>
@@ -63,12 +63,12 @@
 				loading: false,
 				answer: {
 					answer_message: '',
-					files: null,
 					answer: 1,
 					id: this.$route.params.id,
 					subject: '',
 					email: ''
 				},
+				files: [],
 				rules: {
 					titleRules: [
 					v => !!v || 'To pole jest wymagane!'
@@ -98,27 +98,44 @@
 			getAttachment(src) {
 				return attachment(src);
 			},
-			prepareData() {
-				let contact_data = new FormData();
-				Object.entries(this.answer).forEach(el => el[1] != null ? contact_data.append(el[0], el[1]) : true);
-
-				return contact_data;
-			},
-			send() {
-				if(!this.valid) return;
-				this.loading = true;
-				axios.post('/api/mails/answer', this.prepareData(), {
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				}).then(res => {
+			sendMail(mail){
+				axios.post('/api/mails/send', mail).then(res => {
+					console.log(res)
 					this.loading = false;
 					if(res.data.error != undefined) this.$store.commit('setSnackbar', res.data.error.message);
 					else if(res.data.success != undefined) this.$store.commit('setSnackbar', res.data.success.message);
+					
+				}).catch(err => {
+					console.log(err)
+					this.loading = false;
+					this.$store.commit('setSnackbar', 'Przepraszamy, nie udało się wysłać maila...');
+				})
+
+			},
+			saveAttachments(mail) {
+				for(let i=0 ; i<this.files.length ; i++ ){
+					let formData = new FormData();
+					formData.append('file', this.files[i]);
+					formData.append('mail_id', mail.id);
+					axios.post('/api/attachments/add', formData).then(res=>{
+						console.log(i == this.files.length - 1);
+						if(i == this.files.length - 1) this.sendMail(mail);
+					}).catch(err=>{
+						this.loading = false;
+						console.log(err);
+						this.$store.commit('setSnackbar', 'Przepraszamy, nie udało się wysłać załączników...');
+					});
+				} 
+			},
+			editMail() {
+				if(!this.valid) return;
+				this.loading = true;
+				axios.put('/api/mails/answer', this.answer).then(res => {
+					this.saveAttachments(res.data);
 					console.log(res)
 				}).catch(err => {
 					this.loading = false;
-					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak...');
+					this.$store.commit('setSnackbar', 'Nie udało się zapisać wiadomości, skontaktuj się z Danielem');
 				})
 
 			}

@@ -66,11 +66,10 @@
 		methods: {
 			sendMail(mail){
 				axios.post('/api/mails/send', mail).then(res => {
-					console.log(res)
 					this.loading = false;
 					if(res.data.error != undefined) this.$store.commit('setSnackbar', res.data.error.message);
 					else if(res.data.success != undefined) this.$store.commit('setSnackbar', res.data.success.message);
-					
+
 					if(res.data.success) {
 						this.$refs.form.reset();
 						this.$refs.form.resetValidation();
@@ -88,7 +87,6 @@
 					formData.append('file', this.files[i]);
 					formData.append('mail_id', mail.id);
 					axios.post('/api/attachments/add', formData).then(res=>{
-						console.log(i == this.files.length - 1);
 						if(i == this.files.length - 1) this.sendMail(mail);
 					}).catch(err=>{
 						this.loading = false;
@@ -102,7 +100,6 @@
 				
 				this.loading = true;
 				axios.post('/api/mails/add', this.contact_data).then(res => {
-					console.log(res)
 					this.saveAttachments(res.data);
 				}).catch(err => {
 					console.log(err)

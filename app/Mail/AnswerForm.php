@@ -22,7 +22,10 @@ class AnswerForm extends Mailable
     {
         $this->contact_data = $contact_data;
     }
-
+    
+    public function attachments() {
+        return $this->contact_data['mail']->attachments;
+    }
     /**
      * Build the message.
      *
@@ -31,7 +34,9 @@ class AnswerForm extends Mailable
     public function build()
     {
         $mail = $this->markdown('mails.answer');
-        if(isset($this->contact_data['attachment'])) $mail = $mail->attachFromStorage('/attachments/'. $this->contact_data['attachment']);
+        if(!empty($this->attachments())) {
+            foreach($this->attachments() as $attachment) $mail->attach(storage_path() .'/app/public/attachments/'. $attachment->path);
+        } 
         return $mail->subject($this->contact_data['subject'])->with($this->contact_data);
     }
 }

@@ -86,12 +86,16 @@ class MailService {
 		$data = CrudService::prependData($request);
 		$data = self::setRodo($data);
 		$data['mail'] = Mails::find($data['id']);
-		
+
 		$receiver = isset($data['answer']) ? $data['email'] : self::$email;
 		Mail::to($receiver)->send(self::getTemplate($data));
 
 		self::checkAttachmentsToDelete($data);
 		
 		return self::getResponse($data['mail']);
+	}
+
+	public static function answer(Request $request) {
+		
 	}
 }
