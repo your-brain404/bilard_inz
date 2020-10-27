@@ -54,6 +54,7 @@ class MailService {
 	}
 
 	public static function addAttachment(array $data, Request $request): array {
+		// var_dump($data);die;
 		self::$attachment = FileHelper::store($data['file'], 'attachments');
 		$data['attachment'] = self::$attachment->path;
 		$request->merge(['attachment' => $data['attachment'] ]);
@@ -88,6 +89,10 @@ class MailService {
 		}
 	}
 
+	public static function getFillables() {
+		return ['id', 'answer', 'subject', 'answer_message', 'email', 'attachment'];
+	}
+
 	public static function send(Request $request) {
 		$data = self::prepareData($request);
 		
@@ -99,7 +104,7 @@ class MailService {
 
 		if(isset($data['id'])) {
 			foreach ($data as $key => $value) {
-				if($key != 'id' && $key != 'answer' && $key != 'subject' && $key != 'answer_message' && $key != 'email') $request->request->remove($key);
+				if(!in_array($key, self::getFillables())) $request->request->remove($key);
 			}
 		} 
 		

@@ -14,7 +14,7 @@
 					<v-text-field color="primary" v-model="contact_data.phone" :rules="[rules.required]" label="Numer telefonu *" required></v-text-field>
 					<v-text-field color="primary" v-model="contact_data.subject" :rules="[rules.required]" label="Temat *" required></v-text-field>
 					<v-textarea color="primary" v-model="contact_data.message" :rules="[rules.required]" rows="5" label="Wiadomość *" required></v-textarea>
-					<v-file-input v-model="contact_data.file" show-size counter label="Plik (opcjonalnie)" prepend-icon="mdi-file"></v-file-input>
+					<v-file-input v-model="files" show-size counter label="Pliki (opcjonalnie)" prepend-icon="mdi-file"></v-file-input>
 					<v-checkbox @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-0" :label="rodo1" v-model="contact_data.rodo1"></v-checkbox>
 					<v-checkbox @change="contact_data.rodo2 ? contact_data.rodo2 = 1 : contact_data.rodo2 = 0" color="primary" class="mt-0 mb-5" :label="rodo2" v-model="contact_data.rodo2"></v-checkbox>
 					<v-btn :loading="loading" outlined color="primary" :disabled="!valid" @click="send">Wyślij</v-btn>
@@ -39,10 +39,11 @@
 					phone: '',
 					subject: '',
 					message: '',
-					file: null,
+					
 					rodo1: 0,
 					rodo2: 0
 				},
+				files: [],
 				loading: false,
 				valid: true,
 
@@ -64,18 +65,35 @@
 			}
 		},
 		methods: {
-			send() {
+			sendMail(mail){
+				axios.post('/api/mails/send', mail).then(res => {
+					console.log(res)
+				}).catch(err => {
+					console.log(err)
+				})
+
+			},
+			saveAttachments(mail) {
+				for(let i=0 ; i<this.files.length ; i++ ){
+					let formData = new FormData();
+					formData.append('file', this.files[i]);
+					formData.append('mail_id', mail.id);
+					axios.post('/api/attachments/add', formData).then(res=>{
+						this.files = [];
+						if(i == this.files.length - 1) this.sendMail(mail);
+					}).catch(err=>{
+						console.log(err);
+					});
+				} 
+			},
+			saveMail() {
 				if(!this.valid) return;
 				let contact_data = new FormData();
 				Object.entries(this.contact_data).forEach(el => el[1] != null ? contact_data.append(el[0], el[1]) : true);
-				console.log(contact_data);
+				
 
 				this.loading = true;
-				axios.post('/api/mails/add', contact_data, {
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				}).then(res => {
+				axios.post('/api/mails/add', contact_data).then(res => {
 					console.log(res)
 					if(res.data.error != undefined) this.$store.commit('setSnackbar', res.data.error.message);
 					else if(res.data.success != undefined) this.$store.commit('setSnackbar', res.data.success.message);
@@ -86,6 +104,7 @@
 						this.$refs.form.reset();
 						this.$refs.form.resetValidation();
 					}
+					this.saveAttachments(res.data);
 				}).catch(err => {
 					console.log(err)
 					this.loading = false;

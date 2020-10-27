@@ -12,7 +12,7 @@
 					<v-row class="px-5">
 						<v-col cols="12" lg="8">
 							<v-textarea  color="primary" :rules="rules.titleRules" rows="5" v-model="answer.answer_message" label="Twoja wiadomość"></v-textarea>
-							<v-file-input v-model="answer.file" show-size counter label="Plik (opcjonalnie)" prepend-icon="mdi-file"></v-file-input>
+							<v-file-input v-model="answer.files" show-size counter label="Plik (opcjonalnie)" multiple prepend-icon="mdi-file"></v-file-input>
 
 						</v-col>
 						<v-col class="" cols="12" lg="4">
@@ -63,7 +63,7 @@
 				loading: false,
 				answer: {
 					answer_message: '',
-					file: null,
+					files: null,
 					answer: 1,
 					id: this.$route.params.id,
 					subject: '',
