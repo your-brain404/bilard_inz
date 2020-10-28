@@ -9,6 +9,7 @@ import Cups from '../components/pages/Cups'
 import History from '../components/pages/History'
 import LiveBroadcasts from '../components/pages/LiveBroadcasts'
 import Mails from '../components/pages/Mails'
+import Users from '../components/users/Users'
 
 export default {
 	main:[
@@ -50,6 +51,10 @@ export default {
 
 	mails: [
 	{title: 'Skrzynka pocztowa', component: Mails, tablename: 'mails', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: true},
+	],
+
+	users: [
+	{title: 'Użytkownicy', component: Users, tablename: 'users', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, answer: false},
 	],
 
 }

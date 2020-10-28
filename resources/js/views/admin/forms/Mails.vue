@@ -4,42 +4,27 @@
 			<v-card>
 				<v-card-title class="justify-content-center">
 					<h2 class=" pt-4 font-weight-bold panel-title-header first-color"> 
-						Odpowiedź na mail o temacie '{{ mail.subject }}'
+						Wysyłanie maila do użytkowników
 					</h2>
 				</v-card-title>
 				<v-divider class="mt-0"></v-divider>
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row class="px-5">
-						<v-col cols="12" lg="8">
-							<v-textarea  color="primary" :rules="rules.titleRules" rows="5" v-model="mail.subject" label="Temat Twojej wiadomości"></v-textarea>
+						<v-col cols="12">
+							<v-text-field  color="primary" :rules="rules.titleRules" v-model="mail.subject" label="Temat Twojej wiadomości"></v-text-field>
 							<v-textarea  color="primary" :rules="rules.titleRules" rows="5" v-model="mail.message" label="Twoja wiadomość"></v-textarea>
-							<v-file-input v-model="mail.file" show-size counter label="Plik (opcjonalnie)" prepend-icon="mdi-file"></v-file-input>
+							<Select></Select>
+							<v-file-input v-model="files" show-size multiple counter label="Plik (opcjonalnie)" prepend-icon="mdi-file"></v-file-input>
 
 						</v-col>
-						<v-col class="" cols="12" lg="4">
-							<div class="pa-5">
-								<v-text-field color="primary" disabled v-model="mail.name" label="Imię i nazwisko"></v-text-field>
-								<v-text-field  color="primary" disabled v-model="mail.email" label="E-mail"></v-text-field>
-								<v-text-field  color="primary" disabled v-model="mail.phone" label="Telefon"></v-text-field>
-								<v-text-field  color="primary" disabled v-model="mail.subject" label="Temat"></v-text-field>
-								<v-textarea  color="primary" rows="5" disabled v-model="mail.message" label="Wiadomość"></v-textarea>
-
-								<a v-for="(attachment, i) in attachments" :key="i" :href="getAttachment(attachment.path)">
-									<v-btn color="primary">
-										<v-icon>mdi-file</v-icon>
-										<span>Załącznik</span>
-									</v-btn>
-								</a>
-								
-							</div>
-						</v-col>
+						
 						
 					</v-row>
 
 					<v-divider class="mb-0"></v-divider>
 
 					<v-card-actions class="pa-4">
-						<v-btn :loading="loading" :disabled="!valid" color="success" class="mr-2" @click="send" >
+						<v-btn :loading="loading" :disabled="!valid" color="success" class="mr-2" @click="saveMail" >
 							<v-icon left>mdi-check</v-icon>
 							<span>Wyślij</span>
 						</v-btn>
@@ -56,7 +41,80 @@
 </template>
 
 <script>
+	import axios from 'axios'
+	import Select from '../../../components/select/Select'
+
 	export default {
-		
+		data() {
+			return {
+				files: [],
+				mail: {
+					subject: '',
+					message: '',
+					newsletter: true
+				},
+				loading: false,
+				valid: true,
+				rules: {
+					titleRules: [
+					v => !!v || 'To pole jest wymagane!'
+					],
+				},
+			}
+		},
+		components: {
+			Select
+		},
+		methods: {
+
+
+			deleteMail(mail) {
+				axios.delete('/api/mails/delete/' + mail.id);
+			},
+			sendMail(mail){
+				axios.post('/api/mails/send', mail).then(res => {
+					this.loading = false;
+					if(res.data.error != undefined) this.$store.commit('setSnackbar', res.data.error.message);
+					else if(res.data.success != undefined) this.$store.commit('setSnackbar', res.data.success.message);
+
+					if(res.data.success) {
+						this.$refs.form.reset();
+						this.$refs.form.resetValidation();
+						this.deleteMail(mail);
+					}
+				}).catch(err => {
+					console.log(err)
+					this.loading = false;
+					this.$store.commit('setSnackbar', 'Przepraszamy, nie udało się wysłać maila...');
+				})
+
+			},
+			saveAttachments(mail) {
+				for(let i=0 ; i<this.files.length ; i++ ){
+					let formData = new FormData();
+					formData.append('file', this.files[i]);
+					formData.append('mail_id', mail.id);
+					axios.post('/api/attachments/add', formData).then(res=>{
+						if(i == this.files.length - 1) this.sendMail(mail);
+					}).catch(err=>{
+						this.loading = false;
+						console.log(err);
+						this.$store.commit('setSnackbar', 'Przepraszamy, nie udało się wysłać załączników...');
+					});
+				} 
+			},
+			saveMail() {
+				if(!this.valid) return;
+				
+				this.loading = true;
+				axios.post('/api/mails/add', this.mail).then(res => {
+					this.saveAttachments(res.data);
+				}).catch(err => {
+					console.log(err)
+					this.loading = false;
+					this.$store.commit('setSnackbar', 'Przepraszamy, błąd serwera...');
+				})
+			},
+		}
 	}
 </script>

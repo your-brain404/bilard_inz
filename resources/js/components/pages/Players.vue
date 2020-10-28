@@ -34,6 +34,14 @@
 	import slugify from '../../helpers/links/slug.js'
 
 	export default {
+		props:['deleteFlag'],
+		watch:{
+			deleteFlag(){
+				if(this.deleteFlag){
+					this.getPlayers();
+				}
+			}
+		},
 		data() {
 			return {
 				players: []

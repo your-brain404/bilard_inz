@@ -46,6 +46,7 @@
 				{ title: 'Transmisje na żywo', icon: 'mdi-antenna', path: '/admin-panel/live_broadcasts' },
 				{ title: 'Skrzynka pocztowa', icon: 'mdi-mailbox', path: '/admin-panel/mails' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
+				{ title: 'Użytkownicy', icon: 'mdi-account', path: '/admin-panel/users' },
 				],
 				color: '#da5a33',
 			}

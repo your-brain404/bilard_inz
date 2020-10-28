@@ -12,6 +12,7 @@ import PartnersForm from './views/admin/forms/Partners'
 import MailsForm from './views/admin/forms/Mails'
 import MailsAnswerForm from './views/admin/forms/MailsAnswer'
 import GalleryForm from './views/admin/forms/Gallery'
+import UsersForm from './views/admin/forms/Users'
 import HistoryForm from './views/admin/forms/History'
 import PlayersForm from './views/admin/forms/Players'
 import LiveBroadcastsForm from './views/admin/forms/LiveBroadcasts'
@@ -65,6 +66,7 @@ const routes = [
   { path: '/admin-panel/history', component: Home, name: 'AdminHistory'},
   { path: '/admin-panel/live_broadcasts', component: Home, name: 'AdminLiveBroadcasts'},
   { path: '/admin-panel/mails', component: Home, name: 'AdminMails'},
+  { path: '/admin-panel/users', component: Home, name: 'AdminUsers'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -98,6 +100,8 @@ const routes = [
 
   { path: '/admin-panel/mails/form', component: MailsForm, name: 'MailsForm'},
   { path: '/admin-panel/mails/form/:id', component: MailsAnswerForm, name: 'MailsFormEdit'},
+
+  { path: '/admin-panel/users/form/:id', component: UsersForm, name: 'UsersFormEdit'},
 
   { path: '/admin-panel/:table/gallery/:id', component: GalleryForm, name: 'GalleryForm'},
 ]

@@ -28,6 +28,7 @@
 	import Lightbox from '../lightbox/Lightbox'
 
 	export default {
+		props:['deleteFlag'],
 		data() {
 			return {
 				history: [],
@@ -86,6 +87,11 @@
 		watch: {
 			history() {
 				if(this.history.length > 0) this.getGalleries();
+			},
+			deleteFlag(){
+				if(this.deleteFlag){
+					this.getHistory();
+				}
 			}
 		}
 

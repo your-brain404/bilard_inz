@@ -64,7 +64,7 @@ class MailService {
 	}
 
 	public static function checkAttachmentsToDelete(array $data) {
-		if(isset($data['answer'])) {
+		if(isset($data['answer']) || isset($data['newsletter'])) {
 			$attachments = Attachments::where('mail_id', $data['id'])->get();
 			if(!empty($attachments)) {
 				foreach($attachments as $attachment) {
@@ -95,7 +95,4 @@ class MailService {
 		return self::getResponse($data['mail']);
 	}
 
-	public static function answer(Request $request) {
-		
-	}
 }

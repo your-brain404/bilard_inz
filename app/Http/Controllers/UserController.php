@@ -22,4 +22,20 @@ class UserController extends Controller
     	return new UserResource($user);
     }
 
+    public function getWhere(Request $request) {
+        $users = CrudService::getWhere($request, 'asc');
+        return new UserResource($users);
+    }
+
+    public function store(Request $request) {
+        $user = CrudService::saveData($request);
+        return new UserResource($user);
+    }
+
+    
+    public function destroy($id) {
+        $user = CrudService::destroy($id);
+        return new UserResource($user); 
+    }
+
 }

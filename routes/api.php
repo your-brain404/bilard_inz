@@ -92,8 +92,12 @@ Route::delete('/media/delete/{id}', 'MediaController@destroy');
 Route::post('/auth/register', 'Auth\api\RegisterController@register');
 Route::post('/auth/login', 'Auth\api\LoginController@login');
 
-Route::get('/users/get_one/{id}', 'UserController@getOne');
 Route::get('/users/get_all', 'UserController@getAll');
+Route::get('/users/get_one/{id}', 'UserController@getOne');
+Route::get('/users/get_where/', 'UserController@getWhere');
+Route::post('/users/add/', 'UserController@store');
+Route::delete('/users/delete/{id}', 'UserController@destroy');
+Route::put('/users/edit', 'UserController@store');
 
 Route::group(['middleware' => ['web']], function () {
 	Route::get('/facebook/login', 'Auth\api\LoginController@redirectToProvider');

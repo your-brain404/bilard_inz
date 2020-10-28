@@ -34,8 +34,13 @@
 						<v-checkbox v-model="item.active" @change="setCheckbox(block.tablename, item)"></v-checkbox>
 					</div>
 				</template>
+				<template v-slot:item.blocked="{ item }" >
+					<div class="d-flex justify-content-center">
+						<v-checkbox v-model="item.blocked" @change="setCheckbox(block.tablename, item)"></v-checkbox>
+					</div>
+				</template>
 				<template v-slot:item.name="{ item }" >
-					{{ item.first_name + ' ' + item.last_name }}
+					{{ block.tablename == 'users' ? item.name : item.first_name + ' ' + item.last_name }}
 				</template>
 				<template v-slot:item.answer="{ item }" >
 					<div class="d-flex justify-content-center">
@@ -131,12 +136,13 @@
 					{ text: '', value: 'actions' },
 					];
 					if(block.answer) {
-						headers[0] = { text: 'Odpowiedziano', align: 'start', value: 'answer', width: '10%'};
+						headers[0] = { text: 'Odpowiedziano', align: 'center', value: 'answer', width: '10%'};
 						headers.splice(1,0, {text: 'Temat', align: 'start', value: 'subject', width: '20%'}, {text: 'E-mail', align: 'start', value: 'email', width: '20%'});
 					}
-					if(block.tablename == 'players') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
-					if(block.active) headers.splice(0,0, { text: 'Aktywny', value: 'active', width: '10%' });
-					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', value: 'home_page', width: '10%' });
+					if(block.tablename == 'players' || block.tablename == 'users') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
+					if(block.active) headers.splice(0,0, { text: 'Aktywny', align: 'center', value: 'active', width: '10%' });
+					if(block.tablename == 'users') headers.splice(1,0, { text: 'Blokuj', align: 'center', value: 'blocked', width: '10%' })
+					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', align: 'center', value: 'home_page', width: '10%' });
 					this.headers.push(headers); 
 				}
 			},
