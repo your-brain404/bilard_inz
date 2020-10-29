@@ -11,7 +11,7 @@
 
 			<v-spacer></v-spacer>
 			<div class="d-flex align-items-center">
-				<v-btn v-if="$store.getters.user.type == 'Admin'" outlined @click="$router.push('/admin-panel')" >
+				<v-btn v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator'" outlined @click="$router.push('/admin-panel')" >
 					<span>Admin Panel</span>
 					<v-icon>mdi-account</v-icon>
 				</v-btn>
@@ -80,6 +80,7 @@
 		},
 		created() {
 			this.$store.dispatch('fetchSubpages')
+			this.$store.dispatch('fetchAllUsers');
 		},
 		components:{
 			Register, Login

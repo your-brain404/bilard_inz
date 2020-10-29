@@ -25,7 +25,7 @@ class UserController extends Controller
     }
 
     public function getWhere(Request $request) {
-        $users = CrudService::getWhere($request, 'asc');
+        $users = User::where('type', '!=', 'Moderator')->get();
         return new UserResource($users);
     }
 

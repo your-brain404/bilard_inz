@@ -51,6 +51,9 @@
 				color: '#da5a33',
 			}
 		},
+		created() {
+			this.$store.dispatch('fetchSomeUsers');
+		}
 	}
 </script>
 
