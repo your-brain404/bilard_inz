@@ -1,3 +1,3 @@
 export default {
-	subpages: state => state.subpages
+	subpages: state => state.subpages.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))
 }

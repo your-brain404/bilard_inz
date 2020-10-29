@@ -7,6 +7,7 @@ import Players from '../components/pages/Players'
 import Subpages from '../components/layouts/Subpages'
 import Cups from '../components/pages/Cups'
 import History from '../components/pages/History'
+import GalleryPage from '../components/pages/GalleryPage'
 import LiveBroadcasts from '../components/pages/LiveBroadcasts'
 import Mails from '../components/pages/Mails'
 import Users from '../components/users/Users'
@@ -26,7 +27,7 @@ export default {
 	],
 
 	subpages: [
-	{title: 'Podstrony', component: Subpages, tablename: 'subpages', table: [], multiple: true, removable: false, gallery: false, active: false, home_page: false}
+	{title: 'Podstrony', component: Subpages, tablename: 'subpages', table: [], multiple: true, removable: false, gallery: false, active: false, home_page: false, order: true}
 	],
 
 	offers: [
@@ -55,6 +56,10 @@ export default {
 
 	users: [
 	{title: 'Użytkownicy', component: Users, tablename: 'users', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, answer: false},
+	],
+
+	gallery_page: [
+	{title: 'Galeria', component: GalleryPage, tablename: 'gallery_page', table: [], multiple: false, removable: false, gallery: true, active: false, home_page: false, answer: false},
 	],
 
 }

@@ -1,4 +1,4 @@
-<template>
+]<template>
 	<v-card class="overflow-hidden">
 		<v-app-bar color="#6A76AB" dark shrink-on-scroll prominent :src="banner" fade-img-on-scroll scroll-target="#scrolling-techniques-3" extension-height="100px">
 			<template v-slot:img="{ props }">
@@ -39,11 +39,12 @@
 							</div>
 							<p v-if="edit" @click="user_data.photo = ''" style="cursor: pointer" class="error--text text-center mb-0">Usuń zdjęcie</p>
 							<v-file-input @change="createBlob" label="Zdjęcie" class="pt-0" v-if="edit" v-model="file"></v-file-input>
-							<h4 v-if="!edit">{{ user.name }}</h4>
+							<h4 class="text-center" v-if="!edit">{{ user.name }}</h4>
 							<v-text-field label="Imię i nazwisko" v-else v-model="user_data.name"></v-text-field>
 							<v-divider></v-divider>
 							<v-btn v-if="!edit" @click="edit = true" text width="100%">Edytuj konto</v-btn>
 							<v-btn v-else @click="editAccount" text width="100%">Akceptuj</v-btn>
+							<v-btn v-if="edit" @click="edit = false" text width="100%">Anuluj</v-btn>
 							<v-divider></v-divider>
 							<v-btn @click="logout" text width="100%">Wyloguj</v-btn>
 						</v-col>
@@ -82,7 +83,7 @@
 				},
 				file: null,
 				blob: '',
-				placeholder: 'https://randomuser.me/api/portraits/men/81.jpg'
+				placeholder: window.location.origin + '/storage/img/avatar/8-Ball.png'
 			}
 		},
 		methods:{
@@ -121,11 +122,17 @@
 			},
 			getUrl(src) {
 				return url(src);
+			},
+			loadUserData() {
+				this.user_data.name = this.user.name; 
+				this.user_data.photo = this.user.photo; 
+				this.user_data.id = this.user.id; 
 			}
 		},
 		created() {
 			this.$store.dispatch('fetchSubpages')
 			this.$store.dispatch('fetchAllUsers');
+			this.loadUserData();
 		},
 		components:{
 			Register, Login
@@ -148,12 +155,11 @@
 		},
 		watch: {
 			'$route.path'() {
-				this.currentPage = this.$route.path;
+				this.currentPage = '/' + this.$route.path.split('/')[1];
+				
 			},
 			user() {
-				this.user_data.name = this.user.name; 
-				this.user_data.photo = this.user.photo; 
-				this.user_data.id = this.user.id; 
+				this.loadUserData();
 			}
 		}
 

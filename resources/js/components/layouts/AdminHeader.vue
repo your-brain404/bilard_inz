@@ -3,7 +3,7 @@
 		<v-list dense nav class="py-0" >
 			<v-list-item two-line :class="'px-0'">
 				<v-list-item-avatar>
-					<img src="https://randomuser.me/api/portraits/men/81.jpg">
+					<img :src="$store.getters.user.photo != '' ? getAvatar($store.getters.user.photo) : placeholder">
 				</v-list-item-avatar>
 
 				<v-list-item-content>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+	import avatar from '../../helpers/photo/avatar.js'
 	
 	export default {
 		data () {
@@ -44,6 +45,7 @@
 				{ title: 'Puchary', icon: 'mdi-trophy', path: '/admin-panel/cups' },
 				{ title: 'Historia', icon: 'mdi-history', path: '/admin-panel/history' },
 				{ title: 'Transmisje na żywo', icon: 'mdi-antenna', path: '/admin-panel/live_broadcasts' },
+				{ title: 'Galeria', icon: 'mdi-image-multiple', path: '/admin-panel/gallery_page/gallery/1' },
 				{ title: 'Skrzynka pocztowa', icon: 'mdi-mailbox', path: '/admin-panel/mails' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
 				{ title: 'Użytkownicy', icon: 'mdi-account', path: '/admin-panel/users' },
@@ -53,6 +55,16 @@
 		},
 		created() {
 			this.$store.dispatch('fetchSomeUsers');
+		},
+		methods: {
+			getAvatar(src) {
+				return avatar(src);
+			}
+		},
+		computed: {
+			placeholder() {
+				return window.location.origin + '/storage/img/avatar/8-Ball.png';
+			}
 		}
 	}
 </script>

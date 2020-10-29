@@ -60,7 +60,7 @@
 								<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">Usuń</p>
 							</div>
 							<div class="d-flex flex-column align-items-center">
-								<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id).photo)})`"></div>
+								<div class="bg-picture comment-photo" :style="`background-image: url(${getAvatar($store.getters.userById(com.user_id).photo)})`"></div>
 								<h5 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h5>
 								<i>{{ getLocaleDate(com.created) }}</i>
 							</div>
@@ -95,6 +95,7 @@
 <script>
 	import axios from 'axios'
 	import url from '../../helpers/photo/url.js'
+	import avatar from '../../helpers/photo/avatar.js'
 	import {user} from '../../helpers/users/users.js'
 	import getDate from '../../helpers/date/date.js'
 	import {db} from '../../firebase/firebase.js'
@@ -169,6 +170,9 @@
 			},
 			getUrl(src) {
 				return url(src);
+			},
+			getAvatar(src) {
+				return avatar(src);
 			},
 			getLocaleDate(seconds) {
 				return getDate(seconds);

@@ -34,6 +34,11 @@
 						<v-checkbox v-model="item.active" @change="setCheckbox(block.tablename, item)"></v-checkbox>
 					</div>
 				</template>
+				<template v-slot:item.order="{ item }" >
+					<div class="d-flex justify-content-center">
+						<v-text-field v-model="item.order" @keyup="setCheckbox(block.tablename, item)"></v-text-field>
+					</div>
+				</template>
 				<template v-slot:item.blocked="{ item }" >
 					<div class="d-flex justify-content-center">
 						<v-checkbox v-model="item.blocked" @change="setCheckbox(block.tablename, item)"></v-checkbox>
@@ -145,6 +150,7 @@
 						headers[0] = { text: 'Odpowiedziano', align: 'center', value: 'answer', width: '10%'};
 						headers.splice(1,0, {text: 'Temat', align: 'start', value: 'subject', width: '20%'}, {text: 'E-mail', align: 'start', value: 'email', width: '20%'});
 					}
+					if(block.order) headers.splice(0,0, { text: 'Kolejność', align: 'center', value: 'order', width: '10%' });
 					if(block.tablename == 'players' || block.tablename == 'users') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
 					if(block.active) headers.splice(0,0, { text: 'Aktywny', align: 'center', value: 'active', width: '10%' });
 					if(block.tablename == 'users') headers.splice(1,0, { text: 'Blokuj', align: 'center', value: 'blocked', width: '10%' })

@@ -16,7 +16,7 @@
 				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">Usuń</p>
 			</div>
 			<div class="d-flex flex-column align-items-center">
-				<div class="bg-picture comment-photo" :style="`background-image: url(${getUrl($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
+				<div class="bg-picture comment-photo" :style="`background-image: url(${getAvatar($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
 				<h5 class="m-0">{{ $store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).name : null }}</h5>
 				<i>{{ getLocaleDate(com.created) }}</i>
 
@@ -41,6 +41,7 @@
 <script>
 	import getDate from '../../helpers/date/date.js'
 	import url from '../../helpers/photo/url.js'
+	import avatar from '../../helpers/photo/avatar.js'
 	import {db} from '../../firebase/firebase.js'
 
 	export default {
@@ -61,6 +62,9 @@
 			},
 			getUrl(src) {
 				return url(src);
+			},
+			getAvatar(src) {
+				return avatar(src);
 			},
 			getLocaleDate(seconds) {
 				return getDate(seconds);

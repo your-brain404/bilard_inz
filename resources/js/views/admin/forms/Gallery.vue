@@ -4,7 +4,7 @@
 			<v-card>
 				<v-card-title class="justify-content-center">
 					<h2 v-if="formTitle != 'undefined undefined'" class=" pt-4 font-weight-bold panel-title-header first-color"> 
-						Galeria - {{ formTitle }}
+						Galeria {{ $route.path.split('/')[2] == 'gallery_page' ? '' : '- ' + formTitle }}
 					</h2>
 				</v-card-title>
 				<v-divider class="mt-0"></v-divider>
@@ -187,7 +187,7 @@
 			ImagePicker
 		},
 		created(){
-			this.loadCurrentObject();
+			if(this.$route.path.split('/')[2] != 'gallery_page') this.loadCurrentObject();
 			this.loadGallery();
 			this.setLoading(true);
 		},

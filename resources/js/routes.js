@@ -19,6 +19,7 @@ import LiveBroadcastsForm from './views/admin/forms/LiveBroadcasts'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
+import GalleryPage from './components/pages/GalleryPage'
 import SingleOffer from './components/pages/SingleOffer'
 import SinglePlayer from './components/pages/SinglePlayer'
 import SingleCup from './components/pages/SingleCup'
@@ -56,6 +57,8 @@ const routes = [
 
   { path: '/kontakt', component: Contact, name: 'Contact' },
 
+  { path: '/galeria', component: GalleryPage, name: 'Gallery' },
+
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
   { path: '/admin-panel/subpages', component: Home, name: 'AdminSubpages'},
@@ -67,6 +70,7 @@ const routes = [
   { path: '/admin-panel/live_broadcasts', component: Home, name: 'AdminLiveBroadcasts'},
   { path: '/admin-panel/mails', component: Home, name: 'AdminMails'},
   { path: '/admin-panel/users', component: Home, name: 'AdminUsers'},
+  { path: '/admin-panel/gallery_page', component: Home, name: 'AdminGalleryPage'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
