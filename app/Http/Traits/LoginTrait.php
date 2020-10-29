@@ -18,6 +18,14 @@ trait LoginTrait {
 		return !$validator->fails();
 	}
 
+	public static function isActivated() {
+		return self::$user->active;
+	}
+
+	public static function isBlocked() {
+		return self::$user->blocked;
+	}
+
 	public static function findUser(array $data): bool {
 		self::$user = User::where('email', $data['email'])->first();
 		return self::$user ? true : false;

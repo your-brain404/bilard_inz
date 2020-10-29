@@ -30,6 +30,6 @@ class ConfirmEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mails.confirm_account')->with(['user' => $this->user]);
+        return $this->markdown('mails.confirm_account')->subject('Aktywacja konta')->with(['user' => $this->user]);
     }
 }

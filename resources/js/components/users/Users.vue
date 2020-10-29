@@ -11,6 +11,7 @@
 		watch:{
 			deleteFlag(){
 				if(this.deleteFlag){
+					this.$store.dispatch('fetchAllUsers');
 					this.$emit('blockDataEmit', this.users);
 				}
 			},

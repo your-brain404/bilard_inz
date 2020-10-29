@@ -17,6 +17,26 @@ class ResponseHelper {
 		]), 200);
 	}
 
+	public static function nonActivatedAccount() {
+		return new Response(json_encode([
+			'error' => [
+				'message' => 'Proszę aktywować konto!',
+				'code' => 400,
+				'status' => false
+			]
+		]), 200);
+	}
+
+	public static function blockedUser() {
+		return new Response(json_encode([
+			'error' => [
+				'message' => 'Przepraszamy, Twoje konto zostało zablokowane!',
+				'code' => 400,
+				'status' => false
+			]
+		]), 200);
+	}
+
 	public static function findUserResponse(){
 		return new Response(json_encode([
 			'error' => [

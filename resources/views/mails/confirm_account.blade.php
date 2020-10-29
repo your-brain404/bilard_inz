@@ -3,7 +3,7 @@ Dziękujemy za założenie konta
 
 Kliknij w link, aby aktywować swoje konto. 
 
-@component('mail::button', ['url' => "/auth/confirm_account/$user->id"])
+@component('mail::button', ['url' => url("/auth/confirm_account/$user->id")])
 Aktywuj konto
 @endcomponent
 

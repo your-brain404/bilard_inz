@@ -97,9 +97,15 @@
 			}
 		},
 		methods:{
+			getRecordName(block, item) {
+				if(block.tablename == 'users') return item.name;
+				else if(block.tablename == 'mails') return item.subject;
+				else return item.title;
+			},
 			deleteItem(block, item){
-				if(confirm(`Na pewno chcesz usunąć trwale przedmiot "${block.answer ? item.subject : item.title }" z tabeli "${block.title}"? `)){
+				if(confirm(`Na pewno chcesz usunąć trwale ${ block.tablename == 'users' ? 'użytkownika' : 'przedmiot'} "${this.getRecordName(block, item)}" z tabeli "${block.title}"? `)){
 					this.$store.commit('loading', true);
+					if(block.tablename == 'users') this.$store.dispatch('deleteUserComments', item.id);
 					axios.delete(`/api/${block.tablename}/delete/${item.id}`).then(res => {
 						this.deleteFlag = true;
 						this.$store.commit('loading', false);

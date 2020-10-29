@@ -19,7 +19,11 @@ class LoginHelper {
 	public static function login(Request $request) {
 
 		$data = $request->all();
-		if(!self::validator($data) || !self::findUser($data)) return ResponseHelper::validateResponse();	
+		if(!self::validator($data) || !self::findUser($data)) return ResponseHelper::validateResponse();
+
+		if(!self::isActivated()) return ResponseHelper::nonActivatedAccount();	
+
+		if(self::isBlocked()) return ResponseHelper::blockedUser();
 		
 		if(!self::signIn($data)) return ResponseHelper::validateResponse();
 

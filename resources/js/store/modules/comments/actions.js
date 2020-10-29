@@ -26,6 +26,14 @@ export default {
 			});
 			commit('comments', comments)
 		})
+	},
+	deleteUserComments(context, user_id) {
+		db.collection('comments')
+		.onSnapshot(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				if(doc.data().user_id == user_id) db.collection('comments').doc(doc.id).delete();
+			});
+		})
 	}
 
 

@@ -27,7 +27,7 @@ class RegisterHelper {
 
 		self::createUser($data);
 		
-		self::login($data);
+		// self::login($data);
 
 		$registerResource = new RegisterResource(self::$user);
 		$registerResource->token = self::$token;
