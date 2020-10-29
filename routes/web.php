@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Mail\ConfirmEmail;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,12 @@ use Illuminate\Support\Facades\Route;
  */
 
 Auth::routes();
+
+Route::get('/', 'HomeController@index');
+Route::get('/auth/confirm_account/{id}', 'UserController@confirm');
+Route::get('/email', function() {
+	return new ConfirmEmail(User::find(22));
+});
 
 Route::get('/{catch?}', 'HomeController@index')->where('catch', '^(?!api).*$');
 

@@ -120,3 +120,4 @@ Route::delete('/mails/delete/{id}', 'MailsController@destroy');
 Route::post('/attachments/add/', 'AttachmentsController@store');
 Route::delete('/attachments/delete/{id}', 'AttachmentsController@destroy');
 Route::get('/attachments/get_where/', 'AttachmentsController@getWhere');
+

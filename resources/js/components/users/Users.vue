@@ -16,7 +16,12 @@
 			},
 			users() {
 				this.$emit('blockDataEmit', this.users);
-			}
+				console.log(this.users, 'users')
+			},
 		},
+		created() {
+			this.$emit('blockDataEmit', this.users);
+			console.log(this.users, 'created')
+		}
 	}
 </script>

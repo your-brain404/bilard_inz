@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Services\CrudService;
+use App\Http\Helpers\RegisterHelper;
 use App\Http\Resources\UserResource;
+use App\User;
 
 class UserController extends Controller
 {
@@ -32,7 +34,10 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    
+    public function confirm($id) {
+        return RegisterHelper::activate($id);
+    }
+
     public function destroy($id) {
         $user = CrudService::destroy($id);
         return new UserResource($user); 

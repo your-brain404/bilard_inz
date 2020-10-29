@@ -7,6 +7,7 @@ use App\Http\Traits\RegisterTrait;
 use App\Http\Traits\LoginTrait;
 use App\Http\Helpers\ResponseHelper;
 use App\Http\Resources\RegisterResource;
+use App\User;
 
 class RegisterHelper {
 
@@ -32,5 +33,13 @@ class RegisterHelper {
 		$registerResource->token = self::$token;
 
 		return $registerResource;
+	}
+
+	public static function activate($id) {
+		$user = User::where('id', $id)->first();
+		if($user->active != 1) $user->fill(['active' => 1]);
+		else return redirect()->action('HomeController@index');
+
+		if($user->save()) return redirect()->action('HomeController@index');
 	}
 } 

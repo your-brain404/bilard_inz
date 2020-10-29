@@ -4,6 +4,8 @@ namespace App\Http\Traits;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ConfirmEmail;
 
 trait RegisterTrait {
 	public static function validator(array $data): bool {
@@ -23,8 +25,12 @@ trait RegisterTrait {
 			'email' => $data['email'],
 			'type' => 'Klient',
 			'photo' => $data['photo'],
+			'blocked' => 0,
+			'active' => 0,
 			'password' => Hash::make($data['password']),
 		]);
+
+		if(self::$user) Mail::to($data['email'])->send(new ConfirmEmail(self::$user));
 	}
 
 }
