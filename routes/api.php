@@ -89,6 +89,8 @@ Route::get('/media/get_photos/', 'MediaController@getPhotos');
 Route::post('/media/add/', 'MediaController@store');
 Route::delete('/media/delete/{id}', 'MediaController@destroy');
 
+Route::post('/avatars/add/', 'AvatarsController@store');
+
 Route::post('/auth/register', 'Auth\api\RegisterController@register');
 Route::post('/auth/login', 'Auth\api\LoginController@login');
 
