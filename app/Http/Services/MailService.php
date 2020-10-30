@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\ContactForm;
 use App\Mail\AnswerForm;
+use App\Mail\NewsletterForm;
 use App\Http\Resources\MailsResource;
 use App\Mails;
 use App\Attachments;
@@ -30,6 +31,16 @@ class MailService {
 
 		return !$validator->fails();
 	}
+
+	public static function newsletterValidation(array $data): bool {
+		$validator = Validator::make($data, [
+			'message' => 'required|string',
+			'subject' => 'required|string',
+		]);
+
+		return !$validator->fails();
+	}
+
 
 	public static function answerValidation(array $data): bool {
 		$validator = Validator::make($data, [
@@ -60,11 +71,13 @@ class MailService {
 	}
 
 	public static function getTemplate(array $data): Mailable {
-		return isset($data['answer']) ? new AnswerForm($data) : new ContactForm($data);
+		if(isset($data['answer'])) return new AnswerForm($data);
+		else if(isset($data['newsletter'])) return new NewsletterForm($data);
+		else return new ContactForm($data);
 	}
 
 	public static function checkAttachmentsToDelete(array $data) {
-		if(isset($data['answer']) || isset($data['newsletter'])) {
+		if(isset($data['delete'])) {
 			$attachments = Attachments::where('mail_id', $data['id'])->get();
 			if(!empty($attachments)) {
 				foreach($attachments as $attachment) {
@@ -77,9 +90,9 @@ class MailService {
 
 	public static function saveData(Request $request) {
 		$data = CrudService::prependData($request);
-		$validation = isset($data['answer']) ? self::answerValidation($data) : self::questionValidation($data);
+		$validation = isset($data['answer']) ? self::answerValidation($data) : (isset($data['newsletter']) ? self::newsletterValidation($data) : self::questionValidation($data));
 
-		return $validation ? CrudService::saveData($request) : ResponseHelper::validateResponse();
+		return $validation ?  new MailsResource(CrudService::saveData($request)) : ResponseHelper::validateResponse();
 	}
 
 	public static function send(Request $request) {
@@ -87,7 +100,7 @@ class MailService {
 		$data = self::setRodo($data);
 		$data['mail'] = Mails::find($data['id']);
 
-		$receiver = isset($data['answer']) ? $data['email'] : self::$email;
+		$receiver = isset($data['answer']) || isset($data['newsletter']) ? $data['email'] : self::$email;
 		Mail::to($receiver)->send(self::getTemplate($data));
 
 		self::checkAttachmentsToDelete($data);

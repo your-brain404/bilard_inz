@@ -99,6 +99,7 @@
 				return attachment(src);
 			},
 			sendMail(mail){
+				mail.delete = 1;
 				axios.post('/api/mails/send', mail).then(res => {
 					console.log(res)
 					this.loading = false;

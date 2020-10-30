@@ -22,6 +22,8 @@ class AttachmentsService {
 
 		$attachment = $request->isMethod('put') ? Attachments::where('id', $request->input('id'))->first()->fill($data) : Attachments::create($data);
 
+		var_dump($attachment->path);die;
+
 		if ($attachment->save()) {
 
 			return $attachment;

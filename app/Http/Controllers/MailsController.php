@@ -24,8 +24,7 @@ class MailsController extends Controller
 	}
 
 	public function store(Request $request) {
-		$mail = MailService::saveData($request);
-		return new MailsResource($mail);
+		return MailService::saveData($request);
 	}
 
 	public function send(Request $request) {

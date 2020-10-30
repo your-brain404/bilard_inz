@@ -10,14 +10,14 @@ use App\Http\Resources\MediaResource;
 class FileHelper {
 
 	private static $name;
-	private static $webpTypes = array('image/jpg', 'image/jpeg', 'image/png', 'image/jfif', 'application/octet-stream');
+	private static $webpTypes = array('image/jpg', 'image/jpeg', 'image/png', 'image/jfif');
 
 	private static function getFileName($file) {
 
 		$fileNameWithExt = $file->getClientOriginalName();
 		self::$name = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
 		$extension = $file->getClientOriginalExtension();
-		$name = self::$name . '_' . time() . '.' . $extension;
+		$name = str_replace(' ', '_', self::$name)  . '_' . time() . '.' . $extension;
 
 		return $name;
 	}
@@ -43,7 +43,6 @@ class FileHelper {
 		$destination = "$folder/". $destination;
 		
 		Storage::putFileAs($destination, new File($file), $name);
-
 		if (in_array($file->getClientMimeType(), self::$webpTypes)) {
 			WebpHelper::convertToWebp($destination, $name);
 		}
