@@ -10,10 +10,10 @@
 						<h2 class="table-title first-color ma-0">Akcje</h2>
 						<v-spacer></v-spacer>
 						<v-text-field class="ma-0 pt-0" v-model="search" append-icon="mdi-magnify" label="Szukaj..." single-line hide-details ></v-text-field>
-						<router-link v-if="block.removable" class="form-link" :to="`/admin-panel/${block.tablename}/form`">
+						<router-link v-if="block.multiple " class="form-link" :to="`/admin-panel/${block.tablename}/form`">
 							<v-btn class="first-bgc white--text ml-5">
-								<v-icon left class="">mdi-plus</v-icon>
-								<span>Dodaj</span>
+								<v-icon left class="">{{  block.tablename == 'mails' ? 'mdi-email-plus' : 'mdi-plus' }}</v-icon>
+								<span>{{ block.tablename == 'mails' ? 'Napisz wiadomość' : 'Dodaj' }}</span>
 							</v-btn>
 						</router-link>
 					</v-card-title>

@@ -55,7 +55,7 @@ export default {
 	],
 
 	users: [
-	{title: 'Użytkownicy', component: Users, tablename: 'users', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, answer: false},
+	{title: 'Użytkownicy', component: Users, tablename: 'users', table: [], multiple: false, removable: true, gallery: false, active: true, home_page: false, answer: false},
 	],
 
 	gallery_page: [

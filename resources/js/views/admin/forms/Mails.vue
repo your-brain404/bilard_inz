@@ -117,7 +117,8 @@
 				
 				this.loading = true;
 				axios.post('/api/mails/add', this.mail).then(res => {
-					this.saveAttachments(res.data);
+					if(this.files.length > 0) this.saveAttachments(res.data);
+					else this.sendMail(res.data);
 				}).catch(err => {
 					console.log(err)
 					this.loading = false;

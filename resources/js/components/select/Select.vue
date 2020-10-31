@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid>
-		<v-select v-model="selectedUsers" :items="searchUser()" return-object item-text="name" label="Użytkownicy" multiple chips>
+		<v-select v-model="selectedUsers" :items="searchUser()" return-object :item-text="itemText" label="Użytkownicy" multiple chips>
 			<template v-slot:prepend-item>
 				<v-list-item>
 					<v-text-field v-model="search" @keyup="searchUser" label="Znajdź"></v-text-field>
@@ -45,6 +45,9 @@
 		watch: {
 			selectedUsers() {
 				this.$emit('users', this.selectedUsers);
+			},
+			search() {
+				this.search = this.search == undefined ?  '' : this.search;
 			}
 		},
 
@@ -64,11 +67,14 @@
 
 		methods: {
 			async getUsers() {
-				await axios.get('/api/users/get_where?active=1').then(res => {
+				await axios.get('/api/users/get_all').then(res => {
 					this.users = res.data; 
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Nie udało się załadować użytkowników...');
 				})
+			},
+			itemText(item) {
+				return `${item.name} (${item.email})`;
 			},
 			toggle() {
 				this.$nextTick(() => {
@@ -82,7 +88,7 @@
 			searchUser() {
 				let filteredUsers = [];
 				for(let user of this.users) 
-					user.name.toLowerCase().includes(this.search.toLowerCase()) ? filteredUsers.push(user) : true;
+					user.name.toLowerCase().includes(this.search.toLowerCase()) || user.email.toLowerCase().includes(this.search.toLowerCase()) ? filteredUsers.push(user) : true;
 
 				return filteredUsers;
 			}
