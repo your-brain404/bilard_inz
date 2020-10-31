@@ -31,7 +31,6 @@ class OffersController extends Controller
 		$offers = CrudService::saveData($request);
 		return new OffersResource($offers);
 	}
-
 	
 	public function destroy($id) {
 		$offers = CrudService::destroy($id);

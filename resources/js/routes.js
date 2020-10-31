@@ -15,6 +15,8 @@ import GalleryForm from './views/admin/forms/Gallery'
 import UsersForm from './views/admin/forms/Users'
 import HistoryForm from './views/admin/forms/History'
 import PlayersForm from './views/admin/forms/Players'
+import PriceListForm from './views/admin/forms/PriceList'
+import PriceListCategoriesForm from './views/admin/forms/PriceListCategories'
 import LiveBroadcastsForm from './views/admin/forms/LiveBroadcasts'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
@@ -29,6 +31,7 @@ import History from './components/pages/History'
 import Cups from './components/pages/Cups'
 import Offers from './components/pages/Offers'
 import Contact from './components/pages/Contact'
+import PriceList from './components/pages/PriceList'
 
 Vue.use(VueRouter);
 
@@ -59,6 +62,8 @@ const routes = [
 
   { path: '/galeria', component: GalleryPage, name: 'Gallery' },
 
+  { path: '/cennik', component: PriceList, name: 'PriceList' },
+
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
   { path: '/admin-panel/subpages', component: Home, name: 'AdminSubpages'},
@@ -71,6 +76,8 @@ const routes = [
   { path: '/admin-panel/mails', component: Home, name: 'AdminMails'},
   { path: '/admin-panel/users', component: Home, name: 'AdminUsers'},
   { path: '/admin-panel/gallery_page', component: Home, name: 'AdminGalleryPage'},
+  { path: '/admin-panel/price_list_categories', component: Home, name: 'AdminPriceListCategoriesPage'},
+  { path: '/admin-panel/price_list/:parent_id', component: Home, name: 'AdminPriceListPage'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -104,6 +111,12 @@ const routes = [
 
   { path: '/admin-panel/mails/form', component: MailsForm, name: 'MailsForm'},
   { path: '/admin-panel/mails/form/:id', component: MailsAnswerForm, name: 'MailsFormEdit'},
+
+  { path: '/admin-panel/price_list/:parent_id/form', component: PriceListForm, name: 'PriceListForm'},
+  { path: '/admin-panel/price_list/:parent_id/form/:id', component: PriceListForm, name: 'PriceListFormEdit'},
+
+  { path: '/admin-panel/price_list_categories/form', component: PriceListCategoriesForm, name: 'PriceListCategoriesForm'},
+  { path: '/admin-panel/price_list_categories/form/:id', component: PriceListCategoriesForm, name: 'PriceListCategoriesFormEdit'},
 
   { path: '/admin-panel/users/form/:id', component: UsersForm, name: 'UsersFormEdit'},
 

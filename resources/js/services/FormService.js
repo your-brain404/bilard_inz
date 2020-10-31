@@ -14,6 +14,10 @@ export default {
 			titleRules: [
 			v => !!v || 'To pole jest wymagane!'
 			],
+			priceRules: [
+			v => !!v || 'To pole jest wymagane!',
+			v => v > 0 || 'To pole musi być większe od zera!'
+			],
 		},
 		activePhoto: 'https://via.placeholder.com/250',
 	},
@@ -21,6 +25,10 @@ export default {
 		formTitle(){
 			return this.$route.params.id ? 'Edycja' : 'Dodawanie';
 		}
+	},
+	beforeRouteLeave (to, from, next) {
+		console.log(to);
+		next();
 	},
 	methods: {
 		getImageDefaultPlaceholder(){
@@ -51,10 +59,12 @@ export default {
 					if(table.tablename == this.$route.path.split('/')[2]) {
 						redirect = `/${block[0]}`;
 						if(redirect == '/main') redirect = '';
+						if(this.$route.params.parent_id) redirect = `${redirect}/${this.$route.params.parent_id}`;
 					}
 				})
 			})
-			this.$router.push(`/admin-panel${redirect}#${this.$route.path.split('/')[2]}`);
+			let hash = this.$route.params.parent_id ? '' : `#${this.$route.path.split('/')[2]}`;
+			this.$router.push(`/admin-panel${redirect}${hash}`);
 		},
 		add(formData){
 			axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{

@@ -10,7 +10,7 @@
 						<h2 class="table-title first-color ma-0">Akcje</h2>
 						<v-spacer></v-spacer>
 						<v-text-field class="ma-0 pt-0" v-model="search" append-icon="mdi-magnify" label="Szukaj..." single-line hide-details ></v-text-field>
-						<router-link v-if="block.multiple " class="form-link" :to="`/admin-panel/${block.tablename}/form`">
+						<router-link v-if="block.multiple " class="form-link" :to="getAddButtonLink(block)">
 							<v-btn class="first-bgc white--text ml-5">
 								<v-icon left class="">{{  block.tablename == 'mails' ? 'mdi-email-plus' : 'mdi-plus' }}</v-icon>
 								<span>{{ block.tablename == 'mails' ? 'Napisz wiadomość' : 'Dodaj' }}</span>
@@ -54,15 +54,21 @@
 				</template>
 				<template v-slot:item.actions="{ item }">
 					<div class="d-flex justify-content-end">
+						<router-link v-if="block.list" class="form-link" :to="`/admin-panel/${block.list}/${item.id}`">
+							<v-btn small color="warning" class="white--text mr-2">
+								<v-icon left class="">mdi-format-list-bulleted</v-icon>
+								<span>Lista</span>
+							</v-btn>
+						</router-link>
 						<router-link v-if="block.gallery" class="form-link" :to="`/admin-panel/${block.tablename}/gallery/${item.id}`">
 							<v-btn small color="warning" class="white--text mr-2">
 								<v-icon left class="">mdi-image-multiple</v-icon>
 								<span>Galeria</span>
 							</v-btn>
 						</router-link>
-						<router-link class="form-link" :to="`/admin-panel/${block.tablename}/form/${item.id}`">
+						<router-link class="form-link" :to="getEditLink(block, item)">
 							<v-btn small color="primary" class="white--text mr-2">
-								<v-icon left class="">{{ block.answer ? 'mdi-eye' : 'mdi-pencil' }}</v-icon>
+								<v-icon left class="">{{  block.answer ? 'mdi-eye' : 'mdi-pencil' }}</v-icon>
 								<span>{{ block.answer ? 'Pokaż' : 'Edytuj' }}</span>
 							</v-btn>
 						</router-link>
@@ -102,6 +108,14 @@
 			}
 		},
 		methods:{
+			getAddButtonLink(block) {
+				let parent_id = block.parent ? this.$route.params.parent_id + '/' : '';
+				return `/admin-panel/${block.tablename}/${parent_id}form`;
+			},
+			getEditLink(block, item){
+				let parent_id = block.parent ? this.$route.params.parent_id + '/' : '';
+				return `/admin-panel/${block.tablename}/${parent_id}form/${item.id}`;
+			},
 			getRecordName(block, item) {
 				if(block.tablename == 'users') return item.name;
 				else if(block.tablename == 'mails') return item.subject;
@@ -154,7 +168,7 @@
 					if(block.tablename == 'players' || block.tablename == 'users') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
 					if(block.active) headers.splice(0,0, { text: 'Aktywny', align: 'center', value: 'active', width: '10%' });
 					if(block.tablename == 'users') headers.splice(1,0, { text: 'Blokuj', align: 'center', value: 'blocked', width: '10%' })
-					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', align: 'center', value: 'home_page', width: '10%' });
+						if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', align: 'center', value: 'home_page', width: '10%' });
 					this.headers.push(headers); 
 				}
 			},

@@ -46,6 +46,7 @@
 				{ title: 'Historia', icon: 'mdi-history', path: '/admin-panel/history' },
 				{ title: 'Transmisje na żywo', icon: 'mdi-antenna', path: '/admin-panel/live_broadcasts' },
 				{ title: 'Galeria', icon: 'mdi-image-multiple', path: '/admin-panel/gallery_page/gallery/1' },
+				{ title: 'Cennik', icon: 'mdi-clipboard-list', path: '/admin-panel/price_list_categories' },
 				{ title: 'Skrzynka pocztowa', icon: 'mdi-mailbox', path: '/admin-panel/mails' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
 				{ title: 'Użytkownicy', icon: 'mdi-account', path: '/admin-panel/users' },

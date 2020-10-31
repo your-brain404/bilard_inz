@@ -70,6 +70,19 @@ Route::delete('/slider/delete/{id}', 'SliderController@destroy');
 Route::put('/slider/edit', 'SliderController@store');
 Route::get('/slider/get_where/', 'SliderController@getWhere');
 
+Route::get('/price_list/get_all', 'PriceListController@getAll');
+Route::get('/price_list/get_one/{id}', 'PriceListController@getOne');
+Route::post('/price_list/add/', 'PriceListController@store');
+Route::delete('/price_list/delete/{id}', 'PriceListController@destroy');
+Route::put('/price_list/edit', 'PriceListController@store');
+Route::get('/price_list/get_where/', 'PriceListController@getWhere');
+
+Route::get('/price_list_categories/get_all', 'PriceListCategoriesController@getAll');
+Route::get('/price_list_categories/get_one/{id}', 'PriceListCategoriesController@getOne');
+Route::post('/price_list_categories/add/', 'PriceListCategoriesController@store');
+Route::delete('/price_list_categories/delete/{id}', 'PriceListCategoriesController@destroy');
+Route::put('/price_list_categories/edit', 'PriceListCategoriesController@store');
+
 Route::get('/offers/get_all', 'OffersController@getAll');
 Route::get('/offers/get_one/{id}', 'OffersController@getOne');
 Route::post('/offers/add/', 'OffersController@store');

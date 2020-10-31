@@ -10,7 +10,9 @@ import History from '../components/pages/History'
 import GalleryPage from '../components/pages/GalleryPage'
 import LiveBroadcasts from '../components/pages/LiveBroadcasts'
 import Mails from '../components/pages/Mails'
+import PriceList from '../components/pages/PriceList'
 import Users from '../components/users/Users'
+import PriceListCategories from '../components/price-list-categories/PriceListCategories'
 
 export default {
 	main:[
@@ -61,5 +63,13 @@ export default {
 	gallery_page: [
 	{title: 'Galeria', component: GalleryPage, tablename: 'gallery_page', table: [], multiple: false, removable: false, gallery: true, active: false, home_page: false, answer: false},
 	],
+
+	price_list_categories: [
+	{title: 'Cennik Kategorie', component: PriceListCategories, tablename: 'price_list_categories', table: [], multiple: true, removable: true, list: 'price_list', active: true, home_page: false, answer: false},
+	],
+
+	price_list: [
+	{title: 'Cennik', component: PriceList, tablename: 'price_list', table: [], multiple: true, removable: true, gallery: false, active: true, parent: 'price_list_categories', home_page: false, answer: false},
+	]
 
 }
