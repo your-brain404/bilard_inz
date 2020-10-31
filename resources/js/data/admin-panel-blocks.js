@@ -29,7 +29,7 @@ export default {
 	],
 
 	subpages: [
-	{title: 'Podstrony', component: Subpages, tablename: 'subpages', table: [], multiple: true, removable: false, gallery: false, active: false, home_page: false, order: true}
+	{title: 'Podstrony', component: Subpages, tablename: 'subpages', table: [], multiple: false, removable: false, gallery: false, active: false, home_page: false, order: true}
 	],
 
 	offers: [

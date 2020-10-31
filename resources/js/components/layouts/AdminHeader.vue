@@ -15,27 +15,30 @@
 			</v-list-item>
 
 			<v-divider></v-divider>
+			<v-list-item-group v-model="selectedItem">
+				<v-list-item v-for="(item, i) in items" @load="item.path.split('/')[1] == $route.path.split('/')[1] ? selectedItem = i : true" :key="item.title" link active-class="nav-link" @click="$route.path == item.path ? true : $router.push(item.path)" >
+					<v-list-item-icon>
+						<v-icon>{{ item.icon }}</v-icon>
+					</v-list-item-icon>
 
-			<v-list-item v-for="item in items" :key="item.title" link active-class="nav-link" @click="$route.path == item.path ? true : $router.push(item.path)" >
-				<v-list-item-icon>
-					<v-icon>{{ item.icon }}</v-icon>
-				</v-list-item-icon>
-
-				<v-list-item-content>
-					<v-list-item-title>{{ item.title }}</v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
+					<v-list-item-content>
+						<v-list-item-title>{{ item.title }}</v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+			</v-list-item-group>
 		</v-list>
 	</v-navigation-drawer>
 </template>
 
 <script>
 	import avatar from '../../helpers/photo/avatar.js'
+	import AdminPanelBlocks from '../../data/admin-panel-blocks.js'
 	
 	export default {
 		data () {
 			return {
 				drawer: true,
+				
 				items: [
 				{ title: 'Strona główna', icon: 'mdi-view-dashboard', path: '/admin-panel' },
 				{ title: 'Aktualności', icon: 'mdi-newspaper', path: '/admin-panel/news' },
@@ -65,7 +68,20 @@
 		computed: {
 			placeholder() {
 				return window.location.origin + '/storage/img/avatar/8-Ball.png';
-			}
+			},
+			selectedItem() {
+				let selectedItem = undefined;
+
+				for(let item of this.items) {
+					if(item.path.split('/')[2] == this.$route.path.split('/')[2] ) {
+						selectedItem = this.items.indexOf(item) 
+					}
+				}
+				
+				if(this.$route.path.split('/')[2] == 'price_list') selectedItem = this.items.indexOf(this.items.find(item => item.path == '/admin-panel/price_list_categories'));
+
+				return selectedItem;
+			} 
 		}
 	}
 </script>

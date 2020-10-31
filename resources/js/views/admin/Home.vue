@@ -2,9 +2,9 @@
 	<v-content class="">
 		<v-container :id="block.tablename" :ref="block.tablename" v-for="(block, i) in blocks" :key="i" class="pa-5">
 			<v-card raised class="">
-				<h2 class="text-center pt-4 font-weight-bold panel-title-header first-color">{{ block.title }}</h2>
+				<h2 class="text-center pt-4 font-weight-bold panel-title-header first-color">{{ block.title }}{{ block.parent ? ' - ' + parent_data.title : '' }}</h2>
 				<v-divider></v-divider>
-				<component :is="block.component" :deleteFlag="deleteFlag" @blockDataEmit="block.table = $event" class="panel-slider mb-5"></component>
+				<component @parent_data="parent_data = $event" :is="block.component" :activeFlag="activeFlag" :deleteFlag="deleteFlag" @blockDataEmit="block.table = $event" class="panel-slider mb-5"></component>
 				<v-card shaped class="">
 					<v-card-title class="align-items-center pt-5">
 						<h2 class="table-title first-color ma-0">Akcje</h2>
@@ -104,7 +104,9 @@
 				search: '',
 				blocks:[],
 				headers: [],
-				deleteFlag: false
+				deleteFlag: false,
+				activeFlag: false,
+				parent_data: {}
 			}
 		},
 		methods:{
@@ -148,6 +150,8 @@
 						'Content-Type': 'application/json'
 					}
 				}).then(res => {
+					this.activeFlag = true;
+					setTimeout(()=>{this.activeFlag = false}, 200);
 					this.$store.commit('setSnackbar', 'Pomyślnie edytowano!');
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Coś poszło nie tak...')

@@ -8,5 +8,5 @@ class PriceListCategories extends Model
 {
     protected $table = 'price_list_categories';
 
-    protected $fillable = ['name', 'active'];
+    protected $fillable = ['title', 'active'];
 }

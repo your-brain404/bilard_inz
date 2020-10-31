@@ -82,6 +82,7 @@ Route::get('/price_list_categories/get_one/{id}', 'PriceListCategoriesController
 Route::post('/price_list_categories/add/', 'PriceListCategoriesController@store');
 Route::delete('/price_list_categories/delete/{id}', 'PriceListCategoriesController@destroy');
 Route::put('/price_list_categories/edit', 'PriceListCategoriesController@store');
+Route::get('/price_list_categories/get_where/', 'PriceListCategoriesController@getWhere');
 
 Route::get('/offers/get_all', 'OffersController@getAll');
 Route::get('/offers/get_one/{id}', 'OffersController@getOne');

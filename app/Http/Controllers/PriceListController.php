@@ -24,7 +24,7 @@ class PriceListController extends Controller
 	}
 
 	public function getWhere(Request $request) {
-		$price_lists = CrudService::getWhere($request, 'desc');
+		$price_lists = CrudService::getWhere($request, 'asc');
 		return new PriceListCollection($price_lists);
 	}
 

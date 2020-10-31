@@ -13,22 +13,27 @@ class PriceListCategoriesController extends Controller
 	}
 
 	public function getAll() {
-		$price_lists = CrudService::getAll();
-		return new PriceListCategoriesResource($price_lists);
+		$price_list_categories = CrudService::getAll();
+		return new PriceListCategoriesResource($price_list_categories);
 	}
 
 	public function getOne($id) {
-		$price_list = CrudService::getOne($id);
-		return new PriceListCategoriesResource($price_list);
+		$price_list_category = CrudService::getOne($id);
+		return new PriceListCategoriesResource($price_list_category);
+	}
+
+	public function getWhere(Request $request) {
+		$price_list_categories = CrudService::getWhere($request, 'asc');
+		return new PriceListCategoriesResource($price_list_categories);
 	}
 
 	public function store(Request $request) {
-		$price_list = CrudService::saveData($request);
-		return new PriceListCategoriesResource($price_list);
+		$price_list_category = CrudService::saveData($request);
+		return new PriceListCategoriesResource($price_list_category);
 	}
 
 	public function destroy($id) {
-		$price_list = CrudService::destroy($id);
-		return new PriceListCategoriesResource($price_list); 
+		$price_list_category = CrudService::destroy($id);
+		return new PriceListCategoriesResource($price_list_category); 
 	}
 }
