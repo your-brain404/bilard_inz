@@ -18,122 +18,45 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
-Route::get('/about_us/get_all/', 'AboutUsController@getAll');
-Route::get('/about_us/get_one/{id}', 'AboutUsController@getOne');
-Route::put('/about_us/edit', 'AboutUsController@store');
+$default_crud_tables = ['about_us', 'subpages', 'partners', 'live_broadcasts', 'reservations', 'services', 'service_equipments', 'history', 'players', 'cups', 'slider', 'price_list', 'price_list_categories', 'offers', 'news', 'users', 'mails', 'attachments', 'gallery', 'media'];
 
-Route::get('/subpages/get_all/', 'SubpagesController@getAll');
-Route::get('/subpages/get_one/{id}', 'SubpagesController@getOne');
-Route::put('/subpages/edit', 'SubpagesController@store');
-Route::post('/subpages/add/', 'SubpagesController@store');
-Route::delete('/subpages/delete/{id}', 'SubpagesController@destroy');
+foreach ($default_crud_tables as $table) {
+	$controller = implode('', array_map(function($segment) {
+		return ucfirst($segment);
+	}, explode('_', $table))) . 'Controller';
 
-Route::get('/partners/get_all/', 'PartnersController@getAll');
-Route::get('/partners/get_one/{id}', 'PartnersController@getOne');
-Route::put('/partners/edit', 'PartnersController@store');
-Route::post('/partners/add/', 'PartnersController@store');
-Route::delete('/partners/delete/{id}', 'PartnersController@destroy');
-Route::get('/partners/get_where/', 'PartnersController@getWhere');
+	Route::get("/$table/get_all/", "$controller@getAll");
+	Route::get("/$table/get_one/{id}", "$controller@getOne");
+	Route::put("/$table/edit", "$controller@store");
+	Route::post("/$table/add/", "$controller@store");
+	Route::delete("/$table/delete/{id}", "$controller@destroy");
+	Route::get("/$table/get_where/", "$controller@getWhere");
+}
 
-Route::get('/live_broadcasts/get_all/', 'LiveBroadcastsController@getAll');
-Route::get('/live_broadcasts/get_one/{id}', 'LiveBroadcastsController@getOne');
-Route::put('/live_broadcasts/edit', 'LiveBroadcastsController@store');
-Route::post('/live_broadcasts/add/', 'LiveBroadcastsController@store');
-Route::delete('/live_broadcasts/delete/{id}', 'LiveBroadcastsController@destroy');
-Route::get('/live_broadcasts/get_where/', 'LiveBroadcastsController@getWhere');
 
-Route::get('/history/get_all/', 'HistoryController@getAll');
-Route::get('/history/get_one/{id}', 'HistoryController@getOne');
-Route::put('/history/edit', 'HistoryController@store');
-Route::post('/history/add/', 'HistoryController@store');
-Route::delete('/history/delete/{id}', 'HistoryController@destroy');
-Route::get('/history/get_where/', 'HistoryController@getWhere');
+Route::get('/news/get_pagination', 'NewsController@getPagination'); //paginacja
 
-Route::get('/players/get_all/', 'PlayersController@getAll');
-Route::get('/players/get_one/{id}', 'PlayersController@getOne');
-Route::put('/players/edit', 'PlayersController@store');
-Route::post('/players/add/', 'PlayersController@store');
-Route::delete('/players/delete/{id}', 'PlayersController@destroy');
-Route::get('/players/get_where/', 'PlayersController@getWhere');
+Route::get('/media/get_photos/', 'MediaController@getPhotos'); //niestandardowy
 
-Route::get('/cups/get_all/', 'CupsController@getAll');
-Route::get('/cups/get_one/{id}', 'CupsController@getOne');
-Route::put('/cups/edit', 'CupsController@store');
-Route::post('/cups/add/', 'CupsController@store');
-Route::delete('/cups/delete/{id}', 'CupsController@destroy');
-Route::get('/cups/get_where/', 'CupsController@getWhere');
+Route::post('/avatars/add/', 'AvatarsController@store'); //niestandard
 
-Route::get('/slider/get_all', 'SliderController@getAll');
-Route::get('/slider/get_one/{id}', 'SliderController@getOne');
-Route::post('/slider/add/', 'SliderController@store');
-Route::delete('/slider/delete/{id}', 'SliderController@destroy');
-Route::put('/slider/edit', 'SliderController@store');
-Route::get('/slider/get_where/', 'SliderController@getWhere');
+Route::post('/auth/register', 'Auth\api\RegisterController@register'); //niestandard
+Route::post('/auth/login', 'Auth\api\LoginController@login'); //niestandard
 
-Route::get('/price_list/get_all', 'PriceListController@getAll');
-Route::get('/price_list/get_one/{id}', 'PriceListController@getOne');
-Route::post('/price_list/add/', 'PriceListController@store');
-Route::delete('/price_list/delete/{id}', 'PriceListController@destroy');
-Route::put('/price_list/edit', 'PriceListController@store');
-Route::get('/price_list/get_where/', 'PriceListController@getWhere');
 
-Route::get('/price_list_categories/get_all', 'PriceListCategoriesController@getAll');
-Route::get('/price_list_categories/get_one/{id}', 'PriceListCategoriesController@getOne');
-Route::post('/price_list_categories/add/', 'PriceListCategoriesController@store');
-Route::delete('/price_list_categories/delete/{id}', 'PriceListCategoriesController@destroy');
-Route::put('/price_list_categories/edit', 'PriceListCategoriesController@store');
-Route::get('/price_list_categories/get_where/', 'PriceListCategoriesController@getWhere');
 
-Route::get('/offers/get_all', 'OffersController@getAll');
-Route::get('/offers/get_one/{id}', 'OffersController@getOne');
-Route::post('/offers/add/', 'OffersController@store');
-Route::delete('/offers/delete/{id}', 'OffersController@destroy');
-Route::put('/offers/edit', 'OffersController@store');
-Route::get('/offers/get_where/', 'OffersController@getWhere');
+Route::group(['middleware' => ['web']], function () {  //niestandard
+	Route::get('/facebook/login', 'Auth\api\LoginController@redirectToProvider'); //niestandard
+	Route::get('/facebook/login/callback', 'Auth\api\LoginController@handleProviderCallback'); //niestandard
+}); //niestandard
 
-Route::get('/news/get_all', 'NewsController@getAll');
-Route::get('/news/get_pagination', 'NewsController@getPagination');
-Route::get('/news/get_one/{id}', 'NewsController@getOne');
-Route::get('/news/get_where/', 'NewsController@getWhere');
-Route::post('/news/add/', 'NewsController@store');
-Route::delete('/news/delete/{id}', 'NewsController@destroy');
-Route::put('/news/edit', 'NewsController@store');
+Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken'); //niestandard
 
-Route::get('/media/get_photos/', 'MediaController@getPhotos');
-Route::post('/media/add/', 'MediaController@store');
-Route::delete('/media/delete/{id}', 'MediaController@destroy');
+Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos'); //niestandard
 
-Route::post('/avatars/add/', 'AvatarsController@store');
 
-Route::post('/auth/register', 'Auth\api\RegisterController@register');
-Route::post('/auth/login', 'Auth\api\LoginController@login');
+Route::post('/mails/send/', 'MailsController@send'); //niestandard
+Route::put('/mails/answer/', 'MailsController@store'); //niestandard
 
-Route::get('/users/get_all', 'UserController@getAll');
-Route::get('/users/get_one/{id}', 'UserController@getOne');
-Route::get('/users/get_where/', 'UserController@getWhere');
-Route::post('/users/add/', 'UserController@store');
-Route::delete('/users/delete/{id}', 'UserController@destroy');
-Route::put('/users/edit', 'UserController@store');
 
-Route::group(['middleware' => ['web']], function () {
-	Route::get('/facebook/login', 'Auth\api\LoginController@redirectToProvider');
-	Route::get('/facebook/login/callback', 'Auth\api\LoginController@handleProviderCallback');
-});
-Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken');
-
-Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos');
-Route::post('/gallery/add', 'GalleryController@store');
-Route::put('/gallery/edit', 'GalleryController@store');
-Route::delete('/gallery/delete/{id}', 'GalleryController@destroy');
-
-Route::get('/mails/get_all', 'MailsController@getAll');
-Route::get('/mails/get_one/{id}', 'MailsController@getOne');
-Route::post('/mails/add/', 'MailsController@store');
-Route::post('/mails/send/', 'MailsController@send');
-Route::put('/mails/answer/', 'MailsController@store');
-Route::delete('/mails/delete/{id}', 'MailsController@destroy');
-
-Route::post('/attachments/add/', 'AttachmentsController@store');
-Route::delete('/attachments/delete/{id}', 'AttachmentsController@destroy');
-Route::get('/attachments/get_where/', 'AttachmentsController@getWhere');
 

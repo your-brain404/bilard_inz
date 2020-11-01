@@ -8,7 +8,7 @@ use App\Http\Helpers\RegisterHelper;
 use App\Http\Resources\UserResource;
 use App\User;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
 	public function __construct() {
 		new CrudService('App\User');
