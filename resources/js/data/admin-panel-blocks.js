@@ -12,6 +12,8 @@ import LiveBroadcasts from '../components/pages/LiveBroadcasts'
 import Mails from '../components/pages/Mails'
 import PriceList from '../components/pages/PriceList'
 import Users from '../components/users/Users'
+import Services from '../components/reservations/Services'
+import ServiceEquipments from '../components/reservations/ServiceEquipments'
 import PriceListCategories from '../components/price-list-categories/PriceListCategories'
 
 export default {
@@ -69,7 +71,16 @@ export default {
 	],
 
 	price_list: [
-	{title: 'Cennik', component: PriceList, tablename: 'price_list', table: [], multiple: true, removable: true, gallery: false, active: true, parent: 'price_list_categories', home_page: false, answer: false},
+	{title: 'Cennik', component: PriceList, tablename: 'price_list', table: [], multiple: true, removable: true, gallery: false, active: true, parent: 'price_list_categories', parent_block: 'price_list_categories', home_page: false, answer: false},
+	], 
+
+	reservations: [
+	{title: 'Usługi', component: Services, tablename: 'services', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: false, list: 'service_equipments'},
+	
+	], 
+
+	service_equipments: [
+	{title: 'Wyposażenie Usług', component: ServiceEquipments, tablename: 'service_equipments', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, answer: false, parent: 'services', parent_block: 'reservations'},
 	]
 
 }

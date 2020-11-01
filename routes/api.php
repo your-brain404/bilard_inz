@@ -34,29 +34,29 @@ foreach ($default_crud_tables as $table) {
 }
 
 
-Route::get('/news/get_pagination', 'NewsController@getPagination'); //paginacja
+Route::get('/news/get_pagination', 'NewsController@getPagination'); 
 
-Route::get('/media/get_photos/', 'MediaController@getPhotos'); //niestandardowy
+Route::get('/media/get_photos/', 'MediaController@getPhotos'); 
 
-Route::post('/avatars/add/', 'AvatarsController@store'); //niestandard
+Route::post('/avatars/add/', 'AvatarsController@store'); 
 
-Route::post('/auth/register', 'Auth\api\RegisterController@register'); //niestandard
-Route::post('/auth/login', 'Auth\api\LoginController@login'); //niestandard
-
-
-
-Route::group(['middleware' => ['web']], function () {  //niestandard
-	Route::get('/facebook/login', 'Auth\api\LoginController@redirectToProvider'); //niestandard
-	Route::get('/facebook/login/callback', 'Auth\api\LoginController@handleProviderCallback'); //niestandard
-}); //niestandard
-
-Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken'); //niestandard
-
-Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos'); //niestandard
+Route::post('/auth/register', 'Auth\api\RegisterController@register'); 
+Route::post('/auth/login', 'Auth\api\LoginController@login'); 
 
 
-Route::post('/mails/send/', 'MailsController@send'); //niestandard
-Route::put('/mails/answer/', 'MailsController@store'); //niestandard
+
+Route::group(['middleware' => ['web']], function () {  
+	Route::get('/facebook/login', 'Auth\api\LoginController@redirectToProvider'); 
+	Route::get('/facebook/login/callback', 'Auth\api\LoginController@handleProviderCallback'); 
+}); 
+
+Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken'); 
+
+Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos'); 
+
+
+Route::post('/mails/send/', 'MailsController@send'); 
+Route::put('/mails/answer/', 'MailsController@store'); 
 
 
 

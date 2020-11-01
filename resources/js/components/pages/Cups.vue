@@ -31,13 +31,6 @@
 
 	export default {
 		props:['deleteFlag'],
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getCups();
-				}
-			}
-		},
 		data() {
 			return {
 				cups: []
@@ -62,6 +55,13 @@
 		},
 		created() {
 			this.getCups();
+		},
+		watch:{
+			deleteFlag(){
+				if(this.deleteFlag){
+					this.getCups();
+				}
+			}
 		},
 
 	}

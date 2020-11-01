@@ -20,17 +20,28 @@ export default {
 			],
 		},
 		activePhoto: 'https://via.placeholder.com/250',
+		parent: {}
 	},
 	computed:{
 		formTitle(){
 			return this.$route.params.id ? 'Edycja' : 'Dodawanie';
+		},
+		parentTable() {
+			let parentTable = '';
+			Object.entries(AdminPanelBlocks).forEach(block => {
+				block[1].forEach(table => {
+					if(table.tablename == this.$route.path.split('/')[2]) {
+						parentTable = block[1][0].parent ? block[1][0].parent : '';
+					}
+				})
+			})
+			return parentTable;
 		}
 	},
-	beforeRouteLeave (to, from, next) {
-		console.log(to);
-		next();
-	},
 	methods: {
+		getParent() {
+			axios.get(`/api/${this.parentTable}/get_one/${this.$route.params.parent_id}`).then(res => this.parent = res.data).catch(err => console.log(err));
+		},
 		getImageDefaultPlaceholder(){
 			return 'https://via.placeholder.com/250';
 		},
@@ -112,5 +123,6 @@ export default {
 				this.currentObject = res.data;
 			})
 		}
+		if(this.$route.params.parent_id) this.getParent();
 	},
 }

@@ -4,7 +4,7 @@
 			<v-card>
 				<v-card-title class="justify-content-center">
 					<h2 class=" pt-4 font-weight-bold panel-title-header first-color"> 
-						Cennik {{ formTitle }}
+						Cennik ({{ parent.title }}) - {{ formTitle }}
 					</h2>
 				</v-card-title>
 				<v-divider class="mt-0"></v-divider>

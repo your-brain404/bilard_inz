@@ -16,6 +16,15 @@ Vue.component('app', require('./components/App.vue').default);
 Vue.use(Vuelidate);
 Vue.use(VueAxios, axios);
 
+const ignoreWarnMessage = 'The .native modifier for v-on is only valid on components but it was used on <div>.';
+Vue.config.warnHandler = function (msg, vm, trace) {
+  if (msg === ignoreWarnMessage) {
+    msg = null;
+    vm = null;
+    trace = null;
+  }
+}
+
 Vue.axios.defaults.baseURL = window.location.origin;
 Vue.axios.interceptors.request.use(
   (config) => {
@@ -28,13 +37,13 @@ Vue.axios.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
-);
+  );
 
 
 
 const app = new Vue({
-    el: '#app',
-    router,
-    vuetify,
-    store
+  el: '#app',
+  router,
+  vuetify,
+  store
 });

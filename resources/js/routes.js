@@ -15,6 +15,8 @@ import GalleryForm from './views/admin/forms/Gallery'
 import UsersForm from './views/admin/forms/Users'
 import HistoryForm from './views/admin/forms/History'
 import PlayersForm from './views/admin/forms/Players'
+import ServicesForm from './views/admin/forms/Services'
+import ServiceEquipmentsForm from './views/admin/forms/ServiceEquipments'
 import PriceListForm from './views/admin/forms/PriceList'
 import PriceListCategoriesForm from './views/admin/forms/PriceListCategories'
 import LiveBroadcastsForm from './views/admin/forms/LiveBroadcasts'
@@ -32,6 +34,7 @@ import Cups from './components/pages/Cups'
 import Offers from './components/pages/Offers'
 import Contact from './components/pages/Contact'
 import PriceList from './components/pages/PriceList'
+import Reservations from './components/pages/Reservations'
 
 Vue.use(VueRouter);
 
@@ -64,6 +67,8 @@ const routes = [
 
   { path: '/cennik', component: PriceList, name: 'PriceList' },
 
+  { path: '/rezerwacja', component: Reservations, name: 'Reservations' },
+
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
   { path: '/admin-panel/subpages', component: Home, name: 'AdminSubpages'},
@@ -77,10 +82,16 @@ const routes = [
   { path: '/admin-panel/users', component: Home, name: 'AdminUsers'},
   { path: '/admin-panel/gallery_page', component: Home, name: 'AdminGalleryPage'},
   { path: '/admin-panel/price_list_categories', component: Home, name: 'AdminPriceListCategoriesPage'},
+  { path: '/admin-panel/reservations', component: Home, name: 'AdminReservationsPage'},
+
   { path: '/admin-panel/price_list/:parent_id', component: Home, name: 'AdminPriceListPage'},
+  { path: '/admin-panel/service_equipments/:parent_id', component: Home, name: 'AdminServiceEquipmentsListPage'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
+
+  { path: '/admin-panel/services/form', component: ServicesForm, name: 'ServicesForm'},
+  { path: '/admin-panel/services/form/:id', component: ServicesForm, name: 'ServicesFormEdit'},
 
   { path: '/admin-panel/about_us/form', component: AboutUsForm, name: 'AboutUsForm'},
   { path: '/admin-panel/about_us/form/:id', component: AboutUsForm, name: 'AboutUsFormEdit'},
@@ -114,6 +125,9 @@ const routes = [
 
   { path: '/admin-panel/price_list/:parent_id/form', component: PriceListForm, name: 'PriceListForm'},
   { path: '/admin-panel/price_list/:parent_id/form/:id', component: PriceListForm, name: 'PriceListFormEdit'},
+
+  { path: '/admin-panel/service_equipments/:parent_id/form', component: ServiceEquipmentsForm, name: 'ServiceEquipmentsForm'},
+  { path: '/admin-panel/service_equipments/:parent_id/form/:id', component: ServiceEquipmentsForm, name: 'ServiceEquipmentsFormEdit'},
 
   { path: '/admin-panel/price_list_categories/form', component: PriceListCategoriesForm, name: 'PriceListCategoriesForm'},
   { path: '/admin-panel/price_list_categories/form/:id', component: PriceListCategoriesForm, name: 'PriceListCategoriesFormEdit'},

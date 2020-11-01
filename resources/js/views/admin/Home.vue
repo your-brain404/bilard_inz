@@ -2,7 +2,13 @@
 	<v-content class="">
 		<v-container :id="block.tablename" :ref="block.tablename" v-for="(block, i) in blocks" :key="i" class="pa-5">
 			<v-card raised class="">
-				<h2 class="text-center pt-4 font-weight-bold panel-title-header first-color">{{ block.title }}{{ block.parent ? ' - ' + parent_data.title : '' }}</h2>
+				<div class="text-center">
+					<h2 class="text-center pt-4 font-weight-bold panel-title-header first-color">{{ block.title }}{{ block.parent ? ' - ' + parent_data.title : '' }}</h2>
+					<router-link v-if="block.parent" :to="`/admin-panel/${block.parent_block}`">
+						<v-btn color="error">Wróc</v-btn>
+					</router-link>
+				</div>
+
 				<v-divider></v-divider>
 				<component @parent_data="parent_data = $event" :is="block.component" :activeFlag="activeFlag" :deleteFlag="deleteFlag" @blockDataEmit="block.table = $event" class="panel-slider mb-5"></component>
 				<v-card shaped class="">
