@@ -8,5 +8,5 @@ class Services extends Model
 {
     protected $table = 'services';
 
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'color'];
 }

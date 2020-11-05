@@ -18,6 +18,7 @@ import PlayersForm from './views/admin/forms/Players'
 import ServicesForm from './views/admin/forms/Services'
 import ServiceEquipmentsForm from './views/admin/forms/ServiceEquipments'
 import PriceListForm from './views/admin/forms/PriceList'
+import ReservationsForm from './views/admin/forms/Reservations'
 import PriceListCategoriesForm from './views/admin/forms/PriceListCategories'
 import LiveBroadcastsForm from './views/admin/forms/LiveBroadcasts'
 import AboutPage from './views/public/AboutPage'
@@ -104,6 +105,8 @@ const routes = [
 
   { path: '/admin-panel/subpages/form', component: SubpagesForm, name: 'SubpagesForm'},
   { path: '/admin-panel/subpages/form/:id', component: SubpagesForm, name: 'SubpagesFormEdit'},
+
+  { path: '/admin-panel/reservations/form/:id', component: ReservationsForm, name: 'ReservationsFormEdit'},
 
   { path: '/admin-panel/partners/form', component: PartnersForm, name: 'PartnersForm'},
   { path: '/admin-panel/partners/form/:id', component: PartnersForm, name: 'PartnersFormEdit'},

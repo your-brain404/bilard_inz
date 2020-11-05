@@ -11,6 +11,7 @@ import GalleryPage from '../components/pages/GalleryPage'
 import LiveBroadcasts from '../components/pages/LiveBroadcasts'
 import Mails from '../components/pages/Mails'
 import PriceList from '../components/pages/PriceList'
+import Reservations from '../components/pages/Reservations'
 import Users from '../components/users/Users'
 import Services from '../components/reservations/Services'
 import ServiceEquipments from '../components/reservations/ServiceEquipments'
@@ -76,6 +77,7 @@ export default {
 
 	reservations: [
 	{title: 'Usługi', component: Services, tablename: 'services', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: false, list: 'service_equipments'},
+	{title: 'Rezerwacje', component: Reservations, tablename: 'reservations', table: [], multiple: false, removable: true, gallery: false, active: true, home_page: false, answer: false, is_paid: true },
 	
 	], 
 

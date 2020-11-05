@@ -10,7 +10,7 @@
 				</div>
 
 				<v-divider></v-divider>
-				<component @parent_data="parent_data = $event" :is="block.component" :activeFlag="activeFlag" :deleteFlag="deleteFlag" @blockDataEmit="block.table = $event" class="panel-slider mb-5"></component>
+				<component :reloadFlag="reloadFlag" @parent_data="parent_data = $event" :is="block.component" :activeFlag="activeFlag" :deleteFlag="deleteFlag" @blockDataEmit="block.table = $event" class="panel-slider mb-5"></component>
 				<v-card shaped class="">
 					<v-card-title class="align-items-center pt-5">
 						<h2 class="table-title first-color ma-0">Akcje</h2>
@@ -50,13 +50,24 @@
 						<v-checkbox v-model="item.blocked" @change="setCheckbox(block.tablename, item)"></v-checkbox>
 					</div>
 				</template>
+				<template v-slot:item.is_paid="{ item }" >
+					<div class="d-flex justify-content-center">
+						<v-checkbox v-model="item.is_paid" @change="setCheckbox(block.tablename, item)"></v-checkbox>
+					</div>
+				</template>
 				<template v-slot:item.name="{ item }" >
-					{{ block.tablename == 'users' ? item.name : item.first_name + ' ' + item.last_name }}
+					{{ block.tablename == 'users' || block.tablename == 'reservations' ? item.name : item.first_name + ' ' + item.last_name }}
+				</template>
+				<template v-slot:item.entry="{ item }" >
+					{{ `${item.entry} - ${item.leave}` }}
 				</template>
 				<template v-slot:item.answer="{ item }" >
 					<div class="d-flex justify-content-center">
 						<v-checkbox v-model="item.answer" disabled></v-checkbox>
 					</div>
+				</template>
+				<template v-slot:item.service_equipment="{ item }" >
+					{{ item.service_equipment.title }}
 				</template>
 				<template v-slot:item.actions="{ item }">
 					<div class="d-flex justify-content-end">
@@ -112,10 +123,12 @@
 				headers: [],
 				deleteFlag: false,
 				activeFlag: false,
-				parent_data: {}
+				parent_data: {},
+				reloadFlag: false,
 			}
 		},
 		methods:{
+
 			getAddButtonLink(block) {
 				let parent_id = block.parent ? this.$route.params.parent_id + '/' : '';
 				return `/admin-panel/${block.tablename}/${parent_id}form`;
@@ -151,6 +164,8 @@
 				}
 			},
 			setCheckbox(table, item) {
+				if(table == 'reservations') if(!confirm('Czy na pewno potwierdzić rezerwację? Zostanie wysłane potwierdzenie na maila użytkownika!')) return;
+
 				axios.put(`/api/${table}/edit`, item, {
 					headers:{
 						'Content-Type': 'application/json'
@@ -159,6 +174,12 @@
 					this.activeFlag = true;
 					setTimeout(()=>{this.activeFlag = false}, 200);
 					this.$store.commit('setSnackbar', 'Pomyślnie edytowano!');
+					if(table == 'reservations' && item.active) axios.post('/api/reservations/accept', item).then(res2 => {
+						if(res2.data.success) this.$store.commit('setSnackbar', res2.data.success.message);
+						if(res2.data.error) this.$store.commit('setSnackbar', res2.data.error.message);
+						this.reloadFlag = true;
+						setTimeout(() => {this.reloadFlag = false}, 200);
+					})
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Coś poszło nie tak...')
 				})
@@ -175,10 +196,12 @@
 						headers.splice(1,0, {text: 'Temat', align: 'start', value: 'subject', width: '20%'}, {text: 'E-mail', align: 'start', value: 'email', width: '20%'});
 					}
 					if(block.order) headers.splice(0,0, { text: 'Kolejność', align: 'center', value: 'order', width: '10%' });
-					if(block.tablename == 'players' || block.tablename == 'users') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
+					if(block.tablename == 'players' || block.tablename == 'users' || block.tablename == 'reservations') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
+					if(block.is_paid) headers.splice(0,0, { text: 'Zapłacono', align: 'center', value: 'is_paid', width: '10%' });
 					if(block.active) headers.splice(0,0, { text: 'Aktywny', align: 'center', value: 'active', width: '10%' });
-					if(block.tablename == 'users') headers.splice(1,0, { text: 'Blokuj', align: 'center', value: 'blocked', width: '10%' })
-						if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', align: 'center', value: 'home_page', width: '10%' });
+					if(block.tablename == 'reservations') headers.splice(2,0, { text: 'Data i czas', align: 'center', value: 'entry', width: '20%' });
+					if(block.tablename == 'users') headers.splice(1,0, { text: 'Blokuj', align: 'center', value: 'blocked', width: '10%' });
+					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', align: 'center', value: 'home_page', width: '10%' });
 					this.headers.push(headers); 
 				}
 			},
@@ -193,6 +216,7 @@
 		created(){
 			this.setBlocks();
 			this.fillBaseHeaders(); 
+
 		}
 	}
 </script>

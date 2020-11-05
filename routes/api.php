@@ -40,6 +40,8 @@ Route::get('/media/get_photos/', 'MediaController@getPhotos');
 
 Route::post('/avatars/add/', 'AvatarsController@store'); 
 
+Route::post('/reservations/accept/', 'ReservationsController@accept'); 
+
 Route::post('/auth/register', 'Auth\api\RegisterController@register'); 
 Route::post('/auth/login', 'Auth\api\LoginController@login'); 
 
