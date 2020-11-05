@@ -149,8 +149,8 @@
 					timed: true,
 				}, {
 					name: 'Stół bilardowy nr 1',
-					start: '2020-11-01 19:30',
-					end: '2020-11-01 20:00',
+					start: '2020-11-01 20:00',
+					end: '2020-11-01 21:00',
 					color: '#19881d',
 					timed: true,
 				},
