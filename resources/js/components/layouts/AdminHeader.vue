@@ -16,15 +16,19 @@
 
 			<v-divider></v-divider>
 			<v-list-item-group v-model="selectedItem">
-				<v-list-item v-for="(item, i) in items" @load="item.path.split('/')[1] == $route.path.split('/')[1] ? selectedItem = i : true" :key="item.title" link active-class="nav-link" @click="$route.path == item.path ? true : $router.push(item.path)" >
-					<v-list-item-icon>
-						<v-icon>{{ item.icon }}</v-icon>
-					</v-list-item-icon>
+				<div v-for="(item, i) in items" :key="item.title">
+					<v-divider v-if="item.title == 'Sklep'"></v-divider>
+					<v-list-item  @load="item.path.split('/')[1] == $route.path.split('/')[1] ? selectedItem = i : true"  link active-class="nav-link" @click="$route.path == item.path ? true : $router.push(item.path)" >
+						<v-list-item-icon>
+							<v-icon>{{ item.icon }}</v-icon>
+						</v-list-item-icon>
 
-					<v-list-item-content>
-						<v-list-item-title>{{ item.title }}</v-list-item-title>
-					</v-list-item-content>
-				</v-list-item>
+						<v-list-item-content>
+							<v-list-item-title>{{ item.title }}</v-list-item-title>
+						</v-list-item-content>
+					</v-list-item>
+
+				</div>
 			</v-list-item-group>
 		</v-list>
 	</v-navigation-drawer>
@@ -54,6 +58,7 @@
 				{ title: 'Rezerwacje', icon: 'mdi-calendar', path: '/admin-panel/reservations' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
 				{ title: 'Użytkownicy', icon: 'mdi-account', path: '/admin-panel/users' },
+				{ title: 'Sklep', icon: 'mdi-cart', path: '/admin-panel/shop' },
 				],
 				color: '#da5a33',
 			}

@@ -1,7 +1,7 @@
 <template>
 	<v-container class="px-3">
 		<h2>Legenda</h2>
-		<v-row v-for="service in services" align="center" class="px-3">
+		<v-row v-for="(service, i) in services" :key="i" align="center" class="px-3">
 			<div class="legend-color" :style="`background-color: ${service.color}`"></div>
 			<p>{{ service.title }}</p>
 

@@ -16,6 +16,8 @@ import Users from '../components/users/Users'
 import Services from '../components/reservations/Services'
 import ServiceEquipments from '../components/reservations/ServiceEquipments'
 import PriceListCategories from '../components/price-list-categories/PriceListCategories'
+import ShopCategories from '../components/shop/ShopCategories'
+import ShopProducts from '../components/shop/ShopProducts'
 
 export default {
 	main:[
@@ -83,6 +85,14 @@ export default {
 
 	service_equipments: [
 	{title: 'Wyposażenie Usług', component: ServiceEquipments, tablename: 'service_equipments', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, answer: false, parent: 'services', parent_block: 'reservations'},
-	]
+	],
+
+	shop: [
+	{title: 'Kategorie Sklepu', component: ShopCategories, tablename: 'shop_categories', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, list:'shop_products'},
+	],
+
+	shop_products: [
+	{title: 'Produkty sklepu', component: ShopProducts, tablename: 'shop_products', table: [], multiple: true, removable: true, gallery: false, active: true, parent: 'shop_categories', parent_block: 'shop', list: 'shop_items'},
+	],
 
 }
