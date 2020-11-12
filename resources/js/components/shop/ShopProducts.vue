@@ -14,7 +14,7 @@
 			slug: title => slugify(title),
 			getProducts(){
 				this.$store.commit('loading', true);
-				axios.get(`/api/shop_products/get_all`).then(res => {
+				axios.get(`/api/shop_products/get_where?category_id=${this.$route.params.parent_id}`).then(res => {
 					this.$store.commit('loading', false);
 					this.shop_products = res.data;
 					this.$emit('blockDataEmit', this.shop_products);
@@ -38,8 +38,6 @@
 		created() {
 			this.getProducts();
 			this.getCategory();
-			console.log(this.$route.params.parent_id)
-			console.log('dupa')
 		},
 		watch:{
 			deleteFlag(){

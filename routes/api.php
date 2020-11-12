@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
-$default_crud_tables = ['about_us', 'subpages', 'partners', 'live_broadcasts', 'reservations', 'services', 'service_equipments', 'history', 'players', 'cups', 'slider', 'price_list', 'price_list_categories', 'offers', 'news', 'users', 'mails', 'attachments', 'gallery', 'media', 'shop_categories', 'shop_products'];
+$default_crud_tables = ['about_us', 'subpages', 'partners', 'live_broadcasts', 'reservations', 'services', 'service_equipments', 'history', 'players', 'cups', 'slider', 'price_list', 'price_list_categories', 'offers', 'news', 'users', 'mails', 'attachments', 'gallery', 'media', 'shop_categories', 'shop_products', 'shop_items', 'shop_item_colors'];
 
 foreach ($default_crud_tables as $table) {
 	$controller = implode('', array_map(function($segment) {

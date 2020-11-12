@@ -14,10 +14,20 @@ export default {
 			titleRules: [
 			v => !!v || 'To pole jest wymagane!'
 			],
-			priceRules: [
-			v => !!v || 'To pole jest wymagane!',
-			v => v > 0 || 'To pole musi być większe od zera!'
+			positiveRules: [
+			v => v > 0 || 'To pole musi być większe od zera!',
 			],
+			nonNegativeRules: [
+			v => v > -1 || 'To pole nie może być ujemne!'
+			],
+			priceRules: [
+			v => v * 1000 % 10 == 0 || 'To pole musi mieć max. dwa miejsca po przecinku!'
+			],
+			amountRules: [
+			v => v % 1 == 0 || 'To pole musi być liczbą całkowitą!',
+			
+			]
+
 		},
 		activePhoto: 'https://via.placeholder.com/250',
 		parent: {}

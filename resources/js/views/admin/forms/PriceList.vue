@@ -14,7 +14,7 @@
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Nazwa *" required></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.subtitle" label="Podtytuł"></v-text-field>
-								<v-text-field :rules="rules.priceRules" step="0.01" color="primary" type="number" v-model="currentObject.price" label="Cena *"></v-text-field>
+								<v-text-field :rules="rules.priceRules.concat(rules.titleRules, rules.positiveRules)" step="0.01" color="primary" type="number" v-model="currentObject.price" label="Cena *"></v-text-field>
 							</div>
 						</v-col>
 					</v-row>

@@ -4,7 +4,7 @@
 			<v-card raised class="">
 				<div class="text-center">
 					<h2 class="text-center pt-4 font-weight-bold panel-title-header first-color">{{ block.title }}{{ block.parent ? ' - ' + parent_data.title : '' }}</h2>
-					<router-link v-if="block.parent" :to="`/admin-panel/${block.parent_block}`">
+					<router-link v-if="block.parent" :to="`/admin-panel/${block.parent_block}${getParentId(block)}`">
 						<v-btn color="error">Wróc</v-btn>
 					</router-link>
 				</div>
@@ -128,7 +128,17 @@
 			}
 		},
 		methods:{
-
+			getParentId(block) {
+				let parent_id = '';
+				panelBlocks[block.parent_block].forEach(panelBlock => {
+					if(panelBlock.tablename == block.parent_block) {
+						if(panelBlock.list && panelBlock.list == 'shop_items') {
+							parent_id = `/${this.parent_data.category_id}`;
+						}
+					}
+				})
+				return parent_id;
+			},
 			getAddButtonLink(block) {
 				let parent_id = block.parent ? this.$route.params.parent_id + '/' : '';
 				return `/admin-panel/${block.tablename}/${parent_id}form`;

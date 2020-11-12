@@ -18,6 +18,8 @@ import ServiceEquipments from '../components/reservations/ServiceEquipments'
 import PriceListCategories from '../components/price-list-categories/PriceListCategories'
 import ShopCategories from '../components/shop/ShopCategories'
 import ShopProducts from '../components/shop/ShopProducts'
+import ShopItems from '../components/shop/ShopItems'
+import ShopItemColors from '../components/shop/ShopItemColors'
 
 export default {
 	main:[
@@ -89,10 +91,16 @@ export default {
 
 	shop: [
 	{title: 'Kategorie Sklepu', component: ShopCategories, tablename: 'shop_categories', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, list:'shop_products'},
+	{title: 'Dostępne kolory wariantów', component: ShopItemColors, tablename: 'shop_item_colors', table: [], multiple: true, removable: true, gallery: false, active: true},
 	],
 
 	shop_products: [
-	{title: 'Produkty sklepu', component: ShopProducts, tablename: 'shop_products', table: [], multiple: true, removable: true, gallery: false, active: true, parent: 'shop_categories', parent_block: 'shop', list: 'shop_items'},
+	{title: 'Produkty sklepu', component: ShopProducts, tablename: 'shop_products', table: [], multiple: true, removable: true, gallery: true, active: true, parent: 'shop_categories', parent_block: 'shop', list: 'shop_items'},
 	],
+
+	shop_items: [
+	{title: 'Warianty produktów sklepu', component: ShopItems, tablename: 'shop_items', table: [], multiple: true, removable: true, gallery: true, active: true, parent: 'shop_products', parent_block: 'shop_products'},
+	
+	]
 
 }

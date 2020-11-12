@@ -42,7 +42,7 @@
 
 <script>
 	import axios from 'axios'
-	import Select from '../../../components/select/Select'
+	import Select from '../../../components/select/Users'
 
 	export default {
 		data() {

@@ -23,6 +23,8 @@ import PriceListCategoriesForm from './views/admin/forms/PriceListCategories'
 import LiveBroadcastsForm from './views/admin/forms/LiveBroadcasts'
 import ShopCategoriesForm from './views/admin/forms/ShopCategories'
 import ShopProductsForm from './views/admin/forms/ShopProducts'
+import ShopItemsForm from './views/admin/forms/ShopItems'
+import ShopItemColorsForm from './views/admin/forms/ShopItemColors'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -92,6 +94,7 @@ const routes = [
   { path: '/admin-panel/price_list/:parent_id', component: Home, name: 'AdminPriceListPage'},
   { path: '/admin-panel/service_equipments/:parent_id', component: Home, name: 'AdminServiceEquipmentsListPage'},
   { path: '/admin-panel/shop_products/:parent_id', component: Home, name: 'AdminShopProductsListPage'},
+  { path: '/admin-panel/shop_items/:parent_id', component: Home, name: 'AdminShopItemsListPage'},
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
@@ -151,6 +154,14 @@ const routes = [
 
   { path: '/admin-panel/shop_categories/form', component: ShopCategoriesForm, name: 'ShopCategoriesForm'},
   { path: '/admin-panel/shop_categories/form/:id', component: ShopCategoriesForm, name: 'ShopCategoriesFormEdit'},
+  
+  { path: '/admin-panel/shop_items/:parent_id/form', component: ShopItemsForm, name: 'ShopItemsForm'},
+  { path: '/admin-panel/shop_items/:parent_id/form/:id', component: ShopItemsForm, name: 'ShopItemsFormEdit'},
+
+  { path: '/admin-panel/shop_item_colors/form', component: ShopItemColorsForm, name: 'ShopItemColorsForm'},
+  { path: '/admin-panel/shop_item_colors/form/:id', component: ShopItemColorsForm, name: 'ShopItemColorsFormEdit'},
+
+
 ]
 
 export default new VueRouter({
