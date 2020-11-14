@@ -40,6 +40,7 @@ import Offers from './components/pages/Offers'
 import Contact from './components/pages/Contact'
 import PriceList from './components/pages/PriceList'
 import Reservations from './components/pages/Reservations'
+import Shop from './components/pages/Shop'
 
 Vue.use(VueRouter);
 
@@ -73,6 +74,8 @@ const routes = [
   { path: '/cennik', component: PriceList, name: 'PriceList' },
 
   { path: '/rezerwacja', component: Reservations, name: 'Reservations' },
+
+  { path: '/sklep', component: Shop, name: 'Shop' },
 
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
