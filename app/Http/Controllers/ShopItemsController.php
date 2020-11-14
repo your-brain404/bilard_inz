@@ -30,7 +30,7 @@ class ShopItemsController extends Controller
 	}
 
 	public function store(Request $request) {
-		$shop_item = CrudService::saveData($request);
+		$shop_item = ShopItemsService::saveData($request);
 		return new ShopItemsResource($shop_item);
 	}
 	

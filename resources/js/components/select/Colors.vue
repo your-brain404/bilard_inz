@@ -1,5 +1,5 @@
 <template>
-	<v-select v-model="color" :items="searchColor()" return-object :item-text="itemText" label="Wybierz kolor">
+	<v-select v-model="color" :rules="rules.titleRules" :items="searchColor()" return-object :item-text="itemText" label="Wybierz kolor">
 		<template v-slot:prepend-item>
 			<v-list-item>
 				<v-text-field v-model="search" @keyup="searchColor" label="Znajdź"></v-text-field>
@@ -19,7 +19,7 @@
 	import axios from 'axios'
 
 	export default {
-		props: ['selectedColor'],
+		props: ['selectedColor', 'rules'],
 		data() {
 			return {
 				colors: [],

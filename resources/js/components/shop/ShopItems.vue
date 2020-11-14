@@ -14,7 +14,7 @@
 			slug: title => slugify(title),
 			getItems(){
 				this.$store.commit('loading', true);
-				axios.get(`/api/shop_items/get_all`).then(res => {
+				axios.get(`/api/shop_items/get_where?product_id=${this.$route.params.parent_id}`).then(res => {
 					this.$store.commit('loading', false);
 					this.shop_items = res.data;
 					this.$emit('blockDataEmit', this.shop_items);

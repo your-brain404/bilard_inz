@@ -18,7 +18,7 @@
 								<v-text-field type="number" color="primary" v-model="currentObject.price" min="0" label="Cena *" step="0.01" :rules="rules.priceRules.concat(rules.titleRules, rules.positiveRules)"></v-text-field>
 								<v-text-field type="number" color="primary" v-model="currentObject.amount" min="0" step="1" label="Ilość *" :rules="rules.titleRules.concat(rules.amountRules, rules.nonNegativeRules)"></v-text-field>
 								<v-text-field type="number" color="primary" v-model="currentObject.discount" min="0" step="0.01" label="Rabat w procentach (opcjonalnie)" :rules="rules.nonNegativeRules"></v-text-field>
-								<Colors :selectedColor="currentObject.color_id" @color="currentObject.color_id = $event.id" />
+								<Colors :rules="rules" :selectedColor="currentObject.color_id" @color="currentObject.color_id = $event.id" />
 								
 								<div class="mt-3">
 									<p class="mb-1">Opis</p>

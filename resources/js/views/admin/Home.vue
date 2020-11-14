@@ -50,6 +50,11 @@
 						<v-checkbox v-model="item.blocked" @change="setCheckbox(block.tablename, item)"></v-checkbox>
 					</div>
 				</template>
+				<template v-slot:item.default="{ item }" >
+					<div class="d-flex justify-content-center">
+						<v-checkbox :disabled="disableDefaultCheckbox(block.table, item)" v-model="item.default" @change="setCheckbox(block.tablename, item)"></v-checkbox>
+					</div>
+				</template>
 				<template v-slot:item.is_paid="{ item }" >
 					<div class="d-flex justify-content-center">
 						<v-checkbox v-model="item.is_paid" @change="setCheckbox(block.tablename, item)"></v-checkbox>
@@ -128,6 +133,13 @@
 			}
 		},
 		methods:{
+			disableDefaultCheckbox(table, item) {
+				let status = false;
+				if(table.some(row => row.default)) {
+					if(!item.default) status = true;
+				} 
+				return status;
+			},
 			getParentId(block) {
 				let parent_id = '';
 				panelBlocks[block.parent_block].forEach(panelBlock => {
@@ -209,6 +221,7 @@
 					if(block.tablename == 'players' || block.tablename == 'users' || block.tablename == 'reservations') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
 					if(block.is_paid) headers.splice(0,0, { text: 'Zapłacono', align: 'center', value: 'is_paid', width: '10%' });
 					if(block.active) headers.splice(0,0, { text: 'Aktywny', align: 'center', value: 'active', width: '10%' });
+					if(block.default) headers.splice(0,0, { text: 'Wyświetlaj jako główny', align: 'center', value: 'default', width: '10%' });
 					if(block.tablename == 'reservations') headers.splice(2,0, { text: 'Data i czas', align: 'center', value: 'entry', width: '20%' });
 					if(block.tablename == 'users') headers.splice(1,0, { text: 'Blokuj', align: 'center', value: 'blocked', width: '10%' });
 					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', align: 'center', value: 'home_page', width: '10%' });
