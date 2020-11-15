@@ -78,6 +78,7 @@
 				endpoint += `&field=${this.currentSort.field}&sort=${this.currentSort.sort}`;
 
 				axios.get(`/api/shop_products/${endpoint}`).then(res => {
+					res = res.data;
 					this.$store.commit('loading', false);
 					this.shop_products = res.data;
 					this.getItems();
