@@ -76,7 +76,7 @@
 					subtitle: '',
 					discount: 0,
 					amount: 0,
-					price: 0,
+					price: undefined,
 					description: '',
 					photo: '',
 					photo_alt: '',
@@ -88,6 +88,12 @@
 		...vueComponents,
 		components: {
 			Colors, ...vueComponents.components
-		}
+		},
+		watch: {
+			parent() {
+				if(this.currentObject.price == undefined) this.currentObject.price = this.parent.price;
+			}
+		},
+
 	}
 </script>

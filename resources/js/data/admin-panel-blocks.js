@@ -91,7 +91,6 @@ export default {
 
 	shop: [
 	{title: 'Kategorie Sklepu', component: ShopCategories, tablename: 'shop_categories', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, list:'shop_products'},
-	{title: 'Dostępne kolory wariantów', component: ShopItemColors, tablename: 'shop_item_colors', table: [], multiple: true, removable: true, gallery: false, active: true},
 	],
 
 	shop_products: [

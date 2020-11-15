@@ -6,12 +6,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ShopProductsResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
+    private $shop_product;
+
+    public function __construct($resource, $shop_product) {
+        parent::__construct($resource);
+        $this->shop_product = $shop_product;
+    }
+
     public function toArray($request)
     {
         return parent::toArray($request);

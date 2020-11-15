@@ -15,6 +15,7 @@
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.subtitle" label="Podtytuł"></v-text-field>
+								<v-text-field  color="primary" :rules="rules.titleRules.concat(rules.priceRules, rules.positiveRules)" v-model="currentObject.price" label="Cena *"></v-text-field>
 								
 								<div class="mt-3">
 									<p class="mb-1">Opis</p>
@@ -69,6 +70,7 @@
 					title: '',
 					subtitle: '',
 					description: '',
+					price: 0,
 					photo: '',
 					photo_alt: '',
 					category_id: this.$route.params.parent_id

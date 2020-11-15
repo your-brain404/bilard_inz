@@ -1,5 +1,8 @@
 <template>
 	<v-container fluid class="py-12">
+		<v-row justify="center">
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Sklep</h2>
+		</v-row>
 		<v-row>
 			<v-col cols="12" md="3">
 				<ShopCategories />
