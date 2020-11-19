@@ -75,7 +75,9 @@ const routes = [
 
   { path: '/rezerwacja', component: Reservations, name: 'Reservations' },
 
-  { path: '/sklep', component: Shop, name: 'Shop' },
+  { path: '/sklep/', component: Shop, name: 'Shop' },
+  { path: '/sklep/:page', component: Shop, name: 'ShopPagination' },
+  { path: '/sklep/:category_id/:page', component: Shop, name: 'ShopCategory' },
 
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},

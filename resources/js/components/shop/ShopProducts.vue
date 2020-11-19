@@ -9,6 +9,12 @@
 			</v-col>
 		</v-row>
 		<v-row>
+			<v-col cols="12">
+				<Pagination :length="pagination.last_page" @page="setPath"/>
+			</v-col>
+		</v-row>
+		<v-row>
+
 			<v-col v-for="(product, i) in shop_products" :key="i" cols="4">
 				<v-card class="mx-auto" max-width="400" >
 					<router-link :to="`/sklep/produkt/${product.id}/${slug(product.title)}`">
@@ -32,6 +38,11 @@
 
 			</v-col>
 		</v-row>
+		<v-row>
+			<v-col cols="12">
+				<Pagination :length="pagination.last_page" @page="setPath"/>
+			</v-col>
+		</v-row>
 	</div>
 </template>
 
@@ -39,6 +50,7 @@
 	import axios from 'axios'
 	import url from '../../helpers/photo/url'
 	import slugify from '../../helpers/links/slug'
+	import Pagination from '../pagination/Pagination'
 
 	export default {
 		props:['deleteFlag'],
@@ -46,7 +58,7 @@
 			return {
 				shop_category: {},
 				shop_products: [],
-				shop_items: [],
+				pagination: {},
 				sorts: [
 				{title: 'Cena', show: true, field: 'price', icon: 'mdi-sort-numeric-ascending', sort: 'asc'},
 				{title: 'Cena', show: false, field: 'price', icon: 'mdi-sort-numeric-descending', sort: 'desc'},
@@ -59,29 +71,25 @@
 			}
 		},
 		methods: {
+			setPath(event) {
+				if(this.$route.params.page != event) this.$router.push({name: 'ShopPagination', params: {page: event}});
+			},
 			getUrl: src => url(src),
 			slug: title => slugify(title),
-			getItems() {
-				for(let product of this.shop_products) {
-
-					axios.get(`/api/shop_items/get_where?default=1&product_id=${product.id}`).then(res => {
-						this.shop_items.push(res.data[0]);
-					}).catch(err => {
-						this.$store.commit('setSnackbar', 'Nie udało się załadować domyślnych wariantów, przepraszamy...')
-					})
-				}
-			},
 			getProducts(){
 				this.$store.commit('loading', true);
-				let endpoint = `get_where?category_id=${this.$route.params.parent_id}`;
+				let endpoint = `get_where?`;
+				if(this.$route.params.parent_id) endpoint += `category_id=${this.$route.params.parent_id}`;
+				if(this.$route.params.category_id) endpoint += `&category_id=${this.$route.params.category_id}`;
 				if(this.$route.path == '/sklep') endpoint = `get_where?active=1`;
 				endpoint += `&field=${this.currentSort.field}&sort=${this.currentSort.sort}`;
+				if(this.$route.params.page) endpoint += `&page=${this.$route.params.page}`;
 
 				axios.get(`/api/shop_products/${endpoint}`).then(res => {
 					res = res.data;
+					this.pagination = res.meta;
 					this.$store.commit('loading', false);
 					this.shop_products = res.data;
-					this.getItems();
 					this.$emit('blockDataEmit', this.shop_products);
 					
 				}).catch(err => {
@@ -119,7 +127,13 @@
 					this.getProducts();
 					this.getCategory();
 				}
+			},
+			'$route'() {
+				this.getProducts();
 			}
 		},
+		components: {
+			Pagination
+		}
 	}
 </script>

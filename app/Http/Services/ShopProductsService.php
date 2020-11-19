@@ -10,8 +10,9 @@ use App\ShopProducts;
 class ShopProductsService {
 
 	public static function getWhere(Request $request) {
-		$where = ['active' => 1];
+		$where = [];
 		if($request->category_id) $where['category_id'] = $request->category_id;
 		return ShopProducts::where($where)->orderBy($request->field, $request->sort)->paginate();
 	}
+	
 }

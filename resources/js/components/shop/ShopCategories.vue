@@ -2,11 +2,20 @@
 	<v-list dense>
 		<h3 class="shop-categories-title">Kategorie Produktów</h3>
 		<v-list-item-group color="primary" >
-			<v-list-item v-for="(category, i) in shop_categories" :key="i" class="shop-category">
-				<v-list-item-content>
-					<v-list-item-title class="shop-category-title" v-text="category.title"></v-list-item-title>
-				</v-list-item-content>
-			</v-list-item>
+			<router-link to="/sklep">
+				<v-list-item  class="shop-category">
+					<v-list-item-content>
+						<v-list-item-title class="shop-category-title" v-text="`Zobacz wszystkie produkty`"></v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+			</router-link>
+			<router-link :to="`/sklep/${category.id}/1`" v-for="(category, i) in shop_categories" :key="i">
+				<v-list-item  class="shop-category">
+					<v-list-item-content>
+						<v-list-item-title class="shop-category-title" v-text="category.title"></v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+			</router-link>
 		</v-list-item-group>
 	</v-list>
 </template>

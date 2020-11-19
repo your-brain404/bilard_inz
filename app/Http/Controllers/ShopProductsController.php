@@ -24,6 +24,11 @@ class ShopProductsController extends Controller
 		return new ShopProductsResource($shop_product, $shop_product->category);
 	}
 
+	public function getPagination(Request $request) {
+		$shop_products = ShopProductsService::getPagination($request);
+		return new ShopProductsCollection($shop_products);
+	}
+
 	public function getWhere(Request $request) {
 		$shop_products = ShopProductsService::getWhere($request);
 		return new ShopProductsCollection($shop_products);

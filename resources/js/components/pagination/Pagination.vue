@@ -22,7 +22,7 @@
   			this.$emit('page', this.page)
   		},
   		'$route.params.page'() {
-  			this.page = this.$route.params.page == this.page ? this.page : this.$route.params.page;
+  			this.page = this.$route.params.page == this.page ? this.page : (this.$route.params.page == undefined ? 1 : parseInt(this.$route.params.page));
   		}
   	}
   }
