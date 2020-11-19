@@ -32,8 +32,9 @@ class CrudService {
 		return self::$model::where($request->all())->orderBy('created_at', $sort)->get();
 	}
 
-	public static function getAll(): Collection{
-		return self::$model::all();
+	public static function getAll(){
+		var_dump(self::$model::where('category_id', 1)->get()->toArray());die;
+		return self::$model::where('category_id', 1)->get()->toArray();
 	}
 
 	public static function getOne(String $id): Model{

@@ -16,6 +16,7 @@
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.subtitle" label="Podtytuł"></v-text-field>
 								<v-text-field  color="primary" :rules="rules.titleRules.concat(rules.priceRules, rules.positiveRules)" v-model="currentObject.price" label="Cena *"></v-text-field>
+								<v-text-field type="number" color="primary" v-model="currentObject.discount" min="0" step="0.01" label="Rabat w procentach (opcjonalnie)" :rules="rules.nonNegativeRules"></v-text-field>
 								
 								<div class="mt-3">
 									<p class="mb-1">Opis</p>
@@ -72,6 +73,7 @@
 					description: '',
 					price: 0,
 					photo: '',
+					discount: 0,
 					photo_alt: '',
 					category_id: this.$route.params.parent_id
 				},

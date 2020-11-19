@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-row justify="end">
-			<v-col cols="12" class="justify-content-end d-flex">
+			<v-col cols="12" class="justify-content-center justify-content-lg-end d-flex">
 				<v-chip @click="setSort(sort)" v-if="sort.show" class="ml-1" v-for="(sort, i) in sorts" :key="i" >
 					<v-icon class="pr-1">{{ sort.icon }}</v-icon>
 					{{ sort.title }}
@@ -15,17 +15,23 @@
 		</v-row>
 		<v-row>
 
-			<v-col v-for="(product, i) in shop_products" :key="i" cols="4">
+			<v-col v-for="(product, i) in shop_products" :key="i" cols="12" md="4">
 				<v-card class="mx-auto" max-width="400" >
 					<router-link :to="`/sklep/produkt/${product.id}/${slug(product.title)}`">
-						<v-img class="white--text align-end" height="200px" :src="getUrl(product.photo)" >
+						<v-img class="white--text align-end position-relative" height="200px" :src="getUrl(product.photo)" >
 							<v-card-title>{{ product.title }}</v-card-title>
 						</v-img>
 
 						<v-card-subtitle class="pb-0"> {{ product.subtitle }} </v-card-subtitle>
 
-						<v-card-text class="text--primary">
-							Cena: {{ product.price.toFixed(2) }} PLN
+						<v-card-text class="text--primary d-flex" style="height: 44px">
+							<div class="mr-2">Cena: </div>
+							<div>
+								<div :class="[{'discounted': product.discount}]">{{ product.price.toFixed(2) }} PLN </div>
+								<div v-if="product.discount">
+									{{ (product.price * ((100 - product.discount) / 100)).toFixed(2) }} PLN
+								</div>
+							</div>
 						</v-card-text>
 					</router-link>
 					<v-card-actions>
@@ -137,3 +143,9 @@
 		}
 	}
 </script>
+
+<style>
+	.discounted {
+		text-decoration: line-through;
+	}
+</style>

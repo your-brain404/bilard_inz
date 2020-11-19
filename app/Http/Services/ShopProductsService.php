@@ -12,6 +12,7 @@ class ShopProductsService {
 	public static function getWhere(Request $request) {
 		$where = [];
 		if($request->category_id) $where['category_id'] = $request->category_id;
+		if($request->active) $where['active'] = $request->active;
 		return ShopProducts::where($where)->orderBy($request->field, $request->sort)->paginate();
 	}
 	

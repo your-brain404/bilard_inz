@@ -98,7 +98,7 @@ export default {
 	],
 
 	shop_items: [
-	{title: 'Warianty produktów sklepu', component: ShopItems, tablename: 'shop_items', table: [], multiple: true, removable: true, gallery: true, active: true, parent: 'shop_products', parent_block: 'shop_products', default: true},
+	{title: 'Warianty produktów sklepu', component: ShopItems, tablename: 'shop_items', table: [], multiple: true, removable: true, gallery: false, active: true, parent: 'shop_products', parent_block: 'shop_products', default: true},
 	
 	]
 
