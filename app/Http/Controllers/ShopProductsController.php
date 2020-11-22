@@ -21,7 +21,7 @@ class ShopProductsController extends Controller
 
 	public function getOne($id) {
 		$shop_product = CrudService::getOne($id);
-		return new ShopProductsResource($shop_product, $shop_product->category);
+		return new ShopProductsResource($shop_product);
 	}
 
 	public function getPagination(Request $request) {
@@ -36,11 +36,11 @@ class ShopProductsController extends Controller
 
 	public function store(Request $request) {
 		$shop_product = CrudService::saveData($request);
-		return new ShopProductsResource($shop_product, $shop_product->category);
+		return new ShopProductsResource($shop_product);
 	}
 	
 	public function destroy($id) {
 		$shop_product = CrudService::destroy($id);
-		return new ShopProductsResource($shop_product, $shop_product->category); 
+		return new ShopProductsResource($shop_product); 
 	}
 }

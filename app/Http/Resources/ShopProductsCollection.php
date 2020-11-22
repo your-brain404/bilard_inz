@@ -14,6 +14,11 @@ class ShopProductsCollection extends ResourceCollection
      */
     public function toArray($request)
     {
+        for($i=0 ; $i<$this->count() ; $i++) {
+            $this->collection[$i]->color;
+            $this->collection[$i]->category;
+        }
+        
         return parent::toArray($request);
     }
 }

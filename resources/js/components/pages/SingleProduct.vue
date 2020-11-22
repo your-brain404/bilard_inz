@@ -19,13 +19,13 @@ v<template>
 
 			<v-col cols="12" md="7">
 				<v-card style="height: 500px" class="d-flex flex-column justify-content-between">
-					<v-zoom v-if="activePhoto == 0" :img="getUrl(shop_product.photo)" width="100%" ></v-zoom>
-					<v-zoom v-for="(item, i) in shop_items" :key="i" v-if="activePhoto == (i+1)" :img="getUrl(item.photo)" width="100%" ></v-zoom>
+					<v-zoom v-if="activePhoto == -1" :img="getUrl(shop_product.photo)" width="100%" ></v-zoom>
+					<v-zoom v-for="(item, i) in shop_items" :key="i" v-if="activePhoto == i" :img="getUrl(item.photo)" width="100%" ></v-zoom>
 					<div class="d-flex">
-						<v-col @click="activePhoto = 0" cols="2">
+						<v-col @click="activePhoto = -1" cols="2">
 							<div class="bg-picture shop-item-photo" :style="`background-image: url('${getUrl(shop_product.photo)}')`"></div>
 						</v-col>
-						<v-col @click="activePhoto = (i+1)" v-for="(item, i) in shop_items" :key="i" cols="2">
+						<v-col @click="activePhoto = i" v-for="(item, i) in shop_items" :key="i" cols="2">
 							<div class="bg-picture shop-item-photo" :style="`background-image: url('${getUrl(item.photo)}')`"></div>
 						</v-col>
 					</div>
@@ -33,22 +33,38 @@ v<template>
 				</v-card>
 			</v-col>
 			<v-col cols="12" md="5" class="d-flex flex-column justify-content-center">
-				<h2 class="font-weight-bold">{{ shop_product.title }}</h2>
-				<p>{{ shop_product.subtitle }}</p>
+				<h2 class="font-weight-bold mb-0">{{ getProductOrItem('title') }}</h2>
+				<p>{{ getProductOrItem('subtitle') }}</p>
 				<h1 class="font-weight-bold d-flex">
 					<div class="mr-2">Cena: </div>
 					<div>
-						<div v-if="shop_product.price" :class="[{'discounted': shop_product.discount}]">{{ shop_product.price.toFixed(2) }} PLN </div>
-						<div v-if="shop_product.discount">
-							{{ (shop_product.price * ((100 - shop_product.discount) / 100)).toFixed(2) }} PLN
+						<div v-if="getProductOrItem('price')" :class="[{'discounted': getProductOrItem('discount') }]">{{ getProductOrItem('price').toFixed(2) }} PLN </div>
+						<div v-if="getProductOrItem('discount')">
+							{{  (getProductOrItem('price') * ((100 - getProductOrItem('discount')) / 100)).toFixed(2)  }} PLN
+							<br>
+							<span class="first-color">Rabat {{ getProductOrItem('discount') }}%</span>
 						</div>
 					</div>
 				</h1>
+				<h2 class="font-weight-bold">Ilość: </h2>
+				<div class="d-flex">
+					<v-btn color="error" :disabled="amount == 1" @click="amount--">
+						<v-icon>mdi-minus</v-icon>
+					</v-btn>
+					<h2 class="px-3">{{ amount }}</h2>
+					<v-btn color="success" :disabled="amount == getProductOrItem('amount')" @click="amount++">
+						<v-icon>mdi-plus</v-icon>
+					</v-btn>
+				</div>
+				<v-btn color="primary" x-large outlined class="mt-5">
+					<v-icon left>mdi-cart-plus</v-icon>
+					<span>Dodaj do koszyka</span>
+				</v-btn>
 			</v-col>
 		</v-row>
 		
 		<v-row>
-			<v-col> <p v-html="shop_product.description"></p> </v-col>
+			<v-col> <p v-html="getProductOrItem('description')"></p> </v-col>
 		</v-row>
 
 		<v-row>
@@ -79,10 +95,14 @@ v<template>
 				activePhotoId: 0,
 				photoStyle: {},
 				shop_items: [],
-				activePhoto: 0
+				activePhoto: -1,
+				amount: 1
 			}
 		},
 		methods: {
+			getProductOrItem(field) {
+				return this.activePhoto == -1 ? this.shop_product[field] : (!this.shop_items[this.activePhoto][field] ? this.shop_product[field] : this.shop_items[this.activePhoto][field]);
+			},
 			getUrl: src => url(src),
 			getShopItems() {
 				axios.get(`/api/shop_items/get_where?active=1&product_id=${this.shop_product.id}`).then(res => {
