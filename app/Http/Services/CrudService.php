@@ -33,8 +33,8 @@ class CrudService {
 	}
 
 	public static function getAll(){
-		var_dump(self::$model::where('category_id', 1)->get()->toArray());die;
-		return self::$model::where('category_id', 1)->get()->toArray();
+		
+		return self::$model::all();
 	}
 
 	public static function getOne(String $id): Model{

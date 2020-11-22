@@ -56,7 +56,6 @@
 		},
 		created() {
 			this.getCategories();
-			console.log(this.$route.params.category_id);
 		},
 		watch:{
 			deleteFlag(){

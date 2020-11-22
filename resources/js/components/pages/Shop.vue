@@ -11,7 +11,7 @@
 				<ShopCategories @category="category = $event" />
 			</v-col>
 			<v-col cols="12" md="9">
-				<ShopProducts />
+				<component :is="getComponent"></component>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -21,6 +21,7 @@
 	import axios from 'axios'
 	import ShopCategories from '../shop/ShopCategories'
 	import ShopProducts from '../shop/ShopProducts'
+	import SingleProduct from './SingleProduct'
 
 	export default {
 		data() {
@@ -28,8 +29,13 @@
 				category: {}
 			}
 		},
+		computed: {
+			getComponent() {
+				return this.$route.params.id ? SingleProduct : ShopProducts;
+			}
+		},
 		components: {
-			ShopCategories, ShopProducts
+			ShopCategories, ShopProducts, SingleProduct
 		}
 	}
 </script>

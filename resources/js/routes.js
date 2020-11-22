@@ -31,6 +31,7 @@ import SingleNews from './components/pages/SingleNews'
 import GalleryPage from './components/pages/GalleryPage'
 import SingleOffer from './components/pages/SingleOffer'
 import SinglePlayer from './components/pages/SinglePlayer'
+import SingleProduct from './components/pages/SingleProduct'
 import SingleCup from './components/pages/SingleCup'
 import Players from './components/pages/Players'
 import LiveBroadcasts from './components/pages/LiveBroadcasts'
@@ -78,6 +79,7 @@ const routes = [
   { path: '/sklep/', component: Shop, name: 'Shop' },
   { path: '/sklep/:page', component: Shop, name: 'ShopPagination' },
   { path: '/sklep/:category_id/:page', component: Shop, name: 'ShopCategory' },
+  { path: '/sklep/produkt/:id/:title', component: Shop, name: 'SingleProduct' },
 
   { path: '/admin-panel', component: Home, name: 'AdminHome'},
   { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
