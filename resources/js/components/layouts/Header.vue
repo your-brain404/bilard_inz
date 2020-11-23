@@ -1,4 +1,4 @@
-]<template>
+<template>
 	<v-card class="overflow-hidden">
 		<v-app-bar color="#6A76AB" dark shrink-on-scroll prominent :src="banner" fade-img-on-scroll scroll-target="#scrolling-techniques-3" extension-height="100px">
 			<template v-slot:img="{ props }">
@@ -16,9 +16,8 @@
 					<v-icon>mdi-account</v-icon>
 				</v-btn>
 
-				<v-btn icon>
-					<v-icon>mdi-magnify</v-icon>
-				</v-btn>
+				
+				<CartMenu />
 				<div v-if="!$store.getters.token">
 					<Login  @openRegister="register = true"  />
 					<Register :dialog="register" @closeRegister="register = false"/>
@@ -68,6 +67,7 @@
 	import url from '../../helpers/photo/url.js'
 	import avatar from '../../helpers/photo/avatar.js'
 	import axios from 'axios'
+	import CartMenu from '../shop/CartMenu'
 
 	export default{
 		data(){
@@ -135,7 +135,7 @@
 			this.loadUserData();
 		},
 		components:{
-			Register, Login
+			Register, Login, CartMenu
 		},
 		computed:{
 			user(){

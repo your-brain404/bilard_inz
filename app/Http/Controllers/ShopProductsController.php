@@ -43,4 +43,9 @@ class ShopProductsController extends Controller
 		$shop_product = CrudService::destroy($id);
 		return new ShopProductsResource($shop_product); 
 	}
+
+	public function getCartProducts(Request $request) {
+		$shop_products = ShopProductsService::getCartProducts($request);
+		return new ShopProductsCollection($shop_products);
+	}
 }

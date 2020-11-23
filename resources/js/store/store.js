@@ -6,12 +6,13 @@ import Users from './modules/users/index.js';
 import Comments from './modules/comments/index.js';
 import Subpages from './modules/subpages/index.js';
 import Loading from './modules/loading/index.js';
+import Cart from './modules/cart/index.js';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules:{
-  	Snackbar, Auth, Comments, Users, Subpages, Loading
+  	Snackbar, Auth, Comments, Users, Subpages, Loading, Cart
   }
 });
 
