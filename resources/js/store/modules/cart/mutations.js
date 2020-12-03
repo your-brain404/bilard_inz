@@ -1,3 +1,3 @@
 export default {
-	products: (state, products) => state.products = products
+	cart: (state, cart) => state.cart = cart
 }

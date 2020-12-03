@@ -16,14 +16,6 @@ class ShopProductsService {
 		return ShopProducts::where($where)->orderBy($request->field, $request->sort)->paginate();
 	}
 
-	public static function getCartProducts(Request $request) {
-		$query =  ShopProducts::orderBy('id', 'desc');
-		foreach($request->id as $i => $id) {
-			if($i == 0) $query->where('id', $id);
-			else $query->orWhere('id', $id);
-		}
-
-		return $query->get();
-	}
+	
 	
 }

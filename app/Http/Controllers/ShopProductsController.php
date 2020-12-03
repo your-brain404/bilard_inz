@@ -44,8 +44,5 @@ class ShopProductsController extends Controller
 		return new ShopProductsResource($shop_product); 
 	}
 
-	public function getCartProducts(Request $request) {
-		$shop_products = ShopProductsService::getCartProducts($request);
-		return new ShopProductsCollection($shop_products);
-	}
+	
 }

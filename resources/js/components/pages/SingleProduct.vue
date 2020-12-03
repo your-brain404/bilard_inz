@@ -47,19 +47,26 @@ v<template>
 					</div>
 				</h1>
 				<h2 class="font-weight-bold">Ilość: </h2>
-				<div class="d-flex">
+				<div v-if="maxAmount != 0" class="d-flex">
 					<v-btn color="error" :disabled="amount == 1" @click="amount--">
 						<v-icon>mdi-minus</v-icon>
 					</v-btn>
 					<h2 class="px-3">{{ amount }}</h2>
-					<v-btn color="success" :disabled="amount == getProductOrItem('amount')" @click="amount++">
+					<v-btn color="success" :disabled="amount == maxAmount" @click="amount++">
 						<v-icon>mdi-plus</v-icon>
 					</v-btn>
 				</div>
-				<v-btn color="primary" x-large outlined class="mt-5">
+				<div v-else>Wybrano maksymalną ilość! Sprawdź koszyk!</div>
+				<v-btn :disabled="maxAmount == 0" @click="addToCart" color="primary" x-large outlined class="mt-5">
 					<v-icon left>mdi-cart-plus</v-icon>
 					<span>Dodaj do koszyka</span>
 				</v-btn>
+				<router-link to="/koszyk" class="w-100">
+					<v-btn color="primary" x-large class="mt-5 w-100">
+						<v-icon left>mdi-cart</v-icon>
+						<span>Kup Teraz!</span>
+					</v-btn>
+				</router-link>
 			</v-col>
 		</v-row>
 		
@@ -96,10 +103,62 @@ v<template>
 				photoStyle: {},
 				shop_items: [],
 				activePhoto: -1,
-				amount: 1
+				amount: 1,
+				maxAmount: 0
+			}
+		},
+		computed: {
+			product() {
+				return this.activePhoto == -1 ? this.shop_product : this.shop_items[this.activePhoto];
+			},
+			cart() {
+				return this.$store.getters.cart;
+			}
+		},
+		watch: {
+			cart: {
+				deep: true,
+				handler() {
+					this.setMaxAmount()
+				}
 			}
 		},
 		methods: {
+			setMaxAmount() {
+				this.maxAmount = this.getMaxAmount();
+			},
+			getProductIndex(cart, product) {
+				let index = -1;
+				cart.forEach((prod, i) => prod.product.id == product.id ? index = i : true);
+				return index;
+			},
+			getMaxAmount() {
+				let cart = JSON.parse(localStorage.getItem('cart'));
+				let max = this.product.amount;
+				if(cart != null) {
+					let productIndex = this.getProductIndex(cart, this.product);
+					if(productIndex != -1) max -= cart[productIndex].amount;
+				}
+				return max;
+			},
+			
+			addToCart() {
+				let cart = JSON.parse(localStorage.getItem('cart'));
+				if(cart == null) cart = [];
+				let productIndex = this.getProductIndex(cart, this.product);
+				if(productIndex != -1) {
+					cart[productIndex].amount += this.amount;
+				} else {
+					cart.push({
+						product: this.product,
+						amount: this.amount
+					})
+				}
+				localStorage.setItem('cart', JSON.stringify(cart))
+				this.$store.commit('cart', cart);
+				this.$store.commit('setSnackbar', 'Pomyślnie dodano do koszyka!');
+				this.amount = 1;
+			},
 			getProductOrItem(field) {
 				return this.activePhoto == -1 ? this.shop_product[field] : (!this.shop_items[this.activePhoto][field] ? this.shop_product[field] : this.shop_items[this.activePhoto][field]);
 			},
@@ -107,6 +166,7 @@ v<template>
 			getShopItems() {
 				axios.get(`/api/shop_items/get_where?active=1&product_id=${this.shop_product.id}`).then(res => {
 					this.shop_items = res.data;
+					this.setMaxAmount();
 				}).catch(err => {
 					this.$store.commit('setSnackbar', 'Nie udało się załadować wariantów...');
 				})

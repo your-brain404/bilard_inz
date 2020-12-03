@@ -37,7 +37,6 @@ foreach ($default_crud_tables as $table) {
 Route::get('/news/get_pagination', 'NewsController@getPagination'); 
 
 Route::get('/shop_products/get_pagination', 'ShopProductsController@getPagination'); 
-Route::get('/shop_products/cart', 'ShopProductsController@getCartProducts'); 
 
 Route::get('/media/get_photos/', 'MediaController@getPhotos'); 
 

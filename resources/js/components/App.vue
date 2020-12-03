@@ -46,10 +46,16 @@
 					this.$store.dispatch('authAutoLogin');
 				}
 
+			},
+			setCart() {
+				if(localStorage.getItem('cart') != null) {
+					this.$store.commit('cart', JSON.parse(localStorage.getItem('cart')));
+				}
 			}
 		},
 		created(){
 			this.autoLogin();
+			this.setCart();
 			this.$store.dispatch('fetchAllUsers');
 			if (window.location.hash && window.location.hash == '#_=_') {
 				window.location.href = window.location.origin;
