@@ -44,5 +44,4 @@ class ShopProductsController extends Controller
 		return new ShopProductsResource($shop_product); 
 	}
 
-	
 }

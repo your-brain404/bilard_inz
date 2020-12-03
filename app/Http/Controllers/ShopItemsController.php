@@ -38,4 +38,6 @@ class ShopItemsController extends Controller
 		$shop_item = CrudService::destroy($id);
 		return new ShopItemsResource($shop_item); 
 	}
+
+	
 }

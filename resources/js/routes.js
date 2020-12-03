@@ -42,6 +42,7 @@ import Contact from './components/pages/Contact'
 import PriceList from './components/pages/PriceList'
 import Reservations from './components/pages/Reservations'
 import Shop from './components/pages/Shop'
+import Cart from './components/shop/Cart'
 
 Vue.use(VueRouter);
 
@@ -75,6 +76,8 @@ const routes = [
   { path: '/cennik', component: PriceList, name: 'PriceList' },
 
   { path: '/rezerwacja', component: Reservations, name: 'Reservations' },
+
+  { path: '/koszyk', component: Cart, name: 'Cart' },
 
   { path: '/sklep/', component: Shop, name: 'Shop' },
   { path: '/sklep/:page', component: Shop, name: 'ShopPagination' },

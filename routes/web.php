@@ -21,3 +21,4 @@ Route::get('/auth/confirm_account/{id}', 'UserController@confirm');
 
 Route::get('/{catch?}', 'HomeController@index')->where('catch', '^(?!api).*$');
 
+
