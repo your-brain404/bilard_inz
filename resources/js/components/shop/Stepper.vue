@@ -16,7 +16,7 @@
 					<CartMenuListing />
 				</div>
 
-				<v-btn :disabled="cart.length == 0" color="primary" @click="e1 = 2" > Dalej </v-btn>
+				<v-btn :disabled="cart.length == 0" color="primary" @click="e1 = 2" >Dalej</v-btn>
 
 			</v-stepper-content>
 
@@ -25,27 +25,25 @@
 					<ShippingDetails @e1="e1 = $event" :submit="shippingDetailsSubmit" @valid="shippingDetailsValid = $event" />
 				</div>
 
-				<v-btn :disabled="!shippingDetailsValid" color="primary" @click="shippingDetailsValidate" > Dalej </v-btn>
+				<v-btn :disabled="!shippingDetailsValid" color="primary" @click="shippingDetailsValidate">Dalej</v-btn>
 
-				<v-btn @click="e1 = 1" text> Wróć </v-btn>
+				<v-btn @click="e1 = 1" text>Wróć</v-btn>
 			</v-stepper-content>
 
 			<v-stepper-content step="3">
 				<div class="mb-12">
 					<Payments @e1="e1 = $event" :submit="paymentsSubmit" @valid="paymentsValid = $event" />
 				</div>
-
-				<v-btn :disabled="!paymentsValid" color="primary" @click="paymentsValidate" > Dalej </v-btn>
-
-				<v-btn  @click="e1 = 2" text>  Wróć </v-btn>
+				<v-btn :disabled="!paymentsValid" color="primary" @click="paymentsValidate">Dalej</v-btn>
+				<v-btn  @click="e1 = 2" text>Wróć</v-btn>
 			</v-stepper-content>
 
 			<v-stepper-content step="4">
-				<v-card class="mb-12"   ></v-card>
-
-				<v-btn color="primary" @click="" > Dalej </v-btn>
-
-				<v-btn @click="e1 = 3" text>  Wróć </v-btn>
+				<div class="mb-12">
+					
+				</div>
+				<v-btn color="primary" @click="">Dalej</v-btn>
+				<v-btn @click="e1 = 3" text>Wróć</v-btn>
 			</v-stepper-content>
 		</v-stepper-items>
 	</v-stepper>
