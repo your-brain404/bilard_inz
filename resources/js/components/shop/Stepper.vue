@@ -54,6 +54,7 @@
 	import ShippingDetails from './ShippingDetails' 
 	import Payments from './Payments' 
 	import Summary from './Summary' 
+	import axios from 'axios'
 
 	export default {
 		data () {
@@ -91,7 +92,15 @@
 				setTimeout(() => this.paymentsSubmit = false, 20)
 			},
 			realize() {
-				console.log(this.cart_data);
+				this.$store.commit('loading', true);
+				axios.post('/api/shop_orders/add', this.cart_data).then(res => {
+					this.$store.commit('setSnackbar', 'Pomyślnie złożono zamówienie!');
+					this.$store.commit('loading', false);
+					console.log(res)
+				}).catch(err => {
+					this.$store.commit('setSnackbar', 'Coś poszło nie tak, przepraszamy...');
+					this.$store.commit('loading', false);
+				})
 			}
 		},
 		created() {

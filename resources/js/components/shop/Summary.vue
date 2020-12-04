@@ -44,7 +44,8 @@
 				let data = {
 					payments: this.payments,
 					sum: this.sum,
-					shipping_details: this.shipping_details
+					shipping_details: this.shipping_details,
+					products: JSON.parse(localStorage.getItem('cart'))
 				}
 				
 				return data;
