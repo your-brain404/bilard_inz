@@ -27,7 +27,6 @@
 		data() {
 			return {
 				shop_categories: [],
-				dupa: true
 			}
 		},
 		methods: {

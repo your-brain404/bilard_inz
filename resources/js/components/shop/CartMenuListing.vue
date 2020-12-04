@@ -16,14 +16,14 @@
 				</div>
 			</div>
 			<div class="d-flex align-items-center">
-				<v-btn small color="error" :disabled="product.amount == 1" @click="decreaseAmount(i)">
+				<v-btn small color="error" :disabled="product.amount == 1 || summary != undefined" @click="decreaseAmount(i)">
 					<v-icon>mdi-minus</v-icon>
 				</v-btn>
 				<h2 class="px-3">{{ product.amount }}</h2>
-				<v-btn small color="success" :disabled="product.amount == product.product.amount" @click="increaseAmount(i)">
+				<v-btn small color="success" :disabled="product.amount == product.product.amount || summary != undefined" @click="increaseAmount(i)">
 					<v-icon>mdi-plus</v-icon>
 				</v-btn>
-				<v-btn @click="deleteProduct(i)" class="ml-5" icon color="error">
+				<v-btn :disabled="summary != undefined" @click="deleteProduct(i)" class="ml-5" icon color="error">
 					<v-icon>mdi-delete</v-icon>
 				</v-btn>
 			</div>
@@ -33,8 +33,13 @@
 		</div>
 
 		<v-card-actions class="p-0 mt-9 d-flex justify-content-between">
-			<div class="cart-menu-sum">
-				Razem: <span>{{ sum.toFixed(2) }} PLN</span>
+			<div>
+				<div class="mb-4" v-if="delivery != undefined">
+					+ przesyłka ({{ compDelivery }})
+				</div>
+				<div class="cart-menu-sum">
+					Razem: <span>{{ sum.toFixed(2) }} PLN</span>
+				</div>
 			</div>
 			<router-link v-if="$route.path != '/koszyk'" to="/koszyk">
 				<v-btn  color="primary" class="font-weight-normal"  @click="menu = false" >
@@ -49,6 +54,7 @@
 	import url from '../../helpers/photo/url'
 
 	export default {
+		props: ['summary', 'delivery'],
 		computed: {
 			cart() {
 				return this.$store.getters.cart;
@@ -59,7 +65,15 @@
 					let price = product.product.discount ? this.getDiscountedPrice(product.product) : product.product.price;
 					sum += price * product.amount;
 				})
+				sum += this.compDeliveryPrice;
+				this.$emit('sum', sum);
 				return sum;
+			},
+			compDeliveryPrice() {
+				return this.delivery == undefined ? 0 : this.delivery.price;
+			},
+			compDelivery() {
+				return this.delivery.price == undefined ? '' : `${this.delivery.title} ${this.delivery.price.toFixed(2)} PLN`
 			}
 		},
 		methods: {

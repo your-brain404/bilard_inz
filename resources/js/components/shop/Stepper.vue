@@ -22,7 +22,7 @@
 
 			<v-stepper-content step="2">
 				<div class="mb-12">
-					<ShippingDetails @e1="e1 = $event" :submit="shippingDetailsSubmit" @valid="shippingDetailsValid = $event" />
+					<ShippingDetails @shipping_details="shipping_details = $event" @e1="e1 = $event" :submit="shippingDetailsSubmit" @valid="shippingDetailsValid = $event" />
 				</div>
 
 				<v-btn :disabled="!shippingDetailsValid" color="primary" @click="shippingDetailsValidate">Dalej</v-btn>
@@ -32,7 +32,7 @@
 
 			<v-stepper-content step="3">
 				<div class="mb-12">
-					<Payments @e1="e1 = $event" :submit="paymentsSubmit" @valid="paymentsValid = $event" />
+					<Payments @payments="payments = $event" @e1="e1 = $event" :submit="paymentsSubmit" @valid="paymentsValid = $event" />
 				</div>
 				<v-btn :disabled="!paymentsValid" color="primary" @click="paymentsValidate">Dalej</v-btn>
 				<v-btn  @click="e1 = 2" text>Wróć</v-btn>
@@ -40,9 +40,9 @@
 
 			<v-stepper-content step="4">
 				<div class="mb-12">
-					
+					<Summary @cartData="cart_data = $event" :payments="payments" :shipping_details="shipping_details" />
 				</div>
-				<v-btn color="primary" @click="">Dalej</v-btn>
+				<v-btn color="primary" @click="realize">Zrealizuj zamówienie</v-btn>
 				<v-btn @click="e1 = 3" text>Wróć</v-btn>
 			</v-stepper-content>
 		</v-stepper-items>
@@ -53,24 +53,33 @@
 	import CartMenuListing from './CartMenuListing' 
 	import ShippingDetails from './ShippingDetails' 
 	import Payments from './Payments' 
+	import Summary from './Summary' 
 
 	export default {
 		data () {
 			return {
-				e1: 3,
+				e1: 4,
 				shippingDetailsValid: false,
 				shippingDetailsSubmit: false,
 				paymentsValid: false,
 				paymentsSubmit: false,
+				shipping_details: {},
+				payments: {},
+				cart_data: {}
 			}
 		},
 		components: {
-			CartMenuListing, ShippingDetails, Payments
+			CartMenuListing, ShippingDetails, Payments, Summary
 		},
 		computed: {
 			cart() {
 				return this.$store.getters.cart;
 			}  
+		},
+		watch: {
+			e1() {
+				localStorage.setItem('e1', this.e1);
+			}
 		},
 		methods: {
 			shippingDetailsValidate() {
@@ -80,6 +89,14 @@
 			paymentsValidate() {
 				this.paymentsSubmit = true;
 				setTimeout(() => this.paymentsSubmit = false, 20)
+			},
+			realize() {
+				console.log(this.cart_data);
+			}
+		},
+		created() {
+			if(localStorage.getItem('e1') != null) {
+				this.e1 = localStorage.getItem('e1');
 			}
 		}
 	}

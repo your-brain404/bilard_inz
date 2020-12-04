@@ -25,6 +25,7 @@ import ShopCategoriesForm from './views/admin/forms/ShopCategories'
 import ShopProductsForm from './views/admin/forms/ShopProducts'
 import ShopItemsForm from './views/admin/forms/ShopItems'
 import ShopItemColorsForm from './views/admin/forms/ShopItemColors'
+import DeliveryOptionsForm from './views/admin/forms/DeliveryOptions'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -108,6 +109,9 @@ const routes = [
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
+
+  { path: '/admin-panel/delivery_options/form', component: DeliveryOptionsForm, name: 'DeliveryOptionsForm'},
+  { path: '/admin-panel/delivery_options/form/:id', component: DeliveryOptionsForm, name: 'DeliveryOptionsFormEdit'},
 
   { path: '/admin-panel/services/form', component: ServicesForm, name: 'ServicesForm'},
   { path: '/admin-panel/services/form/:id', component: ServicesForm, name: 'ServicesFormEdit'},

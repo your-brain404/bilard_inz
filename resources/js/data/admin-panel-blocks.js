@@ -20,6 +20,7 @@ import ShopCategories from '../components/shop/ShopCategories'
 import ShopProducts from '../components/shop/ShopProducts'
 import ShopItems from '../components/shop/ShopItems'
 import ShopItemColors from '../components/shop/ShopItemColors'
+import DeliveryOptions from '../components/shop/DeliveryOptions'
 
 export default {
 	main:[
@@ -91,6 +92,7 @@ export default {
 
 	shop: [
 	{title: 'Kategorie Sklepu', component: ShopCategories, tablename: 'shop_categories', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, list:'shop_products'},
+	{title: 'Opcje wysyłki', component: DeliveryOptions, tablename: 'delivery_options', table: [], active: true},
 	],
 
 	shop_products: [
