@@ -28,7 +28,7 @@
 												<v-icon class="check-icon" :color="activePhotos.includes(photo.id) || activePhoto == photo.id ? 'success' : 'white'">mdi-check</v-icon>
 												<v-icon @click="deletePhoto(photo.id)" :color="closeIcon == photo.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
-											<v-img  @click="setPhotoClass(photo.id)" class="image-picker-photo" :src="getUrl(photo.path)"></v-img>
+											<v-img @click="setPhotoClass(photo.id)" class="image-picker-photo" :src="getUrl(photo.path)"></v-img>
 										</v-col>
 									</v-row>
 								</v-container>
@@ -60,7 +60,6 @@
 				activePhotos: [],
 				activePhoto: 0,
 				multiple: this.$route.path.split('/')[3] == 'gallery' ? true: false,
-				test: {},
 				closeIcon: 0
 
 			}

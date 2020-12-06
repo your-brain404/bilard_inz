@@ -5,6 +5,7 @@
 		<img class="eight-ball" width="auto" height="200px" :src="ball" alt="">
 		<AboutUs />
 		<Offers />
+		<LuckyNumber />
 	</div>
 </template>
 
@@ -13,10 +14,11 @@
 	import AboutUs from '../../components/pages/AboutUs'
 	import Offers from '../../components/pages/Offers'
 	import News from '../../components/pages/News'
+	import LuckyNumber from '../../components/pages/LuckyNumber'
 
 	export default{
 		components: {
-			Slider, AboutUs, Offers, News
+			Slider, AboutUs, Offers, News, LuckyNumber
 		},
 		computed: {
 			ball() {

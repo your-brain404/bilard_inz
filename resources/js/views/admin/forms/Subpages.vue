@@ -14,7 +14,7 @@
 						<v-col class="" cols="8">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
-								<v-text-field color="primary"  v-model="currentObject.page" :rules="rules.pageRules" label="Strona *" required></v-text-field>
+								<v-text-field :disabled="$route.params.id" color="primary"  v-model="currentObject.page" :rules="rules.pageRules" label="Strona *" required></v-text-field>
 							</div>
 						</v-col>
 
@@ -64,8 +64,29 @@
 					photo: '',
 					photo_alt: '',
 				},
+				
 			}
 		},
-		...vueComponents
+		...vueComponents,
+		computed: {
+			...vueComponents,
+			user() {
+				return this.$store.getters.user;
+			}
+		},
+		mounted() {
+			let user = JSON.parse(sessionStorage.getItem('user'));
+			let status = true;
+			if(!this.$route.params.id) {
+				status = false;
+
+				if(user && user.type == 'Moderator') {
+					status = true;
+				} 
+			}
+			if(!status) this.$router.push('/admin-panel/subpages');
+		}
+
+		
 	}
 </script>

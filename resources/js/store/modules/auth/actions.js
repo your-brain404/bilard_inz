@@ -2,9 +2,10 @@ import axios from 'axios'
 import parseJwt from '../../../helpers/auth/tokenDecoder.js'
 
 export default {
-	fbLogin({commit}){
-		axios.get('api/facebook/login/get_token').then(res => {
+	async fbLogin({commit}){
+		await axios.get('api/facebook/login/get_token').then(res => {
 			sessionStorage.setItem('token', res.data.token);
+			sessionStorage.setItem('user', JSON.stringify(res.data.data));
 			commit('setToken', res.data.token);
 			commit('setUser', res.data.data);
 		}).catch(err => console.log(err));
@@ -15,6 +16,7 @@ export default {
 				commit('setSnackbar', res.data.error.message);
 			}else{
 				sessionStorage.setItem('token', res.data.token);
+				sessionStorage.setItem('user', JSON.stringify(res.data.data));
 				sessionStorage.setItem('authLogin', true);
 				commit('setToken', res.data.token);
 				commit('setUser', res.data.data);
@@ -23,9 +25,9 @@ export default {
 			
 		}).catch(err => console.log(err));
 	},
-	authAutoLogin({commit}){
+	async authAutoLogin({commit}){
 		let userId = parseJwt(sessionStorage.getItem('token')).sub;
-		axios.get('api/users/get_one/' + userId).then(res => {
+		await axios.get('api/users/get_one/' + userId).then(res => {
 			commit('setUser', res.data);
 			commit('setToken', sessionStorage.getItem('token'));
 		}).catch(err => console.log(err));
@@ -47,6 +49,7 @@ export default {
 		sessionStorage.removeItem('token');
 		sessionStorage.removeItem('fbLogin');
 		sessionStorage.removeItem('authLogin');
+		sessionStorage.removeItem('user');
 		commit('setUser', {});
 		commit('setToken', '');
 	}

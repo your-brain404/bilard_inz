@@ -10,6 +10,7 @@ import History from '../components/pages/History'
 import GalleryPage from '../components/pages/GalleryPage'
 import LiveBroadcasts from '../components/pages/LiveBroadcasts'
 import Mails from '../components/pages/Mails'
+import Documents from '../components/pages/Documents'
 import PriceList from '../components/pages/PriceList'
 import Reservations from '../components/pages/Reservations'
 import Users from '../components/users/Users'
@@ -102,6 +103,10 @@ export default {
 	shop_items: [
 	{title: 'Warianty produktów sklepu', component: ShopItems, tablename: 'shop_items', table: [], multiple: true, removable: true, gallery: false, active: true, parent: 'shop_products', parent_block: 'shop_products', default: true},
 	
+	],
+
+	documents: [
+	{title: 'Dokumenty', component: Documents, tablename: 'documents', table: [], multiple: true, removable: true, active: true},
 	]
 
 }

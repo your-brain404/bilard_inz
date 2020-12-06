@@ -56,6 +56,7 @@
 				{ title: 'Cennik', icon: 'mdi-clipboard-list', path: '/admin-panel/price_list_categories' },
 				{ title: 'Skrzynka pocztowa', icon: 'mdi-mailbox', path: '/admin-panel/mails' },
 				{ title: 'Rezerwacje', icon: 'mdi-calendar', path: '/admin-panel/reservations' },
+				{ title: 'Dokumenty', icon: 'mdi-file-multiple', path: '/admin-panel/documents' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
 				{ title: 'Użytkownicy', icon: 'mdi-account', path: '/admin-panel/users' },
 				{ title: 'Sklep', icon: 'mdi-cart', path: '/admin-panel/shop' },

@@ -26,6 +26,7 @@ import ShopProductsForm from './views/admin/forms/ShopProducts'
 import ShopItemsForm from './views/admin/forms/ShopItems'
 import ShopItemColorsForm from './views/admin/forms/ShopItemColors'
 import DeliveryOptionsForm from './views/admin/forms/DeliveryOptions'
+import DocumentsForm from './views/admin/forms/Documents'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -43,6 +44,7 @@ import Contact from './components/pages/Contact'
 import PriceList from './components/pages/PriceList'
 import Reservations from './components/pages/Reservations'
 import Shop from './components/pages/Shop'
+import Documents from './components/pages/Documents'
 import Cart from './components/shop/Cart'
 
 Vue.use(VueRouter);
@@ -80,6 +82,8 @@ const routes = [
 
   { path: '/koszyk', component: Cart, name: 'Cart' },
 
+  { path: '/dokumenty', component: Documents, name: 'Documents' },
+
   { path: '/sklep/', component: Shop, name: 'Shop' },
   { path: '/sklep/:page', component: Shop, name: 'ShopPagination' },
   { path: '/sklep/:category_id/:page', component: Shop, name: 'ShopCategory' },
@@ -100,6 +104,7 @@ const routes = [
   { path: '/admin-panel/price_list_categories', component: Home, name: 'AdminPriceListCategoriesPage'},
   { path: '/admin-panel/reservations', component: Home, name: 'AdminReservationsPage'},
   { path: '/admin-panel/shop', component: Home, name: 'AdminShopPage'},
+  { path: '/admin-panel/documents', component: Home, name: 'AdminDocumentsPage'},
 
 
   { path: '/admin-panel/price_list/:parent_id', component: Home, name: 'AdminPriceListPage'},
@@ -109,6 +114,9 @@ const routes = [
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
+
+  { path: '/admin-panel/documents/form', component: DocumentsForm, name: 'DocumentsForm'},
+  { path: '/admin-panel/documents/form/:id', component: DocumentsForm, name: 'DocumentsFormEdit'},
 
   { path: '/admin-panel/delivery_options/form', component: DeliveryOptionsForm, name: 'DeliveryOptionsForm'},
   { path: '/admin-panel/delivery_options/form/:id', component: DeliveryOptionsForm, name: 'DeliveryOptionsFormEdit'},

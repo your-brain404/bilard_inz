@@ -1,5 +1,6 @@
 import axios from 'axios';
 import ImagePicker from '../components/image-picker/ImagePicker';
+import FilePicker from '../components/file-picker/FilePicker';
 import SnackbarAlerts from '../data/snackbar-alerts.js'
 import url from '../helpers/photo/url.js'
 import TagsInput from '../components/tagsinput/TagsInput.vue'
@@ -30,6 +31,7 @@ export default {
 
 		},
 		activePhoto: 'https://via.placeholder.com/250',
+		activeFile: '',
 		parent: {}
 	},
 	computed:{
@@ -62,6 +64,15 @@ export default {
 			} else{
 				this.activePhoto = url(event);
 				this.currentObject.photo = event;
+			}
+		},
+		setFilePlaceholder(event) {
+			if(event === 'placeholder'){
+				this.currentObject.file = '',
+				this.activeFile = '';
+			} else{
+				this.activeFile = url(event);
+				this.currentObject.file = event;
 			}
 		},
 		getFormData(){
@@ -120,19 +131,35 @@ export default {
 		},
 		updateDeletedPhoto(){
 			this.edit(this.getFormData());
+		},
+		updateDeletedFile(){
+			this.edit(this.getFormData());
+		},
+		secureRoutes() {
+			let user = JSON.parse(sessionStorage.getItem('user'));
+			let status = false;
+			if(user) {
+				if(user.type == 'Admin' || user.type == 'Moderator') {
+					status = true;
+				} 
+			}
+			if(!status) this.$router.push(`/admin-panel/${this.$route.path.split('/')[2]}`);
 		}
 
 	},
 	components:{
-		ImagePicker, TagsInput, VueEditor
+		ImagePicker, TagsInput, VueEditor, FilePicker
 	},
 	created(){
 		if(this.$route.params.id){
 			axios.get(`/api/${this.$route.path.split('/')[2]}/get_one/${this.$route.params.id}`).then(res =>{
 				this.activePhoto = res.data.photo !== null ? url(res.data.photo) : this.activePhoto;
+				this.activeFile = res.data.file !== null ? url(res.data.file) : this.activeFile;
 				this.currentObject = res.data;
 			})
 		}
 		if(this.$route.params.parent_id) this.getParent();
+
+		this.secureRoutes();
 	},
 }

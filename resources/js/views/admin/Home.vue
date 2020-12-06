@@ -228,6 +228,16 @@
 					this.headers.push(headers); 
 				}
 			},
+			secureRoutes() {
+				let user = JSON.parse(sessionStorage.getItem('user'));
+				let status = false;
+				if(user) {
+					if(user.type == 'Admin' || user.type == 'Moderator') {
+						status = true;
+					} 
+				}
+				if(!status) this.$router.push(`/`);
+			}
 			
 		},
 		watch:{
@@ -237,6 +247,7 @@
 			}
 		},
 		created(){
+			this.secureRoutes();
 			this.setBlocks();
 			this.fillBaseHeaders(); 
 

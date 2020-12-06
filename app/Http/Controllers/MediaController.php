@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class MediaController extends Controller {
 
+	public function getFiles() {
+		// return new MediaResource(Media::where('type', '!=', 'image/jpeg')->orWhere('type', '!=', 'image/jpg')->orWhere('type', '!=', 'image/png')->orWhere('type', '!=', 'image/bmp')->orWhere('type', '!=', 'application/octet-stream')->orWhere('type', '!=', 'image/jfif')->get());
+		return new MediaResource(Media::where([['type', '!=', 'image/jpeg'], ['type', '!=', 'image/jpg'], ['type', '!=', 'image/png'], ['type', '!=', 'image/bmp'], ['type', '!=', 'image/jfif']])->get());
+	}
+
 	public function getPhotos() {
 
 		$photos = Media::where('type', 'image/jpeg')->orWhere('type', 'image/jpg')->orWhere('type', 'image/png')->orWhere('type', 'image/bmp')->orWhere('type', 'application/octet-stream')->orWhere('type', 'image/jfif')->get();
