@@ -22,6 +22,7 @@ import ReservationsForm from './views/admin/forms/Reservations'
 import PriceListCategoriesForm from './views/admin/forms/PriceListCategories'
 import LiveBroadcastsForm from './views/admin/forms/LiveBroadcasts'
 import ShopCategoriesForm from './views/admin/forms/ShopCategories'
+import LuckyNumberForm from './views/admin/forms/LuckyNumber'
 import ShopProductsForm from './views/admin/forms/ShopProducts'
 import ShopItemsForm from './views/admin/forms/ShopItems'
 import ShopItemColorsForm from './views/admin/forms/ShopItemColors'
@@ -114,6 +115,9 @@ const routes = [
 
   { path: '/admin-panel/slider/form', component: SliderForm, name: 'SliderForm'},
   { path: '/admin-panel/slider/form/:id', component: SliderForm, name: 'SliderFormEdit'},
+
+  { path: '/admin-panel/lucky_number/form', component: LuckyNumberForm, name: 'LuckyNumberForm'},
+  { path: '/admin-panel/lucky_number/form/:id', component: LuckyNumberForm, name: 'LuckyNumberFormEdit'},
 
   { path: '/admin-panel/documents/form', component: DocumentsForm, name: 'DocumentsForm'},
   { path: '/admin-panel/documents/form/:id', component: DocumentsForm, name: 'DocumentsFormEdit'},

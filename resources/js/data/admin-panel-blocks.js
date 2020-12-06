@@ -12,6 +12,7 @@ import LiveBroadcasts from '../components/pages/LiveBroadcasts'
 import Mails from '../components/pages/Mails'
 import Documents from '../components/pages/Documents'
 import PriceList from '../components/pages/PriceList'
+import LuckyNumber from '../components/pages/LuckyNumber'
 import Reservations from '../components/pages/Reservations'
 import Users from '../components/users/Users'
 import Services from '../components/reservations/Services'
@@ -26,6 +27,7 @@ import DeliveryOptions from '../components/shop/DeliveryOptions'
 export default {
 	main:[
 	{title: 'Slider', component: Slider, tablename: 'slider', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false},
+	{title: 'Szczęśliwy los', component: LuckyNumber, tablename: 'lucky_number', table: [],  active: true},
 	],
 	
 	news:[

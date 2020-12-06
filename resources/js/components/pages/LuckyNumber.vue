@@ -1,11 +1,16 @@
 <template>
-	<v-container class="py-12 history">
+	<v-container v-if="active" class="py-12 history">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Szczęśliwy los</h2>
+			<v-col>
+				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ lucky_number[0].title }}</h2>
+				<h3 class="first-color text-center ">{{ lucky_number[0].subtitle }}</h3>
+
+			</v-col>
 		</v-row>
 		<v-row  :key="i" class="mb-0">
-			<v-col cols="12" class="d-flex flex-column justify-content-center">
-				<v-btn color="#da5a33" outlined class="w-100">{{ lucky_number.number }}</v-btn>
+			<v-col cols="12" class="d-flex flex-column align-items-center justify-content-center">
+				<v-btn class="white--text lucky-number" x-large color="#da5a33" fab>{{ lucky_number[0].number }}</v-btn>
+				<div class="mt-5" v-html="lucky_number[0].description"></div>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -18,19 +23,18 @@
 	export default{
 		data(){
 			return{
-				lucky_number: {},
+				lucky_number: [],
+				active: false
 			}
 		},
 		
 		methods:{
 			getUrl: src => url(src),
 			getData(){
-				let endpoint = `get_one/1`;
-				if(this.$route.path == '/') endpoint = 'get_where?active=1';
-
 				this.$store.commit('loading', true);
-				axios.get(`/api/lucky_number/${endpoint}`).then(res => {
-					this.lucky_number = res.data;
+				axios.get(`/api/lucky_number/get_one/1`).then(res => {
+					this.lucky_number.push(res.data);
+					this.active = this.lucky_number[0].active;
 					this.$emit('blockDataEmit', this.lucky_number);
 					this.$store.commit('loading', false);
 				});
@@ -43,3 +47,10 @@
 		
 	}
 </script>
+
+<style>
+	.lucky-number {
+		font-size: 1.7rem!important;
+		font-weight: 400!important;
+	}
+</style>
