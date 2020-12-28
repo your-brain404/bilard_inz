@@ -1,3 +1,4 @@
 export default {
-	subpages: []
+	subpages: [],
+	currentSubpage: {}
 }

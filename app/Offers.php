@@ -8,5 +8,5 @@ class Offers extends Model
 {
  	protected $table = 'offers';   
 
- 	protected $fillable = ['title', 'subtitle', 'photo', 'photo_alt', 'short_description' , 'description', 'active', 'home_page'];
+ 	protected $fillable = ['title', 'subtitle', 'photo', 'photo_alt', 'short_description' , 'description', 'active', 'home_page', 'meta_description'];
 }

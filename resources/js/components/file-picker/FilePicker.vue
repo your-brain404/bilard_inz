@@ -3,7 +3,7 @@
 		<v-dialog v-model="dialog" persistent>
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn color="primary" dark v-bind="attrs" v-on="on" class="w-100">
-					Dodaj plik 
+					{{ title ? title : 'Dodaj plik' }} 
 				</v-btn>
 			</template>
 			<v-card>
@@ -50,7 +50,7 @@
 	import url from '../../helpers/photo/url.js';
 
 	export default {
-		props:['activeFilePath'],
+		props:['activeFilePath', 'title'],
 		data () {
 			return {
 				dialog: false,
@@ -68,7 +68,7 @@
 		},
 		watch: {
 			files() {
-				if(this.files != undefined) this.activeFile = this.getFileByPath(this.activeFilePath).id;
+				if(this.files != undefined && this.activeFilePath) this.activeFile = this.getFileByPath(this.activeFilePath).id;
 			}
 		},
 		methods:{

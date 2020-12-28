@@ -19,6 +19,9 @@ const mix = require('laravel-mix');
  		path.resolve(__dirname),
  		path.resolve('./node_modules/'),
  		path.resolve('./resources/')
- 		]
+ 		],
+ 		alias: {
+            '@': __dirname + '/resources/js'
+        },
  	}
  });

@@ -23,8 +23,29 @@
 	
 
 	export default {
+		
+		metaInfo() {
+			return {
+				title: this.title,
+				titleTemplate: '%s - Bilard Centrum Lubin',
+			}
+		},
 		components: {
 			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar, Loader
+		},
+		data() {
+			return {
+				title: '',
+			}
+		},
+		watch: {
+			currentSubpage() {
+				if(this.currentSubpage) this.setMetaTitle(); 
+			},
+			'$route.path'() {
+				this.$store.commit('currentSubpage', this.$route.path);
+				this.setMetaTitle();
+			}
 		},
 		computed:{
 			isPathAdmin(){
@@ -32,10 +53,26 @@
 			},
 			loading() {
 				return this.$store.getters.loading;
+			},
+			subpages() {
+				return this.$store.getters.subpages;
+			},
+			currentSubpage() {
+				return this.$store.getters.currentSubpage;
 			}
-			
 		},
 		methods:{
+			setMetaTitle() {
+				if(this.$route.path.split('/').includes('admin-panel')) this.title = 'Panel Administracyjny';
+				else {
+					if(this.$route.path.split('/')[1] == 'oferta' && this.$route.params.id) {
+						axios.get(`/api/offers/get_one/${this.$route.params.id}`).then(offer => this.title = offer.data.title);
+					}else if(this.$route.path.split('/')[1] == 'aktualnosci' && this.$route.params.id) {
+						axios.get(`/api/news/get_one/${this.$route.params.id}`).then(info => this.title = info.data.title);
+					} else this.title = this.currentSubpage ? this.currentSubpage.title : '';
+				} 
+			},
+			
 			autoLogin(){
 				if(sessionStorage.getItem('fbLogin')){
 					this.$store.dispatch('fbLogin');
@@ -55,6 +92,8 @@
 		created(){
 			this.autoLogin();
 			this.setCart();
+			this.setMetaTitle();
+			this.$store.dispatch('settings');
 			this.$store.dispatch('fetchAllUsers');
 			if (window.location.hash && window.location.hash == '#_=_') {
 				window.location.href = window.location.origin;

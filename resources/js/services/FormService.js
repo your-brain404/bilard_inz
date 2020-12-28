@@ -30,7 +30,7 @@ export default {
 			]
 
 		},
-		activePhoto: 'https://via.placeholder.com/250',
+		activePhoto: window.location.origin + '/storage/img/placeholder/250.png',
 		activeFile: '',
 		parent: {}
 	},
@@ -55,7 +55,7 @@ export default {
 			axios.get(`/api/${this.parentTable}/get_one/${this.$route.params.parent_id}`).then(res => this.parent = res.data).catch(err => console.log(err));
 		},
 		getImageDefaultPlaceholder(){
-			return 'https://via.placeholder.com/250';
+			return window.location.origin + '/storage/img/placeholder/250.png';
 		},
 		setImagePlaceholder(event){
 			if(event === 'placeholder'){

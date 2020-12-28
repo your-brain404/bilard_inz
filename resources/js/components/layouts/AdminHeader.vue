@@ -58,6 +58,7 @@
 				{ title: 'Rezerwacje', icon: 'mdi-calendar', path: '/admin-panel/reservations' },
 				{ title: 'Dokumenty', icon: 'mdi-file-multiple', path: '/admin-panel/documents' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
+				{ title: 'Ustawienia', icon: 'mdi-cog', path: '/admin-panel/settings' },
 				{ title: 'Użytkownicy', icon: 'mdi-account', path: '/admin-panel/users' },
 				{ title: 'Sklep', icon: 'mdi-cart', path: '/admin-panel/shop' },
 				],

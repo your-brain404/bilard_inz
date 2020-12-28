@@ -3,7 +3,7 @@
 		<v-dialog v-model="dialog" persistent>
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn color="primary" dark v-bind="attrs" v-on="on" class="w-100">
-					Dodaj {{ multiple ? 'zdjęcia' : 'zdjęcie' }} {{ banner ? 'banerowe' : '' }}
+					Dodaj {{ multiple ? 'zdjęcia' : $route.path.split('/')[2] == 'settings' ? 'logo' : 'zdjęcie' }} {{ banner ? 'banerowe' : '' }}
 				</v-btn>
 			</template>
 			<v-card>

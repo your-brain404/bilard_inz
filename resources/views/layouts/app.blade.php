@@ -6,7 +6,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Bilard Centrum Lubin</title>
+    <title>{{ $meta_title }}</title>
+    <meta name="description" content="{{ $meta_description }}">
 
     
 

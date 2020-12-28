@@ -1,0 +1,117 @@
+<template>
+	<v-content class="">
+		<v-container>
+			<v-card>
+				<v-card-title class="justify-content-center">
+					<h2 class=" pt-4 font-weight-bold panel-title-header first-color"> 
+						Ustawienia {{ formTitle }}
+					</h2>
+				</v-card-title>
+				<v-divider class="mt-0"></v-divider>
+				<v-form ref="form" v-model="valid" lazy-validation>
+					<v-row>
+						
+						<v-col class="" cols="8">
+							<div class="pa-5">
+								<v-text-field color="primary"  v-model="currentObject.company" :rules="rules.titleRules" label="Nazwa Strony *" required></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.recaptcha_site_token" label="Captcha klucz witryny"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.recaptcha_secret_token" label="Captcha klucz prywatny"></v-text-field>
+								<div class="mt-3">
+									<p class="mb-1">Opis w stopce</p>
+									<vue-editor v-model="currentObject.description"></vue-editor>
+								</div>
+								<div class="mt-3">
+									<p class="mb-1">Zgoda na przetwarzanie danych (rodo1)</p>
+									<vue-editor v-model="currentObject.rodo_1"></vue-editor>
+								</div>
+								<div class="mt-3">
+									<p class="mb-1">Zgoda na kontakt telefoniczny (rodo2)</p>
+									<vue-editor v-model="currentObject.rodo_2"></vue-editor>
+								</div>
+							</div>
+						</v-col>
+
+						<v-col cols="4" >
+							<div class="pa-5 d-flex flex-column justify-content-between">
+								<div>
+									<v-img :src="activePhoto" :alt="currentObject.photo_alt"></v-img>
+									<ImagePicker  @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="currentObject.photo"/>
+								</div>
+								
+								<v-text-field color="primary"  v-model="currentObject.photo_alt" label="Tekst alternatywny loga"></v-text-field>
+							</div>
+							<div class="pa-5 d-flex flex-column justify-content-between">
+								<div>
+									<div v-if="currentObject.privace_policy" class="w-100 d-flex justify-content-between align-items-center">
+										<a target="_blank"  :href="activeFile">
+											<div>{{ currentObject.privace_policy.split('/')[currentObject.privace_policy.split('/').length - 1] }}</div>
+										</a>
+										<v-btn @click="currentObject.privace_policy = ''" icon>
+											<v-icon>mdi-close</v-icon>
+										</v-btn>
+									</div>
+									<FilePicker :title="'Polityka prywatności'" @updateDeletedFile="updateDeletedFile" :activeFilePath="currentObject.privace_policy" @loadedFile="currentObject.privace_policy = $event" />
+								</div>
+							</div>
+							<div class="pa-5 d-flex flex-column justify-content-between">
+								<div>
+									<a v-if="currentObject.shop_regulations" target="_blank" class="w-100 d-flex justify-content-between align-items-center" :href="activeFile">
+										<div>{{ currentObject.shop_regulations.split('/')[currentObject.shop_regulations.split('/').length - 1] }}</div>
+										<v-btn @click="currentObject.shop_regulations = ''" icon>
+											<v-icon>mdi-close</v-icon>
+										</v-btn>
+									</a>
+									<FilePicker :title="'Regulamin Sklepu'" @updateDeletedFile="updateDeletedFile" :activeFilePath="currentObject.shop_regulations" @loadedFile="currentObject.shop_regulations = $event" />
+								</div>
+							</div>
+
+						</v-col>
+
+					</v-row>
+					<v-divider class="mb-0"></v-divider>
+					<v-card-actions class="pa-4">
+						<v-btn :disabled=" !valid || currentObject.title == '' " color="success" class="mr-2" @click="validate" >
+							<v-icon left>mdi-check</v-icon>
+							<span>Zatwierdź</span>
+						</v-btn>
+
+						<v-btn color="error" class="mr-2" @click="$router.go(-1)" >
+							<v-icon left>mdi-close</v-icon>
+							<span>Anuluj</span>
+						</v-btn>
+					</v-card-actions>
+				</v-form>
+			</v-card>
+			
+		</v-container>
+	</v-content>
+</template>
+
+<script>
+	import FormService from '../../../services/FormService.js'
+	let data = {};
+	let vueComponents = {};
+	
+	Object.entries(FormService).forEach(form => form[0] != 'data' ? vueComponents[form[0]] = form[1] : data = form[1] )
+	
+	export default {
+		data() {
+			return {
+				...data,
+				currentObject:{
+					company: '',
+					rodo_1: '',
+					rodo_2: '',
+					photo: '',
+					photo_alt: '',
+					privace_policy: '',
+					shop_regulations: '',
+					description: '',
+				},
+			}
+		},
+		...vueComponents,
+
+		
+	}
+</script>

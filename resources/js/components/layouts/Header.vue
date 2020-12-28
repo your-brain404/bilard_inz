@@ -7,7 +7,7 @@
 
 			<v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-			<v-toolbar-title class="toolbar-title font-weight-bold first-color pl-0" tag="router-link" to="/">Bilard Centrum Lubin</v-toolbar-title>
+			<v-toolbar-title class="toolbar-title font-weight-bold first-color pl-0" tag="router-link" to="/">{{ settings.company }}</v-toolbar-title>
 
 			<v-spacer></v-spacer>
 			<div class="d-flex align-items-center">
@@ -151,6 +151,9 @@
 					}
 				}
 			},
+			settings() {
+				return this.$store.getters.settings;
+			}
 
 		},
 		watch: {

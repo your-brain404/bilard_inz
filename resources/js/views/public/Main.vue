@@ -38,7 +38,7 @@
 
 	@keyframes eight_ball {
 		from {
-			left: 0;
+			left: -100%;
 			transform: rotateZ(0deg);
 		}
 

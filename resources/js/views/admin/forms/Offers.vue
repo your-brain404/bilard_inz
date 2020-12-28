@@ -23,6 +23,10 @@
 									<p class="mb-1">Opis</p>
 									<vue-editor v-model="currentObject.description"></vue-editor>
 								</div>
+								<div class="mt-3">
+									<p class="mb-1">Opis Seo</p>
+									<vue-editor v-model="currentObject.meta_description"></vue-editor>
+								</div>
 							</div>
 						</v-col>
 
@@ -71,6 +75,7 @@
 					subtitle: '',
 					short_description: '',
 					description: '',
+					meta_description: '',
 					photo: '',
 					photo_alt: '',
 				},

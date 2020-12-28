@@ -23,6 +23,7 @@ import ShopProducts from '../components/shop/ShopProducts'
 import ShopItems from '../components/shop/ShopItems'
 import ShopItemColors from '../components/shop/ShopItemColors'
 import DeliveryOptions from '../components/shop/DeliveryOptions'
+import Settings from '@/components/settings/Settings'
 
 export default {
 	main:[
@@ -109,6 +110,10 @@ export default {
 
 	documents: [
 	{title: 'Dokumenty', component: Documents, tablename: 'documents', table: [], multiple: true, removable: true, active: true},
-	]
+	],
+
+	settings: [
+	{title: 'Ustawienia', component: Settings, tablename: 'settings', table: [], multiple: false, removable: false},
+	],
 
 }
