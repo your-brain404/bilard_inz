@@ -8,5 +8,5 @@ class Subpages extends Model
 {
     protected $table = 'subpages';
 
-    protected $fillable = ['title', 'page', 'photo', 'photo_alt', 'order'];
+    protected $fillable = ['active', 'title', 'page', 'photo', 'photo_alt', 'order', 'meta_description'];
 }

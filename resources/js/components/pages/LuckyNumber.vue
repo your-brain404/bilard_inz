@@ -2,7 +2,7 @@
 	<v-container v-if="active" class="py-12 history">
 		<v-row justify="center">
 			<v-col>
-				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ lucky_number[0].title }}</h2>
+				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-0">{{ lucky_number[0].title }}</h2>
 				<h3 class="first-color text-center ">{{ lucky_number[0].subtitle }}</h3>
 
 			</v-col>

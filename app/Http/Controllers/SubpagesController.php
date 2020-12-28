@@ -12,25 +12,29 @@ class SubpagesController extends Controller
 		new CrudService('App\Subpages');
 	}
 	
-    public function getAll() {
-		$offers = CrudService::getAll();
-		return new SubpagesResource($offers);
+	public function getAll() {
+		$subpages = CrudService::getAll();
+		return new SubpagesResource($subpages);
 	}
 
 	public function getOne($id) {
-		$offers = CrudService::getOne($id);
-		return new SubpagesResource($offers);
+		$subpage = CrudService::getOne($id);
+		return new SubpagesResource($subpage);
 	}
 
+	public function getWhere(Request $request) {
+		$subpages = CrudService::getWhere($request, 'asc');
+		return new SubpagesResource($subpages);
+	}
 	
 	public function store(Request $request) {
-		$offers = CrudService::saveData($request);
-		return new SubpagesResource($offers);
+		$subpage = CrudService::saveData($request);
+		return new SubpagesResource($subpage);
 	}
 
 	
 	public function destroy($id) {
-		$offers = CrudService::destroy($id);
-		return new SubpagesResource($offers); 
+		$subpage = CrudService::destroy($id);
+		return new SubpagesResource($subpage); 
 	}
 }

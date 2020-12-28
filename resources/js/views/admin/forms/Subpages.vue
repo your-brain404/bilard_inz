@@ -15,6 +15,10 @@
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field :disabled="$route.params.id" color="primary"  v-model="currentObject.page" :rules="rules.pageRules" label="Strona *" required></v-text-field>
+								<div class="mt-3">
+									<p class="mb-1">Opis Seo</p>
+									<vue-editor v-model="currentObject.meta_description"></vue-editor>
+								</div>
 							</div>
 						</v-col>
 
@@ -62,6 +66,7 @@
 					title: '',
 					page: '',
 					photo: '',
+					meta_description: '',
 					photo_alt: '',
 				},
 				
