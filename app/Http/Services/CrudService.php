@@ -18,7 +18,6 @@ class CrudService {
 	}
 
 	public static function saveData(Request $request): Model{
-
 		$data = self::prependData($request);
 		$model = $request->isMethod('put') ? self::$model::where('id', $request->input('id'))->first()->fill($data) : self::$model::create($data);
 

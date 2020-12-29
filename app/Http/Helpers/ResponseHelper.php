@@ -67,7 +67,7 @@ class ResponseHelper {
 		];
 	}
 
-	public static function invalidCaptcha(){
+	public static function invalidRecaptcha(){
 		return [
 			"error" => [
 				'message' => "System podejrzewa, że nie można Ci ufać...",

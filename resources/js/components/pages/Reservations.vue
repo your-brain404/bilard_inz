@@ -169,13 +169,23 @@
 				this.date = '';
 				this.$refs.form.resetValidation();
 			},
-			reserve(){
+			async reserve(){
 				if(!this.$refs.form.validate()) return;
 
 				this.setReservationDateTime();
 
 				this.$store.commit('loading', true);
-				axios.post('/api/reservations/add', {...this.reservation, secret_token: this.$store.getters.settings.recaptcha_secret_token}).then(res => {
+				const response = await this.$recaptcha('login')
+				if(!response) {
+					this.$store.commit('setSnackbar', 'System twierdzi, że jesteś robotem...');
+					return;
+				}
+				axios.post('/api/reservations/add', {...this.reservation, response}).then(res => {
+					if(res.data.error != undefined) {
+						this.$store.commit('setSnackbar', res.data.error.message);
+						this.$store.commit('loading', false);
+						return;
+					}
 					this.$store.commit('loading', false);
 					this.$store.commit('setSnackbar', 'Twoja rezerwacja czeka na akceptację!'
 						);

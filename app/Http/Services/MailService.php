@@ -91,7 +91,7 @@ class MailService {
 	}
 
 	public static function saveData(Request $request) {
-		if(!RecaptchaHelper::validate($request->input('response'))) return ResponseHelper::invalidCaptcha();
+		if(!RecaptchaHelper::validate($request->input('response'))) return ResponseHelper::invalidRecaptcha();
 
 		$data = CrudService::prependData($request);
 		$validation = isset($data['answer']) ? self::answerValidation($data) : (isset($data['newsletter']) ? self::newsletterValidation($data) : self::questionValidation($data));

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CrudService;
+use App\Http\Services\ReservationsService;
 use App\Http\Resources\ReservationsResource;
 use App\Http\Helpers\ResponseHelper;
 use App\Http\Resources\ReservationsCollection;
@@ -33,7 +34,7 @@ class ReservationsController extends Controller
 	}
 
 	public function store(Request $request) {
-		$reservation = CrudService::saveData($request);
+		$reservation = ReservationsService::saveData($request);
 		return new ReservationsResource($reservation, $reservation->service_equipment);
 	}
 
