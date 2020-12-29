@@ -66,4 +66,14 @@ class ResponseHelper {
 			]
 		];
 	}
+
+	public static function invalidCaptcha(){
+		return [
+			"error" => [
+				'message' => "System podejrzewa, że nie można Ci ufać...",
+				'code' => 500,
+				'status' => false
+			]
+		];
+	}
 } 

@@ -175,7 +175,7 @@
 				this.setReservationDateTime();
 
 				this.$store.commit('loading', true);
-				axios.post('/api/reservations/add', this.reservation).then(res => {
+				axios.post('/api/reservations/add', {...this.reservation, secret_token: this.$store.getters.settings.recaptcha_secret_token}).then(res => {
 					this.$store.commit('loading', false);
 					this.$store.commit('setSnackbar', 'Twoja rezerwacja czeka na akceptację!'
 						);

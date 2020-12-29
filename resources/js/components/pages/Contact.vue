@@ -106,6 +106,7 @@
 		methods: {
 			sendMail(mail){
 				axios.post('/api/mails/send', mail).then(res => {
+					console.log(res)
 					this.loading = false;
 					if(res.data.error != undefined) this.$store.commit('setSnackbar', res.data.error.message);
 					else if(res.data.success != undefined) this.$store.commit('setSnackbar', res.data.success.message);
@@ -135,11 +136,22 @@
 					});
 				} 
 			},
-			saveMail() {
+			async saveMail() {
 				if(!this.valid) return;
 
 				this.loading = true;
-				axios.post('/api/mails/add', this.contact_data).then(res => {
+				const response = await this.$recaptcha('login')
+				if(!response) {
+					this.$store.commit('setSnackbar', 'System twierdzi, że jesteś robotem...');
+					return;
+				}
+				axios.post('/api/mails/add', {...this.contact_data, response}).then(res => {
+					console.log(res)
+					if(res.data.error != undefined) {
+						this.$store.commit('setSnackbar', res.data.error.message);
+						this.loading = false; 
+						return;
+					}
 					if(this.files.length > 0) this.saveAttachments(res.data);
 					else this.sendMail(res.data);
 				}).catch(err => {

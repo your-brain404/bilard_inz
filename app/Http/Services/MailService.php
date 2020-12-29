@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Services\CrudService;
 use App\Http\Helpers\ResponseHelper;
 use App\Http\Helpers\FileHelper;
+use App\Http\Helpers\RecaptchaHelper;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\ContactForm;
@@ -14,6 +15,7 @@ use App\Mail\NewsletterForm;
 use App\Http\Resources\MailsResource;
 use App\Mails;
 use App\Attachments;
+
 use Illuminate\Mail\Mailable;
 
 class MailService {
@@ -89,6 +91,8 @@ class MailService {
 	}
 
 	public static function saveData(Request $request) {
+		if(!RecaptchaHelper::validate($request->input('response'))) return ResponseHelper::invalidCaptcha();
+
 		$data = CrudService::prependData($request);
 		$validation = isset($data['answer']) ? self::answerValidation($data) : (isset($data['newsletter']) ? self::newsletterValidation($data) : self::questionValidation($data));
 
@@ -104,7 +108,7 @@ class MailService {
 		Mail::to($receiver)->send(self::getTemplate($data));
 
 		self::checkAttachmentsToDelete($data);
-		
+
 		return self::getResponse($data['mail']);
 	}
 
