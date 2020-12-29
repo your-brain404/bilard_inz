@@ -134,6 +134,9 @@
 
 
 		},
+		created() {
+			this.getEvents();
+		}
 	}
 </script>
 

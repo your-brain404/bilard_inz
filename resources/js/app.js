@@ -51,6 +51,8 @@ axios.get('/api/settings/get_one/1').then(res => {
 
 
 
+
+
 export const app = new Vue({
   el: '#app',
   router,

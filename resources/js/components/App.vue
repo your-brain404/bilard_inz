@@ -20,7 +20,17 @@
 	import axios from 'axios'
 	import parseJwt from '../helpers/auth/tokenDecoder.js'
 
+	function recaptcha() {
+		if(window.location.href.split('/').includes('admin-panel')) document.getElementsByClassName('grecaptcha-badge')[0].style.display = 'none';
+		else document.getElementsByClassName('grecaptcha-badge')[0].style.display = '';
+	}
+
 	
+
+	window.addEventListener('load', function () {
+		recaptcha()
+	})
+
 
 	export default {
 		
@@ -39,12 +49,15 @@
 			}
 		},
 		watch: {
-			currentSubpage() {
-				if(this.currentSubpage) this.setMetaTitle(); 
+			currentSubpage: {
+				deep: true,
+				handler() {
+					if(this.currentSubpage) this.setMetaTitle(); 
+				}
 			},
 			'$route.path'() {
-				this.$store.commit('currentSubpage', this.$route.path);
 				this.setMetaTitle();
+				recaptcha();
 			}
 		},
 		computed:{
@@ -63,6 +76,7 @@
 		},
 		methods:{
 			setMetaTitle() {
+				this.$store.commit('currentSubpage', this.$route.path);
 				if(this.$route.path.split('/').includes('admin-panel')) this.title = 'Panel Administracyjny';
 				else {
 					if(this.$route.path.split('/')[1] == 'oferta' && this.$route.params.id) {
@@ -87,12 +101,14 @@
 				if(localStorage.getItem('cart') != null) {
 					this.$store.commit('cart', JSON.parse(localStorage.getItem('cart')));
 				}
-			}
+			},
+			
 		},
 		created(){
 			this.autoLogin();
 			this.setCart();
 			this.setMetaTitle();
+			
 			this.$store.dispatch('settings');
 			this.$store.dispatch('fetchAllUsers');
 			if (window.location.hash && window.location.hash == '#_=_') {
@@ -100,7 +116,8 @@
 			}
 
 			$('*').css({"cursor": `url('${window.location.origin}/storage/img/cursor/cursor.png'), auto`})
-		}
+		},
+
 
 	}
 </script>
