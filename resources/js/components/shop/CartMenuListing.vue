@@ -41,8 +41,8 @@
 					Razem: <span>{{ sum.toFixed(2) }} PLN</span>
 				</div>
 			</div>
-			<router-link v-if="$route.path != '/koszyk'" to="/koszyk">
-				<v-btn  color="primary" class="font-weight-normal"  @click="menu = false" >
+			<router-link  v-if="$route.path != '/koszyk'" to="/koszyk">
+				<v-btn  color="primary" class="font-weight-normal" @click="$emit('closeMenu')" >
 					Przejdź do koszyka!
 				</v-btn>
 			</router-link>

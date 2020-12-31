@@ -5,28 +5,34 @@
 				<div @click="closeRegister" class="close-button">
 					<v-icon color="white">mdi-close</v-icon>
 				</div>
-				<form class="position-relative register-form">
+				<v-form ref="form" v-model="valid" class="position-relative register-form">
 					<h1 class="about-title font-weight-bold text-center text-white mt-0">Zarejestruj się</h1>
-					<v-text-field dark v-model="name" :error-messages="nameErrors" :counter="30" label="Imię i Nazwisko" required @input="$v.name.$touch()" @blur="$v.name.$touch()" class="primary-text"></v-text-field>
-					<v-text-field dark v-model="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()" @blur="$v.email.$touch()"></v-text-field>
-					<v-text-field type="password" dark v-model="password" :error-messages="passwordErrors" label="Hasło" required @input="$v.password.$touch()" @blur="$v.password.$touch()"></v-text-field>
-					<v-text-field type="password" dark v-model="passwordConf" :error-messages="passwordConfErrors" label="Potwierdź Hasło" required @input="$v.passwordConf.$touch()" @blur="$v.passwordConf.$touch()"></v-text-field>
+					<v-text-field dark v-model="name" :rules="[rules.required]" :counter="30" label="Imię i Nazwisko" class="primary-text"></v-text-field>
+					<v-text-field dark v-model="email" :rules="[rules.required, rules.email]" label="E-mail"></v-text-field>
+					<v-text-field type="password" :rules="[rules.required, rules.passwordLength]" dark v-model="password" label="Hasło"></v-text-field>
+					<v-text-field :rules="[rules.required, passwordConfirm]" type="password" dark v-model="passwordConf" label="Potwierdź Hasło"></v-text-field>
 
-					<v-checkbox dark class="" v-model="regulations" :error-messages="regulationsErrors"  required @change="$v.regulations.$touch()" @blur="$v.regulations.$touch()">
+					<v-checkbox dark class="" v-model="regulations" :rules="[rules.required]">
 						<span slot="label">
-							Regulamin sklepu <router-link class="register-checkbox-link" to="/regulamin"><v-btn dark class="register-button ml-2" small outlined>Pokaż</v-btn></router-link>
+							Regulamin sklepu <a @click.stop="" class="register-checkbox-link" download :href="getUrl($store.getters.settings.privace_policy)"><v-btn dark class="register-button ml-2" small outlined>Pobierz</v-btn></a>
 						</span>
 					</v-checkbox>
 
-					<v-checkbox dark class="pt-0 mt-0" v-model="privace" :error-messages="privaceErrors" label="Polityka prywatności*" required @change="$v.privace.$touch()" @blur="$v.privace.$touch()">
+					<v-checkbox dark class="pt-0 mt-0" v-model="privace" label="Polityka prywatności*" :rules="[rules.required]">
 						<span slot="label">
-							Polityka Prywatności <router-link class="register-checkbox-link" to="/polityka-prywatnosci"><v-btn dark class="register-button ml-2" small outlined>Pokaż</v-btn></router-link>
+							Polityka Prywatności <a @click.stop="" class="register-checkbox-link" download :href="getUrl($store.getters.settings.privace_policy)"><v-btn dark class="register-button ml-2" small outlined>Pobierz</v-btn></a>
 						</span>
 					</v-checkbox>
 
-					<v-checkbox dark class="pt-0 mt-0 register-checkbox" v-model="rodo" :error-messages="rodoErrors" :label="rodoText" required @change="$v.rodo.$touch()" @blur="$v.rodo.$touch()"></v-checkbox>
+					<v-checkbox dark class="pt-0 mt-0 register-checkbox" v-model="rodo1" :rules="[rules.required]">
+						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
+					</v-checkbox>
 
-				</form>
+					<v-checkbox dark class="pt-0 mt-0 register-checkbox" v-model="rodo2" :rules="[rules.required]">
+						<div slot="label" v-html="$store.getters.settings.rodo_2"></div>
+					</v-checkbox>
+
+				</v-form>
 				<v-btn dark outlined class="mr-4 w-100 register-button" @click="submit">
 					Załóż konto
 				</v-btn>
@@ -41,123 +47,54 @@
 </template>
 
 <script>
-	import { validationMixin } from 'vuelidate'
-	import { required, maxLength, email } from 'vuelidate/lib/validators'
 	import Facebook from './FacebookLogin';
+	import url from '@/helpers/photo/url';
+	import rules from '@/helpers/validation/rules'
 
 	export default {
 		props:['dialog'],
-		mixins: [validationMixin],
-
-		validations: {
-			name: { required },
-			email: { required, email },
-			password: { required },
-			passwordConf: { required },
-			regulations: {
-				checked (val) {
-					return val
-				},
-			},
-			privace: {
-				checked (val) {
-					return val
-				},
-			},
-			rodo: {
-				checked (val) {
-					return val
-				},
-			},
-		},
 		watch:{
 			'$route'(){
 				this.dialog = false;
 			},
 		},
-
-		data: () => ({
-			name: '',
-			email: '',
-			password: '',
-			passwordConf: '',
-			regulations: false,
-			privace: false,
-			rodo: false,
-			origin: window.location.origin
-		}),
-
-		computed: {
-			regulationsErrors () {
-				const errors = []
-				if (!this.$v.regulations.$dirty) return errors
-					!this.$v.regulations.checked && errors.push('Proszę zaakceptować regulamin sklepu, aby kontynuować.')
-				return errors
-			},
-			privaceErrors () {
-				const errors = []
-				if (!this.$v.privace.$dirty) return errors
-					!this.$v.privace.checked && errors.push('Proszę zaakceptować politykę prywatności, aby kontynuować.')
-				return errors
-			},
-			rodoErrors () {
-				const errors = []
-				if (!this.$v.rodo.$dirty) return errors
-					!this.$v.rodo.checked && errors.push('Proszę zaakceptować politykę RODO, aby kontynuować.')
-				return errors
-			},
-			nameErrors () {
-				const errors = []
-				if (!this.$v.name.$dirty) return errors
-					!this.$v.name.required && errors.push('To pole jest wymagane')
-				return errors
-			},
-			passwordErrors () {
-				const errors = []
-				if (!this.$v.password.$dirty) return errors
-					this.password.length >= 8 || errors.push('Hasło musi mieć co najmniej 8 liter!')
-				!this.$v.password.required && errors.push('To pole jest wymagane')
-				return errors
-			},
-			passwordConfErrors () {
-				const errors = []
-				if (!this.$v.passwordConf.$dirty) return errors
-					this.passwordConf === this.password || errors.push('Hasła muszą być takie same!');
-				!this.$v.passwordConf.required && errors.push('To pole jest wymagane')
-				return errors
-			},
-			emailErrors () {
-				const errors = []
-				if (!this.$v.email.$dirty) return errors
-					!this.$v.email.email && errors.push('Proszę podać poprawny adres E-mail!')
-				!this.$v.email.required && errors.push('To pole jest wymagane')
-				return errors
-			},
-			regulationsText(){
-				return `Regulamin sklepu `
-			},
-			rodoText(){
-				return 'Rodo1';
-			},
-
+		data() {
+			return {
+				valid: true,
+				name: '',
+				email: '',
+				password: '',
+				passwordConf: '',
+				regulations: false,
+				privace: false,
+				rodo1: false,
+				rodo2: false,
+				origin: window.location.origin,
+				rules
+			}
 		},
 
 		methods: {
+			passwordConfirm(v) {
+				return this.password == this.passwordConf || 'Hasła muszą być takie same!';
+			},
+			getUrl: src => url(src),
 			submit () {
-				if(!this.$v.$anyError) {
+				if(this.$refs.form.validate()) {
 					this.$store.dispatch('register', {email: this.email, name: this.name, password: this.password, photo: '' });
 					this.closeRegister();
+					this.clear();
 				}
 			},
 			clear () {
-				this.$v.$reset()
 				this.name = ''
 				this.email = ''
 				this.password = ''
 				this.passwordConf = ''
 				this.regulations = false
 				this.privace = false
-				this.rodo = false
+				this.rodo1 = false
+				this.rodo2 = false
 			},
 			closeRegister(){
 				this.$emit('closeRegister');

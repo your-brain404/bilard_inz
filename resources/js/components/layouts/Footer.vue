@@ -2,7 +2,7 @@
 	<v-footer class="first-bgc" padless >
 		<v-row justify="center" class="flex-column"  no-gutters >
 			<div class="d-flex justify-content-center flex-wrap">
-				<router-link :to="page.page" v-for="page in subpages" :key="page.id">
+				<router-link v-if="page.active" :to="page.page" v-for="page in subpages" :key="page.id">
 					<v-btn color="white" text rounded class="my-2" >
 						{{ page.title }}
 					</v-btn>

@@ -7,7 +7,7 @@
 				</v-btn>
 			</template>
 
-			<CartMenuListing />
+			<CartMenuListing @closeMenu="menu = false"/>
 		</v-menu>
 	</div>
 </template>

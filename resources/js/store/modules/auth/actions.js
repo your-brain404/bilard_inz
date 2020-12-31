@@ -33,7 +33,9 @@ export default {
 		}).catch(err => console.log(err));
 	},
 	register({commit}, credentials){
+		commit('loading', true);
 		axios.post('api/auth/register', credentials).then(res => {
+			commit('loading', false);
 			if(res.data.error){
 				commit('setSnackbar', res.data.error.message);
 			}else{
@@ -43,7 +45,7 @@ export default {
 				commit('setUser', res.data.data);
 				commit('setSnackbar', 'Pomyślnie zarejestrowano!');
 			}
-		}).catch(err => console.log(err));
+		}).catch(err => {console.log(err); commit('loading', false);});
 	},
 	logout({commit}){
 		sessionStorage.removeItem('token');

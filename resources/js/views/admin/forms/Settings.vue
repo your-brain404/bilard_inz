@@ -22,11 +22,11 @@
 								</div>
 								<div class="mt-3">
 									<p class="mb-1">Zgoda na przetwarzanie danych (rodo1)</p>
-									<vue-editor v-model="currentObject.rodo_1"></vue-editor>
+									<v-textarea v-model="currentObject.rodo_1"></v-textarea>
 								</div>
 								<div class="mt-3">
 									<p class="mb-1">Zgoda na kontakt telefoniczny (rodo2)</p>
-									<vue-editor v-model="currentObject.rodo_2"></vue-editor>
+									<v-textarea v-model="currentObject.rodo_2"></v-textarea>
 								</div>
 							</div>
 						</v-col>

@@ -35,8 +35,12 @@
 						<v-time-picker  format="24hr" min="17:00" v-if="leave_menu" v-model="reservation.leave" full-width @click:minute="$refs.leave.save(reservation.leave)" ></v-time-picker>
 					</v-menu>
 
-					<v-checkbox :rules="[rules.required]" @change="reservation.rodo1 ? reservation.rodo1 = 1 : reservation.rodo1 = 0" color="primary" class="mt-0" :label="rodo1" v-model="reservation.rodo1"></v-checkbox>
-					<v-checkbox :rules="[rules.required]" @change="reservation.rodo2 ? reservation.rodo2 = 1 : reservation.rodo2 = 0" color="primary" class="mt-0 mb-5" :label="rodo2" v-model="reservation.rodo2"></v-checkbox>
+					<v-checkbox :rules="[rules.required]" @change="reservation.rodo1 ? reservation.rodo1 = 1 : reservation.rodo1 = 0" color="primary" class="mt-10" v-model="reservation.rodo1">
+						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
+					</v-checkbox>
+					<v-checkbox :rules="[rules.required]" @change="reservation.rodo2 ? reservation.rodo2 = 1 : reservation.rodo2 = 0" color="primary" class="mt-0 mb-5" v-model="reservation.rodo2">
+						<div slot="label" v-html="$store.getters.settings.rodo_2"></div>
+					</v-checkbox>
 
 
 					<v-btn outlined color="primary" @click="reserve">Wyślij</v-btn>
@@ -89,14 +93,6 @@
 						return pattern.test(value) || 'Niepoprawny e-mail.'
 					},
 				}
-			}
-		},
-		computed: {
-			rodo1() {
-				return 'rodo1';
-			},
-			rodo2() {
-				return 'rodo2';
 			}
 		},
 		components: {

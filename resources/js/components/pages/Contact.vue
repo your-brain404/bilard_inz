@@ -15,8 +15,12 @@
 					<v-text-field color="primary" v-model="contact_data.subject" :rules="[rules.required]" label="Temat *" required></v-text-field>
 					<v-textarea color="primary" v-model="contact_data.message" :rules="[rules.required]" rows="5" label="Wiadomość *" required></v-textarea>
 					<v-file-input v-model="files" show-size counter multiple label="Pliki (opcjonalnie)" prepend-icon="mdi-file"></v-file-input>
-					<v-checkbox @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-0" :label="rodo1" v-model="contact_data.rodo1"></v-checkbox>
-					<v-checkbox @change="contact_data.rodo2 ? contact_data.rodo2 = 1 : contact_data.rodo2 = 0" color="primary" class="mt-0 mb-5" :label="rodo2" v-model="contact_data.rodo2"></v-checkbox>
+					<v-checkbox @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-10" v-model="contact_data.rodo1">
+						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
+					</v-checkbox>
+					<v-checkbox @change="contact_data.rodo2 ? contact_data.rodo2 = 1 : contact_data.rodo2 = 0" color="primary" class="mt-0 mb-5"  v-model="contact_data.rodo2">
+						<div slot="label" v-html="$store.getters.settings.rodo_2"></div>
+					</v-checkbox>
 					<v-btn :loading="loading" outlined color="primary" :disabled="!valid" @click="saveMail">Wyślij</v-btn>
 				</v-form>
 			</v-col>
@@ -95,14 +99,6 @@
 				}
 			}
 		},
-		computed: {
-			rodo1() {
-				return 'rodo1'
-			},
-			rodo2() {
-				return 'rodo2'
-			}
-		},
 		methods: {
 			sendMail(mail){
 				axios.post('/api/mails/send', mail).then(res => {
@@ -171,5 +167,8 @@
 		font-weight: 500;
 		text-align: center;
 		margin-top: 1rem;
+	}
+	.v-input__slot {
+		align-items: unset!important;
 	}
 </style>
