@@ -35,7 +35,7 @@
 							<div class="pa-5 d-flex flex-column justify-content-between">
 								<div>
 									<v-img :src="activePhoto" :alt="currentObject.photo_alt"></v-img>
-									<ImagePicker  @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="currentObject.photo"/>
+									<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="currentObject.photo"/>
 								</div>
 								
 								<v-text-field color="primary"  v-model="currentObject.photo_alt" label="Tekst alternatywny loga"></v-text-field>
@@ -50,7 +50,7 @@
 											<v-icon>mdi-close</v-icon>
 										</v-btn>
 									</div>
-									<FilePicker :title="'Polityka prywatności'" @updateDeletedFile="updateDeletedFile" :activeFilePath="currentObject.privace_policy" @loadedFile="currentObject.privace_policy = $event" />
+									<FilePicker @loadFiles="fetchFiles" :loadFlag="loadFlag" :title="'Polityka prywatności'" @updateDeletedFile="updateDeletedFile" :activeFilePath="currentObject.privace_policy" @loadedFile="currentObject.privace_policy = $event" />
 								</div>
 							</div>
 							<div class="pa-5 d-flex flex-column justify-content-between">
@@ -61,7 +61,7 @@
 											<v-icon>mdi-close</v-icon>
 										</v-btn>
 									</a>
-									<FilePicker :title="'Regulamin Sklepu'" @updateDeletedFile="updateDeletedFile" :activeFilePath="currentObject.shop_regulations" @loadedFile="currentObject.shop_regulations = $event" />
+									<FilePicker @loadFiles="fetchFiles" :loadFlag="loadFlag" :title="'Regulamin Sklepu'" @updateDeletedFile="updateDeletedFile" :activeFilePath="currentObject.shop_regulations" @loadedFile="currentObject.shop_regulations = $event" />
 								</div>
 							</div>
 
@@ -98,6 +98,7 @@
 		data() {
 			return {
 				...data,
+				loadFlag: false,
 				currentObject:{
 					company: '',
 					rodo_1: '',
@@ -111,6 +112,13 @@
 			}
 		},
 		...vueComponents,
+		methods: {
+			...vueComponents.methods,
+			fetchFiles(e) {
+				this.loadFlag = true;
+				setTimeout(() => this.loadFlag = false, 200);
+			}
+		}
 
 		
 	}
