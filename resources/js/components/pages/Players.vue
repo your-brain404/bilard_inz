@@ -18,7 +18,7 @@
 							</v-card-subtitle>
 
 							<v-card-actions class="px-0">
-								<v-btn color="primary" text>{{ player.button_name }}</v-btn>
+								<v-btn class="px-0" color="primary" text>{{ player.button_name }}</v-btn>
 							</v-card-actions>
 						</div>
 					</v-card>

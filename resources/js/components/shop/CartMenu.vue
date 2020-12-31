@@ -1,12 +1,12 @@
 <template>
 	<div class="text-center">
-		<v-menu v-model="menu" :close-on-content-click="false" :nudge-width="600" nudge-bottom="50" nudge-right="120" offset-x >
-			<template v-slot:activator="{ on, attrs }">
-				<v-btn v-bind="attrs" v-on="on" icon>
-					<v-icon>mdi-cart</v-icon>
-				</v-btn>
-			</template>
-
+		<div>
+			<v-btn class="header-button" :color="color ? color : ''"  icon>
+				<v-icon>mdi-cart</v-icon>
+			</v-btn>
+			<span>Koszyk</span>
+		</div>
+		<v-menu @input="v => v || closeMenu()" v-model="menu" :close-on-content-click="false" >
 			<CartMenuListing @closeMenu="menu = false"/>
 		</v-menu>
 	</div>
@@ -17,14 +17,15 @@
 	import CartMenuListing from './CartMenuListing'
 
 	export default {
-		data() {
-			return {
-				menu: false,
-			}
-		},
+		props: ['color', 'menu'],
 		components: {
 			CartMenuListing
 		},
+		methods: {
+			closeMenu() {
+				this.$emit('closeMenu');
+			}
+		}
 
 	}
 </script>

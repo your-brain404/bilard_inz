@@ -1,5 +1,5 @@
 <template>
-	<div class="position-relative">
+	<div class="position-relative" style="overflow: hidden;">
 		<Slider />
 		<News />
 		<img class="eight-ball" width="auto" height="200px" :src="ball" alt="">

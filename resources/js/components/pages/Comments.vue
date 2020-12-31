@@ -27,9 +27,9 @@
 				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">Usuń</p>
 			</div>
 		</div>
-		<div class="d-flex mt-12 flex-nowrap align-items-center" >
-			<v-textarea @keyup.enter="$event.ctrlKey ? newComment += '\n' : sendComment($route.params.id)"  class="comment-textarea mr-2" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-textarea>
-			<v-btn :disabled="newComment == ''" rounded @click="sendComment($route.params.id)" color="primary">
+		<div class="d-flex mt-12 align-items-center new-comment-container" >
+			<v-textarea @keyup.enter="$event.ctrlKey ? newComment += '\n' : sendComment($route.params.id)"  class="comment-textarea mr-2 new-comment-item" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-textarea>
+			<v-btn class="new-comment-item" :disabled="newComment == ''" rounded @click="sendComment($route.params.id)" color="primary">
 				<v-icon left>mdi-billiards</v-icon>
 				<span>Wyślij</span>
 			</v-btn>
@@ -109,6 +109,20 @@
 </script>
 
 <style>
+	.new-comment-container {
+		flex-wrap: nowrap;
+	}
+	@media(max-width: 570px) {
+		.new-comment-container {
+			flex-wrap: wrap;
+		}
+		.new-comment-item {
+			width: 100%;
+		}
+		button.new-comment-item {
+			margin-top: 1rem; 
+		}
+	}
 	.comments p, .comments i {
 		font-size: 1rem;
 	}

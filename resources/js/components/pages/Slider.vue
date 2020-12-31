@@ -53,6 +53,13 @@
 </script>
 
 <style>
+	@media(max-width: 500px) {
+		.slider-subtitle {
+			padding-left: 1rem;
+			padding-right: 1rem;
+			text-align: center;
+		}
+	}
 	.slider-title{
 		font-size: 3rem;
 		text-shadow: 0 0 5px black;

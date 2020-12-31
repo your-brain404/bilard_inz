@@ -25,14 +25,16 @@
 			<v-row>
 				<v-col cols="12">
 					<v-divider></v-divider>
-					<div class="mb-2 d-flex">
-						<v-icon color="primary" class="mr-1">mdi-calendar-month-outline</v-icon>
-						<i class="text--secondary mr-2">{{ new Date(info.created_at).toLocaleString() }}</i>
-						<router-link class="text--secondary mr-2" :to="`/aktualnosci/kategoria/${info.category.toLowerCase()}`">
+					<div class="mb-2 d-flex flex-wrap">
+						<div class="news-attribute">
+							<v-icon color="primary" class="mr-1">mdi-calendar-month-outline</v-icon>
+							<i class="text--secondary mr-2">{{ new Date(info.created_at).toLocaleString() }}</i>
+						</div>
+						<router-link class="text--secondary mr-2 news-attribute" :to="`/aktualnosci/kategoria/${info.category.toLowerCase()}`">
 							<v-icon color="primary">mdi-bookmark-outline</v-icon>
 							<i class="category">{{ info.category }}</i>
 						</router-link>
-						<div @click="showCom(info.id)" class="comments">
+						<div @click="showCom(info.id)" class="comments news-attribute">
 							<v-icon  color="primary">mdi-comment-text-outline</v-icon>
 							<i class="mr-2 text--secondary">{{ getCommentsLength(info.id) }}</i>
 						</div>
@@ -255,6 +257,17 @@
 </script>
 
 <style>
+	@media(max-width: 960px) {
+		.news-picture {
+			height: 300px!important;
+		}
+	}
+	@media(max-width: 500px) {
+		.news-attribute {
+			width: 100%;
+			margin-bottom: 1rem;
+		}
+	}
 	.news p, .news i {
 		font-size: 1rem;
 	}

@@ -8,5 +8,5 @@ class Cups extends Model
 {
     protected $table = 'cups';
 
-    protected $fillable = ['title', 'active', 'description', 'photo', 'photo_alt', 'button_name'];
+    protected $fillable = ['title', 'active', 'description', 'photo', 'photo_alt', 'button_name', 'meta_description'];
 }

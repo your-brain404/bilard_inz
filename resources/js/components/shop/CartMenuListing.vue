@@ -4,8 +4,8 @@
 			<h3 class="mb-0 cart-menu-title">Koszyk</h3>
 		</v-card-title>
 		<v-divider></v-divider>
-		<div class="d-flex justify-content-between align-items-center mb-2" v-for="(product, i) in cart" :key="i">
-			<div class="d-flex align-items-center">
+		<div class="d-flex justify-content-between align-items-center mb-2 flex-wrap" v-for="(product, i) in cart" :key="i">
+			<div class="d-flex align-items-center product-data-container">
 				<div class="cart-menu-product-photo bg-picture" :style="`background-image: url('${getUrl(product.product.photo)}')`"  :alt="product.product.alt"></div>
 				<div class="ml-2 cart-menu-product-content">
 					<p class="mb-0 cart-menu-product-title">{{ product.product.title }}</p>
@@ -15,7 +15,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="d-flex align-items-center">
+			<div class="d-flex align-items-center product-amount-container">
 				<v-btn small color="error" :disabled="product.amount == 1 || summary != undefined" @click="decreaseAmount(i)">
 					<v-icon>mdi-minus</v-icon>
 				</v-btn>
@@ -32,8 +32,8 @@
 			<h2>Twój koszyk jest pusty! Odwiedź zakładkę <router-link to="/sklep">Sklep!</router-link></h2>
 		</div>
 
-		<v-card-actions class="p-0 mt-9 d-flex justify-content-between">
-			<div>
+		<v-card-actions class="p-0 mt-9 d-flex flex-wrap justify-content-between sum-container">
+			<div class="sum-item">
 				<div class="mb-4" v-if="delivery != undefined">
 					+ przesyłka ({{ compDelivery }})
 				</div>
@@ -41,8 +41,8 @@
 					Razem: <span>{{ sum.toFixed(2) }} PLN</span>
 				</div>
 			</div>
-			<router-link  v-if="$route.path != '/koszyk'" to="/koszyk">
-				<v-btn  color="primary" class="font-weight-normal" @click="$emit('closeMenu')" >
+			<router-link class="sum-item" v-if="$route.path != '/koszyk'" to="/koszyk">
+				<v-btn color="primary" class="font-weight-normal w-100" @click="$emit('closeMenu')" >
 					Przejdź do koszyka!
 				</v-btn>
 			</router-link>
@@ -100,3 +100,26 @@
 		},
 	}
 </script>
+
+<style>
+	@media(min-width: 500px) {
+		a.sum-item {
+			margin-left: .5rem;
+		}
+	}
+	@media(max-width: 500px) {
+		.sum-item {
+			width: 100%;
+			margin-bottom: .7rem;
+		}
+
+		.product-data-container, .product-amount-container {
+			width: 100%;
+		}
+		.product-amount-container {
+			margin-bottom: .7rem;
+		}
+	}
+
+
+</style>

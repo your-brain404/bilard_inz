@@ -58,6 +58,7 @@
 			'$route.path'() {
 				this.setMetaTitle();
 				recaptcha();
+				this.checkSubpageEntry();
 			}
 		},
 		computed:{
@@ -75,6 +76,13 @@
 			}
 		},
 		methods:{
+			checkSubpageEntry() {
+				for(let subpage of this.subpages) {
+					if(subpage.page == '/' + this.$route.path.split('/')[0]) {
+						if(!subpage.active) this.$router.push('/')
+					}
+				}
+			},
 			setMetaTitle() {
 				this.$store.commit('currentSubpage', this.$route.path);
 				if(this.$route.path.split('/').includes('admin-panel')) this.title = 'Panel Administracyjny';
@@ -83,6 +91,10 @@
 						axios.get(`/api/offers/get_one/${this.$route.params.id}`).then(offer => this.title = offer.data.title);
 					}else if(this.$route.path.split('/')[1] == 'aktualnosci' && this.$route.params.id) {
 						axios.get(`/api/news/get_one/${this.$route.params.id}`).then(info => this.title = info.data.title);
+					}else if(this.$route.path.split('/')[1] == 'zawodnicy' && this.$route.params.id) {
+						axios.get(`/api/players/get_one/${this.$route.params.id}`).then(player => this.title = player.data.first_name + player.data.last_name)
+					}else if(this.$route.path.split('/')[1] == 'puchary' && this.$route.params.id) {
+						axios.get(`/api/cups/get_one/${this.$route.params.id}`).then(cup => this.title = cup.data.title);
 					} else this.title = this.currentSubpage ? this.currentSubpage.title : '';
 				} 
 			},
