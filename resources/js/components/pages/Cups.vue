@@ -1,7 +1,7 @@
 <template>
 	<v-container class="py-12">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Puchary</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ cups_descriptions.title }}</h2>
 		</v-row>
 		<v-row>
 			<v-col v-for="(cup, i) in cups" :key="i" cols="12" lg="4">
@@ -33,10 +33,14 @@
 		props:['deleteFlag'],
 		data() {
 			return {
-				cups: []
+				cups: [],
+				cups_descriptions: {}
 			}
 		},
 		methods: {
+			getCupsDescriptions() {
+				axios.get('/api/cups_descriptions/get_one/1').then(res => this.cups_descriptions = res.data);
+			},
 			slug: title => slugify(title),
 			getCups(){
 				let endpoint = 'get_all';
@@ -55,6 +59,7 @@
 		},
 		created() {
 			this.getCups();
+			this.getCupsDescriptions();
 		},
 		watch:{
 			deleteFlag(){

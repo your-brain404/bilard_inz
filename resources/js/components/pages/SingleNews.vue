@@ -36,12 +36,12 @@
 		<v-divider></v-divider>
 		<v-row>
 			<v-col>
-				<h4 class="single-news-comments-title">Masz pytania lub chcesz podzielić się swoją opinią? Napisz komentarz!</h4>
+				<h4 class="single-news-comments-title">{{ comments_descriptions.question }}</h4>
 			</v-col>
 		</v-row>
 		<v-row>
 			<v-col>
-				<Comments />
+				<Comments :comments_descriptions="comments_descriptions" />
 			</v-col>
 		</v-row>
 
@@ -62,14 +62,15 @@
 				gallery: [],
 				galleryLightbox: [],
 				lightbox: false,
-				activePhotoId: 0
-
+				activePhotoId: 0,
+				comments_descriptions: {},
 			}
 		},
 		methods: {
-			getUrl(src) {
-				return url(src);
+			getCommentsDescriptions() {
+				axios.get('/api/comments_descriptions/get_one/1').then(res => this.comments_descriptions = res.data);
 			},
+			getUrl: src => url(src),
 			getSingleNews() {
 				this.$store.commit('loading', true);
 				axios.get(`/api/news/get_one/${this.$route.params.id}`).then(res => {
@@ -99,7 +100,7 @@
 		created() {
 			this.getSingleNews();
 			this.getGallery();
-			
+			this.getCommentsDescriptions();
 		},
 		components: {
 			Lightbox, Comments

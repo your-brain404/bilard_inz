@@ -120,8 +120,8 @@
 			this.autoLogin();
 			this.setCart();
 			this.setMetaTitle();
-			
 			this.$store.dispatch('settings');
+			this.$store.dispatch('contact');
 			this.$store.dispatch('fetchAllUsers');
 			if (window.location.hash && window.location.hash == '#_=_') {
 				window.location.href = window.location.origin;

@@ -2,8 +2,8 @@
 	<v-container class="news">
 		<v-row class="justify-content-center mb-5">
 			<v-col>
-				<h2 class="about-title font-weight-bold text-center first-color">Aktualności</h2>
-				<h3 v-if="filter" class="first-color text-center ">Filtrowanie po: '{{ filterText }}'</h3>
+				<h2 class="about-title font-weight-bold text-center first-color">{{ news_descriptions.title }}</h2>
+				<h3 v-if="filter" class="first-color text-center ">{{ filterText }}</h3>
 			</v-col>
 		</v-row>
 		<Pagination v-if="$route.name != 'Main' && $route.name != 'AdminNews'" :length="pagination.last_page" @page="setPath" />
@@ -27,15 +27,15 @@
 					<v-divider></v-divider>
 					<div class="mb-2 d-flex flex-wrap">
 						<div class="news-attribute">
-							<v-icon color="primary" class="mr-1">mdi-calendar-month-outline</v-icon>
+							<v-icon color="primary" class="mr-1">mdi-{{ news_descriptions.date_icon }}</v-icon>
 							<i class="text--secondary mr-2">{{ new Date(info.created_at).toLocaleString() }}</i>
 						</div>
 						<router-link class="text--secondary mr-2 news-attribute" :to="`/aktualnosci/kategoria/${info.category.toLowerCase()}`">
-							<v-icon color="primary">mdi-bookmark-outline</v-icon>
+							<v-icon color="primary">mdi-{{ news_descriptions.category_icon }}</v-icon>
 							<i class="category">{{ info.category }}</i>
 						</router-link>
 						<div @click="showCom(info.id)" class="comments news-attribute">
-							<v-icon  color="primary">mdi-comment-text-outline</v-icon>
+							<v-icon  color="primary">mdi-{{ news_descriptions.comment_icon }}</v-icon>
 							<i class="mr-2 text--secondary">{{ getCommentsLength(info.id) }}</i>
 						</div>
 
@@ -43,7 +43,7 @@
 					<v-divider></v-divider>
 
 					<div v-if="info.tags.length > 0">
-						<v-icon color="primary">mdi-tag-multiple-outline</v-icon>
+						<v-icon color="primary">mdi-{{ news_descriptions.tags_icon }}</v-icon>
 						<router-link class="-link" v-for="tag in info.tags" :key="tag.id" :to="`/aktualnosci/tag/${tag.text}`">
 							<v-chip class="mr-1 tag-chip " color="primary" small><i class="">#{{ tag.text }}</i></v-chip>
 						</router-link>
@@ -52,14 +52,14 @@
 					<div v-if="showComments[i].show">
 						<v-divider></v-divider>
 						<div class="show-more-comments">
-							<i  v-if="paginateComments < getCommentsLength(info.id)" @click="paginateComments += 3">Pokaż więcej komentarzy ({{ getCommentsLength(info.id) - paginateComments }})</i>
+							<i  v-if="paginateComments < getCommentsLength(info.id)" @click="paginateComments += 3">{{ comments_descriptions.show }} ({{ getCommentsLength(info.id) - paginateComments }})</i>
 						</div>
 
 						<div v-for="(com, j) in getPostComments(info.id)" v-if="(j > (getPostComments(info.id).length - 1) - paginateComments)" :key="com.id" class="d-flex justify-content-between mb-3">
 							<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
 								<v-chip class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
 								</v-chip>
-								<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">Usuń</p>
+								<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">{{ comments_descriptions.delete }}</p>
 							</div>
 							<div class="d-flex flex-column align-items-center">
 								<div class="bg-picture comment-photo" :style="`background-image: url(${getAvatar($store.getters.userById(com.user_id).photo)})`"></div>
@@ -69,14 +69,14 @@
 							<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
 								<v-chip  color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
 								</v-chip>
-								<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">Usuń</p>
+								<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">{{ comments_descriptions.delete }}</p>
 							</div>
 						</div>
 						<div class="d-flex mt-4 flex-nowrap align-items-center" >
-							<v-text-field class="comment-input mr-2" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-text-field>
+							<v-text-field class="comment-input mr-2" v-model="newComment" :label="comments_descriptions.write" dense rounded outlined></v-text-field>
 							<v-btn :disabled="newComment == ''" rounded @click="sendComment(info.id)" color="primary">
-								<v-icon left>mdi-billiards</v-icon>
-								<span>Wyślij</span>
+								<v-icon left>mdi-{{ comments_descriptions.button_icon }}</v-icon>
+								<span>{{ comments_descriptions.send }}</span>
 							</v-btn>
 						</div>
 					</div>
@@ -86,7 +86,7 @@
 		</v-container>
 		<router-link to="/aktualnosci">
 			<v-col>
-				<v-btn v-if="$route.path == '/'" class="mt-5" color="primary" link large block >Zobacz aktualności</v-btn>
+				<v-btn v-if="$route.path == '/'" class="mt-5" color="primary" link large block >{{ news_descriptions.button_name }}</v-btn>
 			</v-col>
 		</router-link>
 
@@ -114,15 +114,23 @@
 				user: {},
 				paginateComments: 3,
 				pagination: {},
+				comments_descriptions: {},
+				news_descriptions: {},
 			}
 		},
 		created(){
 			this.getNews();
+			this.getCommentsDescriptions();
+			this.getNewsDescriptions();
 		},
 		methods:{
-			slug(title) {
-				return slugify(title);
+			getCommentsDescriptions() {
+				axios.get('/api/comments_descriptions/get_one/1').then(res => this.comments_descriptions = res.data);
 			},
+			getNewsDescriptions() {
+				axios.get('/api/news_descriptions/get_one/1').then(res => this.news_descriptions = res.data);
+			},
+			slug: title => slugify(title),
 			setPath(event) {
 				if(this.$route.params.page != event) this.$router.push({name: 'NewsListingPage', params: {page: event}});
 			},
@@ -246,7 +254,7 @@
 				return this.$route.params.category || this.$route.params.tag ? true : false;
 			},
 			filterText() {
-				return this.$route.params.category ? `Kategoria - ${this.$route.path.split('/')[3][0].toUpperCase()}${this.$route.path.split('/')[3].substring(1)}` : `Tagu - ${this.$route.path.split('/')[3]}`; 
+				return this.$route.params.category ? `${this.news_descriptions.filter_category} ${this.$route.path.split('/')[3][0].toUpperCase()}${this.$route.path.split('/')[3].substring(1)}` : `${this.news_descriptions.filter_tag} ${this.$route.path.split('/')[3]}`; 
 			}
 		},
 		components: {

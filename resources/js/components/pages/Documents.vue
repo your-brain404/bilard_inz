@@ -1,7 +1,7 @@
 <template>
 	<v-container class="py-12 history">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Dokumenty</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ documents_descriptions.title }}</h2>
 		</v-row>
 		<v-row v-for="(doc, i) in documents" :key="i" class="mb-0">
 			<v-col cols="12" class="d-flex flex-column justify-content-center">
@@ -20,10 +20,14 @@
 		data(){
 			return{
 				documents: [],
+				documents_descriptions: {}
 			}
 		},
 		
 		methods:{
+			getDocumentsDescriptions() {
+				axios.get('/api/documents_descriptions/get_one/1').then(res => this.documents_descriptions = res.data);
+			},
 			getUrl(src){
 				return url(src);
 			},
@@ -42,6 +46,7 @@
 		
 		created(){
 			this.getData();
+			this.getDocumentsDescriptions();
 		},
 		
 	}

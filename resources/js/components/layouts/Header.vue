@@ -1,5 +1,5 @@
 <template>
-	<v-card class="overflow-hidden">
+	<v-card flat class="overflow-hidden">
 		<Drawer :drawer="drawer" @closeDrawer="drawer = false" />
 		<v-app-bar color="#6A76AB" dark shrink-on-scroll prominent :src="banner" fade-img-on-scroll scroll-target="#scrolling-techniques-3" extension-height="100px">
 			<template v-slot:img="{ props }">

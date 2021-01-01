@@ -1,11 +1,14 @@
 <template>
 	<div>
-		<v-btn icon dark @click="dialog = true">
-			<v-icon>mdi-account</v-icon>
-		</v-btn>
-		<v-dialog class="position-relative" v-model="dialog" persistent>
+		<div>
+			<v-btn color="primary" icon dark >
+				<v-icon>mdi-account</v-icon>
+			</v-btn>
+			<span>Zaloguj się!</span>
+		</div>
+		<v-dialog @input="v => v || closeLogin()" class="position-relative" v-model="dialog" persistent>
 			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${origin}/storage/img/auth/stol.jpg)`">
-				<div @click="dialog = false" class="close-button">
+				<div @click="closeLogin()" class="close-button">
 					<v-icon color="white">mdi-close</v-icon>
 				</div>
 				<form class="position-relative login-form">
@@ -48,11 +51,11 @@
 		components:{
 			Facebook
 		},
+		props: ['dialog'],
 
 		data: () => ({
 			email: '',
 			password: '',
-			dialog: false,
 			origin: window.location.origin
 			
 		}),
@@ -75,6 +78,9 @@
 		},
 
 		methods: {
+			closeLogin() {
+				this.$emit('closeLogin');
+			},
 			submit () {
 				if(!this.$v.$anyError) {
 					this.$store.dispatch('authLogin', {email: this.email, password: this.password});

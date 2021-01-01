@@ -12,7 +12,7 @@
 					<h3 class="about-content-title">{{ row.subtitle }}</h3>
 					<p class="about-content-text" v-html="row.short_description"></p>
 					<router-link to="/o-klubie" class="">
-						<v-btn v-if="$route.path == '/'" outlined color="#da5a33" link class="w-100 offer-button">Czytaj więcej</v-btn>
+						<v-btn v-if="$route.path == '/'" outlined color="#da5a33" link class="w-100 offer-button">{{ row.button_name }}</v-btn>
 					</router-link>
 				</v-col>
 			</v-row>

@@ -24,6 +24,15 @@ import ShopItems from '../components/shop/ShopItems'
 import ShopItemColors from '../components/shop/ShopItemColors'
 import DeliveryOptions from '../components/shop/DeliveryOptions'
 import Settings from '@/components/settings/Settings'
+import Contact from '@/components/settings/Contact'
+import CommentsDescriptions from '@/components/news/CommentsDescriptions'
+import ContactDescriptions from '@/components/contact/ContactDescriptions'
+import CupsDescriptions from '@/components/cups/CupsDescriptions'
+import DocumentsDescriptions from '@/components/emit-data-blocks/DocumentsDescriptions'
+import GalleryDescriptions from '@/components/emit-data-blocks/GalleryDescriptions'
+import HistoryDescriptions from '@/components/emit-data-blocks/HistoryDescriptions'
+import LiveBroadcastsDescriptions from '@/components/emit-data-blocks/LiveBroadcastsDescriptions'
+import NewsDescriptions from '@/components/emit-data-blocks/NewsDescriptions'
 
 export default {
 	main:[
@@ -33,6 +42,8 @@ export default {
 	
 	news:[
 	{title: 'Aktualności', component: News, tablename: 'news', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: true},
+	{title: 'Aktualności opisy', component: NewsDescriptions, tablename: 'news_descriptions', table: []},
+	{title: 'Komentarze opisy', component: CommentsDescriptions, tablename: 'comments_descriptions', table: []},
 	],
 
 	about_us: [
@@ -54,18 +65,22 @@ export default {
 
 	cups: [
 	{title: 'Puchary', component: Cups, tablename: 'cups', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
+	{title: 'Puchary opisy', component: CupsDescriptions, tablename: 'cups_descriptions', table: []},
 	],
 
 	history: [
 	{title: 'Historia', component: History, tablename: 'history', table: [], multiple: true, removable: true, gallery: true, active: false, home_page: false},
+	{title: 'Historia Opisy', component: HistoryDescriptions, tablename: 'history_descriptions', table: []},
 	],
 
 	live_broadcasts: [
 	{title: 'Transmisje na żywo', component: LiveBroadcasts, tablename: 'live_broadcasts', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false},
+	{title: 'Transmisje na żywo Opisy', component: LiveBroadcastsDescriptions, tablename: 'live_broadcasts_descriptions', table: []},
 	],
 
 	mails: [
 	{title: 'Skrzynka pocztowa', component: Mails, tablename: 'mails', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: true},
+	{title: 'Kontakt opisy', component: ContactDescriptions, tablename: 'contact_descriptions', table: []},
 	],
 
 	users: [
@@ -74,6 +89,7 @@ export default {
 
 	gallery_page: [
 	{title: 'Galeria', component: GalleryPage, tablename: 'gallery_page', table: [], multiple: false, removable: false, gallery: true, active: false, home_page: false, answer: false},
+	{title: 'Galeria Opisy', component: GalleryDescriptions, tablename: 'gallery_descriptions', table: []},
 	],
 
 	price_list_categories: [
@@ -110,10 +126,13 @@ export default {
 
 	documents: [
 	{title: 'Dokumenty', component: Documents, tablename: 'documents', table: [], multiple: true, removable: true, active: true},
+	{title: 'Dokumenty Opisy', component: DocumentsDescriptions, tablename: 'documents_descriptions', table: []},
 	],
 
 	settings: [
 	{title: 'Ustawienia', component: Settings, tablename: 'settings', table: [], multiple: false, removable: false},
+	{title: 'Dane Kontaktowe', component: Contact, tablename: 'contact', table: [], multiple: false, removable: false},
+
 	],
 
 }

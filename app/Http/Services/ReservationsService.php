@@ -8,6 +8,7 @@ use App\Reservations;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewReservation;
 use App\ServiceEquipments;
+use App\Contact;
 
 class ReservationsService {
 
@@ -21,7 +22,7 @@ class ReservationsService {
 		$data = $request->all();
 		$data['service_equipment'] = ServiceEquipments::find($data['service_equipment_id']);
 
-		Mail::to('dany97971@gmail.com')->send(new NewReservation($data));
+		Mail::to(Contact::find(1)->email_1)->send(new NewReservation($data));
 
 
 		if ($reservation->save()) {

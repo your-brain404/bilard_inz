@@ -1,7 +1,7 @@
 <template>
 	<v-container class="py-12">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Galeria</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ gallery_descriptions.title }}</h2>
 		</v-row>
 		<v-row>
 			<v-col @click="lightbox = true; activePhotoId = i" v-for="(photo, i) in gallery" :key="i" cols="12" lg="4">
@@ -25,10 +25,14 @@
 				gallery: [],
 				lightbox: false,
 				galleryLightbox: [],
-				activePhotoId: 0
+				activePhotoId: 0,
+				gallery_descriptions: {}
 			}
 		},
 		methods: {
+			getGalleryDescriptions() {
+				axios.get('/api/gallery_descriptions/get_one/1').then(res => this.gallery_descriptions = res.data);
+			},
 			getUrl: src => url(src),
 			getGallery() {
 				this.$store.commit('loading', true);
@@ -46,6 +50,7 @@
 		},
 		created() {
 			this.getGallery();
+			this.getGalleryDescriptions();
 		},
 		components: {
 			Lightbox

@@ -15,12 +15,13 @@ use App\Mail\NewsletterForm;
 use App\Http\Resources\MailsResource;
 use App\Mails;
 use App\Attachments;
+use App\Contact;
 
 use Illuminate\Mail\Mailable;
 
 class MailService {
 
-	protected static $email = 'dany97971@gmail.com';
+	protected static $email = Contact::find(1)->email_1;
 
 	public static function questionValidation(array $data): bool {
 		$validator = Validator::make($data, [

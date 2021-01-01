@@ -1,7 +1,7 @@
 <template>
 	<v-container class="py-12 history">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Historia</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ history_descriptions.title }}</h2>
 		</v-row>
 		<v-row v-for="(info, i) in history" :key="i" class="mb-12">
 			<v-col cols="12" lg="8">
@@ -36,9 +36,13 @@
 				galleries: [],
 				activePhotoIds: [],
 				galleriesLightbox: [],
+				history_descriptions: {},
 			}
 		},
 		methods: {
+			getHistoryDescriptions() {
+				axios.get('/api/history_descriptions/get_one/1').then(res => this.history_descriptions = res.data);
+			},
 			getHistory(){
 				this.$store.commit('loading', true);
 				axios.get(`/api/history/get_all`).then(res => {
@@ -80,6 +84,7 @@
 		},
 		created() {
 			this.getHistory();
+			this.getHistoryDescriptions();
 		},
 		components: {
 			Lightbox

@@ -1,6 +1,6 @@
 <template>
 	<v-navigation-drawer v-model="drawer" :color="color" left :permanent="true" expand-on-hover app dark >
-		<v-list dense nav class="py-0" >
+		<v-list dense nav class="py-0 pr-0" >
 			<v-list-item two-line :class="'px-0'">
 				<v-list-item-avatar>
 					<img :src="$store.getters.user.photo != '' ? getAvatar($store.getters.user.photo) : placeholder">
@@ -17,7 +17,6 @@
 			<v-divider></v-divider>
 			<v-list-item-group v-model="selectedItem">
 				<div v-for="(item, i) in items" :key="item.title">
-					<v-divider v-if="item.title == 'Sklep'"></v-divider>
 					<v-list-item  @load="item.path.split('/')[1] == $route.path.split('/')[1] ? selectedItem = i : true"  link active-class="nav-link" @click="$route.path == item.path ? true : $router.push(item.path)" >
 						<v-list-item-icon>
 							<v-icon>{{ item.icon }}</v-icon>
@@ -45,6 +44,7 @@
 				
 				items: [
 				{ title: 'Strona główna', icon: 'mdi-view-dashboard', path: '/admin-panel' },
+				{ title: 'Sklep', icon: 'mdi-cart', path: '/admin-panel/shop' },
 				{ title: 'Aktualności', icon: 'mdi-newspaper', path: '/admin-panel/news' },
 				{ title: 'O Klubie', icon: 'mdi-information', path: '/admin-panel/about_us' },
 				{ title: 'Oferta', icon: 'mdi-tag-multiple', path: '/admin-panel/offers' },
@@ -52,15 +52,14 @@
 				{ title: 'Puchary', icon: 'mdi-trophy', path: '/admin-panel/cups' },
 				{ title: 'Historia', icon: 'mdi-history', path: '/admin-panel/history' },
 				{ title: 'Transmisje na żywo', icon: 'mdi-antenna', path: '/admin-panel/live_broadcasts' },
-				{ title: 'Galeria', icon: 'mdi-image-multiple', path: '/admin-panel/gallery_page/gallery/1' },
+				{ title: 'Galeria', icon: 'mdi-image-multiple', path: '/admin-panel/gallery_page' },
 				{ title: 'Cennik', icon: 'mdi-clipboard-list', path: '/admin-panel/price_list_categories' },
-				{ title: 'Skrzynka pocztowa', icon: 'mdi-mailbox', path: '/admin-panel/mails' },
 				{ title: 'Rezerwacje', icon: 'mdi-calendar', path: '/admin-panel/reservations' },
 				{ title: 'Dokumenty', icon: 'mdi-file-multiple', path: '/admin-panel/documents' },
+				{ title: 'Skrzynka pocztowa', icon: 'mdi-mailbox', path: '/admin-panel/mails' },
+				{ title: 'Użytkownicy', icon: 'mdi-account', path: '/admin-panel/users' },
 				{ title: 'Podstrony', icon: 'mdi-folder-multiple', path: '/admin-panel/subpages' },
 				{ title: 'Ustawienia', icon: 'mdi-cog', path: '/admin-panel/settings' },
-				{ title: 'Użytkownicy', icon: 'mdi-account', path: '/admin-panel/users' },
-				{ title: 'Sklep', icon: 'mdi-cart', path: '/admin-panel/shop' },
 				],
 				color: '#da5a33',
 			}

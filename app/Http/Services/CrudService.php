@@ -32,7 +32,6 @@ class CrudService {
 	}
 
 	public static function getAll(){
-		
 		return self::$model::all();
 	}
 

@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer @input="v => v || closeDrawer()" v-model="drawer" absolute bottom temporary>
+	<v-navigation-drawer class="public-drawer" @input="v => v || closeDrawer()" v-model="drawer" absolute bottom temporary>
 		<v-list nav dense>
 			<v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
 				<v-list-item v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator'" @click="$router.push('/admin-panel')">
@@ -12,16 +12,16 @@
 				<v-list-item @click="cartMenu = true">
 					<CartMenu :menu="cartMenu" @closeMenu="cartMenu = false" color="primary"/>
 				</v-list-item>
-				<v-list-item v-if="!$store.getters.token">
+				<v-list-item @click="login = true" v-if="!$store.getters.token">
 					<div >
-						<Login  @openRegister="register = true"  />
+						<Login :dialog="login" @closeLogin="login = false" @openRegister="register = true"  />
 						<Register :dialog="register" @closeRegister="register = false"/>
 					</div>
 				</v-list-item>
 				<v-list-item class="position-relative" v-else @click="accountMenu = true">
 					
 					<div>
-						<v-btn class="header-button" color="primary" icon dark >
+						<v-btn class="header-button" color="primary" icon  >
 							<v-icon>mdi-account</v-icon>
 						</v-btn>
 						<span>Konto</span>
@@ -77,6 +77,7 @@
 			return {
 				edit: false,
 				cartMenu: false,
+				login: false,
 				user_data: {
 					name: '',
 					photo: '',
@@ -136,3 +137,9 @@
 	}
 </script>
 
+
+<style>
+	.public-drawer {
+		box-shadow: unset!important;
+	}
+</style>

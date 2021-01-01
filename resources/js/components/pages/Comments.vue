@@ -2,10 +2,10 @@
 	<div class="comments">
 
 		<div v-if="comments.length > 3 && paginateComments < comments.length" class="show-more-comments">
-			<i v-if="paginateComments < comments.length" @click="paginateComments += 3">Pokaż więcej komentarzy ({{ comments.length - paginateComments }})</i>
+			<i v-if="paginateComments < comments.length" @click="paginateComments += 3">{{ comments_descriptions.show }} ({{ comments.length - paginateComments }})</i>
 		</div>
 		<div v-if="paginateComments != 3" class="show-more-comments">
-			<i @click="paginateComments = 3">Zwiń komentarze</i>
+			<i @click="paginateComments = 3">{{ comments_descriptions.hide }}</i>
 		</div>
 
 
@@ -13,7 +13,7 @@
 			<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
 				<v-chip class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
-				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">Usuń</p>
+				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">{{ comments_descriptions.delete }}</p>
 			</div>
 			<div class="d-flex flex-column align-items-center">
 				<div class="bg-picture comment-photo" :style="`background-image: url(${getAvatar($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
@@ -24,14 +24,14 @@
 			<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
 				<v-chip  color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
-				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">Usuń</p>
+				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">{{ comments_descriptions.delete }}</p>
 			</div>
 		</div>
 		<div class="d-flex mt-12 align-items-center new-comment-container" >
-			<v-textarea @keyup.enter="$event.ctrlKey ? newComment += '\n' : sendComment($route.params.id)"  class="comment-textarea mr-2 new-comment-item" v-model="newComment" label="Napisz komentarz" dense rounded outlined></v-textarea>
+			<v-textarea @keyup.enter="$event.ctrlKey ? newComment += '\n' : sendComment($route.params.id)"  class="comment-textarea mr-2 new-comment-item" v-model="newComment" :label="comments_descriptions.write" dense rounded outlined></v-textarea>
 			<v-btn class="new-comment-item" :disabled="newComment == ''" rounded @click="sendComment($route.params.id)" color="primary">
-				<v-icon left>mdi-billiards</v-icon>
-				<span>Wyślij</span>
+				<v-icon left>mdi-{{ comments_descriptions.button_icon }}</v-icon>
+				<span>{{ comments_descriptions.send }}</span>
 			</v-btn>
 		</div>
 
@@ -43,8 +43,10 @@
 	import url from '../../helpers/photo/url.js'
 	import avatar from '../../helpers/photo/avatar.js'
 	import {db} from '../../firebase/firebase.js'
+	import axios from 'axios'
 
 	export default {
+		props: ['comments_descriptions'],
 		data() {
 			return {
 				paginateComments: 3,

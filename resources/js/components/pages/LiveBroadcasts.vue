@@ -1,7 +1,7 @@
 <template>
 	<v-container class="py-12 history">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Transmisje na żywo</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ live_broadcasts_descriptions.title }}</h2>
 		</v-row>
 		<v-row v-for="(live, i) in live_broadcasts" :key="i" class="mb-0">
 			<v-col cols="12" class="d-flex flex-column justify-content-center">
@@ -28,10 +28,14 @@
 		},
 		data() {
 			return {
-				live_broadcasts: []
+				live_broadcasts: [],
+				live_broadcasts_descriptions: {}
 			}
 		},
 		methods: {
+			getLiveBroadcastsDescriptions() {
+				axios.get('/api/live_broadcasts_descriptions/get_one/1').then(res => this.live_broadcasts_descriptions = res.data);
+			},
 			getLiveBroadcasts(){
 				let endpoint = 'get_all';
 				if(this.$route.path == '/transmisje') endpoint = 'get_where?active=1';
@@ -49,6 +53,7 @@
 		},
 		created() {
 			this.getLiveBroadcasts();
+			this.getLiveBroadcastsDescriptions();
 		},
 
 	}

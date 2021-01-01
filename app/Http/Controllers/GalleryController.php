@@ -10,7 +10,7 @@ use App\Http\Services\CrudService;
 class GalleryController extends Controller
 {
 	public function __construct() {
-		new CrudService('App\Gallery');
+		new CrudService('App\\'. str_replace('Controller', '', explode('\\', __CLASS__)[array_key_last(explode('\\', __CLASS__))]));
 	}
 
     public function getPhotos($table, $id) {

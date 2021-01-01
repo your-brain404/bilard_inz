@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ShopItemsController extends Controller
 {
     public function __construct() {
-		new CrudService('App\ShopItems');
+		new CrudService('App\\'. str_replace('Controller', '', explode('\\', __CLASS__)[array_key_last(explode('\\', __CLASS__))]));
 	}
 
     public function getAll() {
