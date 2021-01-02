@@ -33,6 +33,11 @@ import GalleryDescriptions from '@/components/emit-data-blocks/GalleryDescriptio
 import HistoryDescriptions from '@/components/emit-data-blocks/HistoryDescriptions'
 import LiveBroadcastsDescriptions from '@/components/emit-data-blocks/LiveBroadcastsDescriptions'
 import NewsDescriptions from '@/components/emit-data-blocks/NewsDescriptions'
+import OffersDescriptions from '@/components/emit-data-blocks/OffersDescriptions'
+import PartnersDescriptions from '@/components/emit-data-blocks/PartnersDescriptions'
+import PlayersDescriptions from '@/components/emit-data-blocks/PlayersDescriptions'
+import PriceListDescriptions from '@/components/emit-data-blocks/PriceListDescriptions'
+import ReservationsDescriptions from '@/components/emit-data-blocks/ReservationsDescriptions'
 
 export default {
 	main:[
@@ -49,6 +54,7 @@ export default {
 	about_us: [
 	{title: 'O klubie', component: AboutUs, tablename: 'about_us', table: [], multiple: false, removable: false, gallery: true, active: false, home_page: false},
 	{title: 'Partnerzy', component: Partners, tablename: 'partners', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false},
+	{title: 'Partnerzy Opisy', component: PartnersDescriptions, tablename: 'partners_descriptions', table: []},
 	],
 
 	subpages: [
@@ -57,10 +63,12 @@ export default {
 
 	offers: [
 	{title: 'Oferta', component: Offers, tablename: 'offers', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: true},
+	{title: 'Oferta opisy', component: OffersDescriptions, tablename: 'offers_descriptions', table: []},
 	],
 
 	players: [
 	{title: 'Zawodnicy', component: Players, tablename: 'players', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
+	{title: 'Zawodnicy opisy', component: PlayersDescriptions, tablename: 'players_descriptions', table: []},
 	],
 
 	cups: [
@@ -70,7 +78,7 @@ export default {
 
 	history: [
 	{title: 'Historia', component: History, tablename: 'history', table: [], multiple: true, removable: true, gallery: true, active: false, home_page: false},
-	{title: 'Historia Opisy', component: HistoryDescriptions, tablename: 'history_descriptions', table: []},
+	{title: 'Historia opisy', component: HistoryDescriptions, tablename: 'history_descriptions', table: []},
 	],
 
 	live_broadcasts: [
@@ -94,6 +102,7 @@ export default {
 
 	price_list_categories: [
 	{title: 'Cennik Kategorie', component: PriceListCategories, tablename: 'price_list_categories', table: [], multiple: true, removable: true, list: 'price_list', active: true, home_page: false, answer: false},
+	{title: 'Cennik opisy', component: PriceListDescriptions, tablename: 'price_list_descriptions', table: []},
 	],
 
 	price_list: [
@@ -103,7 +112,7 @@ export default {
 	reservations: [
 	{title: 'Usługi', component: Services, tablename: 'services', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: false, list: 'service_equipments'},
 	{title: 'Rezerwacje', component: Reservations, tablename: 'reservations', table: [], multiple: false, removable: true, gallery: false, active: true, home_page: false, answer: false, is_paid: true },
-	
+	{title: 'Rezerwacje opisy', component: ReservationsDescriptions, tablename: 'reservations_descriptions', table: []},
 	], 
 
 	service_equipments: [

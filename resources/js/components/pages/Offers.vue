@@ -2,7 +2,7 @@
 	<v-container class="">
 		<v-container>
 			<v-row class="justify-content-center">
-				<h2 class="about-title font-weight-bold text-center first-color">A co w ofercie?</h2>
+				<h2 class="about-title font-weight-bold text-center first-color">{{ offers_descriptions.title }}</h2>
 			</v-row>
 			<v-row justify="center">
 				<v-col v-for="(offer, i) in offers" :key="i" cols="12" sm="6" md="4">
@@ -20,7 +20,7 @@
 				</v-col>
 				<v-col cols="12">
 					<router-link v-if="$route.path != '/oferta'" to="/oferta">
-						<v-btn class="my-5 offer-button"  link x-large block color="#da5a33" outlined>CZYTAJ WIĘCEJ</v-btn>
+						<v-btn class="my-5 offer-button"  link x-large block color="#da5a33" outlined>{{ offers_descriptions.button_name }}</v-btn>
 					</router-link>
 				</v-col>
 			</v-row>
@@ -37,16 +37,19 @@
 		props:['deleteFlag'],
 		data(){
 			return{
-				offers: []
+				offers: [],
+				offers_descriptions: {}
 			}
 		},
 		created(){
 			this.getOffers();
+			this.getOffersDescriptions();
 		},
 		methods:{
-			slug(title) {
-				return slugify(title);
+			getOffersDescriptions() {
+				axios.get('/api/offers_descriptions/get_one/1').then(res => this.offers_descriptions = res.data);
 			},
+			slug: title => slugify(title),
 			getOffers() {
 				let endpoint = `get_where?active=1`;
 				if(this.$route.path == '/') endpoint = `get_where?active=1&home_page=1`;
@@ -61,9 +64,7 @@
 					this.$store.commit('loading', false);
 				})
 			},
-			getPhoto(src){
-				return url(src);
-			},
+			getPhoto: src => url(src),
 		},
 		watch:{
 			deleteFlag(){

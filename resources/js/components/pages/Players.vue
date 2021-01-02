@@ -1,7 +1,7 @@
 <template>
 	<v-container class="py-12">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Zawodnicy</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ players_descriptions.title }}</h2>
 		</v-row>
 		<v-row justify="center">
 			<v-col v-for="(player, i) in players" :key="i" cols="12" lg="6">
@@ -44,10 +44,14 @@
 		},
 		data() {
 			return {
-				players: []
+				players: [],
+				players_descriptions: {}
 			}
 		},
 		methods: {
+			getPlayersDescriptions() {
+				axios.get('/api/players_descriptions/get_one/1').then(res => this.players_descriptions = res.data);
+			},
 			slug: title => slugify(title),
 			getPlayers(){
 				let endpoint = 'get_all';
@@ -67,6 +71,7 @@
 		},
 		created() {
 			this.getPlayers();
+			this.getPlayersDescriptions();
 		},
 
 	}

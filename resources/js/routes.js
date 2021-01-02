@@ -38,6 +38,11 @@ import GalleryDescriptionsForm from './views/admin/forms/GalleryDescriptions'
 import HistoryDescriptionsForm from './views/admin/forms/HistoryDescriptions'
 import LiveBroadcastsDescriptionsForm from './views/admin/forms/LiveBroadcastsDescriptions'
 import NewsDescriptionsForm from './views/admin/forms/NewsDescriptions'
+import OffersDescriptionsForm from './views/admin/forms/OffersDescriptions'
+import PartnersDescriptionsForm from './views/admin/forms/PartnersDescriptions'
+import PlayersDescriptionsForm from './views/admin/forms/PlayersDescriptions'
+import PriceListDescriptionsForm from './views/admin/forms/PriceListDescriptions'
+import ReservationsDescriptionsForm from './views/admin/forms/ReservationsDescriptions'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -136,15 +141,25 @@ const routes = [
 
 {path: '/admin-panel/comments_descriptions/form/:id', component: CommentsDescriptionsForm, name: 'CommentsDescriptionsFormEdit'},
 
+{path: '/admin-panel/reservations_descriptions/form/:id', component: ReservationsDescriptionsForm, name: 'ReservationsDescriptionsFormEdit'},
+
+{path: '/admin-panel/partners_descriptions/form/:id', component: PartnersDescriptionsForm, name: 'PartnersDescriptionsFormEdit'},
+
 {path: '/admin-panel/news_descriptions/form/:id', component: NewsDescriptionsForm, name: 'NewsDescriptionsFormEdit'},
 
 {path: '/admin-panel/documents_descriptions/form/:id', component: DocumentsDescriptionsForm, name: 'DocumentsDescriptionsFormEdit'},
+
+{path: '/admin-panel/price_list_descriptions/form/:id', component: PriceListDescriptionsForm, name: 'PriceListDescriptionsFormEdit'},
+
+{path: '/admin-panel/offers_descriptions/form/:id', component: OffersDescriptionsForm, name: 'OffersDescriptionsFormEdit'},
 
 {path: '/admin-panel/history_descriptions/form/:id', component: HistoryDescriptionsForm, name: 'HistoryDescriptionsFormEdit'},
 
 {path: '/admin-panel/live_broadcasts_descriptions/form/:id', component: LiveBroadcastsDescriptionsForm, name: 'LiveBroadcastsDescriptionsFormEdit'},
 
 {path: '/admin-panel/contact_descriptions/form/:id', component: ContactDescriptionsForm, name: 'ContactDescriptionsFormEdit'},
+
+{path: '/admin-panel/players_descriptions/form/:id', component: PlayersDescriptionsForm, name: 'PlayersDescriptionsFormEdit'},
 
 {path: '/admin-panel/cups_descriptions/form/:id', component: CupsDescriptionsForm, name: 'CupsDescriptionsFormEdit'},
 

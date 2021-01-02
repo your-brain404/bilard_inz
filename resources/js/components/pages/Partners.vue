@@ -1,7 +1,7 @@
 <template>
 	<v-container>
 		<v-row class="justify-content-center">
-			<h2 class="about-title font-weight-bold text-center first-color">Partnerzy</h2>
+			<h2 class="about-title font-weight-bold text-center first-color">{{ partners_descriptions.title }}</h2>
 		</v-row>
 		<carousel :items="carouselItems" :autoplayHoverPause="true" :responsive="{0: {items: 1}, 600:{items:2,},1024:{items:3}}" :rewind="true" :autoplayTimeout="1000" :autoplay="true" :dots="false" :loop="true" :nav="false" v-if="partners.length > 0" class="">
 			<img v-for="(partner, i) in partners" :key="i" class="pa-5" :src="getUrl(partner.photo)" alt="">
@@ -21,11 +21,15 @@
 			return {
 				partners: [],
 				screenWidth: $(document).width(),
-				carouselItems: 3
+				carouselItems: 3,
+				partners_descriptions: {}
 			}
 		},
 		
 		methods:{
+			getPartnersDescriptions() {
+				axios.get('/api/partners_descriptions/get_one/1').then(res => this.partners_descriptions = res.data);
+			},
 			getPartners(){
 				let endpoint = 'get_all';
 				if(this.$route.path == '/o-klubie') endpoint = 'get_where?active=1';
@@ -39,9 +43,7 @@
 					console.log(err);
 				})
 			},
-			getUrl(src){
-				return url(src);
-			},
+			getUrl: src => url(src),
 			setCarouselItems() {
 				if(this.screenWidth < 768) this.carouselItems = 1;
 				if(this.screenWidth < 992) this.carouselItems = 2;
@@ -50,6 +52,7 @@
 		created(){
 			this.getPartners();
 			this.setCarouselItems();
+			this.getPartnersDescriptions();
 		},
 		watch:{
 			deleteFlag(){

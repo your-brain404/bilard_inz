@@ -14,7 +14,7 @@
 			</v-card>
 			<v-divider class=""></v-divider>
 			<v-col class="first-bgc py-4 text-center white--text" cols="12" >
-				{{ new Date().getFullYear() }} — <strong>{{ settings.company }}</strong>
+				2021 — <strong>{{ settings.company }}</strong>
 			</v-col>
 		</v-row>
 	</v-footer>
