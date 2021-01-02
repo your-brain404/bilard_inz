@@ -1,11 +1,6 @@
 <?php
 namespace App\Http\Helpers;
 
-use App\Http\Helpers\FileHelper;
-use App\Gallery;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
-
 class ModelHelper {
 
 	public static function getTable($class): String {

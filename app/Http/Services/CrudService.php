@@ -17,29 +17,28 @@ class CrudService {
 		return $request->all();
 	}
 
-	public static function saveData(Request $request): Model{
+	public static function saveData(Request $request): Model {
 		$data = self::prependData($request);
 		$model = $request->isMethod('put') ? self::$model::where('id', $request->input('id'))->first()->fill($data) : self::$model::create($data);
+		
+ 		$model->save(); 
 
-		if ($model->save()) {
-
-			return $model;
-		}
+		return $model;
 	}
 
 	public static function getWhere(Request $request, String $sort) {
 		return self::$model::where($request->all())->orderBy('created_at', $sort)->get();
 	}
 
-	public static function getAll(){
+	public static function getAll() {
 		return self::$model::all();
 	}
 
-	public static function getOne(String $id): Model{
+	public static function getOne(String $id): Model {
 		return self::$model::find($id);
 	}
 
-	public static function destroy($id): Model{
+	public static function destroy($id): Model {
 		$model = self::$model::find($id);
 		$model->delete();
 		return $model;

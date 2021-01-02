@@ -43,6 +43,8 @@ import PartnersDescriptionsForm from './views/admin/forms/PartnersDescriptions'
 import PlayersDescriptionsForm from './views/admin/forms/PlayersDescriptions'
 import PriceListDescriptionsForm from './views/admin/forms/PriceListDescriptions'
 import ReservationsDescriptionsForm from './views/admin/forms/ReservationsDescriptions'
+import CalendarDescriptionsForm from './views/admin/forms/CalendarDescriptions'
+import DayFormatsForm from './views/admin/forms/DayFormats'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -135,6 +137,9 @@ const routes = [
 { path: '/admin-panel/lucky_number/form', component: LuckyNumberForm, name: 'LuckyNumberForm'},
 { path: '/admin-panel/lucky_number/form/:id', component: LuckyNumberForm, name: 'LuckyNumberFormEdit'},
 
+{ path: '/admin-panel/day_formats/form', component: DayFormatsForm, name: 'DayFormatsForm'},
+{ path: '/admin-panel/day_formats/form/:id', component: DayFormatsForm, name: 'DayFormatsFormEdit'},
+
 {path: '/admin-panel/settings/form/:id', component: SettingsForm, name: 'SettingsFormEdit'},
 
 {path: '/admin-panel/contact/form/:id', component: ContactForm, name: 'ContactFormEdit'},
@@ -142,6 +147,8 @@ const routes = [
 {path: '/admin-panel/comments_descriptions/form/:id', component: CommentsDescriptionsForm, name: 'CommentsDescriptionsFormEdit'},
 
 {path: '/admin-panel/reservations_descriptions/form/:id', component: ReservationsDescriptionsForm, name: 'ReservationsDescriptionsFormEdit'},
+
+{path: '/admin-panel/calendar_descriptions/form/:id', component: CalendarDescriptionsForm, name: 'CalendarDescriptionsFormEdit'},
 
 {path: '/admin-panel/partners_descriptions/form/:id', component: PartnersDescriptionsForm, name: 'PartnersDescriptionsFormEdit'},
 

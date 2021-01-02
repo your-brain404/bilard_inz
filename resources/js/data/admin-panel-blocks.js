@@ -38,6 +38,8 @@ import PartnersDescriptions from '@/components/emit-data-blocks/PartnersDescript
 import PlayersDescriptions from '@/components/emit-data-blocks/PlayersDescriptions'
 import PriceListDescriptions from '@/components/emit-data-blocks/PriceListDescriptions'
 import ReservationsDescriptions from '@/components/emit-data-blocks/ReservationsDescriptions'
+import CalendarDescriptions from '@/components/emit-data-blocks/CalendarDescriptions'
+import DayFormats from '@/components/emit-data-blocks/DayFormats'
 
 export default {
 	main:[
@@ -113,6 +115,8 @@ export default {
 	{title: 'Usługi', component: Services, tablename: 'services', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: false, list: 'service_equipments'},
 	{title: 'Rezerwacje', component: Reservations, tablename: 'reservations', table: [], multiple: false, removable: true, gallery: false, active: true, home_page: false, answer: false, is_paid: true },
 	{title: 'Rezerwacje opisy', component: ReservationsDescriptions, tablename: 'reservations_descriptions', table: []},
+	{title: 'Formaty dni (kalendarz)', component: DayFormats, tablename: 'day_formats', table: [], multiple: true, removable: true},
+	{title: 'Kalendarz opisy', component: CalendarDescriptions, tablename: 'calendar_descriptions', table: []},
 	], 
 
 	service_equipments: [
