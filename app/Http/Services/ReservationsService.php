@@ -4,6 +4,7 @@ namespace App\Http\Services;
 use Illuminate\Http\Request;
 use App\Http\Services\CrudService;
 use App\Http\Helpers\RecaptchaHelper;
+use App\Http\Helpers\ResponseHelper;
 use App\Reservations;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewReservation;
@@ -13,7 +14,7 @@ use App\Contact;
 class ReservationsService {
 
 	public static function saveData(Request $request) {
-		if(!RecaptchaHelper::validate($request->response)) return ResponseHelper::invalidRecaptcha();
+		if($request->isMethod('post') && !RecaptchaHelper::validate($request->response)) return ResponseHelper::invalidRecaptcha();
 
 		$data = CrudService::prependData($request);
 
