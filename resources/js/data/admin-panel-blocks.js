@@ -41,6 +41,9 @@ import ReservationsDescriptions from '@/components/emit-data-blocks/Reservations
 import CalendarDescriptions from '@/components/emit-data-blocks/CalendarDescriptions'
 import DayFormats from '@/components/emit-data-blocks/DayFormats'
 import ShopDescriptions from '@/components/emit-data-blocks/ShopDescriptions'
+import CartDescriptions from '@/components/emit-data-blocks/CartDescriptions'
+import BreadcrumbDescriptions from '@/components/emit-data-blocks/BreadcrumbDescriptions'
+import LayoutElements from '@/components/emit-data-blocks/LayoutElements'
 
 export default {
 	main:[
@@ -62,6 +65,11 @@ export default {
 
 	subpages: [
 	{title: 'Podstrony', component: Subpages, tablename: 'subpages', table: [], multiple: false, removable: false, gallery: false, active: true, home_page: false, order: true}
+	],
+
+	descriptions: [
+	{title: 'Breadcrumb opisy', component: BreadcrumbDescriptions, tablename: 'breadcrumb_descriptions', table: []},
+	{title: 'Elementy Layoutu', component: LayoutElements, tablename: 'layout_elements', table: []},
 	],
 
 	offers: [
@@ -128,6 +136,7 @@ export default {
 	{title: 'Kategorie Sklepu', component: ShopCategories, tablename: 'shop_categories', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, list:'shop_products'},
 	{title: 'Opcje wysyłki', component: DeliveryOptions, tablename: 'delivery_options', table: [], active: true},
 	{title: 'Sklep opisy', component: ShopDescriptions, tablename: 'shop_descriptions', table: []},
+	{title: 'Koszyk opisy', component: CartDescriptions, tablename: 'cart_descriptions', table: []},
 	],
 
 	shop_products: [

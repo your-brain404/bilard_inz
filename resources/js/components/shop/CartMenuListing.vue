@@ -1,7 +1,7 @@
 <template>
 	<v-card :flat="$route.path == '/koszyk'" class="p-3">
 		<v-card-title class="p-0 mb-4">
-			<h3 class="mb-0 cart-menu-title">Koszyk</h3>
+			<h3 class="mb-0 cart-menu-title">{{ cart_descriptions.step_1 }}</h3>
 		</v-card-title>
 		<v-divider></v-divider>
 		<div class="d-flex justify-content-between align-items-center mb-2 flex-wrap" v-for="(product, i) in cart" :key="i">
@@ -10,40 +10,40 @@
 				<div class="ml-2 cart-menu-product-content">
 					<p class="mb-0 cart-menu-product-title">{{ product.product.title }}</p>
 					<div class="d-flex">
-						<p :class="[{'discounted': product.product.discount }, 'mb-0']">{{ product.product.price.toFixed(2) }} PLN</p>
-						<p class="pl-3" v-if="product.product.discount">{{ getDiscountedPrice(product.product).toFixed(2) }} PLN</p>
+						<p :class="[{'discounted': product.product.discount }, 'mb-0']">{{ product.product.price.toFixed(2) }} {{ shop_descriptions.currency }}</p>
+						<p class="pl-3" v-if="product.product.discount">{{ getDiscountedPrice(product.product).toFixed(2) }} {{ shop_descriptions.currency }}</p>
 					</div>
 				</div>
 			</div>
 			<div class="d-flex align-items-center product-amount-container">
 				<v-btn small color="error" :disabled="product.amount == 1 || summary != undefined" @click="decreaseAmount(i)">
-					<v-icon>mdi-minus</v-icon>
+					<v-icon>mdi-{{ shop_descriptions.minus_icon }}</v-icon>
 				</v-btn>
 				<h2 class="px-3">{{ product.amount }}</h2>
 				<v-btn small color="success" :disabled="product.amount == product.product.amount || summary != undefined" @click="increaseAmount(i)">
-					<v-icon>mdi-plus</v-icon>
+					<v-icon>mdi-{{ shop_descriptions.plus_icon }}</v-icon>
 				</v-btn>
 				<v-btn :disabled="summary != undefined" @click="deleteProduct(i)" class="ml-5" icon color="error">
-					<v-icon>mdi-delete</v-icon>
+					<v-icon>mdi-{{ shop_descriptions.delete }}</v-icon>
 				</v-btn>
 			</div>
 		</div>
 		<div v-if="cart.length == 0">
-			<h2>Twój koszyk jest pusty! Odwiedź zakładkę <router-link to="/sklep">Sklep!</router-link></h2>
+			<h2><router-link to="/sklep">{{ cart_descriptions.empty }}</router-link></h2>
 		</div>
 
 		<v-card-actions class="p-0 mt-9 d-flex flex-wrap justify-content-between sum-container">
 			<div class="sum-item">
 				<div class="mb-4" v-if="delivery != undefined">
-					+ przesyłka ({{ compDelivery }})
+					{{ cart_descriptions.delivery }} ({{ compDelivery }})
 				</div>
 				<div class="cart-menu-sum">
-					Razem: <span>{{ sum.toFixed(2) }} PLN</span>
+					{{ cart_descriptions.sum }} <span>{{ sum.toFixed(2) }} {{ shop_descriptions.currency }}</span>
 				</div>
 			</div>
 			<router-link class="sum-item" v-if="$route.path != '/koszyk'" to="/koszyk">
 				<v-btn color="primary" class="font-weight-normal w-100" @click="$emit('closeMenu')" >
-					Przejdź do koszyka!
+					{{ cart_descriptions.go_to_cart }}
 				</v-btn>
 			</router-link>
 		</v-card-actions>
@@ -52,9 +52,16 @@
 
 <script>
 	import url from '../../helpers/photo/url'
+	import axios from 'axios'
 
 	export default {
 		props: ['summary', 'delivery'],
+		data() {
+			return {
+				shop_descriptions: {},
+				cart_descriptions: {}
+			}
+		},
 		computed: {
 			cart() {
 				return this.$store.getters.cart;
@@ -77,7 +84,12 @@
 			}
 		},
 		methods: {
-			
+			getShopDescriptions() {
+				axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+			},
+			getCartDescriptions() {
+				axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
+			},
 			getUrl: src => url(src),
 			increaseAmount(i) {
 				this.cart[i].amount++;
@@ -98,6 +110,10 @@
 			getDiscountedPrice: product => (product.price * ((100 - product.discount) / 100))
 
 		},
+		created() {
+			this.getCartDescriptions();
+			this.getShopDescriptions();
+		}
 	}
 </script>
 

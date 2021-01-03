@@ -1,7 +1,7 @@
 <template>
 	<v-card flat class="p-3">
 		<v-card-title class="p-0 mb-4">
-			<h2 class="mb-0 cart-menu-title" style="font-size: 2.5rem">Podsumowanie</h2>
+			<h2 class="mb-0 cart-menu-title" style="font-size: 2.5rem">{{ cart_descriptions.step_4 }}</h2>
 		</v-card-title>
 		<v-row>
 			<v-col cols="12" lg="6">
@@ -29,7 +29,7 @@
 	import Payments from './Payments' 
 
 	export default {
-		props: ['shipping_details', 'payments'],
+		props: ['shipping_details', 'payments', 'cart_descriptions'],
 		data() {
 			return {
 				delivery: {},

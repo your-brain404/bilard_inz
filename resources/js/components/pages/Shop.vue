@@ -8,10 +8,10 @@
 		</v-row>
 		<v-row>
 			<v-col cols="12" md="3">
-				<ShopCategories :shop_descriptions="shop_descriptions" @category="category = $event" />
+				<ShopCategories @category="category = $event" />
 			</v-col>
 			<v-col cols="12" md="9">
-				<component :shop_descriptions="shop_descriptions" :is="getComponent"></component>
+				<component :is="getComponent"></component>
 			</v-col>
 		</v-row>
 	</v-container>

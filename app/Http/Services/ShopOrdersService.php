@@ -26,6 +26,7 @@ class ShopOrdersService {
 			'main_flat_number' => $requestArr['shipping_details']['main_address']['flat_number'],
 			'main_zip_code' => $requestArr['shipping_details']['main_address']['zip_code'],
 			'main_message' => $requestArr['shipping_details']['main_address']['message'],
+			'main_city' => $requestArr['shipping_details']['main_address']['city'],
 		];
 
 		if($requestArr['shipping_details']['other_address'] == '1') {
@@ -36,6 +37,7 @@ class ShopOrdersService {
 			$data['second_flat_number'] = $requestArr['shipping_details']['second_address']['flat_number'];
 			$data['second_zip_code'] = $requestArr['shipping_details']['second_address']['zip_code'];
 			$data['second_message'] = $requestArr['shipping_details']['second_address']['message'];
+			$data['second_city'] = $requestArr['shipping_details']['second_address']['city'];
 		}
 
 		return $data;

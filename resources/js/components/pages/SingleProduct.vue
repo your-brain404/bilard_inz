@@ -2,17 +2,7 @@ v<template>
 	<v-container class="py-12 cup">
 		<v-row>
 			<v-col>
-				<div class="breadcrumb-container">
-					<router-link class="white--text breadcrumb-link" to="/">
-						<h3 class="breadcrumb-item ml-0">Strona główna </h3> 
-					</router-link>
-					> 
-					<router-link class="white--text breadcrumb-link" to="/sklep">
-						<h3 class="breadcrumb-item">Sklep </h3>
-					</router-link> 
-					> 
-					<h3 class="breadcrumb-item font-weight-bold">{{ shop_product.title }}</h3>
-				</div>
+				<Breadcrumb link="/sklep" :title="shop_product.title" :category="shop_descriptions.title" />
 			</v-col>
 		</v-row>
 		<v-row>
@@ -36,35 +26,35 @@ v<template>
 				<h2 class="font-weight-bold mb-0">{{ getProductOrItem('title') }}</h2>
 				<p>{{ getProductOrItem('subtitle') }}</p>
 				<h1 class="font-weight-bold d-flex">
-					<div class="mr-2">Cena: </div>
+					<div class="mr-2">{{ shop_descriptions.price }}</div>
 					<div>
-						<div v-if="getProductOrItem('price')" :class="[{'discounted': getProductOrItem('discount') }]">{{ getProductOrItem('price').toFixed(2) }} PLN </div>
+						<div v-if="getProductOrItem('price')" :class="[{'discounted': getProductOrItem('discount') }]">{{ getProductOrItem('price').toFixed(2) }} {{ shop_descriptions.currency }} </div>
 						<div v-if="getProductOrItem('discount')">
-							{{  (getProductOrItem('price') * ((100 - getProductOrItem('discount')) / 100)).toFixed(2)  }} PLN
+							{{  (getProductOrItem('price') * ((100 - getProductOrItem('discount')) / 100)).toFixed(2)  }} {{ shop_descriptions.currency }}
 							<br>
-							<span class="first-color">Rabat {{ getProductOrItem('discount') }}%</span>
+							<span class="first-color">{{ shop_descriptions.discount }} {{ getProductOrItem('discount') }}%</span>
 						</div>
 					</div>
 				</h1>
-				<h2 class="font-weight-bold">Ilość: </h2>
+				<h2 class="font-weight-bold">{{ shop_descriptions.amount }}</h2>
 				<div v-if="maxAmount != 0" class="d-flex">
 					<v-btn color="error" :disabled="amount == 1" @click="amount--">
-						<v-icon>mdi-minus</v-icon>
+						<v-icon>mdi-{{ shop_descriptions.minus_icon }}</v-icon>
 					</v-btn>
 					<h2 class="px-3">{{ amount }}</h2>
 					<v-btn color="success" :disabled="amount == maxAmount" @click="amount++">
-						<v-icon>mdi-plus</v-icon>
+						<v-icon>mdi-{{ shop_descriptions.plus_icon }}</v-icon>
 					</v-btn>
 				</div>
-				<div v-else>Wybrano maksymalną ilość! Sprawdź koszyk!</div>
+				<div v-else>{{ shop_descriptions.max_amount }}</div>
 				<v-btn :disabled="maxAmount == 0" @click="addToCart" color="primary" x-large outlined class="mt-5">
-					<v-icon left>mdi-cart-plus</v-icon>
-					<span>Dodaj do koszyka</span>
+					<v-icon left>mdi-{{ shop_descriptions.add_to_cart_icon }}</v-icon>
+					<span>{{ shop_descriptions.add_to_cart }}</span>
 				</v-btn>
 				<router-link to="/koszyk" class="w-100">
 					<v-btn color="primary" x-large class="mt-5 w-100">
-						<v-icon left>mdi-cart</v-icon>
-						<span>Kup Teraz!</span>
+						<v-icon left>mdi-{{ shop_descriptions.buy_now_icon }}</v-icon>
+						<span>{{ shop_descriptions.buy_now }}</span>
 					</v-btn>
 				</router-link>
 			</v-col>
@@ -90,7 +80,7 @@ v<template>
 	import Lightbox from '../lightbox/Lightbox'
 	import url from '../../helpers/photo/url.js'
 	import vZoom from 'vue-zoom'
-	
+	import Breadcrumb from '@/components/breadcrumb/Breadcrumb';
 
 	export default {
 		data() {
@@ -104,7 +94,8 @@ v<template>
 				shop_items: [],
 				activePhoto: -1,
 				amount: 1,
-				maxAmount: 0
+				maxAmount: 0,
+				shop_descriptions: {}
 			}
 		},
 		computed: {
@@ -124,6 +115,9 @@ v<template>
 			}
 		},
 		methods: {
+			getShopDescriptions() {
+				axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+			},
 			setMaxAmount() {
 				this.maxAmount = this.getMaxAmount();
 			},
@@ -198,10 +192,10 @@ v<template>
 		created() {
 			this.getShopProduct();
 			this.getGallery();
-			
+			this.getShopDescriptions();
 		},
 		components: {
-			Lightbox, vZoom
+			Lightbox, vZoom, Breadcrumb
 		},
 		
 	}

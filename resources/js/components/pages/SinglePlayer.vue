@@ -2,17 +2,7 @@
 	<v-container class="py-12 player">
 		<v-row>
 			<v-col>
-				<div class="breadcrumb-container">
-					<router-link class="white--text breadcrumb-link" to="/">
-						<h3 class="breadcrumb-item ml-0">Strona główna </h3> 
-					</router-link>
-					> 
-					<router-link class="white--text breadcrumb-link" to="/zawodnicy">
-						<h3 class="breadcrumb-item">Zawodnicy </h3>
-					</router-link> 
-					> 
-					<h3 class="breadcrumb-item font-weight-bold">{{ fullName }}</h3>
-				</div>
+				<Breadcrumb link="/zawodnicy" :title="fullName" :category="players_descriptions.title" />
 			</v-col>
 		</v-row>
 		<v-row>
@@ -48,6 +38,7 @@
 	import axios from 'axios'
 	import Lightbox from '../lightbox/Lightbox'
 	import url from '../../helpers/photo/url.js'
+	import Breadcrumb from '@/components/breadcrumb/Breadcrumb';
 
 	export default {
 		data() {
@@ -56,10 +47,14 @@
 				gallery: [],
 				galleryLightbox: [],
 				lightbox: false,
-				activePhotoId: 0
+				activePhotoId: 0,
+				players_descriptions: {},
 			}
 		},
 		methods: {
+			getPlayersDescriptions() {
+				axios.get('/api/players_descriptions/get_one/1').then(res => this.players_descriptions = res.data);
+			},
 			getUrl: src => url(src),
 			getPlayer() {
 				this.$store.commit('loading', true);
@@ -88,9 +83,10 @@
 		created() {
 			this.getPlayer();
 			this.getGallery();
+			this.getPlayersDescriptions();
 		},
 		components: {
-			Lightbox
+			Lightbox, Breadcrumb
 		},
 		computed: {
 			concatGalleryLightbox(){

@@ -32,7 +32,7 @@ export default {
 		},
 		activePhoto: window.location.origin + '/storage/img/placeholder/250.png',
 		activeFile: '',
-		parent: {}
+		parent: {},
 	},
 	computed:{
 		formTitle(){
@@ -51,6 +51,7 @@ export default {
 		}
 	},
 	methods: {
+		getUrl: src => url(src),
 		getParent() {
 			axios.get(`/api/${this.parentTable}/get_one/${this.$route.params.parent_id}`).then(res => this.parent = res.data).catch(err => console.log(err));
 		},

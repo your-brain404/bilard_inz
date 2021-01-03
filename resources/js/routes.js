@@ -45,6 +45,9 @@ import PriceListDescriptionsForm from './views/admin/forms/PriceListDescriptions
 import ReservationsDescriptionsForm from './views/admin/forms/ReservationsDescriptions'
 import CalendarDescriptionsForm from './views/admin/forms/CalendarDescriptions'
 import ShopDescriptionsForm from './views/admin/forms/ShopDescriptions'
+import CartDescriptionsForm from './views/admin/forms/CartDescriptions'
+import BreadcrumbDescriptionsForm from './views/admin/forms/BreadcrumbDescriptions'
+import LayoutElementsForm from './views/admin/forms/LayoutElements'
 import DayFormatsForm from './views/admin/forms/DayFormats'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
@@ -125,6 +128,7 @@ const routes = [
 { path: '/admin-panel/shop', component: Home, name: 'AdminShopPage'},
 { path: '/admin-panel/documents', component: Home, name: 'AdminDocumentsPage'},
 { path: '/admin-panel/settings', component: Home, name: 'AdminSettingsPage'},
+{ path: '/admin-panel/descriptions', component: Home, name: 'AdminDescriptionsPage'},
 
 
 { path: '/admin-panel/price_list/:parent_id', component: Home, name: 'AdminPriceListPage'},
@@ -147,11 +151,15 @@ const routes = [
 
 {path: '/admin-panel/comments_descriptions/form/:id', component: CommentsDescriptionsForm, name: 'CommentsDescriptionsFormEdit'},
 
+{path: '/admin-panel/breadcrumb_descriptions/form/:id', component: BreadcrumbDescriptionsForm, name: 'BreadcrumbDescriptionsFormEdit'},
+
 {path: '/admin-panel/reservations_descriptions/form/:id', component: ReservationsDescriptionsForm, name: 'ReservationsDescriptionsFormEdit'},
 
 {path: '/admin-panel/calendar_descriptions/form/:id', component: CalendarDescriptionsForm, name: 'CalendarDescriptionsFormEdit'},
 
 {path: '/admin-panel/partners_descriptions/form/:id', component: PartnersDescriptionsForm, name: 'PartnersDescriptionsFormEdit'},
+
+{path: '/admin-panel/cart_descriptions/form/:id', component: CartDescriptionsForm, name: 'CartDescriptionsFormEdit'},
 
 {path: '/admin-panel/shop_descriptions/form/:id', component: ShopDescriptionsForm, name: 'ShopDescriptionsFormEdit'},
 
@@ -164,6 +172,8 @@ const routes = [
 {path: '/admin-panel/offers_descriptions/form/:id', component: OffersDescriptionsForm, name: 'OffersDescriptionsFormEdit'},
 
 {path: '/admin-panel/history_descriptions/form/:id', component: HistoryDescriptionsForm, name: 'HistoryDescriptionsFormEdit'},
+
+{path: '/admin-panel/layout_elements/form/:id', component: LayoutElementsForm, name: 'LayoutElementsFormEdit'},
 
 {path: '/admin-panel/live_broadcasts_descriptions/form/:id', component: LiveBroadcastsDescriptionsForm, name: 'LiveBroadcastsDescriptionsFormEdit'},
 

@@ -27,9 +27,13 @@
 		data() {
 			return {
 				shop_categories: [],
+				shop_descriptions: {}
 			}
 		},
 		methods: {
+			getShopDescriptions() {
+				axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+			},
 			slug: title => slugify(title),
 			getCategories(){
 				this.$store.commit('loading', true);
@@ -55,6 +59,7 @@
 		},
 		created() {
 			this.getCategories();
+			this.getShopDescriptions();
 		},
 		watch:{
 			deleteFlag(){

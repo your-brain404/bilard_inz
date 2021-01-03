@@ -59,7 +59,7 @@
 	import Pagination from '../pagination/Pagination'
 
 	export default {
-		props:['deleteFlag', 'shop_descriptions'],
+		props:['deleteFlag'],
 		data() {
 			return {
 				shop_category: {},
@@ -74,9 +74,22 @@
 				{title: 'Data', show: true, field: 'created_at', icon: 'mdi-arrow-down', sort: 'desc'},
 				],
 				currentSort: {title: 'Data', show: true, field: 'created_at', icon: 'mdi-arrow-down', sort: 'desc'},
+				shop_descriptions: {}
 			}
 		},
 		methods: {
+			getShopDescriptions() {
+				axios.get('/api/shop_descriptions/get_one/1').then(res => {
+					this.shop_descriptions = res.data;
+					this.sorts[0].icon = `mdi-${res.data.price_sort_up}`;
+					this.sorts[1].icon = `mdi-${res.data.price_sort_down}`;
+					this.sorts[2].icon = `mdi-${res.data.title_sort_up}`;
+					this.sorts[3].icon = `mdi-${res.data.title_sort_down}`;
+					this.sorts[4].icon = `mdi-${res.data.date_sort_up}`;
+					this.sorts[5].icon = `mdi-${res.data.date_sort_down}`;
+					this.currentSort = this.sorts[5];
+				});
+			},
 			setPath(event) {
 				if(this.$route.params.page != event) this.$router.push({name: 'ShopPagination', params: {page: event}});
 			},
@@ -126,6 +139,7 @@
 		created() {
 			this.getProducts();
 			this.getCategory();
+			this.getShopDescriptions();
 		},
 		watch:{
 			deleteFlag(){

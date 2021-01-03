@@ -2,17 +2,7 @@
 	<v-container class="py-12 single-news">
 		<v-row>
 			<v-col>
-				<div class="breadcrumb-container">
-					<router-link class="white--text breadcrumb-link" to="/">
-						<h3 class="breadcrumb-item ml-0">Strona główna </h3> 
-					</router-link>
-					> 
-					<router-link class="white--text breadcrumb-link" :to="`/aktualnosci/kategoria/${singleNews.category}`">
-						<h3 class="breadcrumb-item">{{ singleNews.category }} </h3>
-					</router-link> 
-					> 
-					<h3 class="breadcrumb-item font-weight-bold">{{ singleNews.title }}</h3>
-				</div>
+				<Breadcrumb :link="`/aktualnosci/kategoria/${singleNews.category}`" :title="singleNews.title" :category="singleNews.category" />
 			</v-col>
 		</v-row>
 		<v-row>
@@ -54,6 +44,7 @@
 	import Lightbox from '../lightbox/Lightbox'
 	import {db} from '../../firebase/firebase.js'
 	import Comments from './Comments'
+	import Breadcrumb from '@/components/breadcrumb/Breadcrumb';
 
 	export default {
 		data() {
@@ -103,7 +94,7 @@
 			this.getCommentsDescriptions();
 		},
 		components: {
-			Lightbox, Comments
+			Lightbox, Comments, Breadcrumb
 		},
 		computed: {
 			concatGalleryLightbox() {

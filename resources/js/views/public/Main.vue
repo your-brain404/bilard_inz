@@ -2,7 +2,7 @@
 	<div class="position-relative" style="overflow: hidden;">
 		<Slider />
 		<News />
-		<img class="eight-ball" width="auto" height="200px" :src="ball" alt="">
+		<img class="eight-ball" width="auto" height="200px" :src="url(layout_elements.eight_ball)" alt="layout_elements.eight_ball_alt">
 		<AboutUs />
 		<Offers />
 		<LuckyNumber />
@@ -15,15 +15,21 @@
 	import Offers from '../../components/pages/Offers'
 	import News from '../../components/pages/News'
 	import LuckyNumber from '../../components/pages/LuckyNumber'
+	import axios from 'axios'
+	import url from '@/helpers/photo/url'
 
 	export default{
+		data() {
+			return {
+				layout_elements: {},
+				url
+			}
+		},
 		components: {
 			Slider, AboutUs, Offers, News, LuckyNumber
 		},
-		computed: {
-			ball() {
-				return `${window.location.origin}/storage/img/layout/8.png`;
-			}
+		created() {
+			axios.get('/api/layout_elements/get_one/1').then(res => this.layout_elements = res.data);
 		}
 	}
 </script>

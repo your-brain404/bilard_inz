@@ -2,17 +2,7 @@
 	<v-container class="py-12 cup">
 		<v-row>
 			<v-col>
-				<div class="breadcrumb-container">
-					<router-link class="white--text breadcrumb-link" to="/">
-						<h3 class="breadcrumb-item ml-0">Strona główna </h3> 
-					</router-link>
-					> 
-					<router-link class="white--text breadcrumb-link" to="/puchary">
-						<h3 class="breadcrumb-item">Puchary </h3>
-					</router-link> 
-					> 
-					<h3 class="breadcrumb-item font-weight-bold">{{ cup.title }}</h3>
-				</div>
+				<Breadcrumb link="/puchary" :title="cup.title" :category="cups_descriptions.title" />
 			</v-col>
 		</v-row>
 		<v-row>
@@ -44,6 +34,7 @@
 	import axios from 'axios'
 	import Lightbox from '../lightbox/Lightbox'
 	import url from '../../helpers/photo/url.js'
+	import Breadcrumb from '@/components/breadcrumb/Breadcrumb';
 
 	export default {
 		data() {
@@ -52,10 +43,14 @@
 				gallery: [],
 				galleryLightbox: [],
 				lightbox: false,
-				activePhotoId: 0
+				activePhotoId: 0,
+				cups_descriptions: {}
 			}
 		},
 		methods: {
+			getCupsDescriptions() {
+				axios.get('/api/cups_descriptions/get_one/1').then(res => this.cups_descriptions = res.data);
+			},
 			getUrl: src => url(src),
 			getCup() {
 				this.$store.commit('loading', true);
@@ -84,9 +79,10 @@
 		created() {
 			this.getCup();
 			this.getGallery();
+			this.getCupsDescriptions();
 		},
 		components: {
-			Lightbox
+			Lightbox, Breadcrumb
 		},
 		computed: {
 			concatGalleryLightbox(){

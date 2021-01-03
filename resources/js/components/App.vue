@@ -37,7 +37,7 @@
 		metaInfo() {
 			return {
 				title: this.title,
-				titleTemplate: '%s - Bilard Centrum Lubin',
+				titleTemplate: '%s - ' + this.settings.company,
 			}
 		},
 		components: {
@@ -73,6 +73,9 @@
 			},
 			currentSubpage() {
 				return this.$store.getters.currentSubpage;
+			},
+			settings() {
+				return this.$store.getters.settings;
 			}
 		},
 		methods:{
