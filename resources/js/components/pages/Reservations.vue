@@ -47,9 +47,7 @@
 				</v-form>
 			</v-col>
 		</v-row>
-		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Kalendarz</h2>
-		</v-row>
+		
 		<v-row justify="center">
 			<Calendar :reloadFlag="reloadFlag" :services="services" :deleteFlag="deleteFlag" @events="events = $event" @blockDataEmit="$emit('blockDataEmit', $event)" :service_equipments="service_equipments"/>
 		</v-row>

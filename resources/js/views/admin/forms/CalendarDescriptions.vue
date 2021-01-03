@@ -40,6 +40,7 @@
 							<v-text-field  color="primary" v-model="currentObject.friday" label="pt."></v-text-field>
 							<v-text-field  color="primary" v-model="currentObject.saturday" label="sob."></v-text-field>
 							<v-text-field  color="primary" v-model="currentObject.sunday" label="niedz."></v-text-field>
+							<v-text-field  color="primary" v-model="currentObject.more" label="Pokaż więcej"></v-text-field>
 						</v-col>
 
 					</v-row>
@@ -89,6 +90,7 @@
 					find_us: '',
 					files: '',
 					button_name: '',
+					more: '',
 				},
 			}
 		},

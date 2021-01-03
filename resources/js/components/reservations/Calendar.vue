@@ -1,35 +1,38 @@
 <template>
 	<v-container class="px-3">
-		<h2>Legenda</h2>
+		<v-row justify="center">
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ calendar_descriptions.title }}</h2>
+		</v-row>
+		<h2>{{ calendar_descriptions.legend }}</h2>
 		<v-row v-for="(service, i) in services" :key="i" align="center" class="px-3">
 			<div class="legend-color" :style="`background-color: ${service.color}`"></div>
 			<p>{{ service.title }}</p>
 
 		</v-row>
 		<v-row align="center" class="px-3 mb-4">
-			<div class="legend-color" style="background-color: rgb(197 197 197)"></div>
-			<p>Niepotwierdzona rezerwacja</p>
+			<div class="legend-color" :style="`background-color: ${calendar_descriptions.unconfirmed_color}`"></div>
+			<p>{{ calendar_descriptions.unconfirmed }}</p>
 
 		</v-row>
 		<v-sheet tile height="54" class="d-flex" >
 			<v-btn icon class="ma-2" @click="$refs.calendar.prev()" >
-				<v-icon>mdi-chevron-left</v-icon>
+				<v-icon>mdi-{{ calendar_descriptions.previous_icon }}</v-icon>
 			</v-btn>
-			<v-select v-model="show_type" :items="show_types" dense outlined hide-details class="ma-2" label="Typ" ></v-select>
+			<v-select v-model="show_type" :items="show_types" dense outlined hide-details class="ma-2" :label="calendar_descriptions.type" ></v-select>
 
-			<v-select v-model="weekday" :items="weekdays" dense outlined hide-details label="Format dni" class="ma-2" ></v-select>
+			<v-select v-model="weekday" :items="day_formats" item-value="format" item-text="title" dense outlined hide-details :label="calendar_descriptions.day_format" class="ma-2" ></v-select>
 			<v-btn icon class="ma-2" @click="$refs.calendar.next()" >
-				<v-icon>mdi-chevron-right</v-icon>
+				<v-icon>mdi-{{ calendar_descriptions.next_icon }}</v-icon>
 			</v-btn>
 		</v-sheet>
 		<v-sheet height="600" width="100%">
-			<v-calendar ref="calendar" v-model="value" :weekdays="weekday" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" :event-color="getEventColor" @change="getEvents" @click:date="viewDay" @click:more="viewDay" @click:event="showEvent" locale="pl" event-more-text="Pokaż więcej"></v-calendar>
+			<v-calendar v-if="weekday.length > 0" ref="calendar" v-model="value" :weekdays="weekday" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" :event-color="getEventColor" @change="getEvents" @click:date="viewDay" @click:more="viewDay" @click:event="showEvent" locale="pl" :event-more-text="calendar_descriptions.more"></v-calendar>
 
 			<v-menu v-model="selectedOpen" :close-on-content-click="false" :activator="selectedElement" offset-x >
 				<v-card color="grey lighten-4" min-width="350px" flat >
 					<v-toolbar :color="selectedEvent.color" dark >
 						<v-btn icon>
-							<v-icon>mdi-pencil</v-icon>
+							<v-icon>mdi-{{ calendar_descriptions.reservation_icon }}</v-icon>
 						</v-btn>
 						<v-toolbar-title v-html="selectedEvent.name + '<br>' + getReservationTime(selectedEvent)"></v-toolbar-title>
 						<v-spacer></v-spacer>
@@ -50,11 +53,11 @@
 	export default {
 		props: ['service_equipments', 'deleteFlag', 'services', 'reloadFlag'],
 		data: () => ({
-			type: 'week',
-			show_type: 'tydzień',
+			type: 'month',
+			show_type: '',
 			types: ['month', 'week', 'day', '4day'],
-			show_types: ['miesiąc', 'tydzień', 'dzień', '4 dni'],
-			weekday: [1, 2, 3, 4, 5, 6, 0],
+			show_types: [],
+			weekday: [],
 			weekdays: [
 			{ text: 'Ndz - Sob', value: [0, 1, 2, 3, 4, 5, 6] },
 			{ text: 'Pn - Ndz', value: [1, 2, 3, 4, 5, 6, 0] },
@@ -67,8 +70,16 @@
 			selectedEvent: {},
 			selectedElement: null,
 			selectedOpen: false,
+			calendar_descriptions: {},
+			day_formats: []
 		}),
 		watch: {
+			calendar_descriptions() {
+				if(this.calendar_descriptions.id) {
+					this.show_types.push(this.calendar_descriptions.month, this.calendar_descriptions.week, this.calendar_descriptions.day, this.calendar_descriptions.four_days); 
+					this.show_type = this.show_types[0];
+				}
+			},
 			show_type() {
 				this.type = this.types[this.show_types.indexOf(this.show_type)];
 			},
@@ -81,12 +92,23 @@
 				if(this.reloadFlag){
 					this.getEvents();
 				}
+			},
+			day_formats() {
+				if(this.day_formats.length > 0) {
+					this.day_formats.forEach(day_format => day_format.format = day_format.format.split(' ').map(format => parseInt(format)));
+					console.log(this.day_formats);
+					this.weekday = this.day_formats[0].format;
+				}
 			}
 		},
 		methods: {
-			getReservationTime(selectedEvent) {
-				return `${DateFormatter.formatTime(selectedEvent.start)}-${DateFormatter.formatTime(selectedEvent.end)}`;
+			getDayFormats() {
+				axios.get('/api/day_formats/get_all').then(res => this.day_formats = res.data);
 			},
+			getCalendarDescriptions() {
+				axios.get('/api/calendar_descriptions/get_one/1').then(res => this.calendar_descriptions = res.data);
+			},
+			getReservationTime: selectedEvent => `${DateFormatter.formatTime(selectedEvent.start)}-${DateFormatter.formatTime(selectedEvent.end)}`,
 			showEvent ({ nativeEvent, event }) {
 				const open = () => {
 					this.selectedEvent = event
@@ -136,6 +158,8 @@
 		},
 		created() {
 			this.getEvents();
+			this.getDayFormats();
+			this.getCalendarDescriptions();
 		}
 	}
 </script>

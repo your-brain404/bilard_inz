@@ -25,19 +25,19 @@
 						<v-card-subtitle class="pb-0"> {{ product.subtitle }} </v-card-subtitle>
 
 						<v-card-text class="text--primary d-flex" style="height: 44px">
-							<div class="mr-2">Cena: </div>
+							<div class="mr-2">{{ shop_descriptions.price }}</div>
 							<div>
-								<div :class="[{'discounted': product.discount}]">{{ product.price.toFixed(2) }} PLN </div>
+								<div :class="[{'discounted': product.discount}]">{{ product.price.toFixed(2) }} {{ shop_descriptions.currency }} </div>
 								<div v-if="product.discount">
-									{{ (product.price * ((100 - product.discount) / 100)).toFixed(2) }} PLN
+									{{ (product.price * ((100 - product.discount) / 100)).toFixed(2) }} {{ shop_descriptions.currency }}
 								</div>
 							</div>
 						</v-card-text>
 					</router-link>
 					<v-card-actions>
 						<v-btn color="primary" text >
-							<v-icon left>mdi-cart-plus</v-icon>
-							<span>Dodaj do koszyka</span> 
+							<v-icon left>mdi-{{ shop_descriptions.add_to_cart_icon }}</v-icon>
+							<span>{{ shop_descriptions.add_to_cart }}</span> 
 						</v-btn>
 					</v-card-actions>
 				</v-card>
@@ -59,7 +59,7 @@
 	import Pagination from '../pagination/Pagination'
 
 	export default {
-		props:['deleteFlag'],
+		props:['deleteFlag', 'shop_descriptions'],
 		data() {
 			return {
 				shop_category: {},

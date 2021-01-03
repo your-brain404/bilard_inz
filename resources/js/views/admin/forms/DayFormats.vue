@@ -14,7 +14,7 @@
 						<v-col class="" cols="12">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
-								<v-text-field color="primary"  v-model="currentObject.format" :rules="rules.titleRules" label="Format (liczby od 0 do 6 oddzielone spacją) *" required></v-text-field>
+								<v-text-field color="primary"  v-model="currentObject.format" :rules="rules.titleRules" label="Format (liczby od 0 do 6 oddzielone spacją UWAGA 0 to niedziela!) *" required></v-text-field>
 								
 							</div>
 						</v-col>

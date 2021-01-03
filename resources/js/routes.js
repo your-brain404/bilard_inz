@@ -44,6 +44,7 @@ import PlayersDescriptionsForm from './views/admin/forms/PlayersDescriptions'
 import PriceListDescriptionsForm from './views/admin/forms/PriceListDescriptions'
 import ReservationsDescriptionsForm from './views/admin/forms/ReservationsDescriptions'
 import CalendarDescriptionsForm from './views/admin/forms/CalendarDescriptions'
+import ShopDescriptionsForm from './views/admin/forms/ShopDescriptions'
 import DayFormatsForm from './views/admin/forms/DayFormats'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
@@ -151,6 +152,8 @@ const routes = [
 {path: '/admin-panel/calendar_descriptions/form/:id', component: CalendarDescriptionsForm, name: 'CalendarDescriptionsFormEdit'},
 
 {path: '/admin-panel/partners_descriptions/form/:id', component: PartnersDescriptionsForm, name: 'PartnersDescriptionsFormEdit'},
+
+{path: '/admin-panel/shop_descriptions/form/:id', component: ShopDescriptionsForm, name: 'ShopDescriptionsFormEdit'},
 
 {path: '/admin-panel/news_descriptions/form/:id', component: NewsDescriptionsForm, name: 'NewsDescriptionsFormEdit'},
 

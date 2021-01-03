@@ -40,6 +40,7 @@ import PriceListDescriptions from '@/components/emit-data-blocks/PriceListDescri
 import ReservationsDescriptions from '@/components/emit-data-blocks/ReservationsDescriptions'
 import CalendarDescriptions from '@/components/emit-data-blocks/CalendarDescriptions'
 import DayFormats from '@/components/emit-data-blocks/DayFormats'
+import ShopDescriptions from '@/components/emit-data-blocks/ShopDescriptions'
 
 export default {
 	main:[
@@ -126,6 +127,7 @@ export default {
 	shop: [
 	{title: 'Kategorie Sklepu', component: ShopCategories, tablename: 'shop_categories', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, list:'shop_products'},
 	{title: 'Opcje wysyłki', component: DeliveryOptions, tablename: 'delivery_options', table: [], active: true},
+	{title: 'Sklep opisy', component: ShopDescriptions, tablename: 'shop_descriptions', table: []},
 	],
 
 	shop_products: [

@@ -2,16 +2,16 @@
 	<v-container fluid class="py-12">
 		<v-row justify="center">
 			<v-col cols="12">
-				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">Sklep</h2>
-				<h3 v-if="category" class="first-color text-center ">Kategoria: '{{ category.title }}'</h3>
+				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ shop_descriptions.title }}</h2>
+				<h3 v-if="category" class="first-color text-center ">{{ shop_descriptions.category }} '{{ category.title }}'</h3>
 			</v-col>
 		</v-row>
 		<v-row>
 			<v-col cols="12" md="3">
-				<ShopCategories @category="category = $event" />
+				<ShopCategories :shop_descriptions="shop_descriptions" @category="category = $event" />
 			</v-col>
 			<v-col cols="12" md="9">
-				<component :is="getComponent"></component>
+				<component :shop_descriptions="shop_descriptions" :is="getComponent"></component>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -26,7 +26,8 @@
 	export default {
 		data() {
 			return {
-				category: {}
+				category: {},
+				shop_descriptions: {}
 			}
 		},
 		computed: {
@@ -36,6 +37,14 @@
 		},
 		components: {
 			ShopCategories, ShopProducts, SingleProduct
+		},
+		methods: {
+			getShopDescriptions() {
+				axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+			},
+		},
+		created() {
+			this.getShopDescriptions();
 		}
 	}
 </script>

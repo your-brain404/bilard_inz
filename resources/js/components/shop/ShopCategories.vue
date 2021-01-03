@@ -1,11 +1,11 @@
 <template>
 	<v-list dense>
-		<h3 class="shop-categories-title">Kategorie Produktów</h3>
+		<h3 class="shop-categories-title">{{ shop_descriptions.product_categories }}</h3>
 		<v-list-item-group color="primary" >
 			<router-link to="/sklep">
 				<v-list-item link :class="['shop-category', {'v-list-item--active': !$route.params.category_id}]">
 					<v-list-item-content>
-						<v-list-item-title class="shop-category-title" v-text="`Wszystkie`"></v-list-item-title>
+						<v-list-item-title class="shop-category-title" v-text="shop_descriptions.all"></v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
 			</router-link>
