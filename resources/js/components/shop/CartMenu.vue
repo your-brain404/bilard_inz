@@ -1,23 +1,31 @@
 <template>
 	<div class="text-center">
-		<div>
-			<v-btn class="header-button" :color="color ? color : ''"  icon>
-				<v-icon>mdi-cart</v-icon>
-			</v-btn>
-			<span>Koszyk</span>
-		</div>
-		<v-menu @input="v => v || closeMenu()" v-model="menu" :close-on-content-click="false" >
+		
+		<v-menu @input="v => v || closeMenu()" offset-y v-model="menu" :close-on-content-click="false" >
+			<template #activator="{ on }">
+				<div v-on="on">
+					<v-btn class="header-button" :color="color ? color : ''"  icon>
+						<v-icon>mdi-{{ cart_descriptions.cart_icon }}</v-icon>
+					</v-btn>
+					<span>{{ cart_descriptions.title }}</span>
+				</div>
+			</template>
 			<CartMenuListing @closeMenu="menu = false"/>
 		</v-menu>
 	</div>
 </template>
 
 <script>
-	import url from '../../helpers/photo/url'
 	import CartMenuListing from './CartMenuListing'
+	import axios from 'axios'
 
 	export default {
 		props: ['color', 'menu'],
+		data() {
+			return {
+				cart_descriptions: {}
+			}
+		},
 		components: {
 			CartMenuListing
 		},
@@ -25,6 +33,9 @@
 			closeMenu() {
 				this.$emit('closeMenu');
 			}
+		},
+		created() {
+			axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
 		}
 
 	}

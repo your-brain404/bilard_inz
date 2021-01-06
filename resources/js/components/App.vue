@@ -7,6 +7,7 @@
 		<AdminSnackbar />
 
 		<Footer v-if="!isPathAdmin" />
+		<Cookies v-if="!isPathAdmin" />
 	</v-app>
 </template>
 
@@ -19,6 +20,7 @@
 	import Loader from './loader/Loader';
 	import axios from 'axios'
 	import parseJwt from '../helpers/auth/tokenDecoder.js'
+	import Cookies from '@/components/cookies/Cookies'
 
 	function recaptcha() {
 		if(window.location.href.split('/').includes('admin-panel')) document.getElementsByClassName('grecaptcha-badge')[0].style.display = 'none';
@@ -41,7 +43,7 @@
 			}
 		},
 		components: {
-			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar, Loader
+			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar, Loader, Cookies
 		},
 		data() {
 			return {

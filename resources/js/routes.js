@@ -48,6 +48,7 @@ import ShopDescriptionsForm from './views/admin/forms/ShopDescriptions'
 import CartDescriptionsForm from './views/admin/forms/CartDescriptions'
 import BreadcrumbDescriptionsForm from './views/admin/forms/BreadcrumbDescriptions'
 import LayoutElementsForm from './views/admin/forms/LayoutElements'
+import DrawerDescriptionsForm from './views/admin/forms/DrawerDescriptions'
 import DayFormatsForm from './views/admin/forms/DayFormats'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
@@ -152,6 +153,8 @@ const routes = [
 {path: '/admin-panel/comments_descriptions/form/:id', component: CommentsDescriptionsForm, name: 'CommentsDescriptionsFormEdit'},
 
 {path: '/admin-panel/breadcrumb_descriptions/form/:id', component: BreadcrumbDescriptionsForm, name: 'BreadcrumbDescriptionsFormEdit'},
+
+{path: '/admin-panel/drawer_descriptions/form/:id', component: DrawerDescriptionsForm, name: 'DrawerDescriptionsFormEdit'},
 
 {path: '/admin-panel/reservations_descriptions/form/:id', component: ReservationsDescriptionsForm, name: 'ReservationsDescriptionsFormEdit'},
 

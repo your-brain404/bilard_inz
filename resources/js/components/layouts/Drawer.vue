@@ -1,12 +1,16 @@
 <template>
-	<v-navigation-drawer class="public-drawer" @input="v => v || closeDrawer()" v-model="drawer" absolute bottom temporary>
+	<v-navigation-drawer class="public-drawer" @input="v => v || closeDrawer()" v-model="drawer" absolute bottom temporary right>
 		<v-list nav dense>
 			<v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
+				<v-list-item @click="$route.path != '/' ? $router.push('/') : true" class="d-flex justify-content-center flex-column">
+					<img width="auto" height="120px" :src="url($store.getters.settings.photo)" :alt="$store.getters.settings.photo_alt">
+					<h3 class="mb-0">{{ $store.getters.settings.company }}</h3>
+				</v-list-item>
 				<v-list-item v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator'" @click="$router.push('/admin-panel')">
 					<v-btn class="header-button" color="primary"  dark icon  >
-						<v-icon>mdi-remote-desktop</v-icon>
+						<v-icon>mdi-{{ drawer_descriptions.panel_icon }}</v-icon>
 					</v-btn>
-					<span>Admin Panel</span>
+					<span>{{ drawer_descriptions.panel }}</span>
 				</v-list-item>
 
 				<v-list-item @click="cartMenu = true">
@@ -20,31 +24,34 @@
 				</v-list-item>
 				<v-list-item class="position-relative" v-else @click="accountMenu = true">
 					
-					<div>
-						<v-btn class="header-button" color="primary" icon  >
-							<v-icon>mdi-account</v-icon>
-						</v-btn>
-						<span>Konto</span>
-					</div>
-					<v-menu v-model="accountMenu"  :close-on-content-click="false">
+					
+					<v-menu v-model="accountMenu" offset-y :close-on-content-click="false">
+						<template #activator="{ on }">
+							<div v-on="on">
+								<v-btn class="header-button" color="primary" icon  >
+									<v-icon>mdi-{{ drawer_descriptions.account_icon }}</v-icon>
+								</v-btn>
+								<span>{{ drawer_descriptions.account }}</span>
+							</div>
+						</template>
 						<v-card class="d-flex justify-content-center">
 							<v-col>
 								<div class="w-100 d-flex flex-column align-items-center justify-content-center mb-3">
 									<v-avatar >
-										<img v-if="!edit" :src="user_data.photo != '' ? getAvatar(user_data.photo) : placeholder">
-										<img v-else :src="blob != '' ? blob : (user_data.photo != '' ? getAvatar(user_data.photo) : placeholder)">
+										<img v-if="!edit" :src="user_data.photo != '' ? getAvatar(user_data.photo) : url(drawer_descriptions.placeholder)">
+										<img v-else :src="blob != '' ? blob : (user_data.photo != '' ? getAvatar(user_data.photo) : url(drawer_descriptions.placeholder))">
 									</v-avatar>
 								</div>
-								<p v-if="edit" @click="user_data.photo = ''" style="cursor: pointer" class="error--text text-center mb-0">Usuń zdjęcie</p>
-								<v-file-input @change="createBlob" label="Zdjęcie" class="pt-0" v-if="edit" v-model="file"></v-file-input>
+								<p v-if="edit" @click="user_data.photo = ''" style="cursor: pointer" class="error--text text-center mb-0">{{ drawer_descriptions.delete_photo }}</p>
+								<v-file-input @change="createBlob" :label="drawer_descriptions.photo_text" class="pt-0" v-if="edit" v-model="file"></v-file-input>
 								<h4 class="text-center" v-if="!edit">{{ user.name }}</h4>
 								<v-text-field label="Imię i nazwisko" v-else v-model="user_data.name"></v-text-field>
 								<v-divider></v-divider>
-								<v-btn v-if="!edit" @click="edit = true" text width="100%">Edytuj konto</v-btn>
-								<v-btn v-else @click="editAccount" text width="100%">Akceptuj</v-btn>
-								<v-btn v-if="edit" @click="edit = false" text width="100%">Anuluj</v-btn>
+								<v-btn v-if="!edit" @click="edit = true" text width="100%">{{ drawer_descriptions.edit_account }}</v-btn>
+								<v-btn v-else @click="editAccount" text width="100%">{{ drawer_descriptions.accept }}</v-btn>
+								<v-btn v-if="edit" @click="edit = false" text width="100%">{{ drawer_descriptions.cancel }}</v-btn>
 								<v-divider></v-divider>
-								<v-btn @click="$store.dispatch('logout')" text width="100%">Wyloguj</v-btn>
+								<v-btn @click="$store.dispatch('logout')" text width="100%">{{ drawer_descriptions.log_out }}</v-btn>
 							</v-col>
 						</v-card>
 					</v-menu>
@@ -62,6 +69,7 @@
 	import CartMenu from '../shop/CartMenu'
 	import axios from 'axios'
 	import avatar from '../../helpers/photo/avatar.js'
+	import url from '@/helpers/photo/url'
 
 	export default {
 		components: {
@@ -76,8 +84,10 @@
 		data() {
 			return {
 				edit: false,
+				url,
 				cartMenu: false,
 				login: false,
+				drawer_descriptions: {},
 				user_data: {
 					name: '',
 					photo: '',
@@ -86,7 +96,6 @@
 				file: null,
 				blob: '',
 				accountMenu: false,
-				placeholder: window.location.origin + '/storage/img/avatar/8-Ball.png'
 			}
 		},
 		methods: {
@@ -99,11 +108,9 @@
 				this.user_data.id = this.user.id; 
 			},
 			createBlob() {
-				this.blob = this.file != null ? URL.createObjectURL(this.file) : (this.user.photo != '' ? this.getAvatar(this.user.photo) : this.placeholder);
+				this.blob = this.file != null ? URL.createObjectURL(this.file) : (this.user.photo != '' ? this.getAvatar(this.user.photo) : this.url(this.drawer_descriptions.placeholder));
 			},
-			getAvatar(src) {
-				return avatar(src);
-			},
+			getAvatar: src => avatar(src),
 			async editAccount() {
 				this.$store.commit('loading', true);
 				let formData = new FormData();
@@ -124,6 +131,9 @@
 					this.file = null;
 				})
 			},
+			getDrawerDescriptions() {
+				axios.get('/api/drawer_descriptions/get_one/1').then(res => this.drawer_descriptions = res.data);
+			}
 		},
 		computed: {
 			user(){
@@ -132,6 +142,7 @@
 		},
 		created() {
 			this.loadUserData();
+			this.getDrawerDescriptions();
 		}
 		
 	}
@@ -141,5 +152,9 @@
 <style>
 	.public-drawer {
 		box-shadow: unset!important;
+	}
+	.v-application .deep-purple--text.text--accent-4, .v-application .deep-purple--text {
+		color: unset!important;
+		caret-color: unset!important;
 	}
 </style>

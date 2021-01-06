@@ -28,6 +28,12 @@
 									<p class="mb-1">Zgoda na kontakt telefoniczny (rodo2)</p>
 									<v-textarea v-model="currentObject.rodo_2"></v-textarea>
 								</div>
+								<div class="mt-3">
+									<p class="mb-1">Cookies</p>
+									<v-textarea v-model="currentObject.cookies"></v-textarea>
+								</div>
+								<v-text-field  color="primary" v-model="currentObject.cookies_button" label="Tekst na przycisku cookies"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.cookies_privace_button" label="Tekst linku polityki prywatności (cookies)"></v-text-field>
 							</div>
 						</v-col>
 
@@ -108,6 +114,9 @@
 					privace_policy: '',
 					shop_regulations: '',
 					description: '',
+					cookies: '',
+					cookies_button: '',
+					cookies_privace_button: '',
 				},
 			}
 		},

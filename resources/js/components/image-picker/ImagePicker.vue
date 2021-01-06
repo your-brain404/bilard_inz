@@ -2,8 +2,11 @@
 	<v-row justify="center" class="mt-5 mb-2 px-3">
 		<v-dialog v-model="dialog" persistent>
 			<template v-slot:activator="{ on, attrs }">
-				<v-btn color="primary" dark v-bind="attrs" v-on="on" class="w-100">
+				<v-btn v-if="!title" color="primary" dark v-bind="attrs" v-on="on" class="w-100">
 					Dodaj {{ multiple ? 'zdjęcia' : $route.path.split('/')[2] == 'settings' ? 'logo' : 'zdjęcie' }} {{ banner ? 'banerowe' : '' }}
+				</v-btn>
+				<v-btn v-else color="primary" dark v-bind="attrs" v-on="on" class="w-100">
+					Dodaj {{ title }}
 				</v-btn>
 			</template>
 			<v-card>
@@ -50,7 +53,7 @@
 	import url from '../../helpers/photo/url.js';
 
 	export default {
-		props:['activePhotoPath', 'banner', 'apiGallery'],
+		props:['activePhotoPath', 'banner', 'apiGallery', 'title'],
 		data () {
 			return {
 				dialog: false,

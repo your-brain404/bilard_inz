@@ -44,6 +44,7 @@ import ShopDescriptions from '@/components/emit-data-blocks/ShopDescriptions'
 import CartDescriptions from '@/components/emit-data-blocks/CartDescriptions'
 import BreadcrumbDescriptions from '@/components/emit-data-blocks/BreadcrumbDescriptions'
 import LayoutElements from '@/components/emit-data-blocks/LayoutElements'
+import DrawerDescriptions from '@/components/emit-data-blocks/DrawerDescriptions'
 
 export default {
 	main:[
@@ -70,6 +71,7 @@ export default {
 	descriptions: [
 	{title: 'Breadcrumb opisy', component: BreadcrumbDescriptions, tablename: 'breadcrumb_descriptions', table: []},
 	{title: 'Elementy Layoutu', component: LayoutElements, tablename: 'layout_elements', table: []},
+	{title: 'Menu opisy', component: DrawerDescriptions, tablename: 'drawer_descriptions', table: []},
 	],
 
 	offers: [
