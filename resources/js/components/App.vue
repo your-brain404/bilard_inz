@@ -136,6 +136,7 @@
 		this.$store.dispatch('contact');
 		this.$store.dispatch('fetchAllUsers');
 		this.$store.dispatch('snackbarAlerts');
+		
 		if (window.location.hash && window.location.hash == '#_=_') {
 			window.location.href = window.location.origin;
 		}

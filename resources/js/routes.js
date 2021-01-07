@@ -52,6 +52,7 @@ import DrawerDescriptionsForm from './views/admin/forms/DrawerDescriptions'
 import AuthDescriptionsForm from './views/admin/forms/AuthDescriptions'
 import DayFormatsForm from './views/admin/forms/DayFormats'
 import SnackbarAlertsForm from './views/admin/forms/SnackbarAlerts'
+import ValidationRulesForm from './views/admin/forms/ValidationRules'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -155,6 +156,8 @@ const routes = [
 {path: '/admin-panel/comments_descriptions/form/:id', component: CommentsDescriptionsForm, name: 'CommentsDescriptionsFormEdit'},
 
 {path: '/admin-panel/breadcrumb_descriptions/form/:id', component: BreadcrumbDescriptionsForm, name: 'BreadcrumbDescriptionsFormEdit'},
+
+{path: '/admin-panel/validation_rules/form/:id', component: ValidationRulesForm, name: 'ValidationRulesFormEdit'},
 
 {path: '/admin-panel/drawer_descriptions/form/:id', component: DrawerDescriptionsForm, name: 'DrawerDescriptionsFormEdit'},
 

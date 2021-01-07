@@ -47,6 +47,7 @@ import LayoutElements from '@/components/emit-data-blocks/LayoutElements'
 import DrawerDescriptions from '@/components/emit-data-blocks/DrawerDescriptions'
 import AuthDescriptions from '@/components/emit-data-blocks/AuthDescriptions'
 import SnackbarAlerts from '@/components/emit-data-blocks/SnackbarAlerts'
+import ValidationRules from '@/components/emit-data-blocks/ValidationRules'
 
 export default {
 	main:[
@@ -76,6 +77,7 @@ export default {
 	{title: 'Menu opisy', component: DrawerDescriptions, tablename: 'drawer_descriptions', table: []},
 	{title: 'Logowanie i rejestracja opisy', component: AuthDescriptions, tablename: 'auth_descriptions', table: []},
 	{title: 'Komunikaty (pomarańczowy pasek w prawym dolnym rogu)', component: SnackbarAlerts, tablename: 'snackbar_alerts', table: []},
+	{title: 'Błędy walidacji formularzy', component: ValidationRules, tablename: 'validation_rules', table: []},
 	],
 
 	offers: [

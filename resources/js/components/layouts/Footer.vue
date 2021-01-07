@@ -14,7 +14,7 @@
 			</v-card>
 			<v-divider class=""></v-divider>
 			<v-col class="first-bgc py-4 text-center white--text" cols="12" >
-				2021 — <strong>{{ settings.company }}</strong>
+				2021 — <strong>Wykonał Daniel Lewicki <br><a class="white--text" href="tel:+48 794 640 515">+48 794 640 515</a><br><a class="white--text" href="mailto:dany97971@gmail.com">dany97971@gmail.com</a></strong>
 			</v-col>
 		</v-row>
 	</v-footer>

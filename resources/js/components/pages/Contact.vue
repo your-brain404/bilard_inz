@@ -8,12 +8,12 @@
 		</v-row>
 		<v-row>
 			<v-col cols="12" lg="8" >
-				<v-form ref="form" v-model="valid">
-					<v-text-field color="primary" v-model="contact_data.name" :rules="[rules.required]" :label="contact_descriptions.name" required></v-text-field>
-					<v-text-field color="primary" v-model="contact_data.email" :rules="[rules.required, rules.email]" :label="contact_descriptions.email" required></v-text-field>
-					<v-text-field color="primary" v-model="contact_data.phone" :rules="[rules.required]" :label="contact_descriptions.phone" required></v-text-field>
-					<v-text-field color="primary" v-model="contact_data.subject" :rules="[rules.required]" :label="contact_descriptions.subject" required></v-text-field>
-					<v-textarea color="primary" v-model="contact_data.message" :rules="[rules.required]" rows="5" :label="contact_descriptions.message" required></v-textarea>
+				<v-form v-if="validationRules.id" ref="form" v-model="valid">
+					<v-text-field color="primary" v-model="contact_data.name" :rules="[required]" :label="contact_descriptions.name" required></v-text-field>
+					<v-text-field color="primary" v-model="contact_data.email" :rules="[required, email]" :label="contact_descriptions.email" required></v-text-field>
+					<v-text-field color="primary" v-model="contact_data.phone" :rules="[required]" :label="contact_descriptions.phone" required></v-text-field>
+					<v-text-field color="primary" v-model="contact_data.subject" :rules="[required]" :label="contact_descriptions.subject" required></v-text-field>
+					<v-textarea color="primary" v-model="contact_data.message" :rules="[required]" rows="5" :label="contact_descriptions.message" required></v-textarea>
 					<v-file-input v-model="files" show-size counter multiple :label="contact_descriptions.files" :prepend-icon="`mdi-${contact_descriptions.file_icon}`"></v-file-input>
 					<v-checkbox @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-10" v-model="contact_data.rodo1">
 						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
@@ -98,12 +98,13 @@
 			<iframe :src="$store.getters.contact.map" width="100%" height="500px" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 			
 		</v-row>
+		<Rules />
 	</v-container>
 </template>
 
 <script>
 	import axios from 'axios'
-	import rules from '@/helpers/validation/rules'
+	import Rules from '@/helpers/validation/Rules'
 
 	export default {
 		data() {
@@ -121,10 +122,13 @@
 				loading: false,
 				valid: true,
 				contact_descriptions: {},
-				rules
 			}
 		},
+		computed: {
+			...Rules.computed
+		},
 		methods: {
+			...Rules.methods,
 			async getContactDescriptions() {
 				await axios.get('/api/contact_descriptions/get_one/1').then(res => this.contact_descriptions = res.data);
 			},
@@ -185,6 +189,9 @@
 				})
 			},
 
+		},
+		components: {
+			Rules
 		},
 		created() {
 			this.getContactDescriptions();

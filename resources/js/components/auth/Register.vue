@@ -5,30 +5,30 @@
 				<div @click="closeRegister" class="close-button">
 					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
 				</div>
-				<v-form ref="form" v-model="valid" class="position-relative register-form">
+				<v-form v-if="validationRules.id" ref="form" v-model="valid" class="position-relative register-form">
 					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.register_title }}</h1>
-					<v-text-field dark v-model="name" :rules="[rules.required]" :counter="30" :label="auth_descriptions.name" class="primary-text"></v-text-field>
-					<v-text-field dark v-model="email" :rules="[rules.required, rules.email]" :label="auth_descriptions.email"></v-text-field>
-					<v-text-field type="password" :rules="[rules.required, rules.passwordLength]" dark v-model="password" :label="auth_descriptions.password"></v-text-field>
-					<v-text-field :rules="[rules.required, rules.passwordConfirm(password, passwordConf)]" type="password" dark v-model="passwordConf" :label="auth_descriptions.password_confirm"></v-text-field>
+					<v-text-field dark v-model="name" :rules="[required]" :counter="30" :label="auth_descriptions.name" class="primary-text"></v-text-field>
+					<v-text-field dark v-model="email" :rules="[required, email]" :label="auth_descriptions.email"></v-text-field>
+					<v-text-field type="password" :rules="[required, passwordLength]" dark v-model="password" :label="auth_descriptions.password"></v-text-field>
+					<v-text-field :rules="[required, passwordConfirm(password, passwordConf)]" type="password" dark v-model="passwordConf" :label="auth_descriptions.password_confirm"></v-text-field>
 
-					<v-checkbox dark v-model="regulations" :rules="[rules.required]">
+					<v-checkbox dark v-model="regulations" :rules="[required]">
 						<span slot="label">
 							{{ auth_descriptions.shop_regulations }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.shop_regulations)"><v-btn dark class="register-button ml-2" small outlined>{{ auth_descriptions.download }}</v-btn></a>
 						</span>
 					</v-checkbox>
 
-					<v-checkbox dark class="pt-0 mt-0" v-model="privace" :rules="[rules.required]">
+					<v-checkbox dark class="pt-0 mt-0" v-model="privace" :rules="[required]">
 						<span slot="label">
 							{{ auth_descriptions.privace_policy }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.privace_policy)"><v-btn dark class="register-button ml-2" small outlined>{{ auth_descriptions.download }}</v-btn></a>
 						</span>
 					</v-checkbox>
 
-					<v-checkbox dark class="pt-0 mt-0 register-checkbox" v-model="rodo1" :rules="[rules.required]">
+					<v-checkbox dark class="pt-0 mt-0 register-checkbox" v-model="rodo1" :rules="[required]">
 						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
 					</v-checkbox>
 
-					<v-checkbox dark class="pt-0 mt-0 register-checkbox" v-model="rodo2" :rules="[rules.required]">
+					<v-checkbox dark class="pt-0 mt-0 register-checkbox" v-model="rodo2" :rules="[required]">
 						<div slot="label" v-html="$store.getters.settings.rodo_2"></div>
 					</v-checkbox>
 
@@ -42,14 +42,16 @@
 				<Facebook :auth_descriptions="auth_descriptions" />
 
 			</v-card>
+			<Rules />
 		</v-dialog>
+
 	</div>
 </template>
 
 <script>
 	import Facebook from './FacebookLogin';
 	import url from '@/helpers/photo/url';
-	import rules from '@/helpers/validation/rules'
+	import Rules from '@/helpers/validation/Rules'
 	import axios from 'axios'
 
 	export default {
@@ -70,13 +72,14 @@
 				privace: false,
 				rodo1: false,
 				rodo2: false,
-				rules,
 				url
 			}
 		},
-
+		computed: {
+			...Rules.computed
+		},
 		methods: {
-			
+			...Rules.methods,
 			submit () {
 				if(this.$refs.form.validate()) {
 					this.$store.dispatch('register', {email: this.email, name: this.name, password: this.password, photo: '' });
@@ -99,7 +102,7 @@
 			}
 		},
 		components:{
-			Facebook
+			Facebook, Rules
 		},
 		
 	}

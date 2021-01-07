@@ -11,10 +11,10 @@
 				<div @click="closeLogin()" class="close-button">
 					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
 				</div>
-				<v-form ref="form" class="position-relative login-form">
+				<v-form v-if="validationRules.id" ref="form" class="position-relative login-form">
 					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.login_title }}</h1>
-					<v-text-field dark v-model="email" :rules="[rules.required, rules.email]" :label="auth_descriptions.email" required ></v-text-field>
-					<v-text-field dark v-model="password" type="password" :rules="[rules.required, rules.passwordLength]" :counter="20" :label="auth_descriptions.password" required ></v-text-field>
+					<v-text-field dark v-model="email" :rules="[required, email]" :label="auth_descriptions.email" required ></v-text-field>
+					<v-text-field dark v-model="password" type="password" :rules="[required, passwordLength]" :counter="20" :label="auth_descriptions.password" required ></v-text-field>
 				</v-form>
 				<v-btn dark outlined class="mr-4 w-100 login-button mt-5" @click="submit">
 					{{ auth_descriptions.login }}
@@ -26,6 +26,7 @@
 				<p @click="openRegister" class="white--text text-center mt-5" style="cursor: pointer">{{ auth_descriptions.register_now }}</p>	
 
 			</v-card>
+			<Rules  />
 		</v-dialog>
 	</div>
 </template>
@@ -34,7 +35,7 @@
 	import axios from 'axios'
 	import Facebook from './FacebookLogin'
 	import url from '@/helpers/photo/url';
-	import rules from '@/helpers/validation/rules'
+	import Rules from '@/helpers/validation/Rules'
 
 	export default {
 		watch:{
@@ -43,7 +44,7 @@
 			}
 		},
 		components:{
-			Facebook
+			Facebook, Rules
 		},
 		props: ['dialog', 'auth_descriptions', 'drawer_descriptions'],
 
@@ -52,13 +53,14 @@
 				email: '',
 				password: '',
 				origin: window.location.origin,
-				rules,
 				url
 			}
 		},
+		computed: {
+			...Rules.computed
+		},
 		methods: {
-			
-			
+			...Rules.methods,
 			closeLogin() {
 				this.$emit('closeLogin');
 			},

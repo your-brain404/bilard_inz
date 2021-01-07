@@ -4,31 +4,31 @@
 			<h3 class="mb-0 cart-menu-title">{{ cart_descriptions ? cart_descriptions.step_3 : '' }}</h3>
 		</v-card-title>
 		<v-divider ></v-divider>
-		<v-form ref="form" v-model="valid" class="mb-5">
+		<v-form v-if="validationRules.id" ref="form" v-model="valid" class="mb-5">
 			<h4 class="cart-menu-title" style="margin-top: 2rem; font-size: 1.5rem">{{ cart_descriptions.delivery_type }}</h4>
-			<v-radio-group :disabled="summary != undefined" :rules="[rules.required]" v-model="payments.delivery" column >
+			<v-radio-group :disabled="summary != undefined" :rules="[required]" v-model="payments.delivery" column >
 				<v-radio v-for="(delivery, i) in deliveries" :key="i" :label="deliveryLabel(delivery)" :value="delivery.value"></v-radio>
 			</v-radio-group>
 			<h4 class="cart-menu-title mt-5" style="font-size: 1.5rem">{{ cart_descriptions.payment_type }}</h4>
-			<v-radio-group :disabled="summary != undefined" :rules="[rules.required]" v-model="payments.payment" column >
+			<v-radio-group :disabled="summary != undefined" :rules="[required]" v-model="payments.payment" column >
 				<v-radio v-if="payments.delivery != 'in_advance'" :label="cart_descriptions.traditional" value="traditional" ></v-radio>
 				<v-radio v-if="payments.delivery != 'courier'" :label="cart_descriptions.personal" value="personal" ></v-radio>
 			</v-radio-group>
 		</v-form>
 		<DeliveryOptions @blockDataEmit="deliveries = $event" />
+		<Rules />
 	</v-card>
 </template>
 
 <script>
 	import DeliveryOptions from './DeliveryOptions'
 	import axios from 'axios'
-	import rules from '@/helpers/validation/rules'
+	import Rules from '@/helpers/validation/Rules'
 
 	export default {
 		props: ['submit', 'summary', 'data'],
 		data() {
 			return {
-				rules,
 				valid: true,
 				payments: {
 					delivery: 'courier',
@@ -40,7 +40,10 @@
 			}
 		},
 		components: {
-			DeliveryOptions
+			DeliveryOptions, Rules
+		},
+		computed: {
+			...Rules.computed
 		},
 		watch: {
 			submit() {
@@ -68,6 +71,7 @@
 			}
 		},
 		methods: {
+			...Rules.methods,
 			getCartDescriptions() {
 				axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
 			},
