@@ -8,6 +8,7 @@ use App\Offers;
 use App\News;
 use App\Players;
 use App\Cups;
+use App\ShopProducts;
 
 class HomeHelper {
 
@@ -28,12 +29,13 @@ class HomeHelper {
 			$data['meta_description'] = $data['current_subpage']->meta_description;
 
 			if(Request::segment(1) == 'oferta' && Request::segment(2)) $data['current_subpage'] = Offers::find(Request::segment(2));
-			if(Request::segment(1) == 'aktualnosci' && Request::segment(2)) $data['current_subpage'] = News::find(Request::segment(2));
+			if(Request::segment(1) == 'aktualnosci' && Request::segment(2) && Request::segment(3)) $data['current_subpage'] = News::find(Request::segment(2));
 			if(Request::segment(1) == 'zawodnicy' && Request::segment(2)) {
 				$data['current_subpage'] = Players::find(Request::segment(2));
 				$data['current_subpage']->title = $data['current_subpage']->first_name. ' '. $data['current_subpage']->last_name;
 			} 
 			if(Request::segment(1) == 'puchary' && Request::segment(2)) $data['current_subpage'] = Cups::find(Request::segment(2));
+			if(Request::segment(1) == 'sklep' && Request::segment(2) == 'produkt') $data['current_subpage'] = ShopProducts::find(Request::segment(3));
 
 			
 			$data['meta_description'] = $data['current_subpage']->meta_description;

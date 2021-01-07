@@ -96,7 +96,6 @@
 			day_formats() {
 				if(this.day_formats.length > 0) {
 					this.day_formats.forEach(day_format => day_format.format = day_format.format.split(' ').map(format => parseInt(format)));
-					console.log(this.day_formats);
 					this.weekday = this.day_formats[0].format;
 				}
 			}

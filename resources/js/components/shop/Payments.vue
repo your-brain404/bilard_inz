@@ -21,7 +21,7 @@
 </template>
 
 <script>
-	import DeliveryOptions from './DeliveryOptions'
+	import DeliveryOptions from '@/components/emit-data-blocks/DeliveryOptions'
 	import axios from 'axios'
 	import Rules from '@/helpers/validation/Rules'
 
@@ -68,31 +68,33 @@
 			},
 			deliveries() {
 				this.$emit('delivery', this.deliveries.find(delivery => delivery.value == this.payments.delivery))
-			}
-		},
-		methods: {
-			...Rules.methods,
-			getCartDescriptions() {
-				axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
 			},
-			getShopDescriptions() {
-				axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+			validationRules() {
+				if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
 			},
-			deliveryLabel(delivery) {
-				return `${delivery.title} ${delivery.price.toFixed(2)} ${this.shop_descriptions.currency}`;
-			} 
+	},
+	methods: {
+		...Rules.methods,
+		getCartDescriptions() {
+			axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
 		},
-		created() {
-			this.getShopDescriptions();
-			this.getCartDescriptions();
-			this.$emit('payments', this.payments);
-			if(localStorage.getItem('payments') != null) {
-				this.payments = JSON.parse(localStorage.getItem('payments'))
-			}
+		getShopDescriptions() {
+			axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
 		},
-		mounted() {
-			this.$emit('valid', this.$refs.form.validate())
+		deliveryLabel(delivery) {
+			return `${delivery.title} ${delivery.price.toFixed(2)} ${this.shop_descriptions.currency}`;
+		} 
+	},
+	created() {
+		this.getShopDescriptions();
+		this.getCartDescriptions();
+		this.$emit('payments', this.payments);
+		if(localStorage.getItem('payments') != null) {
+			this.payments = JSON.parse(localStorage.getItem('payments'))
 		}
+		if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
+	},
 
-	}
+
+}
 </script>

@@ -9,7 +9,6 @@ import Vuelidate from 'vuelidate';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel';
 import VueMeta from 'vue-meta'
-import { VueReCaptcha } from 'vue-recaptcha-v3'
 import VueLazyload from 'vue-lazyload'
  
 
@@ -45,12 +44,6 @@ Vue.axios.interceptors.request.use(
   },
   (error) => Promise.reject(error)
   );
-axios.get('/api/settings/get_one/1').then(res => {
-  Vue.use(VueReCaptcha, { siteKey: res.data.recaptcha_site_token })
-})
-
-
-
 
 
 export const app = new Vue({

@@ -1,5 +1,5 @@
 <template>
-	<v-carousel hide-delimiters cycle>
+	<v-carousel hide-delimiters height="80vh" cycle>
 		<v-carousel-item class="slider-background" v-for="slide in slides" :alt="slide.photo_alt" :key="slide.id" :src="getPhoto(slide.photo)">
 			<v-row class="fill-height flex-column" align="center" justify="center">
 				<h2 class="slider-title font-weight-bold first-color">{{ slide.title }}</h2>

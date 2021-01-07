@@ -18,7 +18,7 @@
 
 				<template v-slot:extension>
 					<v-tabs color="#da5a33" v-model="currentPage" align-with-title>
-						<v-tab v-if="page.page != '/koszyk'" active-class="tab-active" v-for="(page, i) in subpages" @click.prevent="redirect(page.page)" :key="i" :href="page.page" class="d-flex align-items-center header-tab" >{{ page.title }}</v-tab>
+						<v-tab v-if="page.page != '/koszyk' && page.active" active-class="tab-active" v-for="(page, i) in subpages" @click.prevent="redirect(page.page)" :key="i" :href="page.page" class="d-flex align-items-center header-tab" >{{ page.title }}</v-tab>
 					</v-tabs>
 				</template>
 			</v-app-bar>
@@ -47,7 +47,6 @@
 			},
 			created() {
 				this.$store.dispatch('fetchSubpages')
-				this.$store.dispatch('fetchAllUsers');
 			},
 			components:{
 				Drawer

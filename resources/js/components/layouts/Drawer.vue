@@ -16,8 +16,8 @@
 						<span>{{ drawer_descriptions.panel }}</span>
 					</v-list-item>
 
-					<v-list-item @click="cartMenu = true">
-						<CartMenu :menu="cartMenu" @closeMenu="cartMenu = false" color="primary"/>
+					<v-list-item v-if="$store.getters.subpages.length > 0 ? $store.getters.subpages.find(subpage => subpage.page == '/sklep').active : true" @click="cartMenu = true">
+						<CartMenu  :menu="cartMenu" @closeMenu="cartMenu = false" color="primary"/>
 					</v-list-item>
 					<v-list-item @click="login = true; closeDrawer()" v-if="!$store.getters.token">
 						<div >
@@ -152,7 +152,7 @@
 		created() {
 			this.loadUserData();
 			this.getDrawerDescriptions();
-			this.getAuthDescriptions();
+			if(localStorage.getItem('user')) this.getAuthDescriptions();
 		}
 		
 	}

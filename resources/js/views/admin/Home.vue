@@ -250,7 +250,7 @@
 			this.secureRoutes();
 			this.setBlocks();
 			this.fillBaseHeaders(); 
-
+			this.$store.dispatch('fetchAllUsers');
 		}
 	}
 </script>

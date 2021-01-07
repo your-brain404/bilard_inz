@@ -1,11 +1,6 @@
 <template>
   <div class="text-center">
-    <v-pagination
-      v-model="page"
-      :length="length"
-      :total-visible="7"
-      color="primary"
-    ></v-pagination>
+    <v-pagination v-model="page" :length="length" :total-visible="7" color="primary" ></v-pagination>
   </div>
 </template>
 

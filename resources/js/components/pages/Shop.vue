@@ -11,7 +11,7 @@
 				<ShopCategories @category="category = $event" />
 			</v-col>
 			<v-col cols="12" md="9">
-				<component :is="getComponent"></component>
+				<component @meta_title="$emit('meta_title', $event)" :is="getComponent"></component>
 			</v-col>
 		</v-row>
 	</v-container>

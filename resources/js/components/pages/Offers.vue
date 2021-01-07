@@ -11,8 +11,8 @@
 							<v-img class="white--text align-end offer-card-photo" height="200px" :alt="offer.photo_alt" :src="getPhoto(offer.photo)">
 								<v-card-title style="text-shadow: 0 0 10px black;">{{ offer.title }}</v-card-title>
 							</v-img>
-							<v-card-subtitle class="pb-0 px-0">{{ offer.subtitle }}</v-card-subtitle>
-							<v-card-text class="text--primary px-0">
+							<v-card-subtitle class="pb-0 ">{{ offer.subtitle }}</v-card-subtitle>
+							<v-card-text class="text--primary ">
 								<div v-html="offer.short_description"></div>
 							</v-card-text>
 						</v-card>

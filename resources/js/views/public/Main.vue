@@ -1,21 +1,21 @@
 <template>
 	<div class="position-relative" style="overflow: hidden;">
-		<v-lazy>
+		<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="80vh" v-model="slider">
 			<Slider />
 		</v-lazy>
-		<v-lazy>
+		<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="568px" v-model="news">
 			<News />
 		</v-lazy>
-		<v-lazy>
+		<v-lazy :options="{ threshold: .5 }" transition="fade-transition" v-model="eight_ball">
 			<img class="eight-ball" width="auto" height="200px" v-lazy="url(layout_elements.eight_ball)" alt="layout_elements.eight_ball_alt">
 		</v-lazy>
-		<v-lazy transition="scroll-y-transition">
+		<v-lazy v-model="about_us" :options="{ threshold: .5 }" transition="fade-transition" min-height="552px">
 			<AboutUs />
 		</v-lazy>
-		<v-lazy>
+		<v-lazy min-height="652px" :options="{ threshold: .5 }" transition="fade-transition" v-model="offers">
 			<Offers />
 		</v-lazy>
-		<v-lazy>
+		<v-lazy min-height="452px" :options="{ threshold: .5 }" transition="fade-transition" v-model="lucky_number">
 			<LuckyNumber />
 		</v-lazy>
 	</div>
@@ -34,7 +34,13 @@
 		data() {
 			return {
 				layout_elements: {},
-				url
+				url,
+				slider: false,
+				news: false,
+				about_us: false,
+				offers: false,
+				lucky_number: false,
+				eight_ball: false,
 			}
 		},
 		components: {

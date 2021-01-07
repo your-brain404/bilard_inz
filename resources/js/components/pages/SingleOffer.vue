@@ -60,6 +60,7 @@
 				await axios.get(`/api/offers/get_one/${this.$route.params.id}`).then(res => {
 					this.offer = res.data;
 					this.$store.commit('loading', false);
+					this.$emit('meta_title', res.data.title)
 				}).catch(err => {
 					this.$store.commit('loading', false);
 				})

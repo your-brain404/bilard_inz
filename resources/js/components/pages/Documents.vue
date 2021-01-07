@@ -17,6 +17,12 @@
 	import url from '../../helpers/photo/url.js'
 
 	export default{
+		props: ['deleteFlag'],
+		watch: {
+			deleteFlag() {
+				if(this.deleteFlag) this.getData();
+			}
+		},
 		data(){
 			return{
 				documents: [],

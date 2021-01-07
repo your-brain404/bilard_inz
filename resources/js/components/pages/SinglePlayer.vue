@@ -61,6 +61,7 @@
 				await axios.get(`/api/players/get_one/${this.$route.params.id}`).then(res => {
 					this.player = res.data;
 					this.$store.commit('loading', false);
+					this.$emit('meta_title', `${res.data.first_name} ${res.data.last_name}`);
 				}).catch(err => {
 					this.$store.commit('loading', false);
 				})

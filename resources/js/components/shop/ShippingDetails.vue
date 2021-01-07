@@ -142,27 +142,30 @@
 					this.$emit('shipping_details', this.shipping_details)
 					localStorage.setItem('shipping_details', JSON.stringify(this.shipping_details));
 				}
-			}
-		},
-		methods: {
-			...Rules.methods,
-			getCartDescriptions() {
-				axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
 			},
+			validationRules() {
+				if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
+			},
+
+	},
+	methods: {
+		...Rules.methods,
+		getCartDescriptions() {
+			axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
 		},
-		created() {
-			this.$emit('shipping_details', this.shipping_details)
-			this.getCartDescriptions();
-			if(localStorage.getItem('shipping_details') != null) {
-				this.shipping_details = JSON.parse(localStorage.getItem('shipping_details'));
-			}
-		},
-		mounted() {
-			this.$emit('valid', this.$refs.form.validate());
-		},
-		components: {
-			Rules
+	},
+	created() {
+		this.$emit('shipping_details', this.shipping_details)
+		this.getCartDescriptions();
+		if(localStorage.getItem('shipping_details') != null) {
+			this.shipping_details = JSON.parse(localStorage.getItem('shipping_details'));
 		}
-		
-	}
+		if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
+	},
+
+components: {
+	Rules
+}
+
+}
 </script>

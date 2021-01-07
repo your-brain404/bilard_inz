@@ -12,5 +12,12 @@
 		components: {
 			Stepper
 		},
+		watch: {
+			'$store.getters.subpages'() {
+				if(this.$store.getters.subpages) {
+					if(!this.$store.getters.subpages.find(subpage => subpage.page == '/sklep').active) this.$router.push('/')
+				}
+			}
+		}
 	}
 </script>

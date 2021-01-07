@@ -7,7 +7,7 @@
 		<AdminHeader v-else />
 		
 		
-		<router-view :class="{'admin-body': isPathAdmin }" ></router-view>
+		<router-view @meta_title="title = $event" :class="{'admin-body': isPathAdmin }" ></router-view>
 		
 		<Loader v-if="loading" />
 		<AdminSnackbar />
@@ -22,11 +22,9 @@
 	import Header from './layouts/Header'
 	import Footer from './layouts/Footer'
 	import AdminHeader from './layouts/AdminHeader'
-	import AdminFooter from './layouts/AdminFooter'
 	import AdminSnackbar from './snackbar/AdminSnackbar';
 	import Loader from './loader/Loader';
 	import axios from 'axios'
-	import parseJwt from '../helpers/auth/tokenDecoder.js'
 	import Cookies from '@/components/cookies/Cookies'
 
 	function recaptcha() {
@@ -50,7 +48,7 @@
 			}
 		},
 		components: {
-			Header, Footer, AdminHeader, AdminFooter, AdminSnackbar, Loader, Cookies
+			Header, Footer, AdminHeader, AdminSnackbar, Loader, Cookies
 		},
 		data() {
 			return {
@@ -68,6 +66,9 @@
 				this.setMetaTitle();
 				recaptcha();
 				this.checkSubpageEntry();
+			},
+			subpages() {
+				if(this.subpages.length > 0) this.checkSubpageEntry();
 			}
 		},
 		computed:{
@@ -90,25 +91,15 @@
 		methods:{
 			checkSubpageEntry() {
 				for(let subpage of this.subpages) {
-					if(subpage.page == '/' + this.$route.path.split('/')[0]) {
-						if(!subpage.active) this.$router.push('/')
+					if(subpage.page == '/' + this.$route.path.split('/')[1]) {
+						if(!subpage.active && subpage.page != '/koszyk') this.$router.push('/')
 					}
 			}
 		},
 		setMetaTitle() {
 			this.$store.commit('currentSubpage', this.$route.path);
 			if(this.$route.path.split('/').includes('admin-panel')) this.title = 'Panel Administracyjny';
-			else {
-				if(this.$route.path.split('/')[1] == 'oferta' && this.$route.params.id) {
-					axios.get(`/api/offers/get_one/${this.$route.params.id}`).then(offer => this.title = offer.data.title);
-				}else if(this.$route.path.split('/')[1] == 'aktualnosci' && this.$route.params.id) {
-					axios.get(`/api/news/get_one/${this.$route.params.id}`).then(info => this.title = info.data.title);
-				}else if(this.$route.path.split('/')[1] == 'zawodnicy' && this.$route.params.id) {
-					axios.get(`/api/players/get_one/${this.$route.params.id}`).then(player => this.title = player.data.first_name + player.data.last_name)
-				}else if(this.$route.path.split('/')[1] == 'puchary' && this.$route.params.id) {
-					axios.get(`/api/cups/get_one/${this.$route.params.id}`).then(cup => this.title = cup.data.title);
-				} else this.title = this.currentSubpage ? this.currentSubpage.title : '';
-			} 
+			else this.title = this.currentSubpage ? this.currentSubpage.title : '';
 		},
 		
 		autoLogin(){
@@ -134,7 +125,6 @@
 		this.setMetaTitle();
 		this.$store.dispatch('settings');
 		this.$store.dispatch('contact');
-		this.$store.dispatch('fetchAllUsers');
 		this.$store.dispatch('snackbarAlerts');
 		
 		if (window.location.hash && window.location.hash == '#_=_') {

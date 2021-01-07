@@ -67,6 +67,7 @@
 				await axios.get(`/api/news/get_one/${this.$route.params.id}`).then(res => {
 					this.$store.commit('loading', false);
 					this.singleNews = res.data;
+					this.$emit('meta_title', res.data.title);
 				}).catch(err => {
 					console.log(err)
 					this.$store.commit('loading', false);

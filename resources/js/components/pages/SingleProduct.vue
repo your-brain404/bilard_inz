@@ -171,6 +171,7 @@ v<template>
 					this.shop_product = res.data;
 					this.$store.commit('loading', false);
 					this.getShopItems();
+					this.$emit('meta_title', res.data.title)
 				}).catch(err => {
 					this.$store.commit('loading', false);
 				})
