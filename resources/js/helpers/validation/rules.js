@@ -5,5 +5,8 @@ export default {
 		return pattern.test(v) || 'Niepoprawny e-mail.'
 	},
 	passwordLength: v => v.length >= 8 || 'Hasło musi mieć co najmniej 8 liter!',
-	fileSize: v => v == null ? true : v.size < 5000000 || 'Zdjęcie powinno ważyć mniej niż 5 MB!'
+	fileSize: v => v == null ? true : v.size < 5000000 || 'Zdjęcie powinno ważyć mniej niż 5 MB!',
+	passwordConfirm: function(password, passwordConf) {
+		return password == passwordConf || 'Hasła muszą być takie same!';
+	},
 }

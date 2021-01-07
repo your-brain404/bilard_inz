@@ -137,7 +137,7 @@ export default {
 			this.edit(this.getFormData());
 		},
 		secureRoutes() {
-			let user = JSON.parse(sessionStorage.getItem('user'));
+			let user = JSON.parse(localStorage.getItem('user'));
 			let status = false;
 			if(user) {
 				if(user.type == 'Admin' || user.type == 'Moderator') {

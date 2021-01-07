@@ -102,7 +102,7 @@
 				this.$store.commit('cart', this.cart);
 			},
 			deleteProduct(i) {
-				if(!confirm('Czy na pewno usunąć z koszyka przedmiot: ' + this.cart[i].product.title + '?')) return;
+				if(!confirm(this.$store.getters.snackbarAlerts.delete_from_cart_question + this.cart[i].product.title + '?')) return;
 				this.cart.splice(i, 1);
 				localStorage.setItem('cart', JSON.stringify(this.cart))
 				this.$store.commit('cart', this.cart);

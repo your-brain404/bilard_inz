@@ -49,15 +49,15 @@
 			}
 		},
 		methods: {
-			getPlayersDescriptions() {
-				axios.get('/api/players_descriptions/get_one/1').then(res => this.players_descriptions = res.data);
+			async getPlayersDescriptions() {
+				await axios.get('/api/players_descriptions/get_one/1').then(res => this.players_descriptions = res.data);
 			},
 			slug: title => slugify(title),
-			getPlayers(){
+			async getPlayers(){
 				let endpoint = 'get_all';
 				if(this.$route.path == '/zawodnicy') endpoint = 'get_where?active=1';
 				this.$store.commit('loading', true);
-				axios.get(`/api/players/${endpoint}`).then(res => {
+				await axios.get(`/api/players/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.players = res.data;
 					this.$emit('blockDataEmit', this.players);

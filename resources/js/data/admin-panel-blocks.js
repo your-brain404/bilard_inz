@@ -45,6 +45,8 @@ import CartDescriptions from '@/components/emit-data-blocks/CartDescriptions'
 import BreadcrumbDescriptions from '@/components/emit-data-blocks/BreadcrumbDescriptions'
 import LayoutElements from '@/components/emit-data-blocks/LayoutElements'
 import DrawerDescriptions from '@/components/emit-data-blocks/DrawerDescriptions'
+import AuthDescriptions from '@/components/emit-data-blocks/AuthDescriptions'
+import SnackbarAlerts from '@/components/emit-data-blocks/SnackbarAlerts'
 
 export default {
 	main:[
@@ -72,6 +74,8 @@ export default {
 	{title: 'Breadcrumb opisy', component: BreadcrumbDescriptions, tablename: 'breadcrumb_descriptions', table: []},
 	{title: 'Elementy Layoutu', component: LayoutElements, tablename: 'layout_elements', table: []},
 	{title: 'Menu opisy', component: DrawerDescriptions, tablename: 'drawer_descriptions', table: []},
+	{title: 'Logowanie i rejestracja opisy', component: AuthDescriptions, tablename: 'auth_descriptions', table: []},
+	{title: 'Komunikaty (pomarańczowy pasek w prawym dolnym rogu)', component: SnackbarAlerts, tablename: 'snackbar_alerts', table: []},
 	],
 
 	offers: [

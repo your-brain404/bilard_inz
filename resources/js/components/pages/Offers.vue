@@ -46,16 +46,16 @@
 			this.getOffersDescriptions();
 		},
 		methods:{
-			getOffersDescriptions() {
-				axios.get('/api/offers_descriptions/get_one/1').then(res => this.offers_descriptions = res.data);
+			async getOffersDescriptions() {
+				await axios.get('/api/offers_descriptions/get_one/1').then(res => this.offers_descriptions = res.data);
 			},
 			slug: title => slugify(title),
-			getOffers() {
+			async getOffers() {
 				let endpoint = `get_where?active=1`;
 				if(this.$route.path == '/') endpoint = `get_where?active=1&home_page=1`;
 				if(this.$route.path == '/admin-panel') endpoint = `get_all`;
 				this.$store.commit('loading', true);
-				axios.get(`/api/offers/${endpoint}`).then(res => {
+				await axios.get(`/api/offers/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.offers = res.data;
 					this.$emit('blockDataEmit', this.offers);

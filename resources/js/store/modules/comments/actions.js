@@ -1,8 +1,8 @@
 import {db} from '../../../firebase/firebase.js'
 
 export default {
-	fetchAllComments({commit}) {
-		db.collection("comments")
+	async fetchAllComments({commit}) {
+		await db.collection("comments")
 		.orderBy('created','asc')
 		.get()
 		.then(querySnapshot =>{
@@ -15,8 +15,8 @@ export default {
 			commit('comments', comments);
 		});
 	},
-	fetchCommentsWhere({commit}, news_ids) {
-		db.collection("comments")
+	async fetchCommentsWhere({commit}, news_ids) {
+		await db.collection("comments")
 		.onSnapshot(querySnapshot => {
 			let comments = [];
 			querySnapshot.forEach(doc => {
@@ -27,8 +27,8 @@ export default {
 			commit('comments', comments)
 		})
 	},
-	deleteUserComments(context, user_id) {
-		db.collection('comments')
+	async deleteUserComments(context, user_id) {
+		await db.collection('comments')
 		.onSnapshot(querySnapshot => {
 			querySnapshot.forEach(doc => {
 				if(doc.data().user_id == user_id) db.collection('comments').doc(doc.id).delete();

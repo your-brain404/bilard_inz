@@ -38,15 +38,15 @@
 			}
 		},
 		methods: {
-			getCupsDescriptions() {
-				axios.get('/api/cups_descriptions/get_one/1').then(res => this.cups_descriptions = res.data);
+			async getCupsDescriptions() {
+				await axios.get('/api/cups_descriptions/get_one/1').then(res => this.cups_descriptions = res.data);
 			},
 			slug: title => slugify(title),
-			getCups(){
+			async getCups(){
 				let endpoint = 'get_all';
 				if(this.$route.path == '/zawodnicy') endpoint = 'get_where?active=1';
 				this.$store.commit('loading', true);
-				axios.get(`/api/cups/${endpoint}`).then(res => {
+				await axios.get(`/api/cups/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.cups = res.data;
 					this.$emit('blockDataEmit', this.cups);

@@ -84,14 +84,14 @@
 					if(com.id == news_id) length++;
 				return length;
 			},
-			deleteComment(comment) {
-				db.collection('comments').doc(comment.id).delete().then(() => {
-					this.$store.commit('setSnackbar', 'Pomyślnie usunięto komentarz!');
+			async deleteComment(comment) {
+				await db.collection('comments').doc(comment.id).delete().then(() => {
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.delete_comment);
 				}).catch(err => {
-					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
 				})
 			},
-			sendComment(news_id) {
+			async sendComment(news_id) {
 				if(this.newComment == '') return;
 				let comment = {
 					news_id: parseInt(news_id),
@@ -99,8 +99,8 @@
 					text: this.newComment,
 					created: Date.now()
 				};
-				db.collection('comments').add(comment);
-				this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
+				await db.collection('comments').add(comment);
+				this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.add_comment);
 				this.newComment = '';
 			},
 		},

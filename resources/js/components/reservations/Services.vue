@@ -11,7 +11,6 @@
 			}
 		},
 		methods: {
-			slug: title => slugify(title),
 			getServices(){
 				this.$store.commit('loading', true);
 				axios.get(`/api/services/get_all`).then(res => {
@@ -23,7 +22,6 @@
 					console.log(err);
 				})
 			},
-			getUrl: src => url(src),
 		},
 		created() {
 			this.getServices();

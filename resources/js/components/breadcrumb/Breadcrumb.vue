@@ -22,8 +22,13 @@
 				home: ''
 			}
 		},
+		methods: {
+			async getBreadcrumbDescriptions() {
+				await axios.get('/api/breadcrumb_descriptions/get_one/1').then(res => this.home = res.data.title);
+			}
+		},
 		created() {
-			axios.get('/api/breadcrumb_descriptions/get_one/1').then(res => this.home = res.data.title);
+			this.getBreadcrumbDescriptions();
 		}
 	}
 </script>

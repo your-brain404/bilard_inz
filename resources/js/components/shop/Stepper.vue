@@ -98,11 +98,11 @@
 			realize() {
 				this.$store.commit('loading', true);
 				axios.post('/api/shop_orders/add', this.cart_data).then(res => {
-					this.$store.commit('setSnackbar', 'Pomyślnie złożono zamówienie!');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.order_success);
 					this.$store.commit('loading', false);
 					console.log(res)
 				}).catch(err => {
-					this.$store.commit('setSnackbar', 'Coś poszło nie tak, przepraszamy...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
 					this.$store.commit('loading', false);
 				})
 			}

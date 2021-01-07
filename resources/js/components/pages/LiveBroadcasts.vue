@@ -33,14 +33,14 @@
 			}
 		},
 		methods: {
-			getLiveBroadcastsDescriptions() {
-				axios.get('/api/live_broadcasts_descriptions/get_one/1').then(res => this.live_broadcasts_descriptions = res.data);
+			async getLiveBroadcastsDescriptions() {
+				await axios.get('/api/live_broadcasts_descriptions/get_one/1').then(res => this.live_broadcasts_descriptions = res.data);
 			},
-			getLiveBroadcasts(){
+			async getLiveBroadcasts(){
 				let endpoint = 'get_all';
 				if(this.$route.path == '/transmisje') endpoint = 'get_where?active=1';
 				this.$store.commit('loading', true);
-				axios.get(`/api/live_broadcasts/${endpoint}`).then(res => {
+				await axios.get(`/api/live_broadcasts/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.live_broadcasts = res.data;
 					this.$emit('blockDataEmit', this.live_broadcasts);

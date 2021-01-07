@@ -124,21 +124,21 @@
 			this.getNewsDescriptions();
 		},
 		methods:{
-			getCommentsDescriptions() {
-				axios.get('/api/comments_descriptions/get_one/1').then(res => this.comments_descriptions = res.data);
+			async getCommentsDescriptions() {
+				await axios.get('/api/comments_descriptions/get_one/1').then(res => this.comments_descriptions = res.data);
 			},
-			getNewsDescriptions() {
-				axios.get('/api/news_descriptions/get_one/1').then(res => this.news_descriptions = res.data);
+			async getNewsDescriptions() {
+				await axios.get('/api/news_descriptions/get_one/1').then(res => this.news_descriptions = res.data);
 			},
 			slug: title => slugify(title),
 			setPath(event) {
 				if(this.$route.params.page != event) this.$router.push({name: 'NewsListingPage', params: {page: event}});
 			},
-			deleteComment(comment) {
-				db.collection('comments').doc(comment.id).delete().then(() => {
-					this.$store.commit('setSnackbar', 'Pomyślnie usunięto komentarz!');
+			async deleteComment(comment) {
+				await db.collection('comments').doc(comment.id).delete().then(() => {
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.delete_comment);
 				}).catch(err => {
-					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
 				})
 			},
 			getCommentsLength(news_id) {
@@ -154,7 +154,7 @@
 				}
 				this.$store.dispatch('fetchCommentsWhere', news_ids);
 			},
-			getNews(){
+			async getNews(){
 				let page = this.$route.params.page || 1; 
 				let endpoint = `get_pagination?page=${page}`;
 				if(this.$route.params.category) endpoint = `get_where?category=${this.$route.params.category}`;
@@ -163,7 +163,7 @@
 				else if(this.$route.path == '/admin-panel/news') endpoint = `get_all`; 
 
 				this.$store.commit('loading', true);
-				axios.get(`/api/news/${endpoint}`).then(res => {
+				await axios.get(`/api/news/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					if(endpoint != 'get_all') res = res.data;
 					this.pagination = res.meta;
@@ -190,7 +190,7 @@
 			showCom(id){
 				this.paginateComments = 3;
 				if(this.$store.getters.token === '') {
-					this.$store.commit('setSnackbar', 'Musisz się zalogować!');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.login_require);
 					return;
 				}
 				for(let i=0 ; i< this.showComments.length ; i++){
@@ -199,7 +199,7 @@
 					}
 				}
 			},
-			sendComment(news_id) {
+			async sendComment(news_id) {
 				if(this.newComment == '') return;
 				let comment = {
 					news_id: parseInt(news_id),
@@ -207,10 +207,10 @@
 					text: this.newComment,
 					created: Date.now()
 				};
-				db.collection('comments').add(comment).then(res => {
-					this.$store.commit('setSnackbar', 'Pomyślnie dodano komentarz!');
+				await db.collection('comments').add(comment).then(res => {
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.add_comment);
 				}).catch(err => {
-					this.$store.commit('setSnackbar', 'Przepraszamy, coś poszło nie tak!');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
 					console.log(err);
 				});
 				this.newComment = '';

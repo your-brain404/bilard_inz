@@ -48,13 +48,13 @@
 			}
 		},
 		methods: {
-			getCupsDescriptions() {
-				axios.get('/api/cups_descriptions/get_one/1').then(res => this.cups_descriptions = res.data);
+			async getCupsDescriptions() {
+				await axios.get('/api/cups_descriptions/get_one/1').then(res => this.cups_descriptions = res.data);
 			},
 			getUrl: src => url(src),
-			getCup() {
+			async getCup() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/cups/get_one/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/cups/get_one/${this.$route.params.id}`).then(res => {
 					this.cup = res.data;
 					this.$store.commit('loading', false);
 				}).catch(err => {
@@ -64,9 +64,9 @@
 			setGalleryLightbox(gallery){
 				gallery.forEach(photo => this.galleryLightbox.push(photo.path));
 			},  
-			getGallery() {
+			async getGallery() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/gallery/get_photos/cups/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/gallery/get_photos/cups/${this.$route.params.id}`).then(res => {
 					this.gallery = res.data;
 					this.setGalleryLightbox(res.data);
 					this.$store.commit('loading', false);

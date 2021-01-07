@@ -39,8 +39,8 @@
 			ShopCategories, ShopProducts, SingleProduct
 		},
 		methods: {
-			getShopDescriptions() {
-				axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+			async getShopDescriptions() {
+				await axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
 			},
 		},
 		created() {

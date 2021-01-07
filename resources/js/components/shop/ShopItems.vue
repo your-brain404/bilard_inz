@@ -11,7 +11,6 @@
 			}
 		},
 		methods: {
-			slug: title => slugify(title),
 			getItems(){
 				this.$store.commit('loading', true);
 				axios.get(`/api/shop_items/get_where?product_id=${this.$route.params.parent_id}`).then(res => {

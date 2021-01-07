@@ -1,26 +1,26 @@
 <template>
 	<div>
 		<v-dialog class="position-relative" @input="v => v || closeRegister()" v-model="dialog" persistent>
-			<v-card class="register-card  register-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${origin}/storage/img/toolbar/8-ball.jpg)`">
+			<v-card class="register-card  register-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${url(auth_descriptions.bg_register_photo)})`">
 				<div @click="closeRegister" class="close-button">
-					<v-icon color="white">mdi-close</v-icon>
+					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
 				</div>
 				<v-form ref="form" v-model="valid" class="position-relative register-form">
-					<h1 class="about-title font-weight-bold text-center text-white mt-0">Zarejestruj się</h1>
-					<v-text-field dark v-model="name" :rules="[rules.required]" :counter="30" label="Imię i Nazwisko" class="primary-text"></v-text-field>
-					<v-text-field dark v-model="email" :rules="[rules.required, rules.email]" label="E-mail"></v-text-field>
-					<v-text-field type="password" :rules="[rules.required, rules.passwordLength]" dark v-model="password" label="Hasło"></v-text-field>
-					<v-text-field :rules="[rules.required, passwordConfirm]" type="password" dark v-model="passwordConf" label="Potwierdź Hasło"></v-text-field>
+					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.register_title }}</h1>
+					<v-text-field dark v-model="name" :rules="[rules.required]" :counter="30" :label="auth_descriptions.name" class="primary-text"></v-text-field>
+					<v-text-field dark v-model="email" :rules="[rules.required, rules.email]" :label="auth_descriptions.email"></v-text-field>
+					<v-text-field type="password" :rules="[rules.required, rules.passwordLength]" dark v-model="password" :label="auth_descriptions.password"></v-text-field>
+					<v-text-field :rules="[rules.required, rules.passwordConfirm(password, passwordConf)]" type="password" dark v-model="passwordConf" :label="auth_descriptions.password_confirm"></v-text-field>
 
-					<v-checkbox dark class="" v-model="regulations" :rules="[rules.required]">
+					<v-checkbox dark v-model="regulations" :rules="[rules.required]">
 						<span slot="label">
-							Regulamin sklepu <a @click.stop="" class="register-checkbox-link" download :href="getUrl($store.getters.settings.privace_policy)"><v-btn dark class="register-button ml-2" small outlined>Pobierz</v-btn></a>
+							{{ auth_descriptions.shop_regulations }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.shop_regulations)"><v-btn dark class="register-button ml-2" small outlined>{{ auth_descriptions.download }}</v-btn></a>
 						</span>
 					</v-checkbox>
 
-					<v-checkbox dark class="pt-0 mt-0" v-model="privace" label="Polityka prywatności*" :rules="[rules.required]">
+					<v-checkbox dark class="pt-0 mt-0" v-model="privace" :rules="[rules.required]">
 						<span slot="label">
-							Polityka Prywatności <a @click.stop="" class="register-checkbox-link" download :href="getUrl($store.getters.settings.privace_policy)"><v-btn dark class="register-button ml-2" small outlined>Pobierz</v-btn></a>
+							{{ auth_descriptions.privace_policy }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.privace_policy)"><v-btn dark class="register-button ml-2" small outlined>{{ auth_descriptions.download }}</v-btn></a>
 						</span>
 					</v-checkbox>
 
@@ -34,12 +34,12 @@
 
 				</v-form>
 				<v-btn dark outlined class="mr-4 w-100 register-button" @click="submit">
-					Załóż konto
+					{{ auth_descriptions.make_account }}
 				</v-btn>
-				<h5 class="text-center white--text py-4 m-0 font-weight-lighter">lub</h5>
+				<h5 class="text-center white--text py-4 m-0 font-weight-lighter">{{ auth_descriptions.or }}</h5>
 
 
-				<Facebook />
+				<Facebook :auth_descriptions="auth_descriptions" />
 
 			</v-card>
 		</v-dialog>
@@ -50,9 +50,10 @@
 	import Facebook from './FacebookLogin';
 	import url from '@/helpers/photo/url';
 	import rules from '@/helpers/validation/rules'
+	import axios from 'axios'
 
 	export default {
-		props:['dialog'],
+		props:['dialog', 'auth_descriptions'],
 		watch:{
 			'$route'(){
 				this.dialog = false;
@@ -69,16 +70,13 @@
 				privace: false,
 				rodo1: false,
 				rodo2: false,
-				origin: window.location.origin,
-				rules
+				rules,
+				url
 			}
 		},
 
 		methods: {
-			passwordConfirm(v) {
-				return this.password == this.passwordConf || 'Hasła muszą być takie same!';
-			},
-			getUrl: src => url(src),
+			
 			submit () {
 				if(this.$refs.form.validate()) {
 					this.$store.dispatch('register', {email: this.email, name: this.name, password: this.password, photo: '' });
@@ -102,7 +100,8 @@
 		},
 		components:{
 			Facebook
-		}
+		},
+		
 	}
 </script>
 

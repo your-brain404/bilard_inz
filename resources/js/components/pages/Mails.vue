@@ -13,9 +13,9 @@
 			}
 		},
 		methods: {
-			getMails(){
+			async getMails(){
 				this.$store.commit('loading', true);
-				axios.get(`/api/mails/get_all`).then(res => {
+				await axios.get(`/api/mails/get_all`).then(res => {
 					this.$store.commit('loading', false);
 					this.mails = res.data;
 

@@ -2,28 +2,28 @@
 	<div>
 		<div>
 			<v-btn color="primary" icon dark >
-				<v-icon>mdi-account</v-icon>
+				<v-icon>mdi-{{ drawer_descriptions.login_icon }}</v-icon>
 			</v-btn>
-			<span>Zaloguj się!</span>
+			<span>{{ drawer_descriptions.login }}</span>
 		</div>
 		<v-dialog @input="v => v || closeLogin()" class="position-relative" v-model="dialog" persistent>
-			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${origin}/storage/img/auth/stol.jpg)`">
+			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${url(auth_descriptions.bg_login_photo)})`">
 				<div @click="closeLogin()" class="close-button">
-					<v-icon color="white">mdi-close</v-icon>
+					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
 				</div>
-				<form class="position-relative login-form">
-					<h1 class="about-title font-weight-bold text-center text-white mt-0">Zaloguj się</h1>
-					<v-text-field dark v-model="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()" @blur="$v.email.$touch()"></v-text-field>
-					<v-text-field dark v-model="password" type="password" :error-messages="passwordErrors" :counter="20" label="Hasło" required @input="$v.password.$touch()" @blur="$v.password.$touch()"></v-text-field>
-				</form>
+				<v-form ref="form" class="position-relative login-form">
+					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.login_title }}</h1>
+					<v-text-field dark v-model="email" :rules="[rules.required, rules.email]" :label="auth_descriptions.email" required ></v-text-field>
+					<v-text-field dark v-model="password" type="password" :rules="[rules.required, rules.passwordLength]" :counter="20" :label="auth_descriptions.password" required ></v-text-field>
+				</v-form>
 				<v-btn dark outlined class="mr-4 w-100 login-button mt-5" @click="submit">
-					Zaloguj się
+					{{ auth_descriptions.login }}
 				</v-btn>
-				<h5 class="text-center white--text py-2 m-0 font-weight-lighter">lub</h5>
+				<h5 class="text-center white--text py-2 m-0 font-weight-lighter">{{ auth_descriptions.or }}</h5>
 
-				<Facebook />
+				<Facebook :auth_descriptions="auth_descriptions" />
 
-				<p @click="openRegister" class="white--text text-center mt-5" style="cursor: pointer">Nie masz konta? Zarejestruj się</p>	
+				<p @click="openRegister" class="white--text text-center mt-5" style="cursor: pointer">{{ auth_descriptions.register_now }}</p>	
 
 			</v-card>
 		</v-dialog>
@@ -31,18 +31,12 @@
 </template>
 
 <script>
-	import { validationMixin } from 'vuelidate'
-	import { required, maxLength, email } from 'vuelidate/lib/validators'
 	import axios from 'axios'
 	import Facebook from './FacebookLogin'
+	import url from '@/helpers/photo/url';
+	import rules from '@/helpers/validation/rules'
 
 	export default {
-		mixins: [validationMixin],
-
-		validations: {
-			email: { required, email },
-			password: { required },
-		},
 		watch:{
 			'$route'(){
 				this.dialog = false;
@@ -51,54 +45,41 @@
 		components:{
 			Facebook
 		},
-		props: ['dialog'],
+		props: ['dialog', 'auth_descriptions', 'drawer_descriptions'],
 
-		data: () => ({
-			email: '',
-			password: '',
-			origin: window.location.origin
-			
-		}),
-
-		computed: {
-			
-			emailErrors () {
-				const errors = []
-				if (!this.$v.email.$dirty) return errors
-					!this.$v.email.email && errors.push('Proszę podać poprawny adres E-mail!')
-				!this.$v.email.required && errors.push('To pole jest wymagane')
-				return errors
-			},
-			passwordErrors () {
-				const errors = []
-				if (!this.$v.password.$dirty) return errors
-					!this.$v.password.required && errors.push('To pole jest wymagane')
-				return errors
-			},
+		data() {
+			return {
+				email: '',
+				password: '',
+				origin: window.location.origin,
+				rules,
+				url
+			}
 		},
-
 		methods: {
+			
+			
 			closeLogin() {
 				this.$emit('closeLogin');
 			},
-			submit () {
-				if(!this.$v.$anyError) {
-					this.$store.dispatch('authLogin', {email: this.email, password: this.password});
-					this.dialog = false;
-				}
-				
-			},
-			clear () {
-				this.$v.$reset()
+			clear() {
 				this.email = ''
 				this.password = ''
 			},
+			submit() {
+				if(this.$refs.form.validate()) {
+					this.$store.dispatch('authLogin', {email: this.email, password: this.password});
+					this.clear();
+				}
+				
+			},
 			openRegister(){
-				this.dialog = false;
+				this.closeLogin();
 				this.$emit('openRegister');
 			},
 			
 		},
+		
 	}
 </script>
 

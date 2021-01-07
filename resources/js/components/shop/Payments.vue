@@ -22,14 +22,13 @@
 <script>
 	import DeliveryOptions from './DeliveryOptions'
 	import axios from 'axios'
+	import rules from '@/helpers/validation/rules'
 
 	export default {
 		props: ['submit', 'summary', 'data'],
 		data() {
 			return {
-				rules: {
-					required: v => !!v || 'To pole jest wymagane!'
-				},
+				rules,
 				valid: true,
 				payments: {
 					delivery: 'courier',

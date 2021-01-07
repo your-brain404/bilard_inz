@@ -1,11 +1,23 @@
 <template>
 	<div class="position-relative" style="overflow: hidden;">
-		<Slider />
-		<News />
-		<img class="eight-ball" width="auto" height="200px" :src="url(layout_elements.eight_ball)" alt="layout_elements.eight_ball_alt">
-		<AboutUs />
-		<Offers />
-		<LuckyNumber />
+		<v-lazy>
+			<Slider />
+		</v-lazy>
+		<v-lazy>
+			<News />
+		</v-lazy>
+		<v-lazy>
+			<img class="eight-ball" width="auto" height="200px" v-lazy="url(layout_elements.eight_ball)" alt="layout_elements.eight_ball_alt">
+		</v-lazy>
+		<v-lazy transition="scroll-y-transition">
+			<AboutUs />
+		</v-lazy>
+		<v-lazy>
+			<Offers />
+		</v-lazy>
+		<v-lazy>
+			<LuckyNumber />
+		</v-lazy>
 	</div>
 </template>
 

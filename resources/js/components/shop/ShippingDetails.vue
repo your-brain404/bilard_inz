@@ -77,6 +77,7 @@
 
 <script>
 	import axios from 'axios'
+	import rules from '@/helpers/validation/rules'
 	
 	export default {
 		props: ['submit', 'summary', 'data'],
@@ -110,13 +111,7 @@
 				},
 				cart_descriptions: {},
 				
-				rules: {
-					required: v => !!v || 'To pole jest wymagane!',
-					email: value => {
-						const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-						return pattern.test(value) || 'Niepoprawny e-mail.'
-					}, 
-				}
+				rules,
 				
 			}
 		},

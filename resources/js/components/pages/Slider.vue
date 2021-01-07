@@ -1,6 +1,6 @@
 <template>
 	<v-carousel hide-delimiters cycle>
-		<v-carousel-item class="slider-background" v-for="(slide,i) in slides" :alt="slide.photo_alt" :key="i" :src="getPhoto(slide.photo)">
+		<v-carousel-item class="slider-background" v-for="slide in slides" :alt="slide.photo_alt" :key="slide.id" :src="getPhoto(slide.photo)">
 			<v-row class="fill-height flex-column" align="center" justify="center">
 				<h2 class="slider-title font-weight-bold first-color">{{ slide.title }}</h2>
 				<div class="slider-subtitle white--text font-weight-bold">{{ slide.subtitle }}</div>
@@ -25,11 +25,11 @@
 			
 		},
 		methods:{
-			getSlider(){
+			async getSlider(){
 				let endpoint = `get_all`;
 				if(this.$route.path == '/') endpoint = `get_where?active=1`;
 				this.$store.commit('loading', true);
-				axios.get(`/api/slider/${endpoint}`).then(res => {
+				await axios.get(`/api/slider/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.slides = res.data;
 					this.$emit('blockDataEmit', this.slides);

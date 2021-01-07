@@ -51,13 +51,13 @@
 			}
 		},
 		methods: {
-			getOffersDescriptions() {
-				axios.get('/api/offers_descriptions/get_one/1').then(res => this.offers_descriptions = res.data);
+			async getOffersDescriptions() {
+				await axios.get('/api/offers_descriptions/get_one/1').then(res => this.offers_descriptions = res.data);
 			},
 			getUrl: src => url(src),
-			getOffer() {
+			async getOffer() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/offers/get_one/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/offers/get_one/${this.$route.params.id}`).then(res => {
 					this.offer = res.data;
 					this.$store.commit('loading', false);
 				}).catch(err => {
@@ -68,9 +68,9 @@
 				for(let photo of gallery) 
 					this.galleryLightbox.push(photo.path);
 			},
-			getGallery() {
+			async getGallery() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/gallery/get_photos/offers/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/gallery/get_photos/offers/${this.$route.params.id}`).then(res => {
 					this.gallery = res.data;
 					this.setGalleryLightbox(res.data);
 					this.$store.commit('loading', false);

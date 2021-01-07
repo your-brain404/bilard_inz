@@ -13,7 +13,7 @@
 			<v-col cols="12" md="8" class="d-flex flex-column justify-content-center">
 				<h2 class="font-weight-bold">{{ fullName }}</h2>
 				<p>{{ player.subtitle }}</p>
-				<p>Liga: {{ player.league }}</p>
+				<p>{{ `${players_descriptions.league} ${player.league}` }}</p>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -52,13 +52,13 @@
 			}
 		},
 		methods: {
-			getPlayersDescriptions() {
-				axios.get('/api/players_descriptions/get_one/1').then(res => this.players_descriptions = res.data);
+			async getPlayersDescriptions() {
+				await axios.get('/api/players_descriptions/get_one/1').then(res => this.players_descriptions = res.data);
 			},
 			getUrl: src => url(src),
-			getPlayer() {
+			async getPlayer() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/players/get_one/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/players/get_one/${this.$route.params.id}`).then(res => {
 					this.player = res.data;
 					this.$store.commit('loading', false);
 				}).catch(err => {
@@ -68,9 +68,9 @@
 			setGalleryLightbox(gallery){
 				gallery.forEach(photo => this.galleryLightbox.push(photo.path));
 			},  
-			getGallery() {
+			async getGallery() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/gallery/get_photos/players/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/gallery/get_photos/players/${this.$route.params.id}`).then(res => {
 					this.gallery = res.data;
 					this.setGalleryLightbox(res.data);
 					this.$store.commit('loading', false);

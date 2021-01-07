@@ -103,6 +103,7 @@
 
 <script>
 	import axios from 'axios'
+	import rules from '@/helpers/validation/rules'
 
 	export default {
 		data() {
@@ -120,21 +121,15 @@
 				loading: false,
 				valid: true,
 				contact_descriptions: {},
-				rules: {
-					required:  v => !!v || 'To pole jest wymagane!',
-					email: value => {
-						const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-						return pattern.test(value) || 'Niepoprawny e-mail.'
-					},
-				}
+				rules
 			}
 		},
 		methods: {
-			getContactDescriptions() {
-				axios.get('/api/contact_descriptions/get_one/1').then(res => this.contact_descriptions = res.data);
+			async getContactDescriptions() {
+				await axios.get('/api/contact_descriptions/get_one/1').then(res => this.contact_descriptions = res.data);
 			},
-			sendMail(mail){
-				axios.post('/api/mails/send', mail).then(res => {
+			async sendMail(mail){
+				await axios.post('/api/mails/send', mail).then(res => {
 					console.log(res)
 					this.loading = false;
 					if(res.data.error != undefined) this.$store.commit('setSnackbar', res.data.error.message);
@@ -147,21 +142,21 @@
 				}).catch(err => {
 					console.log(err)
 					this.loading = false;
-					this.$store.commit('setSnackbar', 'Przepraszamy, nie udało się wysłać maila...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.mail_error);
 				})
 
 			},
-			saveAttachments(mail) {
+			async saveAttachments(mail) {
 				for(let i=0 ; i<this.files.length ; i++ ){
 					let formData = new FormData();
 					formData.append('file', this.files[i]);
 					formData.append('mail_id', mail.id);
-					axios.post('/api/attachments/add', formData).then(res=>{
+					await axios.post('/api/attachments/add', formData).then(res=>{
 						if(i == this.files.length - 1) this.sendMail(mail);
 					}).catch(err=>{
 						this.loading = false;
 						console.log(err);
-						this.$store.commit('setSnackbar', 'Przepraszamy, nie udało się wysłać załączników...');
+						this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.attachments_error);
 					});
 				} 
 			},
@@ -171,10 +166,10 @@
 				this.loading = true;
 				const response = await this.$recaptcha('login')
 				if(!response) {
-					this.$store.commit('setSnackbar', 'System twierdzi, że jesteś robotem...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.recaptcha_error);
 					return;
 				}
-				axios.post('/api/mails/add', {...this.contact_data, response}).then(res => {
+				await axios.post('/api/mails/add', {...this.contact_data, response}).then(res => {
 					console.log(res)
 					if(res.data.error != undefined) {
 						this.$store.commit('setSnackbar', res.data.error.message);
@@ -186,7 +181,7 @@
 				}).catch(err => {
 					console.log(err)
 					this.loading = false;
-					this.$store.commit('setSnackbar', 'Przepraszamy, błąd serwera...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
 				})
 			},
 

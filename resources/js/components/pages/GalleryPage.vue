@@ -30,13 +30,13 @@
 			}
 		},
 		methods: {
-			getGalleryDescriptions() {
-				axios.get('/api/gallery_descriptions/get_one/1').then(res => this.gallery_descriptions = res.data);
+			async getGalleryDescriptions() {
+				await axios.get('/api/gallery_descriptions/get_one/1').then(res => this.gallery_descriptions = res.data);
 			},
 			getUrl: src => url(src),
-			getGallery() {
+			async getGallery() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/gallery/get_photos/gallery_page/1`).then(res => {
+				await axios.get(`/api/gallery/get_photos/gallery_page/1`).then(res => {
 					this.gallery = res.data;
 					this.setGalleryLightbox(res.data);
 					this.$store.commit('loading', false);

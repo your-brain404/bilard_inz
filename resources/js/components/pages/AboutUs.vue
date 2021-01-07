@@ -57,9 +57,9 @@
 			getUrl(src){
 				return url(src);
 			},
-			getData(){
+			async getData(){
 				this.$store.commit('loading', true);
-				axios.get('/api/about_us/get_all').then(res => {
+				await axios.get('/api/about_us/get_all').then(res => {
 					if(res.data.length > 0) this.about = res.data;
 					this.$emit('blockDataEmit', this.about);
 					this.$store.commit('loading', false);
@@ -69,9 +69,9 @@
 				for(let photo of gallery)
 					this.lightboxGallery.push(photo.path)
 			},
-			getGallery() {
+			async getGallery() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/gallery/get_photos/about_us/1`).then(res => {
+				await axios.get(`/api/gallery/get_photos/about_us/1`).then(res => {
 					this.$store.commit('loading', false);
 					this.setLightboxGallery(res.data);
 				})

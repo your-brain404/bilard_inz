@@ -58,13 +58,13 @@
 			}
 		},
 		methods: {
-			getCommentsDescriptions() {
-				axios.get('/api/comments_descriptions/get_one/1').then(res => this.comments_descriptions = res.data);
+			async getCommentsDescriptions() {
+				await axios.get('/api/comments_descriptions/get_one/1').then(res => this.comments_descriptions = res.data);
 			},
 			getUrl: src => url(src),
-			getSingleNews() {
+			async getSingleNews() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/news/get_one/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/news/get_one/${this.$route.params.id}`).then(res => {
 					this.$store.commit('loading', false);
 					this.singleNews = res.data;
 				}).catch(err => {
@@ -76,9 +76,9 @@
 				for(let photo of gallery) 
 					this.galleryLightbox.push(photo.path);
 			},
-			getGallery() {
+			async getGallery() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/gallery/get_photos/news/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/gallery/get_photos/news/${this.$route.params.id}`).then(res => {
 					this.gallery = res.data;
 					this.setGalleryLightbox(res.data);
 					this.$store.commit('loading', false);

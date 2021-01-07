@@ -4,13 +4,14 @@ namespace App\Http\Helpers;
 
 use Illuminate\Http\Response;
 use App\Http\Resources\ResponseResource;
+use App\SnackbarAlerts;
 
 class ResponseHelper {
 
 	public static function validateResponse(){
 		return new Response(json_encode([
 			'error' => [
-				'message' => 'Niepoprawne dane!',
+				'message' => SnackbarAlerts::find(1)->validate,
 				'code' => 400,
 				'status' => false
 			]
@@ -20,7 +21,7 @@ class ResponseHelper {
 	public static function nonActivatedAccount() {
 		return new Response(json_encode([
 			'error' => [
-				'message' => 'Proszę aktywować konto!',
+				'message' => SnackbarAlerts::find(1)->non_activated_account,
 				'code' => 400,
 				'status' => false
 			]
@@ -30,7 +31,7 @@ class ResponseHelper {
 	public static function blockedUser() {
 		return new Response(json_encode([
 			'error' => [
-				'message' => 'Przepraszamy, Twoje konto zostało zablokowane!',
+				'message' => SnackbarAlerts::find(1)->blocked_user,
 				'code' => 400,
 				'status' => false
 			]
@@ -40,7 +41,7 @@ class ResponseHelper {
 	public static function findUserResponse(){
 		return new Response(json_encode([
 			'error' => [
-				'message' => 'Taki użytkownik już istnieje!',
+				'message' => SnackbarAlerts::find(1)->user_exist,
 				'code' => 400,
 				'status' => false
 			]
@@ -50,7 +51,7 @@ class ResponseHelper {
 	public static function mailSuccessResponse(){
 		return [
 			"success" => [
-				'message' => "Pomyślnie wysłano wiadomość!",
+				'message' => SnackbarAlerts::find(1)->mail_success,
 				'code' => 201,
 				'status' => true
 			]
@@ -60,7 +61,7 @@ class ResponseHelper {
 	public static function mailErrorResponse(){
 		return [
 			"error" => [
-				'message' => "Przepraszamy, coś poszło nie tak...",
+				'message' => SnackbarAlerts::find(1)->mail_error,
 				'code' => 500,
 				'status' => false
 			]
@@ -70,7 +71,7 @@ class ResponseHelper {
 	public static function invalidRecaptcha(){
 		return [
 			"error" => [
-				'message' => "System podejrzewa, że nie można Ci ufać...",
+				'message' => SnackbarAlerts::find(1)->recaptcha_error,
 				'code' => 500,
 				'status' => false
 			]

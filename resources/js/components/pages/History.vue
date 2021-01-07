@@ -40,12 +40,12 @@
 			}
 		},
 		methods: {
-			getHistoryDescriptions() {
-				axios.get('/api/history_descriptions/get_one/1').then(res => this.history_descriptions = res.data);
+			async getHistoryDescriptions() {
+				await axios.get('/api/history_descriptions/get_one/1').then(res => this.history_descriptions = res.data);
 			},
-			getHistory(){
+			async getHistory(){
 				this.$store.commit('loading', true);
-				axios.get(`/api/history/get_all`).then(res => {
+				await axios.get(`/api/history/get_all`).then(res => {
 					this.$store.commit('loading', false);
 					this.history = res.data;
 
@@ -64,11 +64,11 @@
 					this.galleriesLightbox[index].push(photo.path)
 				});
 			},
-			getGalleries() {
+			async getGalleries() {
 				this.$store.commit('loading', true);
 				for(let i=0 ; i<this.history.length ; i++) {
 
-					axios.get(`/api/gallery/get_photos/history/${this.history[i].id}`).then(res => {
+					await axios.get(`/api/gallery/get_photos/history/${this.history[i].id}`).then(res => {
 						this.galleries.push(res.data);
 						this.galleriesLightbox.push([]);
 						this.setGalleryLightbox(res.data, i);

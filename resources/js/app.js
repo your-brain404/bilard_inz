@@ -10,6 +10,7 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel';
 import VueMeta from 'vue-meta'
 import { VueReCaptcha } from 'vue-recaptcha-v3'
+import VueLazyload from 'vue-lazyload'
  
 
 Vue.component('app', require('./components/App.vue').default);
@@ -18,7 +19,7 @@ Vue.use(VueAxios, axios);
 Vue.use(VueMeta, {
   refreshOnceOnNavigation: true
 })
-
+Vue.use(VueLazyload)
 
 Vue.prototype.$vueMeta = VueMeta;
 
@@ -44,7 +45,6 @@ Vue.axios.interceptors.request.use(
   },
   (error) => Promise.reject(error)
   );
-
 axios.get('/api/settings/get_one/1').then(res => {
   Vue.use(VueReCaptcha, { siteKey: res.data.recaptcha_site_token })
 })

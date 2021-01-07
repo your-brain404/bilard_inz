@@ -58,6 +58,7 @@
 	import axios from 'axios'
 	import Calendar from '../reservations/Calendar'
 	import DateFormatter from '../../helpers/date/format.js'
+	import rules from '@/helpers/validation/rules'
 
 	export default {
 		props: ['deleteFlag', 'reloadFlag'],
@@ -85,21 +86,15 @@
 					rodo2: 0,
 				},
 				reservations_descriptions: {},
-				rules: {
-					required: v => !!v || 'To pole jest wymagane!',
-					email: value => {
-						const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-						return pattern.test(value) || 'Niepoprawny e-mail.'
-					},
-				}
+				rules
 			}
 		},
 		components: {
 			Calendar
 		},
 		methods: {
-			getReservationsDescriptions() {
-				axios.get('/api/reservations_descriptions/get_one/1').then(res => this.reservations_descriptions = res.data);
+			async getReservationsDescriptions() {
+				await axios.get('/api/reservations_descriptions/get_one/1').then(res => this.reservations_descriptions = res.data);
 			},
 			formatDate: date => DateFormatter.formatDate(date),
 			checkInterval(v) {
@@ -127,9 +122,9 @@
 				let error = this.setReservationError(results);
 				return !results.some(e => !e) || `Taka rezerwacja już istnieje! ${error}`;
 			},
-			getServiceEquipments(){
+			async getServiceEquipments(){
 				this.$store.commit('loading', true);
-				axios.get(`/api/service_equipments/get_where?active=1`).then(res => {
+				await axios.get(`/api/service_equipments/get_where?active=1`).then(res => {
 					this.$store.commit('loading', false);
 					this.service_equipments = res.data;
 				}).catch(err => {
@@ -137,9 +132,9 @@
 					console.log(err);
 				})
 			},
-			getServices() {
+			async getServices() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/services/get_all`).then(res => {
+				await axios.get(`/api/services/get_all`).then(res => {
 					this.$store.commit('loading', false);
 					this.services = res.data;
 				}).catch(err => {
@@ -175,24 +170,24 @@
 				this.$store.commit('loading', true);
 				const response = await this.$recaptcha('login')
 				if(!response) {
-					this.$store.commit('setSnackbar', 'System twierdzi, że jesteś robotem...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.recaptcha_error);
 					return;
 				}
-				axios.post('/api/reservations/add', {...this.reservation, response}).then(res => {
+				await axios.post('/api/reservations/add', {...this.reservation, response}).then(res => {
 					if(res.data.error != undefined) {
 						this.$store.commit('setSnackbar', res.data.error.message);
 						this.$store.commit('loading', false);
 						return;
 					}
 					this.$store.commit('loading', false);
-					this.$store.commit('setSnackbar', 'Twoja rezerwacja czeka na akceptację!'
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.reservation_to_accept
 						);
 					this.resetForm();
 					this.reloadFlag = true;
 					setTimeout(() => {this.reloadFlag = false}, 200);
 				}).catch(err => {
 					this.$store.commit('loading', false);
-					this.$store.commit('setSnackbar', 'Przepraszamy, usługa chwilowo nieaktywna...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
 				})
 			},
 			setUserData() {

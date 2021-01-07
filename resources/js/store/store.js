@@ -9,12 +9,13 @@ import Loading from './modules/loading/index.js';
 import Cart from './modules/cart/index.js';
 import Settings from './modules/settings/index.js';
 import Contact from './modules/contact/index.js';
+import SnackbarAlerts from './modules/snackbar_alerts/index.js';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules:{
-  	Snackbar, Auth, Comments, Users, Subpages, Loading, Cart, Settings, Contact
+  	Snackbar, Auth, Comments, Users, Subpages, Loading, Cart, Settings, Contact, SnackbarAlerts
   }
 });
 

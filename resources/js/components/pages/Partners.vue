@@ -27,14 +27,14 @@
 		},
 		
 		methods:{
-			getPartnersDescriptions() {
-				axios.get('/api/partners_descriptions/get_one/1').then(res => this.partners_descriptions = res.data);
+			async getPartnersDescriptions() {
+				await axios.get('/api/partners_descriptions/get_one/1').then(res => this.partners_descriptions = res.data);
 			},
-			getPartners(){
+			async getPartners(){
 				let endpoint = 'get_all';
 				if(this.$route.path == '/o-klubie') endpoint = 'get_where?active=1';
 				this.$store.commit('loading', true);
-				axios.get(`/api/partners/${endpoint}`).then(res => {
+				await axios.get(`/api/partners/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.partners = res.data;
 					this.$emit('blockDataEmit', this.partners);

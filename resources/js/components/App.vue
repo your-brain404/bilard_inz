@@ -1,12 +1,19 @@
 <template>
 	<v-app class="app">
+		
 		<Header v-if="!isPathAdmin" class="header" />
+		
+		
 		<AdminHeader v-else />
+		
+		
 		<router-view :class="{'admin-body': isPathAdmin }" ></router-view>
+		
 		<Loader v-if="loading" />
 		<AdminSnackbar />
-
+		
 		<Footer v-if="!isPathAdmin" />
+		
 		<Cookies v-if="!isPathAdmin" />
 	</v-app>
 </template>
@@ -86,57 +93,58 @@
 					if(subpage.page == '/' + this.$route.path.split('/')[0]) {
 						if(!subpage.active) this.$router.push('/')
 					}
-				}
-			},
-			setMetaTitle() {
-				this.$store.commit('currentSubpage', this.$route.path);
-				if(this.$route.path.split('/').includes('admin-panel')) this.title = 'Panel Administracyjny';
-				else {
-					if(this.$route.path.split('/')[1] == 'oferta' && this.$route.params.id) {
-						axios.get(`/api/offers/get_one/${this.$route.params.id}`).then(offer => this.title = offer.data.title);
-					}else if(this.$route.path.split('/')[1] == 'aktualnosci' && this.$route.params.id) {
-						axios.get(`/api/news/get_one/${this.$route.params.id}`).then(info => this.title = info.data.title);
-					}else if(this.$route.path.split('/')[1] == 'zawodnicy' && this.$route.params.id) {
-						axios.get(`/api/players/get_one/${this.$route.params.id}`).then(player => this.title = player.data.first_name + player.data.last_name)
-					}else if(this.$route.path.split('/')[1] == 'puchary' && this.$route.params.id) {
-						axios.get(`/api/cups/get_one/${this.$route.params.id}`).then(cup => this.title = cup.data.title);
-					} else this.title = this.currentSubpage ? this.currentSubpage.title : '';
-				} 
-			},
-			
-			autoLogin(){
-				if(sessionStorage.getItem('fbLogin')){
-					this.$store.dispatch('fbLogin');
-				}
-
-				if(sessionStorage.getItem('authLogin')){
-					this.$store.dispatch('authAutoLogin');
-				}
-
-			},
-			setCart() {
-				if(localStorage.getItem('cart') != null) {
-					this.$store.commit('cart', JSON.parse(localStorage.getItem('cart')));
-				}
-			},
-			
+			}
 		},
-		created(){
-			this.autoLogin();
-			this.setCart();
-			this.setMetaTitle();
-			this.$store.dispatch('settings');
-			this.$store.dispatch('contact');
-			this.$store.dispatch('fetchAllUsers');
-			if (window.location.hash && window.location.hash == '#_=_') {
-				window.location.href = window.location.origin;
+		setMetaTitle() {
+			this.$store.commit('currentSubpage', this.$route.path);
+			if(this.$route.path.split('/').includes('admin-panel')) this.title = 'Panel Administracyjny';
+			else {
+				if(this.$route.path.split('/')[1] == 'oferta' && this.$route.params.id) {
+					axios.get(`/api/offers/get_one/${this.$route.params.id}`).then(offer => this.title = offer.data.title);
+				}else if(this.$route.path.split('/')[1] == 'aktualnosci' && this.$route.params.id) {
+					axios.get(`/api/news/get_one/${this.$route.params.id}`).then(info => this.title = info.data.title);
+				}else if(this.$route.path.split('/')[1] == 'zawodnicy' && this.$route.params.id) {
+					axios.get(`/api/players/get_one/${this.$route.params.id}`).then(player => this.title = player.data.first_name + player.data.last_name)
+				}else if(this.$route.path.split('/')[1] == 'puchary' && this.$route.params.id) {
+					axios.get(`/api/cups/get_one/${this.$route.params.id}`).then(cup => this.title = cup.data.title);
+				} else this.title = this.currentSubpage ? this.currentSubpage.title : '';
+			} 
+		},
+		
+		autoLogin(){
+			if(localStorage.getItem('fbLogin')){
+				this.$store.dispatch('fbLogin');
 			}
 
-			$('*').css({"cursor": `url('${window.location.origin}/storage/img/cursor/cursor.png'), auto`})
+			if(localStorage.getItem('authLogin')){
+				this.$store.dispatch('authAutoLogin');
+			}
+
 		},
+		setCart() {
+			if(localStorage.getItem('cart') != null) {
+				this.$store.commit('cart', JSON.parse(localStorage.getItem('cart')));
+			}
+		},
+		
+	},
+	created(){
+		this.autoLogin();
+		this.setCart();
+		this.setMetaTitle();
+		this.$store.dispatch('settings');
+		this.$store.dispatch('contact');
+		this.$store.dispatch('fetchAllUsers');
+		this.$store.dispatch('snackbarAlerts');
+		if (window.location.hash && window.location.hash == '#_=_') {
+			window.location.href = window.location.origin;
+		}
+
+		$('*').css({"cursor": `url('${window.location.origin}/storage/img/cursor/cursor.png'), auto`})
+	},
 
 
-	}
+}
 </script>
 
 <style>

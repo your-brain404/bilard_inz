@@ -25,18 +25,18 @@
 		},
 		
 		methods:{
-			getDocumentsDescriptions() {
-				axios.get('/api/documents_descriptions/get_one/1').then(res => this.documents_descriptions = res.data);
+			async getDocumentsDescriptions() {
+				await axios.get('/api/documents_descriptions/get_one/1').then(res => this.documents_descriptions = res.data);
 			},
 			getUrl(src){
 				return url(src);
 			},
-			getData(){
+			async getData(){
 				let endpoint = `get_all`;
 				if(this.$route.path == '/dokumenty') endpoint = 'get_where?active=1';
 
 				this.$store.commit('loading', true);
-				axios.get(`/api/documents/${endpoint}`).then(res => {
+				await axios.get(`/api/documents/${endpoint}`).then(res => {
 					if(res.data.length > 0) this.documents = res.data;
 					this.$emit('blockDataEmit', this.documents);
 					this.$store.commit('loading', false);

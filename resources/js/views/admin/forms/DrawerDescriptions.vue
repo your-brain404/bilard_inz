@@ -15,6 +15,8 @@
 							<div class="pa-5">
 								<v-text-field  color="primary" v-model="currentObject.panel" label="Panel administracyjny napis"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.panel_icon" label="Ikona panelu administracyjnego"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.login" label="Logowanie napis"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.login_icon" label="Ikona logowania"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.account" label="Konto napis"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.account_icon" label="Ikona konta"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.accept" label="Akceptuj"></v-text-field>

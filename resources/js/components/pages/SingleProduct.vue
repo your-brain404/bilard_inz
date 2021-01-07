@@ -115,8 +115,8 @@ v<template>
 			}
 		},
 		methods: {
-			getShopDescriptions() {
-				axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+			async getShopDescriptions() {
+				await axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
 			},
 			setMaxAmount() {
 				this.maxAmount = this.getMaxAmount();
@@ -150,24 +150,24 @@ v<template>
 				}
 				localStorage.setItem('cart', JSON.stringify(cart))
 				this.$store.commit('cart', cart);
-				this.$store.commit('setSnackbar', 'Pomyślnie dodano do koszyka!');
+				this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.add_to_cart);
 				this.amount = 1;
 			},
 			getProductOrItem(field) {
 				return this.activePhoto == -1 ? this.shop_product[field] : (!this.shop_items[this.activePhoto][field] ? this.shop_product[field] : this.shop_items[this.activePhoto][field]);
 			},
 			getUrl: src => url(src),
-			getShopItems() {
-				axios.get(`/api/shop_items/get_where?active=1&product_id=${this.shop_product.id}`).then(res => {
+			async getShopItems() {
+				await axios.get(`/api/shop_items/get_where?active=1&product_id=${this.shop_product.id}`).then(res => {
 					this.shop_items = res.data;
 					this.setMaxAmount();
 				}).catch(err => {
-					this.$store.commit('setSnackbar', 'Nie udało się załadować wariantów...');
+					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.shop_items_error);
 				})
 			},
-			getShopProduct() {
+			async getShopProduct() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/shop_products/get_one/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/shop_products/get_one/${this.$route.params.id}`).then(res => {
 					this.shop_product = res.data;
 					this.$store.commit('loading', false);
 					this.getShopItems();
@@ -178,9 +178,9 @@ v<template>
 			setGalleryLightbox(gallery){
 				gallery.forEach(photo => this.galleryLightbox.push(photo.path));
 			},  
-			getGallery() {
+			async getGallery() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/gallery/get_photos/shop_products/${this.$route.params.id}`).then(res => {
+				await axios.get(`/api/gallery/get_photos/shop_products/${this.$route.params.id}`).then(res => {
 					this.gallery = res.data;
 					this.setGalleryLightbox(res.data);
 					this.$store.commit('loading', false);

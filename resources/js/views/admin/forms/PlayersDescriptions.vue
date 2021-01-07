@@ -14,6 +14,7 @@
 						<v-col class="" cols="12">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
+								<v-text-field color="primary"  v-model="currentObject.league" label="Liga" required></v-text-field>
 								
 							</div>
 						</v-col>

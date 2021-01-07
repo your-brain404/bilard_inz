@@ -49,7 +49,9 @@ import CartDescriptionsForm from './views/admin/forms/CartDescriptions'
 import BreadcrumbDescriptionsForm from './views/admin/forms/BreadcrumbDescriptions'
 import LayoutElementsForm from './views/admin/forms/LayoutElements'
 import DrawerDescriptionsForm from './views/admin/forms/DrawerDescriptions'
+import AuthDescriptionsForm from './views/admin/forms/AuthDescriptions'
 import DayFormatsForm from './views/admin/forms/DayFormats'
+import SnackbarAlertsForm from './views/admin/forms/SnackbarAlerts'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -156,7 +158,11 @@ const routes = [
 
 {path: '/admin-panel/drawer_descriptions/form/:id', component: DrawerDescriptionsForm, name: 'DrawerDescriptionsFormEdit'},
 
+{path: '/admin-panel/auth_descriptions/form/:id', component: AuthDescriptionsForm, name: 'AuthDescriptionsFormEdit'},
+
 {path: '/admin-panel/reservations_descriptions/form/:id', component: ReservationsDescriptionsForm, name: 'ReservationsDescriptionsFormEdit'},
+
+{path: '/admin-panel/snackbar_alerts/form/:id', component: SnackbarAlertsForm, name: 'SnackbarAlertsFormEdit'},
 
 {path: '/admin-panel/calendar_descriptions/form/:id', component: CalendarDescriptionsForm, name: 'CalendarDescriptionsFormEdit'},
 

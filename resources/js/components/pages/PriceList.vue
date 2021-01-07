@@ -42,12 +42,12 @@
 			}
 		},
 		methods: {
-			getPriceListDescriptions() {
-				axios.get('/api/price_list_descriptions/get_one/1').then(res => this.price_list_descriptions = res.data);
+			async getPriceListDescriptions() {
+				await axios.get('/api/price_list_descriptions/get_one/1').then(res => this.price_list_descriptions = res.data);
 			},
-			getPriceList() {
+			async getPriceList() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/price_list/get_all`).then(res => {
+				await axios.get(`/api/price_list/get_all`).then(res => {
 					this.$store.commit('loading', false);
 					this.price_list = res.data.filter(price => price.active);
 					if(this.$route.path.split('/')[1] == 'admin-panel') this.$emit('blockDataEmit', res.data.filter(price => price.price_list_category_id == this.$route.params.parent_id));
@@ -56,9 +56,9 @@
 					console.log(err);
 				});
 			},
-			getPriceListCategories() {
+			async getPriceListCategories() {
 				this.$store.commit('loading', true);
-				axios.get(`/api/price_list_categories/get_where?active=1`).then(res => {
+				await axios.get(`/api/price_list_categories/get_where?active=1`).then(res => {
 					this.$store.commit('loading', false);
 					this.price_list_categories = res.data;
 					if(this.$route.path.split('/')[1] == 'admin-panel') this.$emit('parent_data', this.price_list_categories.find(cat => cat.id == this.$route.params.parent_id));

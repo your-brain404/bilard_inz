@@ -30,9 +30,9 @@
 		
 		methods:{
 			getUrl: src => url(src),
-			getData(){
+			async getData(){
 				this.$store.commit('loading', true);
-				axios.get(`/api/lucky_number/get_one/1`).then(res => {
+				await axios.get(`/api/lucky_number/get_one/1`).then(res => {
 					this.lucky_number.push(res.data);
 					this.active = this.lucky_number[0].active;
 					this.$emit('blockDataEmit', this.lucky_number);
