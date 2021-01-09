@@ -10,7 +10,7 @@
 					<span>{{ cart_descriptions.title }}</span>
 				</div>
 			</template>
-			<CartMenuListing @closeMenu="menu = false"/>
+			<CartMenuListing @closeMenu="closeMenu()"/>
 		</v-menu>
 	</div>
 </template>

@@ -41,7 +41,7 @@
 					{{ cart_descriptions.sum }} <span>{{ sum.toFixed(2) }} {{ shop_descriptions.currency }}</span>
 				</div>
 			</div>
-			<router-link class="sum-item" v-if="$route.path != '/koszyk'" to="/koszyk">
+			<router-link class="sum-item" @click="$emit('closeMenu')" v-if="$route.path != '/koszyk'" to="/koszyk">
 				<v-btn color="primary" class="font-weight-normal w-100" @click="$emit('closeMenu')" >
 					{{ cart_descriptions.go_to_cart }}
 				</v-btn>
