@@ -79,10 +79,14 @@
 		components: {
 			Register, Login, CartMenu,
 		},
-		props: ['drawer'],
+		props: ['drawer', 'openLogin'],
 		watch: {
 			user() {
 				this.loadUserData();
+				if(!this.user.id) this.getAuthDescriptions(); 
+			},
+			openLogin() {
+				if(this.openLogin) this.login = true;
 			}
 		},
 		data() {
@@ -152,7 +156,7 @@
 		created() {
 			this.loadUserData();
 			this.getDrawerDescriptions();
-			if(localStorage.getItem('user')) this.getAuthDescriptions();
+			if(!localStorage.getItem('user')) this.getAuthDescriptions();
 		}
 		
 	}

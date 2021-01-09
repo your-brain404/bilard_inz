@@ -1,13 +1,13 @@
 <template>
 	<v-app class="app">
 		
-		<Header v-if="!isPathAdmin" class="header" />
+		<Header :openLogin="openLogin" v-if="!isPathAdmin" class="header" />
 		
 		
 		<AdminHeader v-else />
 		
 		
-		<router-view @meta_title="title = $event" :class="{'admin-body': isPathAdmin }" ></router-view>
+		<router-view @openLogin="openLoginEvent" @meta_title="title = $event" :class="{'admin-body': isPathAdmin }" ></router-view>
 		
 		<Loader v-if="loading" />
 		<AdminSnackbar />
@@ -53,6 +53,7 @@
 		data() {
 			return {
 				title: '',
+				openLogin: false
 			}
 		},
 		watch: {
@@ -69,6 +70,13 @@
 			},
 			subpages() {
 				if(this.subpages.length > 0) this.checkSubpageEntry();
+			},
+			'$store.getters.snackbarAlerts.id'() {
+				if(this.$store.getters.snackbarAlerts.id) {
+					if(this.$route.query.aktywacja == '1') {
+						this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.activated_account_success);
+					} 
+				}
 			}
 		},
 		computed:{
@@ -89,6 +97,10 @@
 			}
 		},
 		methods:{
+			openLoginEvent() {
+				this.openLogin = true; 
+				setTimeout(() => this.openLogin = false, 20);
+			},
 			checkSubpageEntry() {
 				for(let subpage of this.subpages) {
 					if(subpage.page == '/' + this.$route.path.split('/')[1]) {
@@ -130,7 +142,7 @@
 		if (window.location.hash && window.location.hash == '#_=_') {
 			window.location.href = window.location.origin;
 		}
-
+		
 		$('*').css({"cursor": `url('${window.location.origin}/storage/img/cursor/cursor.png'), auto`})
 	},
 

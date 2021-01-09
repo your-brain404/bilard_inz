@@ -15,9 +15,9 @@ class UsersController extends Controller
 		new CrudService('App\User');
 	}
 	
-    public function getAll(){
-    	$user = CrudService::getAll();
-    	return new CrudResource($user);
+    public function getAll(Request $request){
+        $user = CrudService::getAll();
+        return new CrudResource($user);
     }
 
     public function getOne($id){

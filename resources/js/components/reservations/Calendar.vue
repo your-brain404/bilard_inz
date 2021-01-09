@@ -91,6 +91,7 @@
 			reloadFlag(){
 				if(this.reloadFlag){
 					this.getEvents();
+					console.log('dupcia')
 				}
 			},
 			day_formats() {

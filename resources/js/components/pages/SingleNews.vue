@@ -23,15 +23,19 @@
 			</v-col>
 			<Lightbox :lightbox="lightbox" :gallery="concatGalleryLightbox" :activePhotoId="activePhotoId" @closeLightbox="lightbox = false"/>
 		</v-row>
-		<v-divider></v-divider>
+		<v-divider v-if="$store.getters.user.id"></v-divider>
 		<v-row>
-			<v-col>
+			<v-col v-if="$store.getters.user.id">
 				<h4 class="single-news-comments-title">{{ comments_descriptions.question }}</h4>
 			</v-col>
+			<v-col class="d-flex justify-content-center mt-12" v-else>
+				<v-btn color="primary" @click="$emit('openLogin')">{{ comments_descriptions.login }}</v-btn>
+			</v-col>
 		</v-row>
-		<v-row>
+		<v-row  v-if="$store.getters.user.id">
 			<v-col>
 				<Comments :comments_descriptions="comments_descriptions" />
+
 			</v-col>
 		</v-row>
 

@@ -1,6 +1,6 @@
 <template>
 	<v-card flat class="overflow-hidden">
-		<Drawer :drawer="drawer" @closeDrawer="drawer = false" />
+		<Drawer :openLogin="openLogin" :drawer="drawer" @closeDrawer="drawer = false" />
 		<v-app-bar color="#6A76AB" dark shrink-on-scroll prominent :src="banner" fade-img-on-scroll scroll-target="#scrolling-techniques-3" extension-height="120px">
 			<template v-slot:img="{ props }">
 				<v-img v-bind="props" gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"></v-img>
@@ -32,6 +32,7 @@
 		import Drawer from '@/components/layouts/Drawer'
 
 		export default{
+			props: ['openLogin'],
 			data(){
 				return{
 					currentPage: '/' + this.$route.path.split('/')[1],

@@ -17,8 +17,8 @@ use App\Reservations;
 
 Auth::routes();
 
-Route::get('/auth/confirm_account/{id}', 'UserController@confirm');
+Route::get('/auth/confirm_account/{id}', 'UsersController@confirm');
 
-Route::get('/{catch?}', 'HomeController@index')->where('catch', '^(?!api).*$');
+Route::get('/{catch?}', 'HomeController@index')->name('home')->where('catch', '^(?!api).*$');
 
 

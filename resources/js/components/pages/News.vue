@@ -240,6 +240,9 @@
 				this.$emit('meta_title', this.news_descriptions.title);
 			}
 		},
+		destroyed() {
+			this.$store.commit('users', []);
+		},
 		computed: {
 			comments() {
 				return this.$store.getters.comments;

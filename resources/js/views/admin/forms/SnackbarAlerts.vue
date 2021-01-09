@@ -34,6 +34,7 @@
 								<v-text-field  color="primary" v-model="currentObject.blocked_user" label="Przepraszamy, Twoje konto zostało zablokowane!"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.user_exist" label="Taki użytkownik już istnieje!"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.mail_success" label="Pomyślnie wysłano wiadomość!"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.activated_account_success" label="Pomyślnie aktywowano konto!"></v-text-field>
 								
 							</div>
 						</v-col>

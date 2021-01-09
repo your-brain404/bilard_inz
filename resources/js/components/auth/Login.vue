@@ -13,8 +13,8 @@
 				</div>
 				<v-form v-if="validationRules.id" ref="form" class="position-relative login-form">
 					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.login_title }}</h1>
-					<v-text-field dark v-model="email" :rules="[required, email]" :label="auth_descriptions.email" required ></v-text-field>
-					<v-text-field dark v-model="password" type="password" :rules="[required, passwordLength]" :counter="20" :label="auth_descriptions.password" required ></v-text-field>
+					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="auth_descriptions.email" required ></v-text-field>
+					<v-text-field dark v-model="auth.password" type="password" :rules="[required, passwordLength]" :counter="20" :label="auth_descriptions.password" required ></v-text-field>
 				</v-form>
 				<v-btn dark outlined class="mr-4 w-100 login-button mt-5" @click="submit">
 					{{ auth_descriptions.login }}
@@ -50,9 +50,10 @@
 
 		data() {
 			return {
-				email: '',
-				password: '',
-				origin: window.location.origin,
+				auth: {
+					email: '',
+					password: '',
+				},
 				url
 			}
 		},
@@ -64,14 +65,9 @@
 			closeLogin() {
 				this.$emit('closeLogin');
 			},
-			clear() {
-				this.email = ''
-				this.password = ''
-			},
 			submit() {
 				if(this.$refs.form.validate()) {
-					this.$store.dispatch('authLogin', {email: this.email, password: this.password});
-					this.clear();
+					this.$store.dispatch('authLogin', this.auth);
 				}
 				
 			},
@@ -81,6 +77,7 @@
 			},
 			
 		},
+		
 		
 	}
 </script>

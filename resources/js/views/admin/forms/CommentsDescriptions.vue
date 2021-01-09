@@ -19,6 +19,7 @@
 								<v-text-field  color="primary" v-model="currentObject.write" label="Napisz komentarz"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.send" label="Wyślij (napis na przycisku)"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.button_icon" label="Ikona na przycisku"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.login" label="Zaloguj się, aby zobaczyć komentarze!"></v-text-field>
 							</div>
 						</v-col>
 					</v-row>

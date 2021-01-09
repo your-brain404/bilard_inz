@@ -27,9 +27,9 @@ foreach ($default_crud_tables as $table) {
 
 	Route::get("/$table/get_all/", "$controller@getAll");
 	Route::get("/$table/get_one/{id}", "$controller@getOne");
-	Route::put("/$table/edit", "$controller@store");
-	Route::post("/$table/add/", "$controller@store");
-	Route::delete("/$table/delete/{id}", "$controller@destroy");
+	Route::put("/$table/edit", "$controller@store")->middleware(['admin', 'auth:api']);
+	Route::post("/$table/add/", "$controller@store")->middleware(['admin', 'auth:api']);
+	Route::delete("/$table/delete/{id}", "$controller@destroy")->middleware(['admin', 'auth:api']);
 	Route::get("/$table/get_where/", "$controller@getWhere");
 }
 
@@ -41,9 +41,9 @@ Route::get('/shop_products/get_pagination', 'ShopProductsController@getPaginatio
 Route::get('/media/get_photos/', 'MediaController@getPhotos'); 
 Route::get('/media/get_files/', 'MediaController@getFiles'); 
 
-Route::post('/avatars/add/', 'AvatarsController@store'); 
+Route::post('/avatars/add/', 'AvatarsController@store')->middleware('auth:api'); 
 
-Route::post('/reservations/accept/', 'ReservationsController@accept'); 
+Route::post('/reservations/accept/', 'ReservationsController@accept')->middleware(['admin', 'auth:api']); 
 
 Route::post('/auth/register', 'Auth\api\RegisterController@register'); 
 Route::post('/auth/login', 'Auth\api\LoginController@login'); 
@@ -63,7 +63,9 @@ Route::get('/users/get_commentators', 'UsersController@getCommentators');
 
 
 Route::post('/mails/send/', 'MailsController@send'); 
-Route::put('/mails/answer/', 'MailsController@store'); 
+Route::put('/mails/answer/', 'MailsController@store')->middleware(['admin', 'auth:api']); 
+
+Route::put('/users/edit', 'UsersController@store')->middleware(['auth:api', 'user.edit']);
 
 
 

@@ -125,7 +125,18 @@
 			}
 		},
 		computed: {
-			...Rules.computed
+			...Rules.computed,
+			user() {
+				return this.$store.getters.user;
+			}
+		},
+		watch: {
+			user() {
+				if(this.user) {
+					this.contact_data.name = this.user.name;
+					this.contact_data.email = this.user.email;
+				}
+			}
 		},
 		methods: {
 			...Rules.methods,

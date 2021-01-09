@@ -39,8 +39,6 @@ export default {
 			if(res.data.error){
 				commit('setSnackbar', res.data.error.message);
 			}else{
-				localStorage.setItem('token', res.data.token);
-				localStorage.setItem('authLogin', true);
 				commit('setToken', res.data.token);
 				commit('setUser', res.data.data);
 				commit('setSnackbar', getters.snackbarAlerts.register_success);

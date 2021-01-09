@@ -37,8 +37,8 @@ class RegisterHelper {
 	public static function activate($id) {
 		$user = User::where('id', $id)->first();
 		if($user->active != 1) $user->fill(['active' => 1]);
-		else return redirect()->action('HomeController@index');
+		else return redirect()->route('home',['aktywacja' => '1']);
 
-		if($user->save()) return redirect()->action('HomeController@index');
+		if($user->save()) return redirect()->route('home', ['aktywacja' => '1']);
 	}
 } 

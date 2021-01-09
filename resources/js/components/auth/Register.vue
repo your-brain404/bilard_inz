@@ -7,10 +7,10 @@
 				</div>
 				<v-form v-if="validationRules.id" ref="form" v-model="valid" class="position-relative register-form">
 					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.register_title }}</h1>
-					<v-text-field dark v-model="name" :rules="[required]" :counter="30" :label="auth_descriptions.name" class="primary-text"></v-text-field>
-					<v-text-field dark v-model="email" :rules="[required, email]" :label="auth_descriptions.email"></v-text-field>
-					<v-text-field type="password" :rules="[required, passwordLength]" dark v-model="password" :label="auth_descriptions.password"></v-text-field>
-					<v-text-field :rules="[required, passwordConfirm(password, passwordConf)]" type="password" dark v-model="passwordConf" :label="auth_descriptions.password_confirm"></v-text-field>
+					<v-text-field dark v-model="auth.name" :rules="[required]" :counter="30" :label="auth_descriptions.name" class="primary-text"></v-text-field>
+					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="auth_descriptions.email"></v-text-field>
+					<v-text-field type="password" :rules="[required, passwordLength]" dark v-model="auth.password" :label="auth_descriptions.password"></v-text-field>
+					<v-text-field :rules="[required, passwordConfirm(auth.password, passwordConf)]" type="password" dark v-model="passwordConf" :label="auth_descriptions.password_confirm"></v-text-field>
 
 					<v-checkbox dark v-model="regulations" :rules="[required]">
 						<span slot="label">
@@ -64,9 +64,12 @@
 		data() {
 			return {
 				valid: true,
-				name: '',
-				email: '',
-				password: '',
+				auth: {
+					name: '',
+					email: '',
+					password: '',
+					photo: ''
+				},
 				passwordConf: '',
 				regulations: false,
 				privace: false,
@@ -82,20 +85,9 @@
 			...Rules.methods,
 			submit () {
 				if(this.$refs.form.validate()) {
-					this.$store.dispatch('register', {email: this.email, name: this.name, password: this.password, photo: '' });
+					this.$store.dispatch('register', this.auth);
 					this.closeRegister();
-					this.clear();
 				}
-			},
-			clear () {
-				this.name = ''
-				this.email = ''
-				this.password = ''
-				this.passwordConf = ''
-				this.regulations = false
-				this.privace = false
-				this.rodo1 = false
-				this.rodo2 = false
 			},
 			closeRegister(){
 				this.$emit('closeRegister');

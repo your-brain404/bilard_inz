@@ -49,7 +49,7 @@
 		</v-row>
 		
 		<v-row justify="center">
-			<Calendar :reloadFlag="reloadFlag" :services="services" :deleteFlag="deleteFlag" @events="events = $event" @blockDataEmit="$emit('blockDataEmit', $event)" :service_equipments="service_equipments"/>
+			<Calendar :reloadFlag="reservationReloadFlag" :services="services" :deleteFlag="deleteFlag" @events="events = $event" @blockDataEmit="$emit('blockDataEmit', $event)" :service_equipments="service_equipments"/>
 		</v-row>
 		<Rules />
 	</v-container>
@@ -66,7 +66,7 @@
 		data() {
 			return {
 				valid: true,
-				reloadFlag: false,
+				reservationReloadFlag: false,
 				events: [],
 				service_equipments: [],
 				service_equipment: '',
@@ -90,7 +90,10 @@
 			}
 		},
 		computed: {
-			...Rules.computed
+			...Rules.computed,
+			user() {
+				return this.$store.getters.user;
+			}
 		},
 		components: {
 			Calendar, Rules
@@ -100,7 +103,11 @@
 			async getReservationsDescriptions() {
 				await axios.get('/api/reservations_descriptions/get_one/1').then(res => this.reservations_descriptions = res.data);
 			},
-			formatDate: date => DateFormatter.formatDate(date),
+			formatDate: date => {
+				console.log(DateFormatter.formatDate(date))
+				return DateFormatter.formatDate(date)
+			}
+			,
 			checkInterval(v) {
 				return DateFormatter.getSeconds(v) - DateFormatter.getSeconds(this.reservation.entry) >= 1800 || this.$store.getters.validationRules.reservation_min_time;
 			},
@@ -177,7 +184,7 @@
 					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.recaptcha_error);
 					return;
 				}
-				await axios.post('/api/reservations/add', {...this.reservation, response}).then(res => {
+				axios.post('/api/reservations/add', {...this.reservation, response}).then(res => {
 					if(res.data.error != undefined) {
 						this.$store.commit('setSnackbar', res.data.error.message);
 						this.$store.commit('loading', false);
@@ -187,8 +194,8 @@
 					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.reservation_to_accept
 						);
 					this.resetForm();
-					this.reloadFlag = true;
-					setTimeout(() => {this.reloadFlag = false}, 200);
+					this.reservationReloadFlag = true;
+					setTimeout(() => {this.reservationReloadFlag = false}, 200);
 				}).catch(err => {
 					this.$store.commit('loading', false);
 					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
@@ -205,6 +212,15 @@
 			service_equipment() {
 				if(this.service_equipment != '') this.reservation.service_equipment_id = this.service_equipments.find(eq => eq.title == this.service_equipment).id;
 			},
+			user() {
+				if(this.user) {
+					this.reservation.name = this.user.name;
+					this.reservation.email = this.user.email;
+				}
+			},
+			date() {
+				this.date_menu = false;
+			}
 			
 		},
 		created() {

@@ -21,8 +21,6 @@ use Illuminate\Mail\Mailable;
 
 class MailService {
 
-	protected static $email = Contact::find(1)->email_1;
-
 	public static function questionValidation(array $data): bool {
 		$validator = Validator::make($data, [
 			'email' => 'required|string|email',
@@ -105,7 +103,7 @@ class MailService {
 		$data = self::setRodo($data);
 		$data['mail'] = Mails::find($data['id']);
 
-		$receiver = isset($data['answer']) || isset($data['newsletter']) ? $data['email'] : self::$email;
+		$receiver = isset($data['answer']) || isset($data['newsletter']) ? $data['email'] : Contact::find(1)->email_1;
 		Mail::to($receiver)->send(self::getTemplate($data));
 
 		self::checkAttachmentsToDelete($data);
