@@ -59,6 +59,8 @@ Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken');
 
 Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos'); 
 
+Route::get('/users/get_commentators', 'UsersController@getCommentators'); 
+
 
 Route::post('/mails/send/', 'MailsController@send'); 
 Route::put('/mails/answer/', 'MailsController@store'); 

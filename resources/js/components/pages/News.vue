@@ -12,12 +12,12 @@
 				<v-row>
 
 					<v-col cols="12" md="3">
-						<div class="news-picture" :style="`background-image: url(${getUrl(info.photo)})`"></div>
+						<div class="news-picture" :style="`background-image: url(${url(info.photo)})`"></div>
 					</v-col>
 					<v-col cols="12" md="9">
 						<h2 class="font-weight-bold">{{ info.title }}</h2>
 						<p v-html="info.short_description ? info.short_description.substring(0, 200) + '...' : ''"></p>
-						<router-link :to="`/aktualnosci/${info.id}/${slug(info.title)}`">
+						<router-link :to="`/aktualnosci/${info.id}/${slugify(info.title)}`">
 							<v-btn class="mt-5 offer-button"  link large block color="#da5a33" outlined>{{ info.button_name }}</v-btn>
 						</router-link>
 
@@ -63,7 +63,7 @@
 									<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">{{ comments_descriptions.delete }}</p>
 								</div>
 								<div class="d-flex flex-column align-items-center">
-									<div class="bg-picture comment-photo" :style="`background-image: url(${getAvatar($store.getters.userById(com.user_id).photo)})`"></div>
+									<div class="bg-picture comment-photo" :style="`background-image: url(${avatar($store.getters.userById(com.user_id).photo)})`"></div>
 									<h5 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h5>
 									<i>{{ getLocaleDate(com.created) }}</i>
 								</div>
@@ -100,8 +100,7 @@
 	import axios from 'axios'
 	import url from '../../helpers/photo/url.js'
 	import avatar from '../../helpers/photo/avatar.js'
-	import {user} from '../../helpers/users/users.js'
-	import getDate from '../../helpers/date/date.js'
+	import getLocaleDate from '../../helpers/date/date.js'
 	import {db} from '../../firebase/firebase.js'
 	import Pagination from '../pagination/Pagination'
 	import slugify from '../../helpers/links/slug.js'
@@ -118,7 +117,11 @@
 				pagination: {},
 				comments_descriptions: {},
 				news_descriptions: {},
-				isActive: false
+				isActive: false,
+				avatar,
+				url,
+				slugify,
+				getLocaleDate
 			}
 		},
 		created(){
@@ -133,7 +136,6 @@
 			async getNewsDescriptions() {
 				await axios.get('/api/news_descriptions/get_one/1').then(res => this.news_descriptions = res.data);
 			},
-			slug: title => slugify(title),
 			setPath(event) {
 				if(this.$route.params.page != event) this.$router.push({name: 'NewsListingPage', params: {page: event}});
 			},
@@ -180,15 +182,6 @@
 					console.log(err);
 					this.$store.commit('loading', false);
 				})
-			},
-			getUrl(src) {
-				return url(src);
-			},
-			getAvatar(src) {
-				return avatar(src);
-			},
-			getLocaleDate(seconds) {
-				return getDate(seconds);
 			},
 			showCom(id){
 				this.paginateComments = 3;

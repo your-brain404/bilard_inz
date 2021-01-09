@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CrudService;
-use App\Http\Resources\DeliveryOptionsResource;
+use App\Http\Resources\CrudResource;
 use Illuminate\Http\Request;
 
 class DeliveryOptionsController extends Controller
@@ -14,26 +14,26 @@ class DeliveryOptionsController extends Controller
 
     public function getAll() {
 		$offers = CrudService::getAll();
-		return new DeliveryOptionsResource($offers);
+		return new CrudResource($offers);
 	}
 
 	public function getOne($id) {
 		$offers = CrudService::getOne($id);
-		return new DeliveryOptionsResource($offers);
+		return new CrudResource($offers);
 	}
 
 	public function getWhere(Request $request) {
 		$offers = CrudService::getWhere($request, 'asc');
-		return new DeliveryOptionsResource($offers);
+		return new CrudResource($offers);
 	}
 
 	public function store(Request $request) {
 		$offers = CrudService::saveData($request);
-		return new DeliveryOptionsResource($offers);
+		return new CrudResource($offers);
 	}
 	
 	public function destroy($id) {
 		$offers = CrudService::destroy($id);
-		return new DeliveryOptionsResource($offers); 
+		return new CrudResource($offers); 
 	}
 }

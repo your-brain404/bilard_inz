@@ -16,13 +16,13 @@
 				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">{{ comments_descriptions.delete }}</p>
 			</div>
 			<div class="d-flex flex-column align-items-center">
-				<div class="bg-picture comment-photo" :style="`background-image: url(${getAvatar($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
+				<div class="bg-picture comment-photo" :style="`background-image: url(${avatar($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
 				<h5 class="m-0">{{ $store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).name : null }}</h5>
 				<i>{{ getLocaleDate(com.created) }}</i>
 
 			</div>
 			<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
-				<v-chip  color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
+				<v-chip color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
 				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">{{ comments_descriptions.delete }}</p>
 			</div>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-	import getDate from '../../helpers/date/date.js'
+	import getLocaleDate from '../../helpers/date/date.js'
 	import url from '../../helpers/photo/url.js'
 	import avatar from '../../helpers/photo/avatar.js'
 	import {db} from '../../firebase/firebase.js'
@@ -51,6 +51,8 @@
 			return {
 				paginateComments: 3,
 				newComment: '',
+				avatar,
+				getLocaleDate,
 			}
 		},
 		computed: {
@@ -61,15 +63,6 @@
 		methods: {
 			getComments() {
 				this.$store.dispatch('fetchCommentsWhere', [parseInt(this.$route.params.id)]);
-			},
-			getUrl(src) {
-				return url(src);
-			},
-			getAvatar(src) {
-				return avatar(src);
-			},
-			getLocaleDate(seconds) {
-				return getDate(seconds);
 			},
 			getPostComments(news_id) {
 				let comments = [];
@@ -107,6 +100,9 @@
 		created() {
 			this.getComments();
 		},
+		destroyed() {
+			this.$store.commit('users', []);
+		}
 	}
 </script>
 

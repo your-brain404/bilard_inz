@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PriceListCollection;
-use App\Http\Resources\PriceListResource;
+use App\Http\Resources\CrudResource;
 use App\Http\Services\CrudService;
 use Illuminate\Http\Request;
 
@@ -20,7 +20,7 @@ class PriceListController extends Controller
 
 	public function getOne($id) {
 		$price_list = CrudService::getOne($id);
-		return new PriceListResource($price_list);
+		return new CrudResource($price_list);
 	}
 
 	public function getWhere(Request $request) {
@@ -30,11 +30,11 @@ class PriceListController extends Controller
 
 	public function store(Request $request) {
 		$price_list = CrudService::saveData($request);
-		return new PriceListResource($price_list);
+		return new CrudResource($price_list);
 	}
 
 	public function destroy($id) {
 		$price_list = CrudService::destroy($id);
-		return new PriceListResource($price_list); 
+		return new CrudResource($price_list); 
 	}
 }

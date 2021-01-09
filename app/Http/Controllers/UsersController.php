@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Services\CrudService;
 use App\Http\Helpers\RegisterHelper;
-use App\Http\Resources\UserResource;
+use App\Http\Helpers\UsersHelper;
+use App\Http\Resources\CrudResource;
 use App\User;
 
 class UsersController extends Controller
@@ -16,22 +17,26 @@ class UsersController extends Controller
 	
     public function getAll(){
     	$user = CrudService::getAll();
-    	return new UserResource($user);
+    	return new CrudResource($user);
     }
 
     public function getOne($id){
     	$user = CrudService::getOne($id);
-    	return new UserResource($user);
+    	return new CrudResource($user);
     }
 
     public function getWhere(Request $request) {
         $users = User::where('type', '!=', 'Moderator')->get();
-        return new UserResource($users);
+        return new CrudResource($users);
+    }
+
+    public function getCommentators(Request $request) {
+        return new CrudResource(UsersHelper::getCommentators($request));
     }
 
     public function store(Request $request) {
         $user = CrudService::saveData($request);
-        return new UserResource($user);
+        return new CrudResource($user);
     }
 
     public function confirm($id) {
@@ -40,7 +45,7 @@ class UsersController extends Controller
 
     public function destroy($id) {
         $user = CrudService::destroy($id);
-        return new UserResource($user); 
+        return new CrudResource($user); 
     }
 
 }

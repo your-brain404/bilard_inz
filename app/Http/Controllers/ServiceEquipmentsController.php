@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\CrudService;
 use App\Http\Resources\ServiceEquipmentsCollection;
+use App\Http\Resources\CrudResource;
 use Illuminate\Http\Request;
 
 class ServiceEquipmentsController extends Controller
@@ -19,7 +20,7 @@ class ServiceEquipmentsController extends Controller
 
 	public function getOne($id) {
 		$equipment = CrudService::getOne($id);
-		return new ServiceEquipmentsResource($equipment);
+		return new CrudResource($equipment);
 	}
 
 	public function getWhere(Request $request) {
@@ -29,11 +30,11 @@ class ServiceEquipmentsController extends Controller
 
 	public function store(Request $request) {
 		$equipment = CrudService::saveData($request);
-		return new ServiceEquipmentsResource($equipment);
+		return new CrudResource($equipment);
 	}
 	
 	public function destroy($id) {
 		$equipment = CrudService::destroy($id);
-		return new ServiceEquipmentsResource($equipment); 
+		return new CrudResource($equipment); 
 	}
 }

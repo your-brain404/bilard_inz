@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AboutUsResource;
+use App\Http\Resources\CrudResource;
 use App\Http\Services\CrudService;
 use Illuminate\Http\Request;
 
@@ -13,17 +13,17 @@ class AboutUsController extends Controller {
 	}
 
 	public function getAll() {
-		$about_us = CrudService::getAll();
-		return new AboutUsResource($about_us);
+		$data = CrudService::getAll();
+		return new CrudResource($data);
 	}
 
 	public function getOne($id) {
-		$about_us = CrudService::getOne($id);
-		return new AboutUsResource($about_us);
+		$data = CrudService::getOne($id);
+		return new CrudResource($data);
 	}
 
 	public function store(Request $request) {
-		$about_us = CrudService::saveData($request);
-		return new AboutUsResource($about_us);
+		$data = CrudService::saveData($request);
+		return new CrudResource($data);
 	}
 }

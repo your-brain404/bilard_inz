@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CrudService;
-use App\Http\Resources\ContactResource;
+use App\Http\Resources\CrudResource;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -14,26 +14,26 @@ class ContactController extends Controller
 
     public function getAll() {
 		$contact = CrudService::getAll();
-		return new ContactResource($contact);
+		return new CrudResource($contact);
 	}
 
 	public function getOne($id) {
 		$contact = CrudService::getOne($id);
-		return new ContactResource($contact);
+		return new CrudResource($contact);
 	}
 
 	public function getWhere(Request $request) {
 		$contact = CrudService::getWhere($request, 'asc');
-		return new ContactResource($contact);
+		return new CrudResource($contact);
 	}
 
 	public function store(Request $request) {
 		$contact = CrudService::saveData($request);
-		return new ContactResource($contact);
+		return new CrudResource($contact);
 	}
 	
 	public function destroy($id) {
 		$contact = CrudService::destroy($id);
-		return new ContactResource($contact); 
+		return new CrudResource($contact); 
 	}
 }

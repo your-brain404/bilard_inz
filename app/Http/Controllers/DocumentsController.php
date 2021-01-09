@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CrudService;
-use App\Http\Resources\DocumentsResource;
+use App\Http\Resources\CrudResource;
 use Illuminate\Http\Request;
 
 class DocumentsController extends Controller
@@ -14,26 +14,26 @@ class DocumentsController extends Controller
 
     public function getAll() {
 		$documents = CrudService::getAll();
-		return new DocumentsResource($documents);
+		return new CrudResource($documents);
 	}
 
 	public function getOne($id) {
 		$document = CrudService::getOne($id);
-		return new DocumentsResource($document);
+		return new CrudResource($document);
 	}
 
 	public function getWhere(Request $request) {
 		$documents = CrudService::getWhere($request, 'asc');
-		return new DocumentsResource($documents);
+		return new CrudResource($documents);
 	}
 
 	public function store(Request $request) {
 		$document = CrudService::saveData($request);
-		return new DocumentsResource($document);
+		return new CrudResource($document);
 	}
 	
 	public function destroy($id) {
 		$document = CrudService::destroy($id);
-		return new DocumentsResource($document); 
+		return new CrudResource($document); 
 	}
 }

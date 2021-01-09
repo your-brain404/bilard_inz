@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\MediaResource;
+use App\Http\Resources\CrudResource;
 use App\Media;
 use App\Http\Helpers\FileHelper;
 use Illuminate\Http\Request;
@@ -10,27 +10,26 @@ use Illuminate\Http\Request;
 class MediaController extends Controller {
 
 	public function getFiles() {
-		// return new MediaResource(Media::where('type', '!=', 'image/jpeg')->orWhere('type', '!=', 'image/jpg')->orWhere('type', '!=', 'image/png')->orWhere('type', '!=', 'image/bmp')->orWhere('type', '!=', 'application/octet-stream')->orWhere('type', '!=', 'image/jfif')->get());
-		return new MediaResource(Media::where([['type', '!=', 'image/jpeg'], ['type', '!=', 'image/jpg'], ['type', '!=', 'image/png'], ['type', '!=', 'image/bmp'], ['type', '!=', 'image/jfif']])->get());
+		return new CrudResource(Media::where([['type', '!=', 'image/jpeg'], ['type', '!=', 'image/jpg'], ['type', '!=', 'image/png'], ['type', '!=', 'image/bmp'], ['type', '!=', 'image/jfif']])->get());
 	}
 
 	public function getPhotos() {
 
 		$photos = Media::where('type', 'image/jpeg')->orWhere('type', 'image/jpg')->orWhere('type', 'image/png')->orWhere('type', 'image/bmp')->orWhere('type', 'application/octet-stream')->orWhere('type', 'image/jfif')->get();
-		return new MediaResource($photos);
+		return new CrudResource($photos);
 	}
 
 	public function store(Request $request){
 
-		if(!$request->isMethod('post')) return new MediaResource(['message' => 'Wrong request method!']);
+		if(!$request->isMethod('post')) return new CrudResource(['message' => 'Wrong request method!']);
 		else {
 			$media = FileHelper::store($request->file('file'), 'media');
-			return new MediaResource($media);
+			return new CrudResource($media);
 		}
 	}
 
 	public function destroy(String $id, Request $request){
-		if(!$request->isMethod('delete')) return new MediaResource(['message' => 'Wrong request method!']);
+		if(!$request->isMethod('delete')) return new CrudResource(['message' => 'Wrong request method!']);
 		else{
 			return FileHelper::delete($id);
 		}

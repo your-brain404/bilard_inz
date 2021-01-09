@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\CrudService;
 use App\Http\Services\AttachmentsService;
-use App\Http\Resources\AttachmentsResource;
+use App\Http\Resources\CrudResource;
 use Illuminate\Http\Request;
 
 class AttachmentsController extends Controller
@@ -15,16 +15,16 @@ class AttachmentsController extends Controller
 
 	public function store(Request $request) {
 		$attachment = AttachmentsService::saveData($request);
-		return new AttachmentsResource($attachment);
+		return new CrudResource($attachment);
 	}
 
 	public function getWhere(Request $request) {
 		$attachments = CrudService::getWhere($request, 'asc');
-		return new AttachmentsResource($attachments);
+		return new CrudResource($attachments);
 	}
 	
 	public function destroy($id) {
 		$attachment = CrudService::destroy($id);
-		return new AttachmentsResource($attachment); 
+		return new CrudResource($attachment); 
 	}
 }
