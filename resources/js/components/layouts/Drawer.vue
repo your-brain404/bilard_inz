@@ -47,12 +47,12 @@
 									<v-text-field :label="drawer_descriptions.name" v-else v-model="user_data.name"></v-text-field>
 									<v-divider></v-divider>
 									<v-btn v-if="!edit" @click="edit = true" text width="100%">{{ drawer_descriptions.edit_account }}</v-btn>
-									<v-btn v-if="!editPassword" @click="editPassword = true" text width="100%">Zmień hasło</v-btn>
+									<v-btn v-if="!editPassword" @click="editPassword = true" text width="100%">{{ drawer_descriptions.change_password }}</v-btn>
 									<div v-else>
 										<v-form v-model="passwordValid" ref="password">
-											<v-text-field type="password" label="Obecne hasło" :rules="[required, passwordLength]" v-model="password_data.password"></v-text-field>
-											<v-text-field type="password" label="Nowe hasło" :rules="[required, passwordLength]" v-model="password_data.new_password"></v-text-field>
-											<v-text-field type="password" label="Potwierdź nowe hasło" :rules="[required, passwordLength, passwordConfirm(password_data.new_password, password_data.new_password_confirm)]" v-model="password_data.new_password_confirm"></v-text-field>
+											<v-text-field type="password" :label="drawer_descriptions.password" :rules="[required, passwordLength]" v-model="password_data.password"></v-text-field>
+											<v-text-field type="password" :label="drawer_descriptions.new_password" :rules="[required, passwordLength]" v-model="password_data.new_password"></v-text-field>
+											<v-text-field type="password" :label="drawer_descriptions.new_password_confirm" :rules="[required, passwordLength, passwordConfirm(password_data.new_password, password_data.new_password_confirm)]" v-model="password_data.new_password_confirm"></v-text-field>
 											<v-btn :disabled="!passwordValid" @click="changePassword" text width="100%">{{ drawer_descriptions.accept }}</v-btn>
 										</v-form>
 									</div>
