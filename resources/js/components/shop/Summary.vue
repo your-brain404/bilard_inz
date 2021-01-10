@@ -1,14 +1,14 @@
 <template>
 	<v-card flat class="p-3">
 		<v-card-title class="p-0 mb-4">
-			<h2 class="mb-0 cart-menu-title" style="font-size: 2.5rem">{{ cart_descriptions.step_4 }}</h2>
+			<h2 class="mb-0 cart-menu-title" style="font-size: 2.5rem">{{ cartDescriptions.step_4 }}</h2>
 		</v-card-title>
 		<v-row>
 			<v-col cols="12" lg="6">
-				<ShippingDetails :data="shipping_details" summary />
+				<ShippingDetails :cartDescriptions="cartDescriptions" :data="shipping_details" summary />
 			</v-col>
 			<v-col cols="12" lg="6">
-				<Payments @delivery="delivery = $event" :data="payments" summary />
+				<Payments :deliveryOptions="deliveryOptions" :cartDescriptions="cartDescriptions" @delivery="delivery = $event" :data="payments" summary />
 			</v-col>
 			
 		</v-row>
@@ -29,7 +29,7 @@
 	import Payments from './Payments' 
 
 	export default {
-		props: ['shipping_details', 'payments', 'cart_descriptions'],
+		props: ['shipping_details', 'payments', 'cartDescriptions', 'deliveryOptions'],
 		data() {
 			return {
 				delivery: {},

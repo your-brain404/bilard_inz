@@ -11,12 +11,14 @@ import Settings from './modules/settings';
 import Contact from './modules/contact';
 import SnackbarAlerts from './modules/snackbar_alerts';
 import ValidationRules from './modules/validation_rules';
+import CartDescriptions from './modules/cart_descriptions';
+import ShopDescriptions from './modules/shop_descriptions';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules:{
-  	Snackbar, Auth, Comments, Users, Subpages, Loading, Cart, Settings, Contact, SnackbarAlerts, ValidationRules
+  	Snackbar, Auth, Comments, Users, Subpages, Loading, Cart, Settings, Contact, SnackbarAlerts, ValidationRules, CartDescriptions, ShopDescriptions
   }
 });
 

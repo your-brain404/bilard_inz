@@ -25,8 +25,6 @@
 			},
 		},
 		
-		created() {
-			this.$store.dispatch('validationRules');
-		}
+		
 	}
 </script>

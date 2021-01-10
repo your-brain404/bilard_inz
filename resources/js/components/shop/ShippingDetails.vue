@@ -1,75 +1,75 @@
 <template>
-	<v-card flat class="p-3">
+	<v-card v-if="cartDescriptions" flat class="p-3">
 		<v-card-title class="p-0 mb-4">
-			<h3 class="mb-0 cart-menu-title details">{{ cart_descriptions.step_2 }}</h3>
+			<h3 class="mb-0 cart-menu-title details">{{ cartDescriptions.step_2 }}</h3>
 		</v-card-title>
 		<v-divider></v-divider>
 		<v-form v-if="validationRules.id" ref="form" v-model="valid">
 			<v-row>
 				<v-col cols="12" lg="3">
-					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.name" :disabled="summary != undefined" :label="cart_descriptions.name"></v-text-field>
+					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.name" :disabled="summary != undefined" :label="cartDescriptions.name"></v-text-field>
 				</v-col>
 				<v-col cols="12" lg="3">
-					<v-text-field type="email" :rules="[required, email]" v-model="shipping_details.main_address.email" :disabled="summary != undefined" :label="cart_descriptions.email"></v-text-field>
+					<v-text-field type="email" :rules="[required, email]" v-model="shipping_details.main_address.email" :disabled="summary != undefined" :label="cartDescriptions.email"></v-text-field>
 				</v-col>
 				<v-col cols="12" lg="3">
-					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.phone" :disabled="summary != undefined" :label="cart_descriptions.phone"></v-text-field>
+					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.phone" :disabled="summary != undefined" :label="cartDescriptions.phone"></v-text-field>
 				</v-col>
 				<v-col cols="12" lg="3">
-					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.street" :disabled="summary != undefined" :label="cart_descriptions.street"></v-text-field>
+					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.street" :disabled="summary != undefined" :label="cartDescriptions.street"></v-text-field>
 				</v-col>
 				<v-col cols="12" lg="3">
-					<v-text-field type="number" :rules="[required]" v-model="shipping_details.main_address.house_number" :disabled="summary != undefined" :label="cart_descriptions.house_number"></v-text-field>
+					<v-text-field type="number" :rules="[required]" v-model="shipping_details.main_address.house_number" :disabled="summary != undefined" :label="cartDescriptions.house_number"></v-text-field>
 				</v-col>
 				<v-col cols="12" lg="3">
-					<v-text-field type="number" v-model="shipping_details.main_address.flat_number" :disabled="summary != undefined" :label="cart_descriptions.flat_number"></v-text-field>
+					<v-text-field type="number" v-model="shipping_details.main_address.flat_number" :disabled="summary != undefined" :label="cartDescriptions.flat_number"></v-text-field>
 				</v-col>
 				<v-col cols="12" lg="3">
-					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.zip_code" :disabled="summary != undefined" :label="cart_descriptions.zip_code"></v-text-field>
+					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.zip_code" :disabled="summary != undefined" :label="cartDescriptions.zip_code"></v-text-field>
 				</v-col>
 				<v-col cols="12" lg="3">
-					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.city" :disabled="summary != undefined" :label="cart_descriptions.city"></v-text-field>
+					<v-text-field type="text" :rules="[required]" v-model="shipping_details.main_address.city" :disabled="summary != undefined" :label="cartDescriptions.city"></v-text-field>
 				</v-col>
 				
 			</v-row>
-			<v-textarea v-if="shipping_details.other_address == '0'" rows="4" v-model="shipping_details.main_address.message" :disabled="summary != undefined" :label="cart_descriptions.message"></v-textarea>
+			<v-textarea v-if="shipping_details.other_address == '0'" rows="4" v-model="shipping_details.main_address.message" :disabled="summary != undefined" :label="cartDescriptions.message"></v-textarea>
 
-			<h4 class="cart-menu-title mt-5" style="font-size: 1.5rem">{{ cart_descriptions.other_address }}</h4>
+			<h4 class="cart-menu-title mt-5" style="font-size: 1.5rem">{{ cartDescriptions.other_address }}</h4>
 			<v-radio-group :disabled="summary != undefined" v-model="shipping_details.other_address" row >
-				<v-radio :label="cart_descriptions.yes" value="1" ></v-radio>
-				<v-radio :label="cart_descriptions.no" value="0" ></v-radio>
+				<v-radio :label="cartDescriptions.yes" value="1" ></v-radio>
+				<v-radio :label="cartDescriptions.no" value="0" ></v-radio>
 			</v-radio-group>
 
 			<div v-if="shipping_details.other_address == '1'">
 				<v-divider></v-divider>
 				<v-row>
 					<v-col cols="12" lg="3">
-						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.name" :disabled="summary != undefined" :label="cart_descriptions.name"></v-text-field>
+						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.name" :disabled="summary != undefined" :label="cartDescriptions.name"></v-text-field>
 					</v-col>
 					<v-col cols="12" lg="3">
-						<v-text-field type="email" :rules="[required, email]" v-model="shipping_details.second_address.email" :disabled="summary != undefined" :label="cart_descriptions.email"></v-text-field>
+						<v-text-field type="email" :rules="[required, email]" v-model="shipping_details.second_address.email" :disabled="summary != undefined" :label="cartDescriptions.email"></v-text-field>
 					</v-col>
 					<v-col cols="12" lg="3">
-						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.phone" :disabled="summary != undefined" :label="cart_descriptions.phone"></v-text-field>
+						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.phone" :disabled="summary != undefined" :label="cartDescriptions.phone"></v-text-field>
 					</v-col>
 					<v-col cols="12" lg="3">
-						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.street" :disabled="summary != undefined" :label="cart_descriptions.street"></v-text-field>
+						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.street" :disabled="summary != undefined" :label="cartDescriptions.street"></v-text-field>
 					</v-col>
 					<v-col cols="12" lg="3">
-						<v-text-field type="number" :rules="[required]" v-model="shipping_details.second_address.house_number" :disabled="summary != undefined" :label="cart_descriptions.house_number"></v-text-field>
+						<v-text-field type="number" :rules="[required]" v-model="shipping_details.second_address.house_number" :disabled="summary != undefined" :label="cartDescriptions.house_number"></v-text-field>
 					</v-col>
 					<v-col cols="12" lg="3">
-						<v-text-field type="number" v-model="shipping_details.second_address.flat_number" :disabled="summary != undefined" :label="cart_descriptions.flat_number"></v-text-field>
+						<v-text-field type="number" v-model="shipping_details.second_address.flat_number" :disabled="summary != undefined" :label="cartDescriptions.flat_number"></v-text-field>
 					</v-col>
 					<v-col cols="12" lg="3">
-						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.zip_code" :disabled="summary != undefined" :label="cart_descriptions.zip_code"></v-text-field>
+						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.zip_code" :disabled="summary != undefined" :label="cartDescriptions.zip_code"></v-text-field>
 					</v-col>
 					<v-col cols="12" lg="3">
-						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.city" :disabled="summary != undefined" :label="cart_descriptions.city"></v-text-field>
+						<v-text-field type="text" :rules="[required]" v-model="shipping_details.second_address.city" :disabled="summary != undefined" :label="cartDescriptions.city"></v-text-field>
 					</v-col>
 
 				</v-row>
-				<v-textarea rows="4" v-model="shipping_details.second_address.message" :disabled="summary != undefined" :label="cart_descriptions.message"></v-textarea>
+				<v-textarea rows="4" v-model="shipping_details.second_address.message" :disabled="summary != undefined" :label="cartDescriptions.message"></v-textarea>
 			</div>
 		</v-form>
 		<Rules />
@@ -81,7 +81,7 @@
 	import Rules from '@/helpers/validation/Rules'
 	
 	export default {
-		props: ['submit', 'summary', 'data'],
+		props: ['submit', 'summary', 'data', 'cartDescriptions'],
 		data() {
 			return {
 				valid: true,
@@ -110,7 +110,6 @@
 						message: 'A to piech',
 					},
 				},
-				cart_descriptions: {},
 				
 				
 			}
@@ -144,28 +143,26 @@
 				}
 			},
 			validationRules() {
-				if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
+				if(this.$refs.form) this.$emit('valid', this.$refs.form.validate());
 			},
+			cartDescriptions() {
+				if(this.$refs.form) this.$emit('valid', this.$refs.form.validate());
+			}
 
-	},
-	methods: {
-		...Rules.methods,
-		getCartDescriptions() {
-			axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
 		},
-	},
-	created() {
-		this.$emit('shipping_details', this.shipping_details)
-		this.getCartDescriptions();
-		if(localStorage.getItem('shipping_details') != null) {
-			this.shipping_details = JSON.parse(localStorage.getItem('shipping_details'));
-		}
-		if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
-	},
+		methods: {
+			...Rules.methods,
 
-components: {
-	Rules
-}
+		},
+		created() {
+			this.$emit('shipping_details', this.shipping_details)
+			if(localStorage.getItem('shipping_details') != null) {
+				this.shipping_details = JSON.parse(localStorage.getItem('shipping_details'));
+			}
+			if(this.$refs.form) this.$emit('valid', this.$refs.form.validate());
+		},
 
-}
+
+
+	}
 </script>

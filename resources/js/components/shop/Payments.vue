@@ -1,32 +1,30 @@
 <template>
-	<v-card flat class="p-3">
+	<v-card v-if="cartDescriptions" flat class="p-3">
 		<v-card-title class="p-0 mb-4">
-			<h3 class="mb-0 cart-menu-title">{{ cart_descriptions ? cart_descriptions.step_3 : '' }}</h3>
+			<h3 class="mb-0 cart-menu-title">{{ cartDescriptions.step_3 }}</h3>
 		</v-card-title>
 		<v-divider ></v-divider>
 		<v-form v-if="validationRules.id" ref="form" v-model="valid" class="mb-5">
-			<h4 class="cart-menu-title" style="margin-top: 2rem; font-size: 1.5rem">{{ cart_descriptions.delivery_type }}</h4>
+			<h4 class="cart-menu-title" style="margin-top: 2rem; font-size: 1.5rem">{{ cartDescriptions.delivery_type }}</h4>
 			<v-radio-group :disabled="summary != undefined" :rules="[required]" v-model="payments.delivery" column >
-				<v-radio v-for="(delivery, i) in deliveries" :key="i" :label="deliveryLabel(delivery)" :value="delivery.value"></v-radio>
+				<v-radio v-for="(delivery, i) in deliveryOptions" :key="i" :label="deliveryLabel(delivery)" :value="delivery.value"></v-radio>
 			</v-radio-group>
-			<h4 class="cart-menu-title mt-5" style="font-size: 1.5rem">{{ cart_descriptions.payment_type }}</h4>
+			<h4 class="cart-menu-title mt-5" style="font-size: 1.5rem">{{ cartDescriptions.payment_type }}</h4>
 			<v-radio-group :disabled="summary != undefined" :rules="[required]" v-model="payments.payment" column >
-				<v-radio v-if="payments.delivery != 'in_advance'" :label="cart_descriptions.traditional" value="traditional" ></v-radio>
-				<v-radio v-if="payments.delivery != 'courier'" :label="cart_descriptions.personal" value="personal" ></v-radio>
+				<v-radio v-if="payments.delivery != 'in_advance'" :label="cartDescriptions.traditional" value="traditional" ></v-radio>
+				<v-radio v-if="payments.delivery != 'courier'" :label="cartDescriptions.personal" value="personal" ></v-radio>
 			</v-radio-group>
 		</v-form>
-		<DeliveryOptions @blockDataEmit="deliveries = $event" />
 		<Rules />
 	</v-card>
 </template>
 
 <script>
-	import DeliveryOptions from '@/components/emit-data-blocks/DeliveryOptions'
 	import axios from 'axios'
 	import Rules from '@/helpers/validation/Rules'
 
 	export default {
-		props: ['submit', 'summary', 'data'],
+		props: ['submit', 'summary', 'data', 'cartDescriptions', 'deliveryOptions'],
 		data() {
 			return {
 				valid: true,
@@ -34,16 +32,16 @@
 					delivery: 'courier',
 					payment: 'traditional'
 				},
-				deliveries: [],
-				shop_descriptions: {},
-				cart_descriptions: {},
 			}
 		},
 		components: {
-			DeliveryOptions, Rules
+			Rules
 		},
 		computed: {
-			...Rules.computed
+			...Rules.computed,
+			shopDescriptions() {
+				return this.$store.getters.shopDescriptions;
+			}
 		},
 		watch: {
 			submit() {
@@ -66,34 +64,31 @@
 					localStorage.setItem('payments', JSON.stringify(this.payments))
 				}
 			},
-			deliveries() {
-				this.$emit('delivery', this.deliveries.find(delivery => delivery.value == this.payments.delivery))
+			deliveryOptions() {
+				this.$emit('delivery', this.deliveryOptions.find(delivery => delivery.value == this.payments.delivery))
 			},
 			validationRules() {
-				if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
+				if(this.$refs.form) this.$emit('valid', this.$refs.form.validate());
 			},
-	},
-	methods: {
-		...Rules.methods,
-		getCartDescriptions() {
-			axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
+			cartDescriptions() {
+				if(this.$refs.form) this.$emit('valid', this.$refs.form.validate());
+			}
 		},
-		getShopDescriptions() {
-			axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+		methods: {
+			...Rules.methods,
+			
+			
+			deliveryLabel(delivery) {
+				return `${delivery.title} ${delivery.price.toFixed(2)} ${this.shopDescriptions.currency}`;
+			} 
 		},
-		deliveryLabel(delivery) {
-			return `${delivery.title} ${delivery.price.toFixed(2)} ${this.shop_descriptions.currency}`;
-		} 
-	},
-	created() {
-		this.getShopDescriptions();
-		this.getCartDescriptions();
-		this.$emit('payments', this.payments);
-		if(localStorage.getItem('payments') != null) {
-			this.payments = JSON.parse(localStorage.getItem('payments'))
-		}
-		if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
-	},
+		created() {
+			this.$emit('payments', this.payments);
+			if(localStorage.getItem('payments') != null) {
+				this.payments = JSON.parse(localStorage.getItem('payments'))
+			}
+			if(this.$refs.form) this.$emit('valid', this.$refs.form.validate())
+		},
 
 
 }

@@ -38,16 +38,17 @@
 					currentPage: '/' + this.$route.path.split('/')[1],
 					register: false,
 					drawer: false,
+					url
 				}
 			},
 			methods:{
 				redirect(path){
 					return this.$route.path != path ? this.$router.push(path) : true;
 				},
-				getUrl: src => url(src),
 			},
 			created() {
-				this.$store.dispatch('fetchSubpages')
+				this.$store.dispatch('fetchSubpages');
+				this.$store.dispatch('validationRules');
 			},
 			components:{
 				Drawer
@@ -59,7 +60,7 @@
 				banner() {
 					for(let page of this.subpages) {
 						if(page.page.includes(this.$route.path.split('/')[1])) {
-							return this.getUrl(page.photo);
+							return url(page.photo);
 						}
 					}
 				},

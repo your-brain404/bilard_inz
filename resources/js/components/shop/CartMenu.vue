@@ -5,9 +5,9 @@
 			<template #activator="{ on }">
 				<div v-on="on">
 					<v-btn class="header-button" :color="color ? color : ''"  icon>
-						<v-icon>mdi-{{ cart_descriptions.cart_icon }}</v-icon>
+						<v-icon>mdi-{{ cartDescriptions.cart_icon }}</v-icon>
 					</v-btn>
-					<span>{{ cart_descriptions.title }}</span>
+					<span>{{ cartDescriptions.title }}</span>
 				</div>
 			</template>
 			<CartMenuListing @closeMenu="closeMenu()"/>
@@ -21,13 +21,13 @@
 
 	export default {
 		props: ['color', 'menu'],
-		data() {
-			return {
-				cart_descriptions: {}
-			}
-		},
 		components: {
 			CartMenuListing
+		},
+		computed: {
+			cartDescriptions() {
+				return this.$store.getters.cartDescriptions;
+			}
 		},
 		methods: {
 			closeMenu() {
@@ -35,8 +35,10 @@
 			}
 		},
 		created() {
-			axios.get('/api/cart_descriptions/get_one/1').then(res => this.cart_descriptions = res.data);
+			this.$store.dispatch('cartDescriptions');
+			this.$store.dispatch('shopDescriptions');
 		}
+		
 
 	}
 </script>

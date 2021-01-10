@@ -11,7 +11,6 @@
 			}
 		},
 		methods: {
-			slug: title => slugify(title),
 			async getDeliveryOptions(){
 				this.$store.commit('loading', true);
 				let endpoint = `get_all`;
