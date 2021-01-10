@@ -2,26 +2,26 @@
 	<v-container class="py-12">
 		<v-row justify="center">
 			<v-col cols="12">
-				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ contact_descriptions.title }}</h2>
-				<h3 class="first-color text-center ">{{ contact_descriptions.subtitle }}</h3>
+				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ contactDescriptions.title }}</h2>
+				<h3 class="first-color text-center ">{{ contactDescriptions.subtitle }}</h3>
 			</v-col>
 		</v-row>
 		<v-row>
 			<v-col cols="12" lg="8" >
 				<v-form v-if="validationRules.id" ref="form" v-model="valid">
-					<v-text-field color="primary" v-model="contact_data.name" :rules="[required]" :label="contact_descriptions.name" required></v-text-field>
-					<v-text-field color="primary" v-model="contact_data.email" :rules="[required, email]" :label="contact_descriptions.email" required></v-text-field>
-					<v-text-field color="primary" v-model="contact_data.phone" :rules="[required]" :label="contact_descriptions.phone" required></v-text-field>
-					<v-text-field color="primary" v-model="contact_data.subject" :rules="[required]" :label="contact_descriptions.subject" required></v-text-field>
-					<v-textarea color="primary" v-model="contact_data.message" :rules="[required]" rows="5" :label="contact_descriptions.message" required></v-textarea>
-					<v-file-input v-model="files" show-size counter multiple :label="contact_descriptions.files" :prepend-icon="`mdi-${contact_descriptions.file_icon}`"></v-file-input>
+					<v-text-field color="primary" v-model="contact_data.name" :rules="[required]" :label="contactDescriptions.name" required></v-text-field>
+					<v-text-field color="primary" v-model="contact_data.email" :rules="[required, email]" :label="contactDescriptions.email" required></v-text-field>
+					<v-text-field color="primary" v-model="contact_data.phone" :rules="[required]" :label="contactDescriptions.phone" required></v-text-field>
+					<v-text-field color="primary" v-model="contact_data.subject" :rules="[required]" :label="contactDescriptions.subject" required></v-text-field>
+					<v-textarea color="primary" v-model="contact_data.message" :rules="[required]" rows="5" :label="contactDescriptions.message" required></v-textarea>
+					<v-file-input v-model="files" show-size counter multiple :label="contactDescriptions.files" :prepend-icon="`mdi-${contactDescriptions.file_icon}`"></v-file-input>
 					<v-checkbox @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-10" v-model="contact_data.rodo1">
 						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
 					</v-checkbox>
 					<v-checkbox @change="contact_data.rodo2 ? contact_data.rodo2 = 1 : contact_data.rodo2 = 0" color="primary" class="mt-0 mb-5"  v-model="contact_data.rodo2">
 						<div slot="label" v-html="$store.getters.settings.rodo_2"></div>
 					</v-checkbox>
-					<v-btn :loading="loading" outlined color="primary" :disabled="!valid" @click="saveMail">{{ contact_descriptions.button_name }}</v-btn>
+					<v-btn :loading="loading" outlined color="primary" :disabled="!valid" @click="saveMail">{{ contactDescriptions.button_name }}</v-btn>
 				</v-form>
 			</v-col>
 			<v-col col="12" lg="4" class="d-flex justify-content-center" >
@@ -30,7 +30,7 @@
 						<a class="d-flex align-items-center flex-column" :href="`tel:${$store.getters.contact.phone_1}`">
 							<v-btn class="mx-2" fab dark large color="primary" >
 								<v-icon dark>
-									mdi-{{ contact_descriptions.phone_icon }}
+									mdi-{{ contactDescriptions.phone_icon }}
 								</v-icon>
 							</v-btn>
 							<p class="contact-description">{{ $store.getters.contact.phone_1 }}</p>
@@ -40,7 +40,7 @@
 						<a class="d-flex align-items-center flex-column" :href="`mailto:${$store.getters.contact.phone_2}`">
 							<v-btn class="mx-2" fab dark large color="primary" >
 								<v-icon dark>
-									mdi-{{ contact_descriptions.phone_icon }}
+									mdi-{{ contactDescriptions.phone_icon }}
 								</v-icon>
 							</v-btn>
 							<p class="contact-description">{{ $store.getters.contact.phone_2 }}</p>
@@ -50,7 +50,7 @@
 						<a class="d-flex align-items-center flex-column" :href="`mailto:${$store.getters.contact.email_1}`">
 							<v-btn class="mx-2" fab dark large color="primary" >
 								<v-icon dark>
-									mdi-{{ contact_descriptions.email_icon }}
+									mdi-{{ contactDescriptions.email_icon }}
 								</v-icon>
 							</v-btn>
 							<p class="contact-description">{{ $store.getters.contact.email_1 }}</p>
@@ -60,7 +60,7 @@
 						<a class="d-flex align-items-center flex-column" :href="`mailto:${$store.getters.contact.email_2}`">
 							<v-btn class="mx-2" fab dark large color="primary" >
 								<v-icon dark>
-									mdi-{{ contact_descriptions.email_icon }}
+									mdi-{{ contactDescriptions.email_icon }}
 								</v-icon>
 							</v-btn>
 							<p class="contact-description">{{ $store.getters.contact.email_2 }}</p>
@@ -70,7 +70,7 @@
 						<a class="d-flex align-items-center flex-column" target="_blank" :href="`https://www.google.com/search?tbm=lcl&sxsrf=ALeKk03R-n9i9FnjZJDGGG_KGJOJQtjFRQ%3A1604163272211&ei=yJadX-mpDJKJrwT3w42AAg&q=${$store.getters.contact.address},+${$store.getters.contact.zip_code}+${$store.getters.contact.city}&oq=bilard+&gs_l=psy-ab.3.0.35i39k1j0i67k1j0l8.10333.16284.0.16901.13.13.0.0.0.0.190.1120.0j7.7.0....0...1c.1.64.psy-ab..6.7.1120...46j0i433i131k1j46i67k1j0i433i67k1j0i10k1j0i203k1j0i433k1.0.d23hfgOs4ts#rlfi=hd:;si:9035433236648356783;mv:[[51.390375377319025,16.199153519032567],[51.39001542268097,16.19857668096743]]`">
 							<v-btn class="mx-2" fab dark large color="primary" >
 								<v-icon dark>
-									mdi-{{ contact_descriptions.map_icon }}
+									mdi-{{ contactDescriptions.map_icon }}
 								</v-icon>
 							</v-btn>
 							<p class="contact-description">{{ $store.getters.contact.address }}, {{ $store.getters.contact.zip_code }} {{ $store.getters.contact.city }}</p>
@@ -80,7 +80,7 @@
 						<a class="d-flex align-items-center flex-column" target="_blank" :href="$store.getters.contact.fb">
 							<v-btn class="mx-2" fab dark large color="primary" >
 								<v-icon dark>
-									mdi-{{ contact_descriptions.account_icon }}
+									mdi-{{ contactDescriptions.account_icon }}
 								</v-icon>
 							</v-btn>
 							<p class="contact-description">{{ $store.getters.contact.name }}</p>
@@ -91,7 +91,7 @@
 		</v-row>
 		<v-row justify="center">
 			<v-col cols="12">
-				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ contact_descriptions.find_us }}</h2>
+				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ contactDescriptions.find_us }}</h2>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -121,7 +121,7 @@
 				files: [],
 				loading: false,
 				valid: true,
-				contact_descriptions: {},
+				contactDescriptions: {},
 			}
 		},
 		computed: {
@@ -141,7 +141,7 @@
 		methods: {
 			...Rules.methods,
 			async getContactDescriptions() {
-				await axios.get('/api/contact_descriptions/get_one/1').then(res => this.contact_descriptions = res.data);
+				await axios.get('/api/contact_descriptions/get_one/1').then(res => this.contactDescriptions = res.data);
 			},
 			async sendMail(mail){
 				await axios.post('/api/mails/send', mail).then(res => {

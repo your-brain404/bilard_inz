@@ -7,7 +7,7 @@
 				</v-row>
 				<v-row>
 					<v-col cols="12" md="8">
-						<img @click="lightbox = true; activePhotoId = 0" class="about-photo" :src="getUrl(row.photo)" :alt="row.photo_alt">
+						<img @click="lightbox = true; activePhotoId = 0" class="about-photo" :src="url(row.photo)" :alt="row.photo_alt">
 					</v-col>
 					<v-col class="about-content" cols="12" md="4">
 						<h3 class="about-content-title">{{ row.subtitle }}</h3>
@@ -26,7 +26,7 @@
 
 					<v-row >
 						<v-col v-for="(photo, i) in lightboxGallery" :key="i" cols="12" lg="4">
-							<div @click="activePhotoId = i+1; lightbox = true" class="bg-picture about-gallery-photo" :style="`background-image: url('${getUrl(photo)}')`"></div>
+							<div @click="activePhotoId = i+1; lightbox = true" class="bg-picture about-gallery-photo" :style="`background-image: url('${url(photo)}')`"></div>
 						</v-col>
 					</v-row>
 				</div>
@@ -48,18 +48,16 @@
 	export default{
 		data(){
 			return{
-				about:[{photo: null}],
+				about: [{photo: null}],
 				lightbox: false,
 				lightboxGallery: [],
 				activePhotoId: 0,
-				isActive: false
+				isActive: false,
+				url
 			}
 		},
 		
 		methods:{
-			getUrl(src){
-				return url(src);
-			},
 			async getData(){
 				this.$store.commit('loading', true);
 				await axios.get('/api/about_us/get_all').then(res => {

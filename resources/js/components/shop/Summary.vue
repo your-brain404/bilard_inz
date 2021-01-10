@@ -5,7 +5,7 @@
 		</v-card-title>
 		<v-row>
 			<v-col cols="12" lg="6">
-				<ShippingDetails :cartDescriptions="cartDescriptions" :data="shipping_details" summary />
+				<ShippingDetails :cartDescriptions="cartDescriptions" :data="shippingDetails" summary />
 			</v-col>
 			<v-col cols="12" lg="6">
 				<Payments :deliveryOptions="deliveryOptions" :cartDescriptions="cartDescriptions" @delivery="delivery = $event" :data="payments" summary />
@@ -29,7 +29,7 @@
 	import Payments from './Payments' 
 
 	export default {
-		props: ['shipping_details', 'payments', 'cartDescriptions', 'deliveryOptions'],
+		props: ['shippingDetails', 'payments', 'cartDescriptions', 'deliveryOptions'],
 		data() {
 			return {
 				delivery: {},
@@ -44,7 +44,7 @@
 				let data = {
 					payments: this.payments,
 					sum: this.sum,
-					shipping_details: this.shipping_details,
+					shipping_details: this.shippingDetails,
 					products: JSON.parse(localStorage.getItem('cart'))
 				}
 				

@@ -1,13 +1,13 @@
 <template>
 	<v-container class="py-12">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ cups_descriptions.title }}</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ cupsDescriptions.title }}</h2>
 		</v-row>
 		<v-row>
 			<v-col v-for="(cup, i) in cups" :key="i" cols="12" lg="4">
-				<router-link :to="`/puchary/${cup.id}/${slug(cup.title)}`">
+				<router-link :to="`/puchary/${cup.id}/${slugify(cup.title)}`">
 					<v-card flat class="offer-card">
-						<div class="bg-picture cup-photo" :style="`background-image: url('${getUrl(cup.photo)}')`"></div>
+						<div class="bg-picture cup-photo" :style="`background-image: url('${url(cup.photo)}')`"></div>
 
 						<v-card-title class="player-name pb-0">
 							{{ cup.title }}
@@ -34,14 +34,15 @@
 		data() {
 			return {
 				cups: [],
-				cups_descriptions: {}
+				cupsDescriptions: {},
+				slugify,
+				url
 			}
 		},
 		methods: {
 			async getCupsDescriptions() {
-				await axios.get('/api/cups_descriptions/get_one/1').then(res => this.cups_descriptions = res.data);
+				await axios.get('/api/cups_descriptions/get_one/1').then(res => this.cupsDescriptions = res.data);
 			},
-			slug: title => slugify(title),
 			async getCups(){
 				let endpoint = 'get_all';
 				if(this.$route.path == '/zawodnicy') endpoint = 'get_where?active=1';
@@ -55,7 +56,6 @@
 					console.log(err);
 				})
 			},
-			getUrl: src => url(src),
 		},
 		created() {
 			this.getCups();

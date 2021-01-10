@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Register :auth_descriptions="auth_descriptions" :dialog="register" @closeRegister="register = false"/>
+		<Register :authDescriptions="authDescriptions" :dialog="register" @closeRegister="register = false"/>
 		<v-navigation-drawer class="public-drawer" @input="v => v || closeDrawer()" v-model="drawer" absolute bottom temporary right>
 			<v-list nav dense>
 				<v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
@@ -10,17 +10,17 @@
 					</v-list-item>
 					<v-list-item v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator'" @click="$router.push('/admin-panel')">
 						<v-btn class="header-button" color="primary"  dark icon  >
-							<v-icon>mdi-{{ drawer_descriptions.panel_icon }}</v-icon>
+							<v-icon>mdi-{{ drawerDescriptions.panel_icon }}</v-icon>
 						</v-btn>
-						<span>{{ drawer_descriptions.panel }}</span>
+						<span>{{ drawerDescriptions.panel }}</span>
 					</v-list-item>
 					<v-list-item v-if="$store.getters.subpages.length > 0 ? $store.getters.subpages.find(subpage => subpage.page == '/sklep').active : true" @click="cartMenu = true">
 						<CartMenu  :menu="cartMenu" @closeMenu="cartMenu = false" color="primary"/>
 					</v-list-item>
 					<v-list-item @click="login = true; closeDrawer()" v-if="!$store.getters.token">
 						<div >
-							<Login @openPasswordReminder="openPasswordReminder = true" :auth_descriptions="auth_descriptions" :drawer_descriptions="drawer_descriptions" :dialog="login" @closeLogin="login = false" @openRegister="register = true"  />
-							<PasswordReminder @closePasswordReminder="openPasswordReminder = false" :auth_descriptions="auth_descriptions" :openPasswordReminder="openPasswordReminder" />
+							<Login @openPasswordReminder="openPasswordReminder = true" :authDescriptions="authDescriptions" :drawerDescriptions="drawerDescriptions" :dialog="login" @closeLogin="login = false" @openRegister="register = true"  />
+							<PasswordReminder @closePasswordReminder="openPasswordReminder = false" :authDescriptions="authDescriptions" :openPasswordReminder="openPasswordReminder" />
 						</div>
 					</v-list-item>
 					<v-list-item class="position-relative" v-else @click="accountMenu = true">
@@ -28,38 +28,38 @@
 							<template #activator="{ on }">
 								<div v-on="on">
 									<v-btn class="header-button" color="primary" icon  >
-										<v-icon>mdi-{{ drawer_descriptions.account_icon }}</v-icon>
+										<v-icon>mdi-{{ drawerDescriptions.account_icon }}</v-icon>
 									</v-btn>
-									<span>{{ drawer_descriptions.account }}</span>
+									<span>{{ drawerDescriptions.account }}</span>
 								</div>
 							</template>
 							<v-card class="d-flex justify-content-center">
 								<v-col>
 									<div class="w-100 d-flex flex-column align-items-center justify-content-center mb-3">
 										<v-avatar >
-											<img v-if="!edit" :src="user_data.photo != '' ? getAvatar(user_data.photo) : url(drawer_descriptions.placeholder)">
-											<img v-else :src="blob != '' ? blob : (user_data.photo != '' ? getAvatar(user_data.photo) : url(drawer_descriptions.placeholder))">
+											<img v-if="!edit" :src="userData.photo != '' ? avatar(userData.photo) : url(drawerDescriptions.placeholder)">
+											<img v-else :src="blob != '' ? blob : (userData.photo != '' ? avatar(userData.photo) : url(drawerDescriptions.placeholder))">
 										</v-avatar>
 									</div>
-									<p v-if="edit" @click="user_data.photo = ''" style="cursor: pointer" class="error--text text-center mb-0">{{ drawer_descriptions.delete_photo }}</p>
-									<v-file-input @change="createBlob" :label="drawer_descriptions.photo_text" class="pt-0" v-if="edit" v-model="file"></v-file-input>
+									<p v-if="edit" @click="userData.photo = ''" style="cursor: pointer" class="error--text text-center mb-0">{{ drawerDescriptions.delete_photo }}</p>
+									<v-file-input @change="createBlob" :label="drawerDescriptions.photo_text" class="pt-0" v-if="edit" v-model="file"></v-file-input>
 									<h4 class="text-center" v-if="!edit">{{ user.name }}</h4>
-									<v-text-field :label="drawer_descriptions.name" v-else v-model="user_data.name"></v-text-field>
+									<v-text-field :label="drawerDescriptions.name" v-else v-model="userData.name"></v-text-field>
 									<v-divider></v-divider>
-									<v-btn v-if="!edit" @click="edit = true" text width="100%">{{ drawer_descriptions.edit_account }}</v-btn>
-									<v-btn v-if="!editPassword" @click="editPassword = true" text width="100%">{{ drawer_descriptions.change_password }}</v-btn>
+									<v-btn v-if="!edit" @click="edit = true" text width="100%">{{ drawerDescriptions.edit_account }}</v-btn>
+									<v-btn v-if="!editPassword" @click="editPassword = true" text width="100%">{{ drawerDescriptions.change_password }}</v-btn>
 									<div v-else>
 										<v-form v-model="passwordValid" ref="password">
-											<v-text-field type="password" :label="drawer_descriptions.password" :rules="[required, passwordLength]" v-model="password_data.password"></v-text-field>
-											<v-text-field type="password" :label="drawer_descriptions.new_password" :rules="[required, passwordLength]" v-model="password_data.new_password"></v-text-field>
-											<v-text-field type="password" :label="drawer_descriptions.new_password_confirm" :rules="[required, passwordLength, passwordConfirm(password_data.new_password, password_data.new_password_confirm)]" v-model="password_data.new_password_confirm"></v-text-field>
-											<v-btn :disabled="!passwordValid" @click="changePassword" text width="100%">{{ drawer_descriptions.accept }}</v-btn>
+											<v-text-field type="password" :label="drawerDescriptions.password" :rules="[required, passwordLength]" v-model="passwordData.password"></v-text-field>
+											<v-text-field type="password" :label="drawerDescriptions.new_password" :rules="[required, passwordLength]" v-model="passwordData.new_password"></v-text-field>
+											<v-text-field type="password" :label="drawerDescriptions.new_password_confirm" :rules="[required, passwordLength, passwordConfirm(passwordData.new_password, passwordData.new_password_confirm)]" v-model="passwordData.new_password_confirm"></v-text-field>
+											<v-btn :disabled="!passwordValid" @click="changePassword" text width="100%">{{ drawerDescriptions.accept }}</v-btn>
 										</v-form>
 									</div>
-									<v-btn v-else @click="editAccount" text width="100%">{{ drawer_descriptions.accept }}</v-btn>
-									<v-btn v-if="edit" @click="edit = false" text width="100%">{{ drawer_descriptions.cancel }}</v-btn>
+									<v-btn v-else @click="editAccount" text width="100%">{{ drawerDescriptions.accept }}</v-btn>
+									<v-btn v-if="edit" @click="edit = false" text width="100%">{{ drawerDescriptions.cancel }}</v-btn>
 									<v-divider></v-divider>
-									<v-btn @click="logout" text width="100%">{{ drawer_descriptions.log_out }}</v-btn>
+									<v-btn @click="logout" text width="100%">{{ drawerDescriptions.log_out }}</v-btn>
 								</v-col>
 							</v-card>
 						</v-menu>
@@ -79,6 +79,7 @@
 	import url from '@/helpers/photo/url'
 	import PasswordReminder from '@/components/auth/PasswordReminder'
 	import Rules from '@/helpers/validation/Rules'
+	
 	export default {
 		components: {
 			Register, Login, CartMenu, PasswordReminder, Rules
@@ -103,16 +104,16 @@
 				cartMenu: false,
 				login: false,
 				register: false,
-				drawer_descriptions: {},
-				auth_descriptions: {},
+				drawerDescriptions: {},
+				authDescriptions: {},
 				editPassword: false,
 				passwordValid: true,
-				user_data: {
+				userData: {
 					name: '',
 					photo: '',
 					id: 0
 				},
-				password_data: {
+				passwordData: {
 					password: '',
 					new_password: '',
 					new_password_confirm: ''
@@ -120,7 +121,8 @@
 				file: null,
 				blob: '',
 				accountMenu: false,
-				openPasswordReminder: false
+				openPasswordReminder: false,
+				avatar
 			}
 		},
 		methods: {
@@ -131,12 +133,12 @@
 			},
 			changePassword() {
 				this.$store.commit('loading', true);
-				axios.post('/api/users/change_password', {...this.password_data, id: this.user.id}).then(res => {
+				axios.post('/api/users/change_password', {...this.passwordData, id: this.user.id}).then(res => {
 					this.$store.commit('loading', false);
 					if(res.data.success) {
 						this.$store.commit('setSnackbar', res.data.success.message);
 						this.editPassword = false;
-						Object.entries(this.password_data).forEach(data => data[1] = '');
+						Object.entries(this.passwordData).forEach(data => data[1] = '');
 					}
 					if(res.data.error) this.$store.commit('setSnackbar', res.data.error.message);
 				}).catch(() => this.$store.commit('loading', false));
@@ -147,33 +149,32 @@
 				setTimeout(() => this.openPasswordReminder = false, 20);
 			},
 			async getAuthDescriptions() {
-				await axios.get('/api/auth_descriptions/get_one/1').then(res => this.auth_descriptions = res.data);
+				await axios.get('/api/auth_descriptions/get_one/1').then(res => this.authDescriptions = res.data);
 			},
 			closeDrawer() {
 				this.$emit('closeDrawer');
 			},
 			loadUserData() {
-				this.user_data.name = this.user.name;
-				this.user_data.photo = this.user.photo;
-				this.user_data.id = this.user.id;
+				this.userData.name = this.user.name;
+				this.userData.photo = this.user.photo;
+				this.userData.id = this.user.id;
 			},
 			createBlob() {
-				this.blob = this.file != null ? URL.createObjectURL(this.file) : (this.user.photo != '' ? this.getAvatar(this.user.photo) : this.url(this.drawer_descriptions.placeholder));
+				this.blob = this.file != null ? URL.createObjectURL(this.file) : (this.user.photo != '' ? avatar(this.user.photo) : this.url(this.drawerDescriptions.placeholder));
 			},
-			getAvatar: src => avatar(src),
 			async editAccount() {
 				this.$store.commit('loading', true);
 				let formData = new FormData();
 				formData.append('file', this.file);
 				if(this.file != null) {
 					await axios.post('/api/avatars/add', formData).then(res => {
-						this.user_data.photo = res.data.avatar;
+						this.userData.photo = res.data.avatar;
 					}).catch(err => {
 						this.$store.commit('loading', false);
 						this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.photo_error);
 					})
 				}
-				await axios.put('/api/users/edit', this.user_data).then(res => {
+				await axios.put('/api/users/edit', this.userData).then(res => {
 					this.$store.commit('loading', false);
 					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.edit_account_success);
 					this.$store.commit('setUser', res.data);
@@ -182,7 +183,7 @@
 				})
 			},
 			async getDrawerDescriptions() {
-				await axios.get('/api/drawer_descriptions/get_one/1').then(res => this.drawer_descriptions = res.data);
+				await axios.get('/api/drawer_descriptions/get_one/1').then(res => this.drawerDescriptions = res.data);
 			}
 		},
 		computed: {

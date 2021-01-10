@@ -2,32 +2,32 @@
 	<div>
 		<div>
 			<v-btn color="primary" icon dark >
-				<v-icon>mdi-{{ drawer_descriptions.login_icon }}</v-icon>
+				<v-icon>mdi-{{ drawerDescriptions.login_icon }}</v-icon>
 			</v-btn>
-			<span>{{ drawer_descriptions.login }}</span>
+			<span>{{ drawerDescriptions.login }}</span>
 		</div>
 		<v-dialog @input="v => v || closeLogin()" class="position-relative" v-model="dialog" persistent>
-			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(44 60 49 / 70%), hsl(0 0% 0% / 0.9)), url(${url(auth_descriptions.bg_login_photo)})`">
+			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(44 60 49 / 70%), hsl(0 0% 0% / 0.9)), url(${url(authDescriptions.bg_login_photo)})`">
 				<div @click="closeLogin()" class="close-button">
-					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
+					<v-icon color="white">mdi-{{ authDescriptions.close_icon }}</v-icon>
 				</div>
 				<v-form v-if="validationRules.id" ref="form" class="position-relative login-form">
-					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.login_title }}</h1>
-					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="auth_descriptions.email" required ></v-text-field>
-					<v-text-field dark v-model="auth.password" type="password" :rules="[required, passwordLength]" :counter="20" :label="auth_descriptions.password" required ></v-text-field>
+					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ authDescriptions.login_title }}</h1>
+					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="authDescriptions.email" required ></v-text-field>
+					<v-text-field dark v-model="auth.password" type="password" :rules="[required, passwordLength]" :counter="20" :label="authDescriptions.password" required ></v-text-field>
 				</v-form>
-				<p @click="openPasswordReminder" class="white--text text-center mt-5" style="cursor: pointer;">{{ auth_descriptions.forgot_password }}</p>
+				<p @click="openPasswordReminder" class="white--text text-center mt-5" style="cursor: pointer;">{{ authDescriptions.forgot_password }}</p>
 				<v-btn dark outlined class="mr-4 w-100 login-button " @click="submit">
-					{{ auth_descriptions.login }}
+					{{ authDescriptions.login }}
 				</v-btn>
-				<h5 class="text-center white--text py-2 m-0 font-weight-lighter">{{ auth_descriptions.or }}</h5>
+				<h5 class="text-center white--text py-2 m-0 font-weight-lighter">{{ authDescriptions.or }}</h5>
 
-				<Facebook :auth_descriptions="auth_descriptions" />
+				<Facebook :authDescriptions="authDescriptions" />
 
-				<p @click="openRegister" class="white--text text-center mt-5" style="cursor: pointer">{{ auth_descriptions.register_now }}</p>	
+				<p @click="openRegister" class="white--text text-center mt-5" style="cursor: pointer">{{ authDescriptions.register_now }}</p>	
 
 			</v-card>
-			<Rules  />
+			<Rules />
 		</v-dialog>
 	</div>
 </template>
@@ -47,7 +47,7 @@
 		components:{
 			Facebook, Rules
 		},
-		props: ['dialog', 'auth_descriptions', 'drawer_descriptions'],
+		props: ['dialog', 'authDescriptions', 'drawerDescriptions'],
 
 		data() {
 			return {

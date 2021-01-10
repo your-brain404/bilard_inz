@@ -1,20 +1,20 @@
 <template>
 	<v-container class="py-12 reservations">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ reservations_descriptions.title }}</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ reservationsDescriptions.title }}</h2>
 		</v-row>
 		<v-row justify="center">
 			<v-col cols="12" lg="8">
 				<v-form v-if="validationRules.id" ref="form" v-model="valid" lazy-validation>
-					<v-text-field :rules="[required]" :label="reservations_descriptions.name" v-model="reservation.name"></v-text-field>
-					<v-text-field :rules="[required, email]" :label="reservations_descriptions.email" v-model="reservation.email"></v-text-field>
-					<v-text-field :rules="[required]" :label="reservations_descriptions.phone" v-model="reservation.phone"></v-text-field>
-					<v-select :rules="[required]" :label="reservations_descriptions.service" :items="services" item-text="title" v-model="service"></v-select>
-					<v-select :rules="[required, checkReservation]" v-if="service != ''" item-text="title" :label="reservations_descriptions.service_equipment" v-model="service_equipment" :items="service_equipments.filter(eq => eq.service.title == service)"></v-select>
+					<v-text-field :rules="[required]" :label="reservationsDescriptions.name" v-model="reservation.name"></v-text-field>
+					<v-text-field :rules="[required, email]" :label="reservationsDescriptions.email" v-model="reservation.email"></v-text-field>
+					<v-text-field :rules="[required]" :label="reservationsDescriptions.phone" v-model="reservation.phone"></v-text-field>
+					<v-select :rules="[required]" :label="reservationsDescriptions.service" :items="services" item-text="title" v-model="service"></v-select>
+					<v-select :rules="[required, checkReservation]" v-if="service != ''" item-text="title" :label="reservationsDescriptions.service_equipment" v-model="serviceEquipment" :items="serviceEquipments.filter(eq => eq.service.title == service)"></v-select>
 
 					<v-menu ref="date_menu" v-model="date_menu" :close-on-content-click="false"  transition="scale-transition" offset-y min-width="290px" >
 						<template v-slot:activator="{ on, attrs }">
-							<v-combobox :rules="[required]" v-model="date" :label="reservations_descriptions.date" :prepend-icon="`mdi-${reservations_descriptions.date_icon}`" readonly v-bind="attrs" v-on="on" ></v-combobox>
+							<v-combobox :rules="[required]" v-model="date" :label="reservationsDescriptions.date" :prepend-icon="`mdi-${reservationsDescriptions.date_icon}`" readonly v-bind="attrs" v-on="on" ></v-combobox>
 						</template>
 						<v-date-picker v-model="date" no-title :min="formatDate(new Date())">
 
@@ -23,14 +23,14 @@
 
 					<v-menu ref="entry" :disabled="date == '' || service == ''" v-model="entry_menu" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y max-width="290px" min-width="290px" >
 						<template v-slot:activator="{ on, attrs }">
-							<v-text-field :disabled="date == '' || service == ''" v-model="reservation.entry" :rules="[required]" :label="reservations_descriptions.entry" :prepend-icon="`mdi-${reservations_descriptions.entry_icon}`" readonly v-bind="attrs" v-on="on" ></v-text-field>
+							<v-text-field :disabled="date == '' || service == ''" v-model="reservation.entry" :rules="[required]" :label="reservationsDescriptions.entry" :prepend-icon="`mdi-${reservationsDescriptions.entry_icon}`" readonly v-bind="attrs" v-on="on" ></v-text-field>
 						</template>
 						<v-time-picker  format="24hr" min="17:00" v-if="entry_menu" v-model="reservation.entry" full-width @click:minute="$refs.entry.save(reservation.entry)" ></v-time-picker>
 					</v-menu>
 
 					<v-menu ref="leave" :disabled="date == '' || service == ''" v-model="leave_menu" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y max-width="290px" min-width="290px" >
 						<template v-slot:activator="{ on, attrs }">
-							<v-text-field :disabled="date == '' || service == ''" v-model="reservation.leave" :rules="[required, checkInterval]" :label="reservations_descriptions.leave" :prepend-icon="`mdi-${reservations_descriptions.leave_icon}`" readonly v-bind="attrs" v-on="on" ></v-text-field>
+							<v-text-field :disabled="date == '' || service == ''" v-model="reservation.leave" :rules="[required, checkInterval]" :label="reservationsDescriptions.leave" :prepend-icon="`mdi-${reservationsDescriptions.leave_icon}`" readonly v-bind="attrs" v-on="on" ></v-text-field>
 						</template>
 						<v-time-picker  format="24hr" min="17:00" v-if="leave_menu" v-model="reservation.leave" full-width @click:minute="$refs.leave.save(reservation.leave)" ></v-time-picker>
 					</v-menu>
@@ -43,13 +43,13 @@
 					</v-checkbox>
 
 
-					<v-btn outlined color="primary" @click="reserve">{{ reservations_descriptions.button_name }}</v-btn>
+					<v-btn outlined color="primary" @click="reserve">{{ reservationsDescriptions.button_name }}</v-btn>
 				</v-form>
 			</v-col>
 		</v-row>
 		
 		<v-row justify="center">
-			<Calendar :reloadFlag="reservationReloadFlag" :services="services" :deleteFlag="deleteFlag" @events="events = $event" @blockDataEmit="$emit('blockDataEmit', $event)" :service_equipments="service_equipments"/>
+			<Calendar :reloadFlag="reservationReloadFlag" :services="services" :deleteFlag="deleteFlag" @events="events = $event" @blockDataEmit="$emit('blockDataEmit', $event)" :serviceEquipments="serviceEquipments"/>
 		</v-row>
 		<Rules />
 	</v-container>
@@ -68,8 +68,8 @@
 				valid: true,
 				reservationReloadFlag: false,
 				events: [],
-				service_equipments: [],
-				service_equipment: '',
+				serviceEquipments: [],
+				serviceEquipment: '',
 				services: [],
 				date_menu: false,
 				service: '',
@@ -86,7 +86,7 @@
 					rodo1: 0,
 					rodo2: 0,
 				},
-				reservations_descriptions: {},
+				reservationsDescriptions: {},
 			}
 		},
 		computed: {
@@ -101,19 +101,15 @@
 		methods: {
 			...Rules.methods,
 			async getReservationsDescriptions() {
-				await axios.get('/api/reservations_descriptions/get_one/1').then(res => this.reservations_descriptions = res.data);
+				await axios.get('/api/reservations_descriptions/get_one/1').then(res => this.reservationsDescriptions = res.data);
 			},
-			formatDate: date => {
-				console.log(DateFormatter.formatDate(date))
-				return DateFormatter.formatDate(date)
-			}
-			,
+			formatDate: date => DateFormatter.formatDate(date),
 			checkInterval(v) {
 				return DateFormatter.getSeconds(v) - DateFormatter.getSeconds(this.reservation.entry) >= 1800 || this.$store.getters.validationRules.reservation_min_time;
 			},
 			checkReservationTimes(e) {
 				let result = false;
-				if(e.name != this.service_equipment) return true;
+				if(e.name != this.serviceEquipment) return true;
 
 				if(this.reservation.entry < DateFormatter.formatTime(e.start)) {
 					result = this.reservation.leave <= DateFormatter.formatTime(e.start);
@@ -137,7 +133,7 @@
 				this.$store.commit('loading', true);
 				await axios.get(`/api/service_equipments/get_where?active=1`).then(res => {
 					this.$store.commit('loading', false);
-					this.service_equipments = res.data;
+					this.serviceEquipments = res.data;
 				}).catch(err => {
 					this.$store.commit('loading', false);
 					console.log(err);
@@ -168,7 +164,7 @@
 					rodo1: 0,
 					rodo2: 0,
 				};
-				this.service_equipment = '';
+				this.serviceEquipment = '';
 				this.service = '';
 				this.date = '';
 				this.$refs.form.resetValidation();
@@ -209,8 +205,8 @@
 			}
 		},
 		watch: {
-			service_equipment() {
-				if(this.service_equipment != '') this.reservation.service_equipment_id = this.service_equipments.find(eq => eq.title == this.service_equipment).id;
+			serviceEquipment() {
+				if(this.serviceEquipment != '') this.reservation.service_equipment_id = this.serviceEquipments.find(eq => eq.title == this.serviceEquipment).id;
 			},
 			user() {
 				if(this.user) {

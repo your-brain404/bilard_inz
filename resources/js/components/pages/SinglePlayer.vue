@@ -2,7 +2,7 @@
 	<v-container class="py-12 player">
 		<v-row>
 			<v-col>
-				<Breadcrumb link="/zawodnicy" :title="fullName" :category="players_descriptions.title" />
+				<Breadcrumb link="/zawodnicy" :title="fullName" :category="playersDescriptions.title" />
 			</v-col>
 		</v-row>
 		<v-row>
@@ -13,7 +13,7 @@
 			<v-col cols="12" md="8" class="d-flex flex-column justify-content-center">
 				<h2 class="font-weight-bold">{{ fullName }}</h2>
 				<p>{{ player.subtitle }}</p>
-				<p>{{ `${players_descriptions.league} ${player.league}` }}</p>
+				<p>{{ `${playersDescriptions.league} ${player.league}` }}</p>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -48,12 +48,12 @@
 				galleryLightbox: [],
 				lightbox: false,
 				activePhotoId: 0,
-				players_descriptions: {},
+				playersDescriptions: {},
 			}
 		},
 		methods: {
 			async getPlayersDescriptions() {
-				await axios.get('/api/players_descriptions/get_one/1').then(res => this.players_descriptions = res.data);
+				await axios.get('/api/players_descriptions/get_one/1').then(res => this.playersDescriptions = res.data);
 			},
 			getUrl: src => url(src),
 			async getPlayer() {

@@ -22,7 +22,7 @@
 
 			<v-stepper-content step="2">
 				<div class="mb-12">
-					<ShippingDetails :cartDescriptions="cartDescriptions" @shipping_details="shipping_details = $event" @e1="e1 = $event" :submit="shippingDetailsSubmit" @valid="shippingDetailsValid = $event" />
+					<ShippingDetails :cartDescriptions="cartDescriptions" @shippingDetails="shippingDetails = $event" @e1="e1 = $event" :submit="shippingDetailsSubmit" @valid="shippingDetailsValid = $event" />
 				</div>
 
 				<v-btn :disabled="!shippingDetailsValid" color="primary" @click="shippingDetailsValidate">{{ cartDescriptions.next }}</v-btn>
@@ -40,7 +40,7 @@
 
 			<v-stepper-content step="4">
 				<div class="mb-12">
-					<Summary :deliveryOptions="deliveryOptions" :cartDescriptions="cartDescriptions" @cartData="cart_data = $event" :payments="payments" :shipping_details="shipping_details" />
+					<Summary :deliveryOptions="deliveryOptions" :cartDescriptions="cartDescriptions" @cartData="cartData = $event" :payments="payments" :shippingDetails="shippingDetails" />
 				</div>
 				<v-btn color="primary" @click="realize">{{ cartDescriptions.realize }}</v-btn>
 				<v-btn @click="e1 = 3" text>{{ cartDescriptions.back }}</v-btn>
@@ -66,9 +66,9 @@
 				shippingDetailsSubmit: false,
 				paymentsValid: false,
 				paymentsSubmit: false,
-				shipping_details: {},
+				shippingDetails: {},
 				payments: {},
-				cart_data: {},
+				cartData: {},
 				deliveryOptions: []
 			}
 		},
@@ -99,7 +99,7 @@
 			},
 			realize() {
 				this.$store.commit('loading', true);
-				axios.post('/api/shop_orders/add', this.cart_data).then(res => {
+				axios.post('/api/shop_orders/add', this.cartData).then(res => {
 					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.order_success);
 					this.$store.commit('loading', false);
 					console.log(res)

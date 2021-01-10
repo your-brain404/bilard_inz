@@ -104,50 +104,50 @@
 			checkSubpageEntry() {
 				for(let subpage of this.subpages) {
 					if(subpage.page == '/' + this.$route.path.split('/')[1]) {
-						if(!subpage.active && subpage.page != '/koszyk') this.$router.push('/')
+						if(!subpage.active && subpage.page != '/koszyk') this.$router.push('/');
 					}
-			}
-		},
-		setMetaTitle() {
-			this.$store.commit('currentSubpage', this.$route.path);
-			if(this.$route.path.split('/').includes('admin-panel')) this.title = 'Panel Administracyjny';
-			else this.title = this.currentSubpage ? this.currentSubpage.title : '';
-		},
-		
-		autoLogin(){
-			if(localStorage.getItem('fbLogin')){
-				this.$store.dispatch('fbLogin');
-			}
+				}
+			},
+			setMetaTitle() {
+				this.$store.commit('currentSubpage', this.$route.path);
+				if(this.$route.path.split('/').includes('admin-panel')) this.title = 'Panel Administracyjny';
+				else this.title = this.currentSubpage ? this.currentSubpage.title : '';
+			},
+			
+			autoLogin(){
+				if(localStorage.getItem('fbLogin')){
+					this.$store.dispatch('fbLogin');
+				}
 
-			if(localStorage.getItem('authLogin')){
-				this.$store.dispatch('authAutoLogin');
-			}
+				if(localStorage.getItem('authLogin')){
+					this.$store.dispatch('authAutoLogin');
+				}
 
+			},
+			setCart() {
+				if(localStorage.getItem('cart') != null) {
+					this.$store.commit('cart', JSON.parse(localStorage.getItem('cart')));
+				}
+			},
+			
 		},
-		setCart() {
-			if(localStorage.getItem('cart') != null) {
-				this.$store.commit('cart', JSON.parse(localStorage.getItem('cart')));
+		created(){
+			this.autoLogin();
+			this.setCart();
+			this.setMetaTitle();
+			this.$store.dispatch('settings');
+			this.$store.dispatch('contact');
+			this.$store.dispatch('snackbarAlerts');
+			
+			if (window.location.hash && window.location.hash == '#_=_') {
+				window.location.href = window.location.origin;
 			}
+			
+			$('*').css({"cursor": `url('${window.location.origin}/storage/img/cursor/cursor.png'), auto`})
 		},
-		
-	},
-	created(){
-		this.autoLogin();
-		this.setCart();
-		this.setMetaTitle();
-		this.$store.dispatch('settings');
-		this.$store.dispatch('contact');
-		this.$store.dispatch('snackbarAlerts');
-		
-		if (window.location.hash && window.location.hash == '#_=_') {
-			window.location.href = window.location.origin;
-		}
-		
-		$('*').css({"cursor": `url('${window.location.origin}/storage/img/cursor/cursor.png'), auto`})
-	},
 
 
-}
+	}
 </script>
 
 <style>

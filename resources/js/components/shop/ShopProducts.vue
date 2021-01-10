@@ -15,29 +15,29 @@
 		</v-row>
 		<v-row>
 
-			<v-col v-for="(product, i) in shop_products" :key="i" cols="12" md="4">
+			<v-col v-for="(product, i) in shopProducts" :key="i" cols="12" md="4">
 				<v-card class="mx-auto" max-width="400" >
-					<router-link :to="`/sklep/produkt/${product.id}/${slug(product.title)}`">
-						<v-img class="white--text align-end position-relative" height="200px" :src="getUrl(product.photo)" >
+					<router-link :to="`/sklep/produkt/${product.id}/${slugify(product.title)}`">
+						<v-img class="white--text align-end position-relative" height="200px" :src="url(product.photo)" >
 							<v-card-title>{{ product.title }}</v-card-title>
 						</v-img>
 
 						<v-card-subtitle class="pb-0"> {{ product.subtitle }} </v-card-subtitle>
 
 						<v-card-text class="text--primary d-flex" style="height: 44px">
-							<div class="mr-2">{{ shop_descriptions.price }}</div>
+							<div class="mr-2">{{ shopDescriptions.price }}</div>
 							<div>
-								<div :class="[{'discounted': product.discount}]">{{ product.price.toFixed(2) }} {{ shop_descriptions.currency }} </div>
+								<div :class="[{'discounted': product.discount}]">{{ product.price.toFixed(2) }} {{ shopDescriptions.currency }} </div>
 								<div v-if="product.discount">
-									{{ (product.price * ((100 - product.discount) / 100)).toFixed(2) }} {{ shop_descriptions.currency }}
+									{{ (product.price * ((100 - product.discount) / 100)).toFixed(2) }} {{ shopDescriptions.currency }}
 								</div>
 							</div>
 						</v-card-text>
 					</router-link>
 					<v-card-actions>
 						<v-btn color="primary" text >
-							<v-icon left>mdi-{{ shop_descriptions.add_to_cart_icon }}</v-icon>
-							<span>{{ shop_descriptions.add_to_cart }}</span> 
+							<v-icon left>mdi-{{ shopDescriptions.add_to_cart_icon }}</v-icon>
+							<span>{{ shopDescriptions.add_to_cart }}</span> 
 						</v-btn>
 					</v-card-actions>
 				</v-card>
@@ -62,8 +62,10 @@
 		props:['deleteFlag'],
 		data() {
 			return {
-				shop_category: {},
-				shop_products: [],
+				slugify,
+				url,
+				shopCategory: {},
+				shopProducts: [],
 				pagination: {},
 				sorts: [
 				{title: 'Cena', show: true, field: 'price', icon: 'mdi-sort-numeric-ascending', sort: 'asc'},
@@ -74,13 +76,13 @@
 				{title: 'Data', show: true, field: 'created_at', icon: 'mdi-arrow-down', sort: 'desc'},
 				],
 				currentSort: {title: 'Data', show: true, field: 'created_at', icon: 'mdi-arrow-down', sort: 'desc'},
-				shop_descriptions: {}
+				shopDescriptions: {}
 			}
 		},
 		methods: {
 			getShopDescriptions() {
 				axios.get('/api/shop_descriptions/get_one/1').then(res => {
-					this.shop_descriptions = res.data;
+					this.shopDescriptions = res.data;
 					this.sorts[0].icon = `mdi-${res.data.price_sort_up}`;
 					this.sorts[1].icon = `mdi-${res.data.price_sort_down}`;
 					this.sorts[2].icon = `mdi-${res.data.title_sort_up}`;
@@ -93,8 +95,6 @@
 			setPath(event) {
 				if(this.$route.params.page != event) this.$router.push({name: 'ShopPagination', params: {page: event}});
 			},
-			getUrl: src => url(src),
-			slug: title => slugify(title),
 			getProducts(){
 				this.$store.commit('loading', true);
 				let endpoint = `get_where?`;
@@ -108,8 +108,8 @@
 					res = res.data;
 					this.pagination = res.meta;
 					this.$store.commit('loading', false);
-					this.shop_products = res.data;
-					this.$emit('blockDataEmit', this.shop_products);
+					this.shopProducts = res.data;
+					this.$emit('blockDataEmit', this.shopProducts);
 					
 				}).catch(err => {
 					this.$store.commit('loading', false);
@@ -127,8 +127,8 @@
 				if(this.$route.params.parent_id) endpoint = `get_one/${this.$route.params.parent_id}`;
 				axios.get(`/api/shop_categories/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
-					this.shop_category = res.data;
-					this.$emit('parent_data', this.shop_category);
+					this.shopCategory = res.data;
+					this.$emit('parent_data', this.shopCategory);
 				}).catch(err => {
 					this.$store.commit('loading', false);
 					console.log(err);

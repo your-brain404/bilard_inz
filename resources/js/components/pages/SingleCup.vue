@@ -2,7 +2,7 @@
 	<v-container class="py-12 cup">
 		<v-row>
 			<v-col>
-				<Breadcrumb link="/puchary" :title="cup.title" :category="cups_descriptions.title" />
+				<Breadcrumb link="/puchary" :title="cup.title" :category="cupsDescriptions.title" />
 			</v-col>
 		</v-row>
 		<v-row>
@@ -44,12 +44,12 @@
 				galleryLightbox: [],
 				lightbox: false,
 				activePhotoId: 0,
-				cups_descriptions: {}
+				cupsDescriptions: {}
 			}
 		},
 		methods: {
 			async getCupsDescriptions() {
-				await axios.get('/api/cups_descriptions/get_one/1').then(res => this.cups_descriptions = res.data);
+				await axios.get('/api/cups_descriptions/get_one/1').then(res => this.cupsDescriptions = res.data);
 			},
 			getUrl: src => url(src),
 			async getCup() {

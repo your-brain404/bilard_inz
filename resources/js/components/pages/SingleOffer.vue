@@ -2,7 +2,7 @@
 	<v-container class="py-12 offer">
 		<v-row>
 			<v-col>
-				<Breadcrumb link="/oferta" :title="offer.title" :category="offers_descriptions.title" />
+				<Breadcrumb link="/oferta" :title="offer.title" :category="offersDescriptions.title" />
 			</v-col>
 		</v-row>
 		<v-row>
@@ -47,12 +47,12 @@
 				galleryLightbox: [],
 				lightbox: false,
 				activePhotoId: 0,
-				offers_descriptions: {},
+				offersDescriptions: {},
 			}
 		},
 		methods: {
 			async getOffersDescriptions() {
-				await axios.get('/api/offers_descriptions/get_one/1').then(res => this.offers_descriptions = res.data);
+				await axios.get('/api/offers_descriptions/get_one/1').then(res => this.offersDescriptions = res.data);
 			},
 			getUrl: src => url(src),
 			async getOffer() {

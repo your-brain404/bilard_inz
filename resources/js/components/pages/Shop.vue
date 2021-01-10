@@ -2,8 +2,8 @@
 	<v-container fluid class="py-12">
 		<v-row justify="center">
 			<v-col cols="12">
-				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ shop_descriptions.title }}</h2>
-				<h3 v-if="category" class="first-color text-center ">{{ shop_descriptions.category }} '{{ category.title }}'</h3>
+				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ shopDescriptions.title }}</h2>
+				<h3 v-if="category" class="first-color text-center ">{{ shopDescriptions.category }} '{{ category.title }}'</h3>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -27,7 +27,7 @@
 		data() {
 			return {
 				category: {},
-				shop_descriptions: {}
+				shopDescriptions: {}
 			}
 		},
 		computed: {
@@ -40,7 +40,7 @@
 		},
 		methods: {
 			async getShopDescriptions() {
-				await axios.get('/api/shop_descriptions/get_one/1').then(res => this.shop_descriptions = res.data);
+				await axios.get('/api/shop_descriptions/get_one/1').then(res => this.shopDescriptions = res.data);
 			},
 		},
 		created() {

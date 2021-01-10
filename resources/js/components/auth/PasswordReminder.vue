@@ -1,16 +1,16 @@
 <template>
 	<div>
 		<v-dialog @input="v => v || closePasswordReminder()" class="position-relative" v-model="openPasswordReminder" persistent>
-			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(44 60 49 / 70%), hsl(0 0% 0% / 0.9)), url(${url(auth_descriptions.bg_password_reminder_photo)})`">
+			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(44 60 49 / 70%), hsl(0 0% 0% / 0.9)), url(${url(authDescriptions.bg_password_reminder_photo)})`">
 				<div @click="closePasswordReminder()" class="close-button">
-					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
+					<v-icon color="white">mdi-{{ authDescriptions.close_icon }}</v-icon>
 				</div>
 				<v-form v-model="valid" v-if="validationRules.id" ref="form" class="position-relative login-form">
-					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.password_reminder_title }}</h1>
-					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="auth_descriptions.email" required ></v-text-field>
+					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ authDescriptions.password_reminder_title }}</h1>
+					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="authDescriptions.email" required ></v-text-field>
 				</v-form>
 				<v-btn :disabled="!valid" dark outlined class="mr-4 w-100 login-button " @click="submit">
-					{{ auth_descriptions.password_reminder_send }}
+					{{ authDescriptions.password_reminder_send }}
 				</v-btn>
 
 
@@ -26,7 +26,7 @@
 	import axios from 'axios'
 
 	export default {
-		props: ['auth_descriptions', 'openPasswordReminder'],
+		props: ['authDescriptions', 'openPasswordReminder'],
 		data() {
 			return {
 				auth: {

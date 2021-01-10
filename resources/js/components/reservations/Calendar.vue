@@ -1,38 +1,38 @@
 <template>
 	<v-container class="px-3">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ calendar_descriptions.title }}</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ calendarDescriptions.title }}</h2>
 		</v-row>
-		<h2>{{ calendar_descriptions.legend }}</h2>
+		<h2>{{ calendarDescriptions.legend }}</h2>
 		<v-row v-for="(service, i) in services" :key="i" align="center" class="px-3">
 			<div class="legend-color" :style="`background-color: ${service.color}`"></div>
 			<p>{{ service.title }}</p>
 
 		</v-row>
 		<v-row align="center" class="px-3 mb-4">
-			<div class="legend-color" :style="`background-color: ${calendar_descriptions.unconfirmed_color}`"></div>
-			<p>{{ calendar_descriptions.unconfirmed }}</p>
+			<div class="legend-color" :style="`background-color: ${calendarDescriptions.unconfirmed_color}`"></div>
+			<p>{{ calendarDescriptions.unconfirmed }}</p>
 
 		</v-row>
 		<v-sheet tile height="54" class="d-flex" >
 			<v-btn icon class="ma-2" @click="$refs.calendar.prev()" >
-				<v-icon>mdi-{{ calendar_descriptions.previous_icon }}</v-icon>
+				<v-icon>mdi-{{ calendarDescriptions.previous_icon }}</v-icon>
 			</v-btn>
-			<v-select v-model="show_type" :items="show_types" dense outlined hide-details class="ma-2" :label="calendar_descriptions.type" ></v-select>
+			<v-select v-model="showType" :items="showTypes" dense outlined hide-details class="ma-2" :label="calendarDescriptions.type" ></v-select>
 
-			<v-select v-model="weekday" :items="day_formats" item-value="format" item-text="title" dense outlined hide-details :label="calendar_descriptions.day_format" class="ma-2" ></v-select>
+			<v-select v-model="weekday" :items="dayFormats" item-value="format" item-text="title" dense outlined hide-details :label="calendarDescriptions.day_format" class="ma-2" ></v-select>
 			<v-btn icon class="ma-2" @click="$refs.calendar.next()" >
-				<v-icon>mdi-{{ calendar_descriptions.next_icon }}</v-icon>
+				<v-icon>mdi-{{ calendarDescriptions.next_icon }}</v-icon>
 			</v-btn>
 		</v-sheet>
 		<v-sheet height="600" width="100%">
-			<v-calendar v-if="weekday.length > 0" ref="calendar" v-model="value" :weekdays="weekday" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" :event-color="getEventColor" @change="getEvents" @click:date="viewDay" @click:more="viewDay" @click:event="showEvent" locale="pl" :event-more-text="calendar_descriptions.more"></v-calendar>
+			<v-calendar v-if="weekday.length > 0" ref="calendar" v-model="value" :weekdays="weekday" :type="type" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" :event-color="getEventColor" @change="getEvents" @click:date="viewDay" @click:more="viewDay" @click:event="showEvent" locale="pl" :event-more-text="calendarDescriptions.more"></v-calendar>
 
 			<v-menu v-model="selectedOpen" :close-on-content-click="false" :activator="selectedElement" offset-x >
 				<v-card color="grey lighten-4" min-width="350px" flat >
 					<v-toolbar :color="selectedEvent.color" dark >
 						<v-btn icon>
-							<v-icon>mdi-{{ calendar_descriptions.reservation_icon }}</v-icon>
+							<v-icon>mdi-{{ calendarDescriptions.reservation_icon }}</v-icon>
 						</v-btn>
 						<v-toolbar-title v-html="selectedEvent.name + '<br>' + getReservationTime(selectedEvent)"></v-toolbar-title>
 						<v-spacer></v-spacer>
@@ -51,12 +51,12 @@
 	import axios from 'axios'
 
 	export default {
-		props: ['service_equipments', 'deleteFlag', 'services', 'reloadFlag'],
+		props: ['serviceEquipments', 'deleteFlag', 'services', 'reloadFlag'],
 		data: () => ({
 			type: 'month',
-			show_type: '',
+			showType: '',
 			types: ['month', 'week', 'day', '4day'],
-			show_types: [],
+			showTypes: [],
 			weekday: [],
 			weekdays: [
 			{ text: 'Ndz - Sob', value: [0, 1, 2, 3, 4, 5, 6] },
@@ -70,18 +70,18 @@
 			selectedEvent: {},
 			selectedElement: null,
 			selectedOpen: false,
-			calendar_descriptions: {},
-			day_formats: []
+			calendarDescriptions: {},
+			dayFormats: []
 		}),
 		watch: {
-			calendar_descriptions() {
-				if(this.calendar_descriptions.id) {
-					this.show_types.push(this.calendar_descriptions.month, this.calendar_descriptions.week, this.calendar_descriptions.day, this.calendar_descriptions.four_days); 
-					this.show_type = this.show_types[0];
+			calendarDescriptions() {
+				if(this.calendarDescriptions.id) {
+					this.showTypes.push(this.calendarDescriptions.month, this.calendarDescriptions.week, this.calendarDescriptions.day, this.calendarDescriptions.four_days); 
+					this.showType = this.showTypes[0];
 				}
 			},
-			show_type() {
-				this.type = this.types[this.show_types.indexOf(this.show_type)];
+			showType() {
+				this.type = this.types[this.showTypes.indexOf(this.showType)];
 			},
 			deleteFlag(){
 				if(this.deleteFlag){
@@ -91,22 +91,21 @@
 			reloadFlag(){
 				if(this.reloadFlag){
 					this.getEvents();
-					console.log('dupcia')
 				}
 			},
-			day_formats() {
-				if(this.day_formats.length > 0) {
-					this.day_formats.forEach(day_format => day_format.format = day_format.format.split(' ').map(format => parseInt(format)));
-					this.weekday = this.day_formats[0].format;
+			dayFormats() {
+				if(this.dayFormats.length > 0) {
+					this.dayFormats.forEach(day_format => day_format.format = day_format.format.split(' ').map(format => parseInt(format)));
+					this.weekday = this.dayFormats[0].format;
 				}
 			}
 		},
 		methods: {
 			getDayFormats() {
-				axios.get('/api/day_formats/get_all').then(res => this.day_formats = res.data);
+				axios.get('/api/day_formats/get_all').then(res => this.dayFormats = res.data);
 			},
 			getCalendarDescriptions() {
-				axios.get('/api/calendar_descriptions/get_one/1').then(res => this.calendar_descriptions = res.data);
+				axios.get('/api/calendar_descriptions/get_one/1').then(res => this.calendarDescriptions = res.data);
 			},
 			getReservationTime: selectedEvent => `${DateFormatter.formatTime(selectedEvent.start)}-${DateFormatter.formatTime(selectedEvent.end)}`,
 			showEvent ({ nativeEvent, event }) {
@@ -137,10 +136,10 @@
 				await axios.get('/api/reservations/get_all').then(res => {
 					for(let data of res.data) {
 						events.push({
-							name: this.service_equipments.find(eq => eq.id == data.service_equipment_id).title,
+							name: this.serviceEquipments.find(eq => eq.id == data.service_equipment_id).title,
 							start: data.entry,
 							end: data.leave,
-							color: data.active ? this.service_equipments.find(eq => eq.id == data.service_equipment_id).service.color : 'rgb(197 197 197)',
+							color: data.active ? this.serviceEquipments.find(eq => eq.id == data.service_equipment_id).service.color : 'rgb(197 197 197)',
 							timed: true
 
 						})

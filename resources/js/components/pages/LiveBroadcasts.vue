@@ -1,9 +1,9 @@
 <template>
 	<v-container class="py-12 history">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ live_broadcasts_descriptions.title }}</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ liveBroadcastsDescriptions.title }}</h2>
 		</v-row>
-		<v-row v-for="(live, i) in live_broadcasts" :key="i" class="mb-0">
+		<v-row v-for="(live, i) in liveBroadcasts" :key="i" class="mb-0">
 			<v-col cols="12" class="d-flex flex-column justify-content-center">
 				<a target="_blank" :href="live.link">
 					<v-btn color="#da5a33" outlined class="w-100">{{ live.title }}</v-btn>
@@ -15,7 +15,6 @@
 
 <script>
 	import axios from 'axios'
-	import url from '../../helpers/photo/url.js'
 
 	export default {
 		props:['deleteFlag'],
@@ -28,13 +27,13 @@
 		},
 		data() {
 			return {
-				live_broadcasts: [],
-				live_broadcasts_descriptions: {}
+				liveBroadcasts: [],
+				liveBroadcastsDescriptions: {},
 			}
 		},
 		methods: {
 			async getLiveBroadcastsDescriptions() {
-				await axios.get('/api/live_broadcasts_descriptions/get_one/1').then(res => this.live_broadcasts_descriptions = res.data);
+				await axios.get('/api/live_broadcasts_descriptions/get_one/1').then(res => this.liveBroadcastsDescriptions = res.data);
 			},
 			async getLiveBroadcasts(){
 				let endpoint = 'get_all';
@@ -42,14 +41,13 @@
 				this.$store.commit('loading', true);
 				await axios.get(`/api/live_broadcasts/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
-					this.live_broadcasts = res.data;
-					this.$emit('blockDataEmit', this.live_broadcasts);
+					this.liveBroadcasts = res.data;
+					this.$emit('blockDataEmit', this.liveBroadcasts);
 				}).catch(err => {
 					this.$store.commit('loading', false);
 					console.log(err);
 				})
 			},
-			getUrl: src => url(src),
 		},
 		created() {
 			this.getLiveBroadcasts();

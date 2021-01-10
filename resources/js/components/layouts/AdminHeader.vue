@@ -3,7 +3,7 @@
 		<v-list dense nav class="py-0 pr-0" >
 			<v-list-item two-line :class="'px-0'">
 				<v-list-item-avatar>
-					<img :src="$store.getters.user.photo != '' ? getAvatar($store.getters.user.photo) : placeholder">
+					<img :src="$store.getters.user.photo != '' ? avatar($store.getters.user.photo) : placeholder">
 				</v-list-item-avatar>
 
 				<v-list-item-content>
@@ -40,6 +40,7 @@
 	export default {
 		data () {
 			return {
+				avatar,
 				drawer: true,
 				
 				items: [
@@ -67,11 +68,6 @@
 		},
 		created() {
 			this.$store.dispatch('fetchSomeUsers');
-		},
-		methods: {
-			getAvatar(src) {
-				return avatar(src);
-			}
 		},
 		computed: {
 			placeholder() {

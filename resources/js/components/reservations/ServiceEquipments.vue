@@ -1,5 +1,5 @@
 <template>
-	<Reservations :service_equipments="service_equipments" :services="services" />
+	<Reservations :serviceEquipments="serviceEquipments" :services="services" />
 </template>
 
 <script>
@@ -12,7 +12,6 @@
 			Reservations
 		},
 		methods: {
-			slug: title => slugify(title),
 			getServiceEquipments(){
 				this.$store.commit('loading', true);
 				axios.get(`/api/service_equipments/get_all`).then(res => {

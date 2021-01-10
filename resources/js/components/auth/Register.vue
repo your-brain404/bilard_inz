@@ -1,26 +1,26 @@
 <template>
 	<div>
 		<v-dialog class="position-relative" @input="v => v || closeRegister()" v-model="dialog" persistent>
-			<v-card class="register-card  register-bg" raised :style="`background-image: linear-gradient(to right top, rgb(44 60 49 / 70%), hsl(0 0% 0% / 0.9)), url(${url(auth_descriptions.bg_register_photo)})`">
+			<v-card class="register-card  register-bg" raised :style="`background-image: linear-gradient(to right top, rgb(44 60 49 / 70%), hsl(0 0% 0% / 0.9)), url(${url(authDescriptions.bg_register_photo)})`">
 				<div @click="closeRegister" class="close-button">
-					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
+					<v-icon color="white">mdi-{{ authDescriptions.close_icon }}</v-icon>
 				</div>
 				<v-form v-if="validationRules.id" ref="form" v-model="valid" class="position-relative register-form">
-					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ auth_descriptions.register_title }}</h1>
-					<v-text-field dark v-model="auth.name" :rules="[required]" :counter="30" :label="auth_descriptions.name" class="primary-text"></v-text-field>
-					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="auth_descriptions.email"></v-text-field>
-					<v-text-field type="password" :rules="[required, passwordLength]" dark v-model="auth.password" :label="auth_descriptions.password"></v-text-field>
-					<v-text-field :rules="[required, passwordConfirm(auth.password, passwordConf)]" type="password" dark v-model="passwordConf" :label="auth_descriptions.password_confirm"></v-text-field>
+					<h1 class="about-title font-weight-bold text-center text-white mt-0">{{ authDescriptions.register_title }}</h1>
+					<v-text-field dark v-model="auth.name" :rules="[required]" :counter="30" :label="authDescriptions.name" class="primary-text"></v-text-field>
+					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="authDescriptions.email"></v-text-field>
+					<v-text-field type="password" :rules="[required, passwordLength]" dark v-model="auth.password" :label="authDescriptions.password"></v-text-field>
+					<v-text-field :rules="[required, passwordConfirm(auth.password, passwordConf)]" type="password" dark v-model="passwordConf" :label="authDescriptions.password_confirm"></v-text-field>
 
 					<v-checkbox dark v-model="regulations" :rules="[required]">
 						<span slot="label">
-							{{ auth_descriptions.shop_regulations }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.shop_regulations)"><v-btn dark class="register-button ml-2" small outlined>{{ auth_descriptions.download }}</v-btn></a>
+							{{ authDescriptions.shop_regulations }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.shop_regulations)"><v-btn dark class="register-button ml-2" small outlined>{{ authDescriptions.download }}</v-btn></a>
 						</span>
 					</v-checkbox>
 
 					<v-checkbox dark class="pt-0 mt-0" v-model="privace" :rules="[required]">
 						<span slot="label">
-							{{ auth_descriptions.privace_policy }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.privace_policy)"><v-btn dark class="register-button ml-2" small outlined>{{ auth_descriptions.download }}</v-btn></a>
+							{{ authDescriptions.privace_policy }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.privace_policy)"><v-btn dark class="register-button ml-2" small outlined>{{ authDescriptions.download }}</v-btn></a>
 						</span>
 					</v-checkbox>
 
@@ -34,12 +34,12 @@
 
 				</v-form>
 				<v-btn dark outlined class="mr-4 w-100 register-button" @click="submit">
-					{{ auth_descriptions.make_account }}
+					{{ authDescriptions.make_account }}
 				</v-btn>
-				<h5 class="text-center white--text py-4 m-0 font-weight-lighter">{{ auth_descriptions.or }}</h5>
+				<h5 class="text-center white--text py-4 m-0 font-weight-lighter">{{ authDescriptions.or }}</h5>
 
 
-				<Facebook :auth_descriptions="auth_descriptions" />
+				<Facebook :authDescriptions="authDescriptions" />
 
 			</v-card>
 			<Rules />
@@ -55,7 +55,7 @@
 	import axios from 'axios'
 
 	export default {
-		props:['dialog', 'auth_descriptions'],
+		props:['dialog', 'authDescriptions'],
 		watch:{
 			'$route'(){
 				this.dialog = false;

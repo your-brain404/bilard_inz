@@ -1,13 +1,13 @@
 <template>
 	<v-container class="py-12">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ players_descriptions.title }}</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ playersDescriptions.title }}</h2>
 		</v-row>
 		<v-row justify="center">
 			<v-col v-for="(player, i) in players" :key="i" cols="12" lg="6">
-				<router-link :to="`/zawodnicy/${player.id}/${slug(getFullName(player))}`">
+				<router-link :to="`/zawodnicy/${player.id}/${slugify(getFullName(player))}`">
 					<v-card flat class="offer-card p-3">
-						<div class="bg-picture player-photo" :style="`background-image: url('${getUrl(player.photo)}')`"></div>
+						<div class="bg-picture player-photo" :style="`background-image: url('${url(player.photo)}')`"></div>
 						<div class="card-content">
 							<v-card-title class="player-name px-0">
 								{{ getFullName(player) }}
@@ -45,14 +45,15 @@
 		data() {
 			return {
 				players: [],
-				players_descriptions: {}
+				playersDescriptions: {},
+				slugify,
+				url
 			}
 		},
 		methods: {
 			async getPlayersDescriptions() {
-				await axios.get('/api/players_descriptions/get_one/1').then(res => this.players_descriptions = res.data);
+				await axios.get('/api/players_descriptions/get_one/1').then(res => this.playersDescriptions = res.data);
 			},
-			slug: title => slugify(title),
 			async getPlayers(){
 				let endpoint = 'get_all';
 				if(this.$route.path == '/zawodnicy') endpoint = 'get_where?active=1';
@@ -66,7 +67,6 @@
 					console.log(err);
 				})
 			},
-			getUrl: src => url(src),
 			getFullName: player => `${player.first_name} ${player.last_name}`
 		},
 		created() {

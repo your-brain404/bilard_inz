@@ -26,15 +26,15 @@
 		<v-divider v-if="$store.getters.user.id"></v-divider>
 		<v-row>
 			<v-col v-if="$store.getters.user.id">
-				<h4 class="single-news-comments-title">{{ comments_descriptions.question }}</h4>
+				<h4 class="single-news-comments-title">{{ commentsDescriptions.question }}</h4>
 			</v-col>
 			<v-col class="d-flex justify-content-center mt-12" v-else>
-				<v-btn color="primary" @click="$emit('openLogin')">{{ comments_descriptions.login }}</v-btn>
+				<v-btn color="primary" @click="$emit('openLogin')">{{ commentsDescriptions.login }}</v-btn>
 			</v-col>
 		</v-row>
 		<v-row  v-if="$store.getters.user.id">
 			<v-col>
-				<Comments :comments_descriptions="comments_descriptions" />
+				<Comments :commentsDescriptions="commentsDescriptions" />
 
 			</v-col>
 		</v-row>
@@ -58,12 +58,12 @@
 				galleryLightbox: [],
 				lightbox: false,
 				activePhotoId: 0,
-				comments_descriptions: {},
+				commentsDescriptions: {},
 			}
 		},
 		methods: {
 			async getCommentsDescriptions() {
-				await axios.get('/api/comments_descriptions/get_one/1').then(res => this.comments_descriptions = res.data);
+				await axios.get('/api/comments_descriptions/get_one/1').then(res => this.commentsDescriptions = res.data);
 			},
 			getUrl: src => url(src),
 			async getSingleNews() {

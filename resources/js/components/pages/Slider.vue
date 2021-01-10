@@ -1,6 +1,6 @@
 <template>
 	<v-carousel hide-delimiters height="80vh" cycle>
-		<v-carousel-item class="slider-background" v-for="slide in slides" :alt="slide.photo_alt" :key="slide.id" :src="getPhoto(slide.photo)">
+		<v-carousel-item class="slider-background" v-for="slide in slides" :alt="slide.photo_alt" :key="slide.id" :src="url(slide.photo)">
 			<v-row class="fill-height flex-column" align="center" justify="center">
 				<h2 class="slider-title font-weight-bold first-color">{{ slide.title }}</h2>
 				<div class="slider-subtitle white--text font-weight-bold">{{ slide.subtitle }}</div>
@@ -18,11 +18,11 @@
 		data(){
 			return{
 				slides: [],
+				url
 			}
 		},
 		created(){
 			this.getSlider();
-			
 		},
 		methods:{
 			async getSlider(){
@@ -38,9 +38,7 @@
 					console.log(err);
 				})
 			},
-			getPhoto(src){
-				return url(src);
-			}
+			
 		},
 		watch:{
 			deleteFlag(){

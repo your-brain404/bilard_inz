@@ -29,7 +29,7 @@ class HomeHelper {
 			$data['meta_description'] = $data['current_subpage']->meta_description;
 
 			if(Request::segment(1) == 'oferta' && Request::segment(2)) $data['current_subpage'] = Offers::find(Request::segment(2));
-			if(Request::segment(1) == 'aktualnosci' && Request::segment(2) && Request::segment(3)) $data['current_subpage'] = News::find(Request::segment(2));
+			if(Request::segment(1) == 'aktualnosci' && (int)Request::segment(2) != 0 && Request::segment(3)) $data['current_subpage'] = News::find(Request::segment(2));
 			if(Request::segment(1) == 'zawodnicy' && Request::segment(2)) {
 				$data['current_subpage'] = Players::find(Request::segment(2));
 				$data['current_subpage']->title = $data['current_subpage']->first_name. ' '. $data['current_subpage']->last_name;

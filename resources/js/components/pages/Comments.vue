@@ -2,18 +2,18 @@
 	<div class="comments">
 
 		<div v-if="comments.length > 3 && paginateComments < comments.length" class="show-more-comments">
-			<i v-if="paginateComments < comments.length" @click="paginateComments += 3">{{ comments_descriptions.show }} ({{ comments.length - paginateComments }})</i>
+			<i v-if="paginateComments < comments.length" @click="paginateComments += 3">{{ commentsDescriptions.show }} ({{ comments.length - paginateComments }})</i>
 		</div>
 		<div v-if="paginateComments != 3" class="show-more-comments">
-			<i @click="paginateComments = 3">{{ comments_descriptions.hide }}</i>
+			<i @click="paginateComments = 3">{{ commentsDescriptions.hide }}</i>
 		</div>
 
 
-		<div v-for="(com, j) in comments" v-if="(j > (comments.length - 1) - paginateComments)" :key="com.id" class="d-flex justify-content-between align-items-start mb-3">
+		<div v-for="(com, j) in comments" v-if="(j > (comments.length - 1) - paginateComments)" :key="com.id" :class="['d-flex', 'w-100', 'align-items-end', 'mb-3', {'justify-content-end': $store.getters.user.id != com.user_id}]">
 			<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
 				<v-chip class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
-				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-left delete-comment" @click="deleteComment(com.id)">{{ comments_descriptions.delete }}</p>
+				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com.id)">{{ commentsDescriptions.delete }}</p>
 			</div>
 			<div class="d-flex flex-column align-items-center">
 				<div class="bg-picture comment-photo" :style="`background-image: url(${avatar($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
@@ -24,14 +24,14 @@
 			<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
 				<v-chip color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
-				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-right delete-comment" @click="deleteComment(com)">{{ comments_descriptions.delete }}</p>
+				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com)">{{ commentsDescriptions.delete }}</p>
 			</div>
 		</div>
 		<div class="d-flex mt-12 align-items-center new-comment-container" >
-			<v-textarea @keyup.enter="$event.ctrlKey ? newComment += '\n' : sendComment($route.params.id)"  class="comment-textarea mr-2 new-comment-item" v-model="newComment" :label="comments_descriptions.write" dense rounded outlined></v-textarea>
+			<v-textarea @keyup.enter="$event.ctrlKey ? newComment += '\n' : sendComment($route.params.id)"  class="comment-textarea mr-2 new-comment-item" v-model="newComment" :label="commentsDescriptions.write" dense rounded outlined></v-textarea>
 			<v-btn class="new-comment-item" :disabled="newComment == ''" rounded @click="sendComment($route.params.id)" color="primary">
-				<v-icon left>mdi-{{ comments_descriptions.button_icon }}</v-icon>
-				<span>{{ comments_descriptions.send }}</span>
+				<v-icon left>mdi-{{ commentsDescriptions.button_icon }}</v-icon>
+				<span>{{ commentsDescriptions.send }}</span>
 			</v-btn>
 		</div>
 
@@ -46,7 +46,7 @@
 	import axios from 'axios'
 
 	export default {
-		props: ['comments_descriptions'],
+		props: ['commentsDescriptions'],
 		data() {
 			return {
 				paginateComments: 3,
@@ -137,8 +137,11 @@
 	.delete-comment {
 		font-size: .9rem!important;
 		cursor: pointer;
+		margin-bottom: 0!important;
 	}
 	.comment-chip-container {
 		max-width: 70%!important;
+		padding-left: 1rem;
+		padding-right: 1rem;
 	}
 </style>

@@ -1,11 +1,11 @@
 <template>
 	<v-container class="py-12">
 		<v-row justify="center">
-			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ gallery_descriptions.title }}</h2>
+			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ galleryDescriptions.title }}</h2>
 		</v-row>
 		<v-row>
 			<v-col @click="lightbox = true; activePhotoId = i" v-for="(photo, i) in gallery" :key="i" cols="12" lg="4">
-				<div class="bg-picture gallery-page-photo" :style="`background-image: url('${getUrl(photo.path)}')`"></div>
+				<div class="bg-picture gallery-page-photo" :style="`background-image: url('${url(photo.path)}')`"></div>
 			</v-col>
 			<Lightbox :lightbox="lightbox" :gallery="galleryLightbox" :activePhotoId="activePhotoId" @closeLightbox="lightbox = false"/>
 		</v-row>
@@ -26,14 +26,14 @@
 				lightbox: false,
 				galleryLightbox: [],
 				activePhotoId: 0,
-				gallery_descriptions: {}
+				galleryDescriptions: {},
+				url
 			}
 		},
 		methods: {
 			async getGalleryDescriptions() {
-				await axios.get('/api/gallery_descriptions/get_one/1').then(res => this.gallery_descriptions = res.data);
+				await axios.get('/api/gallery_descriptions/get_one/1').then(res => this.galleryDescriptions = res.data);
 			},
-			getUrl: src => url(src),
 			async getGallery() {
 				this.$store.commit('loading', true);
 				await axios.get(`/api/gallery/get_photos/gallery_page/1`).then(res => {

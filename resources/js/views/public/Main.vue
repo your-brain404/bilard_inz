@@ -6,14 +6,14 @@
 		<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="568px" v-model="news">
 			<News />
 		</v-lazy>
-		<img class="eight-ball" width="auto" height="200px" v-lazy="url(layout_elements.eight_ball)" alt="layout_elements.eight_ball_alt">
-		<v-lazy v-model="about_us" :options="{ threshold: .5 }" transition="fade-transition" min-height="552px">
+		<img class="eight-ball" width="auto" height="200px" v-lazy="url(layoutElements.eight_ball)" alt="layoutElements.eight_ball_alt">
+		<v-lazy v-model="aboutUs" :options="{ threshold: .5 }" transition="fade-transition" min-height="552px">
 			<AboutUs />
 		</v-lazy>
 		<v-lazy min-height="652px" :options="{ threshold: .5 }" transition="fade-transition" v-model="offers">
 			<Offers />
 		</v-lazy>
-		<v-lazy min-height="452px" :options="{ threshold: .5 }" transition="fade-transition" v-model="lucky_number">
+		<v-lazy min-height="452px" :options="{ threshold: .5 }" transition="fade-transition" v-model="luckyNumber">
 			<LuckyNumber />
 		</v-lazy>
 	</div>
@@ -31,21 +31,20 @@
 	export default{
 		data() {
 			return {
-				layout_elements: {},
+				layoutElements: {},
 				url,
 				slider: false,
 				news: false,
-				about_us: false,
+				aboutUs: false,
 				offers: false,
-				lucky_number: false,
-				eight_ball: false,
+				luckyNumber: false,
 			}
 		},
 		components: {
 			Slider, AboutUs, Offers, News, LuckyNumber
 		},
 		created() {
-			axios.get('/api/layout_elements/get_one/1').then(res => this.layout_elements = res.data);
+			axios.get('/api/layout_elements/get_one/1').then(res => this.layoutElements = res.data);
 		}
 	}
 </script>
