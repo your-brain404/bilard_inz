@@ -8,12 +8,32 @@ use App\SnackbarAlerts;
 
 class ResponseHelper {
 
-	public static function validateResponse(){
+	public static function validateResponse() {
 		return new Response(json_encode([
 			'error' => [
 				'message' => SnackbarAlerts::find(1)->validate,
 				'code' => 400,
 				'status' => false
+			]
+		]), 200);
+	}
+
+	public static function passwordError() {
+		return new Response(json_encode([
+			'error' => [
+				'message' => SnackbarAlerts::find(1)->password_error,
+				'code' => 400,
+				'status' => false
+			]
+		]), 200);
+	}
+
+	public static function changePasswordSuccess() {
+		return new Response(json_encode([
+			'success' => [
+				'message' => SnackbarAlerts::find(1)->change_password_success,
+				'code' => 200,
+				'status' => true
 			]
 		]), 200);
 	}
@@ -48,6 +68,16 @@ class ResponseHelper {
 		]), 200);
 	}
 
+	public static function userDoesNotExist(){
+		return new Response(json_encode([
+			'error' => [
+				'message' => SnackbarAlerts::find(1)->user_does_not_exist,
+				'code' => 400,
+				'status' => false
+			]
+		]), 200);
+	}
+
 	public static function mailSuccessResponse(){
 		return [
 			"success" => [
@@ -56,6 +86,16 @@ class ResponseHelper {
 				'status' => true
 			]
 		];
+	}
+
+	public static function passwordReminderSuccess(){
+		return new Response(json_encode([
+			"success" => [
+				'message' => SnackbarAlerts::find(1)->password_reminder_success,
+				'code' => 201,
+				'status' => true
+			]
+		]), 200);
 	}
 
 	public static function mailErrorResponse(){

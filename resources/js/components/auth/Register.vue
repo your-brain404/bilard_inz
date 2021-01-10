@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-dialog class="position-relative" @input="v => v || closeRegister()" v-model="dialog" persistent>
-			<v-card class="register-card  register-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${url(auth_descriptions.bg_register_photo)})`">
+			<v-card class="register-card  register-bg" raised :style="`background-image: linear-gradient(to right top, rgb(44 60 49 / 70%), hsl(0 0% 0% / 0.9)), url(${url(auth_descriptions.bg_register_photo)})`">
 				<div @click="closeRegister" class="close-button">
 					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
 				</div>

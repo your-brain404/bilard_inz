@@ -35,6 +35,11 @@
 								<v-text-field  color="primary" v-model="currentObject.user_exist" label="Taki użytkownik już istnieje!"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.mail_success" label="Pomyślnie wysłano wiadomość!"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.activated_account_success" label="Pomyślnie aktywowano konto!"></v-text-field>
+
+								<v-text-field  color="primary" v-model="currentObject.user_does_not_exist" label="Użytkownik nie istnieje!"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.password_reminder_success" label="Pomyślnie wysłano nowe hasło!"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.password_error" label="Hasło nieprawidłowe!"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.change_password_success" label="Pomyślnie zmieniono hasło!"></v-text-field>
 								
 							</div>
 						</v-col>

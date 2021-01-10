@@ -66,6 +66,8 @@ Route::post('/mails/send/', 'MailsController@send');
 Route::put('/mails/answer/', 'MailsController@store')->middleware(['admin', 'auth:api']); 
 
 Route::put('/users/edit', 'UsersController@store')->middleware(['auth:api', 'user.edit']);
+Route::post('/users/password_reminder', 'UsersController@passwordReminder');
+Route::post('/users/change_password', 'UsersController@changePassword');
 
 
 

@@ -3,7 +3,7 @@
 		<Drawer :openLogin="openLogin" :drawer="drawer" @closeDrawer="drawer = false" />
 		<v-app-bar color="#6A76AB" dark shrink-on-scroll prominent :src="banner" fade-img-on-scroll scroll-target="#scrolling-techniques-3" extension-height="120px">
 			<template v-slot:img="{ props }">
-				<v-img v-bind="props" gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"></v-img>
+				<v-img v-bind="props" gradient="to right top, rgb(16 16 16 / 70%), rgb(45 103 63 / 70%)"></v-img>
 			</template>
 
 			<v-app-bar-nav-icon style="left: 100%; transform: translateX(-70%);position: absolute;" @click="drawer = true"></v-app-bar-nav-icon>

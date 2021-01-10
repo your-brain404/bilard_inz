@@ -7,7 +7,7 @@
 			<span>{{ drawer_descriptions.login }}</span>
 		</div>
 		<v-dialog @input="v => v || closeLogin()" class="position-relative" v-model="dialog" persistent>
-			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(191 218 199 / 70%), rgb(0 0 0 / 70%)), url(${url(auth_descriptions.bg_login_photo)})`">
+			<v-card class="login-card  login-bg" raised :style="`background-image: linear-gradient(to right top, rgb(44 60 49 / 70%), hsl(0 0% 0% / 0.9)), url(${url(auth_descriptions.bg_login_photo)})`">
 				<div @click="closeLogin()" class="close-button">
 					<v-icon color="white">mdi-{{ auth_descriptions.close_icon }}</v-icon>
 				</div>
@@ -16,7 +16,8 @@
 					<v-text-field dark v-model="auth.email" :rules="[required, email]" :label="auth_descriptions.email" required ></v-text-field>
 					<v-text-field dark v-model="auth.password" type="password" :rules="[required, passwordLength]" :counter="20" :label="auth_descriptions.password" required ></v-text-field>
 				</v-form>
-				<v-btn dark outlined class="mr-4 w-100 login-button mt-5" @click="submit">
+				<p @click="openPasswordReminder" class="white--text text-center mt-5" style="cursor: pointer;">{{ auth_descriptions.forgot_password }}</p>
+				<v-btn dark outlined class="mr-4 w-100 login-button " @click="submit">
 					{{ auth_descriptions.login }}
 				</v-btn>
 				<h5 class="text-center white--text py-2 m-0 font-weight-lighter">{{ auth_descriptions.or }}</h5>
@@ -75,6 +76,10 @@
 				this.closeLogin();
 				this.$emit('openRegister');
 			},
+			openPasswordReminder() {
+				this.closeLogin();
+				this.$emit('openPasswordReminder');
+			}
 			
 		},
 		

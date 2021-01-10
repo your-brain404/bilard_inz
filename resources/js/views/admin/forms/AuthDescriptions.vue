@@ -29,6 +29,10 @@
 								<v-text-field  color="primary" v-model="currentObject.fb_button_name" label="Zaloguj się przez Facebooka"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.fb_icon" label="Ikona przycisku Facebooka"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.login" label="Przycisk zaloguj się"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.forgot_password" label="Zapomniałem hasła"></v-text-field>
+
+								<v-text-field  color="primary" v-model="currentObject.password_reminder_title" label="Przypomnienie hasła"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.password_reminder_send" label="Wyślij hasło na podany e-mail!"></v-text-field>
 								
 							</div>
 						</v-col>
@@ -50,6 +54,15 @@
 								</div>
 								
 								<v-text-field color="primary"  v-model="currentObject.bg_login_photo_alt" label="Tekst alternatywny tła logowania"></v-text-field>
+							</div>
+
+							<div class="pa-5 d-flex flex-column justify-content-between">
+								<div>
+									<v-img :src="currentObject.bg_password_reminder_photo ? getUrl(currentObject.bg_password_reminder_photo) : getImageDefaultPlaceholder()" :alt="currentObject.bg_password_reminder_photo_alt"></v-img>
+									<ImagePicker title="Tło przypomnienia hasła" @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.bg_password_reminder_photo" @loadedImage="currentObject.bg_password_reminder_photo = $event" :img="currentObject.bg_password_reminder_photo"/>
+								</div>
+								
+								<v-text-field color="primary"  v-model="currentObject.bg_password_reminder_photo_alt" label="Tekst alternatywny tła logowania"></v-text-field>
 							</div>
 						</v-col>
 

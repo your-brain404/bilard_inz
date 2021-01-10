@@ -34,6 +34,14 @@ class UsersController extends Controller
         return new CrudResource(UsersHelper::getCommentators($request));
     }
 
+    public function passwordReminder(Request $request) {
+        return UsersHelper::passwordReminder($request);
+    }
+
+    public function changePassword(Request $request) {
+        return UsersHelper::changePassword($request);
+    }
+
     public function store(Request $request) {
         $user = CrudService::saveData($request);
         return new CrudResource($user);

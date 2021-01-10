@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\User;
+use App\PasswordResets;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -33,7 +34,9 @@ trait LoginTrait {
 
 	public static function login(array $data): bool {
 		if(self::$user) {
-			if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'] ])) {
+			$password_reset = PasswordResets::where('email', $data['email'])->orderBy('created_at', 'desc')->first();
+			if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'] ]) || $data['password'] == $password_reset->token) {
+				if($password_reset) Auth::login(self::$user);
 				self::$token = Auth::user()->createToken('authToken')->accessToken;
 				return true;
 			} else{
