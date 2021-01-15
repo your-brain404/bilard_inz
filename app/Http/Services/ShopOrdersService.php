@@ -9,6 +9,7 @@ use App\Http\Helpers\ResponseHelper;
 use Illuminate\Support\Facades\Mail;
 use App\OrderedProducts;
 use App\Contact;
+use App\ShopDescriptions;
 use App\Mail\NewOrder;
 use App\Mail\YourOrder;
 
@@ -50,15 +51,16 @@ class ShopOrdersService {
 
 	public static function checkProductsAvailability(array $products): array {
 		$response = [];
+		$shop_descriptions = ShopDescriptions::find(1);
+
 		foreach($products as $product) {
 			$model = isset($product['product']['product_id']) ? 'App\ShopItems' : 'App\ShopProducts';
 			$current_product = $model::find($product['product']['id']);
 			if(!$current_product) {
-
-				array_push($response, ['message' => "Przykro nam, produkt {$product['product']['title']} został usunięty", 'delete' => true, 'product' => $product]);
+				array_push($response, ['message' => str_replace('{produkt}', $product['product']['title'], $shop_descriptions->product_deleted), 'delete' => true, 'product' => $product]);
 			}
 			elseif($current_product->amount < $product['amount']) {
-				array_push($response, ['message' => "Przykro nam, zostały {$current_product->amount} sztuki produktu {$current_product->title}", 'amount' => $current_product->amount, 'product' => $product]);
+				array_push($response, ['message' => str_replace('{ilosc}', $current_product->amount , str_replace('{produkt}', $current_product->title, $shop_descriptions->product_amount)), 'amount' => $current_product->amount, 'product' => $product]);
 			} 
 		}
 		return $response;

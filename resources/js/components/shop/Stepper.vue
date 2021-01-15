@@ -81,6 +81,9 @@
 			},
 			cartDescriptions() {
 				return this.$store.getters.cartDescriptions;
+			},
+			shopDescriptions() {
+				return this.$store.getters.shopDescriptions;
 			} 
 		},
 		watch: {
@@ -116,7 +119,7 @@
 				}
 			},
 			realize() {
-				if(!confirm(`Czy na pewno złożyć zamówienie?`)) return;
+				if(!confirm(this.shopDescriptions.order_confirm)) return;
 				
 				this.$store.commit('loading', true);
 				axios.post('/api/shop_orders/add', this.cartData).then(res => {

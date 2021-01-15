@@ -25,6 +25,10 @@
 								<v-text-field  color="primary" v-model="currentObject.add_to_cart_icon" label="Dodaj do koszyka (ikona)"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.buy_now" label="Przejdź do koszyka!"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.buy_now_icon" label="Przejdź do koszyka! (ikona)"></v-text-field>
+
+								<v-text-field  color="primary" v-model="currentObject.order_confirm" label="Czy na pewno złożyć zamówienie?"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.product_deleted" label="Przykro nam, produkt {produkt} został usunięty"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.product_amount" label="Przykro nam, zostały {ilosc} sztuki produktu {produkt}"></v-text-field>
 							</div>
 						</v-col>
 
