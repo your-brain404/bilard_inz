@@ -34,12 +34,12 @@
 							</div>
 						</v-card-text>
 					</router-link>
-					<v-card-actions>
+					<!-- <v-card-actions>
 						<v-btn color="primary" text >
 							<v-icon left>mdi-{{ shopDescriptions.add_to_cart_icon }}</v-icon>
 							<span>{{ shopDescriptions.add_to_cart }}</span> 
 						</v-btn>
-					</v-card-actions>
+					</v-card-actions> -->
 				</v-card>
 
 			</v-col>

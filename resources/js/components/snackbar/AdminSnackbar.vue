@@ -1,7 +1,7 @@
 <template>
 	<div class="text-center">
 		<v-snackbar color="primary" v-model="snackbar"  right bottom > 
-			{{ text }}
+			<div v-html="text"></div>
 
 			<template v-slot:action="{ attrs }">
 				<v-btn color="white" text v-bind="attrs" @click="snackbar = false" >

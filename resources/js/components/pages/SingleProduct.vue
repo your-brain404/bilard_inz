@@ -112,15 +112,16 @@ v<template>
 				handler() {
 					this.setMaxAmount()
 				}
+			},
+			activePhoto() {
+				this.setMaxAmount();
 			}
 		},
 		methods: {
 			async getShopDescriptions() {
 				await axios.get('/api/shop_descriptions/get_one/1').then(res => this.shopDescriptions = res.data);
 			},
-			setMaxAmount() {
-				this.maxAmount = this.getMaxAmount();
-			},
+			
 			getProductIndex(cart, product) {
 				let index = -1;
 				cart.forEach((prod, i) => prod.product.id == product.id ? index = i : true);
@@ -128,12 +129,16 @@ v<template>
 			},
 			getMaxAmount() {
 				let cart = JSON.parse(localStorage.getItem('cart'));
-				let max = this.product.amount;
+				let max = this.getProductOrItem('amount');
 				if(cart != null) {
 					let productIndex = this.getProductIndex(cart, this.product);
 					if(productIndex != -1) max -= cart[productIndex].amount;
 				}
 				return max;
+			},
+			setMaxAmount() {
+				this.maxAmount = this.getMaxAmount();
+				this.amount = 1;
 			},
 			
 			addToCart() {

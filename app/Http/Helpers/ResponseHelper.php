@@ -18,6 +18,16 @@ class ResponseHelper {
 		]), 200);
 	}
 
+	public static function productsAvailableError($availableResponse) {
+		return [
+			"error" => [
+				'data' => $availableResponse,
+				'code' => 200,
+				'status' => false,
+			]
+		];
+	}
+
 	public static function passwordError() {
 		return new Response(json_encode([
 			'error' => [

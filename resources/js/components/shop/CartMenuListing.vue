@@ -24,7 +24,7 @@
 					<v-icon>mdi-{{ shopDescriptions.plus_icon }}</v-icon>
 				</v-btn>
 				<v-btn :disabled="summary != undefined" @click="deleteProduct(i)" class="ml-5" icon color="error">
-					<v-icon>mdi-{{ shopDescriptions.delete }}</v-icon>
+					<v-icon>mdi-{{ cartDescriptions.delete }}</v-icon>
 				</v-btn>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 			<h2><router-link to="/sklep">{{ cartDescriptions.empty }}</router-link></h2>
 		</div>
 
-		<v-card-actions class="p-0 mt-9 d-flex flex-wrap justify-content-between sum-container">
+		<v-card-actions v-if="cart.length > 0" class="p-0 mt-9 d-flex flex-wrap justify-content-between sum-container">
 			<div class="sum-item">
 				<div class="mb-4" v-if="delivery != undefined">
 					{{ cartDescriptions.delivery }} ({{ compDelivery }})

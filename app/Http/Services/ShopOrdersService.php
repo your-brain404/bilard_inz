@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Services\CrudService;
+use App\Http\Helpers\ResponseHelper;
 use App\OrderedProducts;
 
 class ShopOrdersService {
@@ -43,26 +44,48 @@ class ShopOrdersService {
 		return $data;
 	}
 
-	public static function saveData(Request $request): Model{
+	public static function checkProductsAvailability(array $products): array {
+		$response = [];
+		foreach($products as $product) {
+			$model = isset($product['product']['product_id']) ? 'App\ShopItems' : 'App\ShopProducts';
+			$current_product = $model::find($product['product']['id']);
+			if(!$current_product) {
+
+				array_push($response, ['message' => "Przykro nam, produkt {$product['product']['title']} został usunięty", 'delete' => true, 'product' => $product]);
+			}
+			elseif($current_product->amount < $product['amount']) {
+				array_push($response, ['message' => "Przykro nam, zostały {$current_product->amount} sztuki produktu {$current_product->title}", 'amount' => $current_product->amount, 'product' => $product]);
+			} 
+		}
+		return $response;
+	}
+
+	public static function saveData(Request $request) {
 
 		$data = $request->isMethod('post') ? self::prependData($request) : CrudService::prependData($request);
 
-		$model = $request->isMethod('put') ? self::$model::where('id', $request->input('id'))->first()->fill($data) : self::$model::create($data);
+		$availableResponse = self::checkProductsAvailability($request->all()['products']);
+
+		if(!empty($availableResponse)) return ResponseHelper::productsAvailableError($availableResponse);
+
+		$shop_order = $request->isMethod('put') ? self::$model::where('id', $request->input('id'))->first()->fill($data) : self::$model::create($data);
 
 		foreach($request->all()['products'] as $product) {
 			$field = isset($product['product']['product_id']) ? 'item_id' : 'product_id';
 			$insert[$field] = $product['product']['id'];
-			$insert['shop_order_id'] = $model->id;
+			$insert['shop_order_id'] = $shop_order->id;
+			$insert['amount'] = $product['amount'];
+			$model = isset($product['product']['product_id']) ? 'App\ShopItems' : 'App\ShopProducts';
+			$model = $model::find($product['product']['id']);
+			$model->amount -= $insert['amount'];
+			$model->save();
 			OrderedProducts::create($insert);
 			unset($insert);
 		}
 
-		
+		$shop_order->save(); 
 
-		if ($model->save()) {
-
-			return $model;
-		}
+		return $shop_order;
 	}
 
 	

@@ -160,6 +160,9 @@
 			}
 			if(this.$refs.form) this.$emit('valid', this.$refs.form.validate());
 		},
+		mounted() {
+			if(this.$refs.form) this.$emit('valid', this.$refs.form.validate());
+		}
 
 
 

@@ -97,22 +97,51 @@
 				this.paymentsSubmit = true;
 				setTimeout(() => this.paymentsSubmit = false, 20)
 			},
+			setOrderError(data) {
+				let error = '';
+				for(let res of data) {
+					error += res['message'] + '<br>';
+				}
+				this.$store.commit('setSnackbar', error);
+				alert(error);
+			},
+			setCart(data) {
+				for(let res of data) {
+					let cart = JSON.parse(localStorage.getItem('cart'));
+					if(res.delete != undefined || res.amount == 0) cart.splice(cart.indexOf(cart.find(product => JSON.stringify(res.product) == JSON.stringify(product))), 1);
+					else if(res.amount != undefined) cart.find(product => JSON.stringify(product) == JSON.stringify(res.product)).amount = res.amount;
+
+					localStorage.setItem('cart', JSON.stringify(cart));
+					this.$store.commit('cart', cart);
+				}
+			},
 			realize() {
+				if(!confirm(`Czy na pewno złożyć zamówienie?`)) return;
+				
 				this.$store.commit('loading', true);
 				axios.post('/api/shop_orders/add', this.cartData).then(res => {
-					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.order_success);
 					this.$store.commit('loading', false);
-					console.log(res)
+					if(res.data.error != undefined) {
+						this.setOrderError(res.data.error.data);
+						this.setCart(res.data.error.data);
+					} else {
+						this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.order_success);
+						localStorage.setItem('cart', JSON.stringify([]));
+						this.$store.commit('cart', []);
+					}
+					if(this.cart.length == 0) this.$router.push('/');
 				}).catch(err => {
+					console.log(err);
 					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
 					this.$store.commit('loading', false);
 				})
 			}
 		},
 		created() {
-			if(localStorage.getItem('e1') != null) {
+			if(localStorage.getItem('e1')) {
 				this.e1 = localStorage.getItem('e1');
 			}
+
 		}
 	}
 </script>

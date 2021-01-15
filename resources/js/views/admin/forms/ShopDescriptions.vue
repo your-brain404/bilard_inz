@@ -20,11 +20,11 @@
 								<v-text-field  color="primary" v-model="currentObject.amount" label="Ilość"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.plus_icon" label="Ikona dodawania do koszyka"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.minus_icon" label="Ikona odejmowania z koszyka"></v-text-field>
-								<v-text-field  color="primary" v-model="currentObject.max_amount" label="Wybrano maksymalną ilość! Sprawdź koszyk!"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.max_amount" label="Przykro nam, brak towaru w magazynie!"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.add_to_cart" label="Dodaj do koszyka"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.add_to_cart_icon" label="Dodaj do koszyka (ikona)"></v-text-field>
-								<v-text-field  color="primary" v-model="currentObject.buy_now" label="Kup Teraz!"></v-text-field>
-								<v-text-field  color="primary" v-model="currentObject.buy_now_icon" label="Kup Teraz! (ikona)"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.buy_now" label="Przejdź do koszyka!"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.buy_now_icon" label="Przejdź do koszyka! (ikona)"></v-text-field>
 							</div>
 						</v-col>
 
