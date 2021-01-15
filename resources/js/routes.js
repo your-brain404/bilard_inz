@@ -53,6 +53,7 @@ import AuthDescriptionsForm from './views/admin/forms/AuthDescriptions'
 import DayFormatsForm from './views/admin/forms/DayFormats'
 import SnackbarAlertsForm from './views/admin/forms/SnackbarAlerts'
 import ValidationRulesForm from './views/admin/forms/ValidationRules'
+import ShopOrdersForm from './views/admin/forms/ShopOrders'
 import AboutPage from './views/public/AboutPage'
 import News from './components/pages/News'
 import SingleNews from './components/pages/SingleNews'
@@ -160,6 +161,8 @@ const routes = [
 {path: '/admin-panel/validation_rules/form/:id', component: ValidationRulesForm, name: 'ValidationRulesFormEdit'},
 
 {path: '/admin-panel/drawer_descriptions/form/:id', component: DrawerDescriptionsForm, name: 'DrawerDescriptionsFormEdit'},
+
+{path: '/admin-panel/shop_orders/form/:id', component: ShopOrdersForm, name: 'ShopOrdersFormEdit'},
 
 {path: '/admin-panel/auth_descriptions/form/:id', component: AuthDescriptionsForm, name: 'AuthDescriptionsFormEdit'},
 

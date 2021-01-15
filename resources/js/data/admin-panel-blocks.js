@@ -48,6 +48,7 @@ import DrawerDescriptions from '@/components/emit-data-blocks/DrawerDescriptions
 import AuthDescriptions from '@/components/emit-data-blocks/AuthDescriptions'
 import SnackbarAlerts from '@/components/emit-data-blocks/SnackbarAlerts'
 import ValidationRules from '@/components/emit-data-blocks/ValidationRules'
+import ShopOrders from '@/components/emit-data-blocks/ShopOrders'
 
 export default {
 	main:[
@@ -142,6 +143,7 @@ export default {
 
 	shop: [
 	{title: 'Kategorie Sklepu', component: ShopCategories, tablename: 'shop_categories', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, list:'shop_products'},
+	{title: 'Zamówienia', component: ShopOrders, tablename: 'shop_orders', table: [], multiple: true, removable: true, paid: true },
 	{title: 'Opcje wysyłki', component: DeliveryOptions, tablename: 'delivery_options', table: [], active: true},
 	{title: 'Sklep opisy', component: ShopDescriptions, tablename: 'shop_descriptions', table: []},
 	{title: 'Koszyk opisy', component: CartDescriptions, tablename: 'cart_descriptions', table: []},
