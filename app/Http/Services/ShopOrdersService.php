@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Services\CrudService;
 use App\Http\Helpers\ResponseHelper;
+use Illuminate\Support\Facades\Mail;
 use App\OrderedProducts;
+use App\Contact;
+use App\Mail\NewOrder;
 
 class ShopOrdersService {
 
@@ -28,6 +31,7 @@ class ShopOrdersService {
 			'main_zip_code' => $requestArr['shipping_details']['main_address']['zip_code'],
 			'main_message' => $requestArr['shipping_details']['main_address']['message'],
 			'main_city' => $requestArr['shipping_details']['main_address']['city'],
+			'main_email' => $requestArr['shipping_details']['main_address']['email'],
 		];
 
 		if($requestArr['shipping_details']['other_address'] == '1') {
@@ -39,6 +43,7 @@ class ShopOrdersService {
 			$data['second_zip_code'] = $requestArr['shipping_details']['second_address']['zip_code'];
 			$data['second_message'] = $requestArr['shipping_details']['second_address']['message'];
 			$data['second_city'] = $requestArr['shipping_details']['second_address']['city'];
+			$data['second_email'] = $requestArr['shipping_details']['second_address']['email'];
 		}
 
 		return $data;
@@ -82,6 +87,8 @@ class ShopOrdersService {
 			OrderedProducts::create($insert);
 			unset($insert);
 		}
+
+		Mail::to(Contact::find(1)->email_1)->send(new NewOrder($shop_order));
 
 		$shop_order->save(); 
 
