@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use App\OrderedProducts;
 use App\Contact;
 use App\Mail\NewOrder;
+use App\Mail\YourOrder;
 
 class ShopOrdersService {
 
@@ -42,8 +43,6 @@ class ShopOrdersService {
 			$data['second_flat_number'] = $requestArr['shipping_details']['second_address']['flat_number'];
 			$data['second_zip_code'] = $requestArr['shipping_details']['second_address']['zip_code'];
 			$data['second_message'] = $requestArr['shipping_details']['second_address']['message'];
-			$data['second_city'] = $requestArr['shipping_details']['second_address']['city'];
-			$data['second_email'] = $requestArr['shipping_details']['second_address']['email'];
 		}
 
 		return $data;
@@ -89,6 +88,7 @@ class ShopOrdersService {
 		}
 
 		Mail::to(Contact::find(1)->email_1)->send(new NewOrder($shop_order));
+		Mail::to($shop_order->main_email)->send(new YourOrder($shop_order));
 
 		$shop_order->save(); 
 

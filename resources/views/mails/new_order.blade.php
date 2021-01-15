@@ -14,7 +14,6 @@
 <h3>Dostawa na inny adres: </h3>
 <br>
 <p>Imię i nazwisko: {{ $order->second_name }}</p>
-<p>Adres E-mail: {{ $order->second_email }}</p>
 <p>Numer telefonu: {{ $order->second_phone }}</p>
 <p>Adres: {{ "$order->second_street $order->second_house_number/$order->second_flat_number, $order->second_zip_code $order->second_city" }}</p>
 <p>Wiadomość: {{ $order->second_message }}</p>

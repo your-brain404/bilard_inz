@@ -43,16 +43,13 @@
 			<div v-if="shippingDetails.other_address == '1'">
 				<v-divider></v-divider>
 				<v-row>
-					<v-col cols="12" lg="3">
+					<v-col cols="12" lg="4">
 						<v-text-field type="text" :rules="[required]" v-model="shippingDetails.second_address.name" :disabled="summary != undefined" :label="cartDescriptions.name"></v-text-field>
 					</v-col>
-					<v-col cols="12" lg="3">
-						<v-text-field type="email" :rules="[required, email]" v-model="shippingDetails.second_address.email" :disabled="summary != undefined" :label="cartDescriptions.email"></v-text-field>
-					</v-col>
-					<v-col cols="12" lg="3">
+					<v-col cols="12" lg="4">
 						<v-text-field type="text" :rules="[required]" v-model="shippingDetails.second_address.phone" :disabled="summary != undefined" :label="cartDescriptions.phone"></v-text-field>
 					</v-col>
-					<v-col cols="12" lg="3">
+					<v-col cols="12" lg="4">
 						<v-text-field type="text" :rules="[required]" v-model="shippingDetails.second_address.street" :disabled="summary != undefined" :label="cartDescriptions.street"></v-text-field>
 					</v-col>
 					<v-col cols="12" lg="3">
@@ -100,7 +97,6 @@
 					},
 					second_address: {
 						name: 'Kamil Piech',
-						email: 'd.lewicki@adawards.pl',
 						phone: '123123123',
 						street: 'Alejandro Gov',
 						house_number: 6,
