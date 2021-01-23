@@ -10,7 +10,7 @@
 			</div>
 			<v-divider class="mt-0"></v-divider>
 			<v-card flat tile class="first-bgc white--text text-center" >
-				<v-card-text class="white--text pt-0" v-html="settings.description"></v-card-text>
+				<v-card-text class="white--text py-0 footer-description" v-html="settings.description"></v-card-text>
 			</v-card>
 			<v-divider class=""></v-divider>
 			<v-col class="first-bgc py-4 text-center white--text" cols="12" >
@@ -32,3 +32,9 @@
 		}
 	}
 </script>
+
+<style>
+	.footer-description p {
+		margin: 0;
+	}
+</style>

@@ -27,7 +27,7 @@
 								<v-text-field  color="primary" v-model="currentObject.delete_photo" label="Usuń Zdjęcie"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.edit_account" label="Edytuj konto"></v-text-field>
 
-								<v-text-field  color="primary" v-model="currentObject.password_change" label="Zmień hasło"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.change_password" label="Zmień hasło"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.password" label="Stare hasło"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.new_password" label="Nowe hasło"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.new_password_confirm" label="Potwierdź nowe hasło"></v-text-field>

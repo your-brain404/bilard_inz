@@ -17,6 +17,18 @@
 						</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
+				<v-list-item ripple @click="selectPlayers" >
+					<v-list-item-action>
+						<v-icon :color="selectedUsers.length > 0 ? 'primary' : ''">
+							{{ playersIcon }}
+						</v-icon>
+					</v-list-item-action>
+					<v-list-item-content>
+						<v-list-item-title>
+							Tylko zawodnicy
+						</v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
 				<v-divider class="mt-2"></v-divider>
 
 			</template>
@@ -38,7 +50,8 @@
 				users: [],
 				selectedUsers: [],
 				search: '',
-				checkboxes: []
+				checkboxes: [],
+				selectPlayersFlag: false 
 			}
 		},
 
@@ -63,9 +76,22 @@
 				if (this.likesSomeFruit) return 'mdi-minus-box';
 				return 'mdi-checkbox-blank-outline';
 			},
+			playersIcon() {
+				return this.selectPlayersFlag ? 'mdi-close-box' : 'mdi-checkbox-blank-outline';
+			}
 		},
 
 		methods: {
+			selectPlayers() {
+				this.selectPlayersFlag = !this.selectPlayersFlag;
+				this.selectedUsers = [];
+				if(this.selectPlayersFlag) {
+					for(let user of this.users) {
+						if(user.type == 'Zawodnik') this.selectedUsers.push(user);
+					}
+				}
+				
+			},
 			async getUsers() {
 				await axios.get('/api/users/get_all').then(res => {
 					this.users = res.data; 
@@ -77,6 +103,7 @@
 				return `${item.name} (${item.email})`;
 			},
 			toggle() {
+				this.selectPlayersFlag = false;
 				this.$nextTick(() => {
 					if(this.likesAllFruit) {
 						this.selectedUsers = [];

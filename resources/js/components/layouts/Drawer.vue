@@ -46,17 +46,18 @@
 									<h4 class="text-center" v-if="!edit">{{ user.name }}</h4>
 									<v-text-field :label="drawerDescriptions.name" v-else v-model="userData.name"></v-text-field>
 									<v-divider></v-divider>
-									<v-btn v-if="!edit" @click="edit = true" text width="100%">{{ drawerDescriptions.edit_account }}</v-btn>
-									<v-btn v-if="!editPassword" @click="editPassword = true" text width="100%">{{ drawerDescriptions.change_password }}</v-btn>
-									<div v-else>
+									<v-btn v-if="!edit && !editPassword" @click="edit = true; editPassword = false" text width="100%">{{ drawerDescriptions.edit_account }}</v-btn>
+									<v-btn v-if="!editPassword && !edit" @click="editPassword = true; edit = false" text width="100%">{{ drawerDescriptions.change_password }}</v-btn>
+									<div v-if="editPassword">
 										<v-form v-model="passwordValid" ref="password">
 											<v-text-field type="password" :label="drawerDescriptions.password" :rules="[required, passwordLength]" v-model="passwordData.password"></v-text-field>
 											<v-text-field type="password" :label="drawerDescriptions.new_password" :rules="[required, passwordLength]" v-model="passwordData.new_password"></v-text-field>
 											<v-text-field type="password" :label="drawerDescriptions.new_password_confirm" :rules="[required, passwordLength, passwordConfirm(passwordData.new_password, passwordData.new_password_confirm)]" v-model="passwordData.new_password_confirm"></v-text-field>
 											<v-btn :disabled="!passwordValid" @click="changePassword" text width="100%">{{ drawerDescriptions.accept }}</v-btn>
+											<v-btn @click="editPassword = false" text width="100%">{{ drawerDescriptions.cancel }}</v-btn>
 										</v-form>
 									</div>
-									<v-btn v-else @click="editAccount" text width="100%">{{ drawerDescriptions.accept }}</v-btn>
+									<v-btn v-if="edit" @click="editAccount" text width="100%">{{ drawerDescriptions.accept }}</v-btn>
 									<v-btn v-if="edit" @click="edit = false" text width="100%">{{ drawerDescriptions.cancel }}</v-btn>
 									<v-divider></v-divider>
 									<v-btn @click="logout" text width="100%">{{ drawerDescriptions.log_out }}</v-btn>

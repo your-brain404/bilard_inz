@@ -133,13 +133,16 @@
 		watch: {
 			user() {
 				if(this.user) {
-					this.contact_data.name = this.user.name;
-					this.contact_data.email = this.user.email;
+					this.setUserData();
 				}
 			}
 		},
 		methods: {
 			...Rules.methods,
+			setUserData() {
+				this.contact_data.name = this.user.name;
+				this.contact_data.email = this.user.email;
+			},
 			async getContactDescriptions() {
 				await axios.get('/api/contact_descriptions/get_one/1').then(res => this.contactDescriptions = res.data);
 			},
@@ -206,6 +209,7 @@
 		},
 		created() {
 			this.getContactDescriptions();
+			this.setUserData();
 		}
 	}
 </script>

@@ -155,6 +155,9 @@
 		transition: all 0.15s!important;
 
 	}
+	.header {
+		border-radius: unset!important;
+	}
 	::-webkit-scrollbar {
 		width: 15px;
 	}
