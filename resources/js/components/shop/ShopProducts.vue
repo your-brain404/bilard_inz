@@ -105,7 +105,6 @@
 					this.$store.commit('loading', false);
 					this.shopProducts = res.data;
 					this.$emit('blockDataEmit', this.shopProducts);
-					Object.entries(this.shopProducts).forEach(obj => console.log(obj[1].id))
 					
 				}).catch(err => {
 					this.$store.commit('loading', false);

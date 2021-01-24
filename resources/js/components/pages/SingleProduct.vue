@@ -129,9 +129,13 @@ v<template>
 				cart.forEach((prod, i) => prod.product.id == product.id ? index = i : true);
 				return index;
 			},
+			getProductOrItem(field) {
+				return this.activePhoto == -1 ? this.shopProduct[field] : this.shopItems[this.activePhoto][field];
+			},
 			getMaxAmount() {
 				let cart = JSON.parse(localStorage.getItem('cart'));
 				let max = this.getProductOrItem('amount');
+				console.log(max)
 				if(cart != null) {
 					let productIndex = this.getProductIndex(cart, this.product);
 					if(productIndex != -1) max -= cart[productIndex].amount;
@@ -160,9 +164,7 @@ v<template>
 				this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.add_to_cart);
 				this.amount = 1;
 			},
-			getProductOrItem(field) {
-				return this.activePhoto == -1 ? this.shopProduct[field] : (!this.shopItems[this.activePhoto][field] ? this.shopProduct[field] : this.shopItems[this.activePhoto][field]);
-			},
+			
 			async getShopItems() {
 				await axios.get(`/api/shop_items/get_where?active=1&product_id=${this.shopProduct.id}`).then(res => {
 					this.shopItems = res.data;
