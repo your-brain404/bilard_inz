@@ -56,9 +56,9 @@
 								<i  v-if="paginateComments < getCommentsLength(info.id)" @click="paginateComments += 3">{{ commentsDescriptions.show }} ({{ getCommentsLength(info.id) - paginateComments }})</i>
 							</div>
 
-							<div v-for="(com, j) in getPostComments(info.id)" v-if="(j > (getPostComments(info.id).length - 1) - paginateComments)" :key="com.id" :class="['d-flex', 'align-items-end', 'mb-3', {'justify-content-end': $store.getters.user.id != com.user_id}]">
-								<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
-									<v-chip class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
+							<div v-for="(com, j) in getPostComments(info.id)" v-if="(j > (getPostComments(info.id).length - 1) - paginateComments)" :key="com.id" :class="['d-flex', 'align-items-end', 'mb-3', {'justify-content-end': $store.getters.user.id == com.user_id}]">
+								<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
+									<v-chip color="primary" class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
 									</v-chip>
 									<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com.id)">{{ commentsDescriptions.delete }}</p>
 								</div>
@@ -67,8 +67,8 @@
 									<h5 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h5>
 									<i>{{ getLocaleDate(com.created) }}</i>
 								</div>
-								<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
-									<v-chip  color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
+								<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
+									<v-chip   class="comment-chip" v-html="com.text.replace('\n', '<br>')">
 									</v-chip>
 									<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com)">{{ commentsDescriptions.delete }}</p>
 								</div>

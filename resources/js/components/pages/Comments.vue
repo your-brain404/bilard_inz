@@ -9,11 +9,11 @@
 		</div>
 
 
-		<div v-for="(com, j) in comments" v-if="(j > (comments.length - 1) - paginateComments)" :key="com.id" :class="['d-flex', 'w-100', 'align-items-end', 'mb-3', {'justify-content-end': $store.getters.user.id != com.user_id}]">
-			<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
-				<v-chip class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
+		<div v-for="(com, j) in comments" v-if="(j > (comments.length - 1) - paginateComments)" :key="com.id" :class="['d-flex', 'w-100', 'align-items-end', 'mb-3', {'justify-content-end': $store.getters.user.id == com.user_id}]">
+			<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
+				<v-chip color="primary" class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
-				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com.id)">{{ commentsDescriptions.delete }}</p>
+				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com.id)">{{ commentsDescriptions.delete }}</p>
 			</div>
 			<div class="d-flex flex-column align-items-center">
 				<div class="bg-picture comment-photo" :style="`background-image: url(${avatar($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
@@ -21,10 +21,10 @@
 				<i>{{ getLocaleDate(com.created) }}</i>
 
 			</div>
-			<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
-				<v-chip color="primary" class="comment-chip" v-html="com.text.replace('\n', '<br>')">
+			<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
+				<v-chip class="comment-chip" v-html="com.text.replace('\n', '<br>')">
 				</v-chip>
-				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com)">{{ commentsDescriptions.delete }}</p>
+				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com)">{{ commentsDescriptions.delete }}</p>
 			</div>
 		</div>
 		<div class="d-flex mt-12 align-items-center new-comment-container" >
