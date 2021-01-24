@@ -9,14 +9,14 @@ v<template>
 
 			<v-col cols="12" md="7">
 				<v-card style="height: 500px" class="d-flex flex-column justify-content-between">
-					<v-zoom v-if="activePhoto == -1" :img="getUrl(shopProduct.photo)" width="100%" ></v-zoom>
-					<v-zoom v-for="(item, i) in shopItems" :key="i" v-if="activePhoto == i" :img="getUrl(item.photo)" width="100%" ></v-zoom>
+					<v-zoom v-if="activePhoto == -1" :img="url(shopProduct.photo)" width="100%" ></v-zoom>
+					<v-zoom v-for="(item, i) in shopItems" :key="i" v-if="activePhoto == i" :img="url(item.photo)" width="100%" ></v-zoom>
 					<div class="d-flex">
 						<v-col @click="activePhoto = -1" cols="2">
-							<div class="bg-picture shop-item-photo" :style="`background-image: url('${getUrl(shopProduct.photo)}')`"></div>
+							<div class="bg-picture shop-item-photo" :style="`background-image: url('${url(shopProduct.photo)}')`"></div>
 						</v-col>
 						<v-col @click="activePhoto = i" v-for="(item, i) in shopItems" :key="i" cols="2">
-							<div class="bg-picture shop-item-photo" :style="`background-image: url('${getUrl(item.photo)}')`"></div>
+							<div class="bg-picture shop-item-photo" :style="`background-image: url('${url(item.photo)}')`"></div>
 						</v-col>
 					</div>
 					
@@ -25,7 +25,7 @@ v<template>
 			<v-col cols="12" md="5" class="d-flex flex-column justify-content-center">
 				<h2 class="font-weight-bold mb-0">{{ getProductOrItem('title') }}</h2>
 				<p>{{ getProductOrItem('subtitle') }}</p>
-				<h1 class="font-weight-bold d-flex">
+				<h2 class="font-weight-bold d-flex">
 					<div class="mr-2">{{ shopDescriptions.price }}</div>
 					<div>
 						<div v-if="getProductOrItem('price')" :class="[{'discounted': getProductOrItem('discount') }]">{{ getProductOrItem('price').toFixed(2) }} {{ shopDescriptions.currency }} </div>
@@ -35,7 +35,8 @@ v<template>
 							<span class="first-color">{{ shopDescriptions.discount }} {{ getProductOrItem('discount') }}%</span>
 						</div>
 					</div>
-				</h1>
+				</h2>
+				<h2 class="font-weight-bold ">{{ shopDescriptions.color }}<span class="ml-2 first-color">{{ getProductOrItem('color') ? getProductOrItem('color').title : '' }}</span></h2>
 				<h2 class="font-weight-bold">{{ shopDescriptions.amount }}</h2>
 				<div v-if="maxAmount != 0" class="d-flex">
 					<v-btn color="error" :disabled="amount == 1" @click="amount--">
@@ -66,7 +67,7 @@ v<template>
 
 		<v-row>
 			<v-col v-for="(photo, i) in gallery" :key="i" cols="12" lg="4" @click="lightbox = true; activePhotoId = i+1">
-				<div class="bg-picture single-news-photo" :style="`background-image: url('${getUrl(photo.path)}')`"></div>
+				<div class="bg-picture single-news-photo" :style="`background-image: url('${url(photo.path)}')`"></div>
 			</v-col>
 			<Lightbox :lightbox="lightbox" :gallery="galleryLightbox" :activePhotoId="activePhotoId" @closeLightbox="lightbox = false"/>
 		</v-row>
@@ -95,7 +96,8 @@ v<template>
 				activePhoto: -1,
 				amount: 1,
 				maxAmount: 0,
-				shopDescriptions: {}
+				shopDescriptions: {},
+				url
 			}
 		},
 		computed: {
@@ -161,7 +163,6 @@ v<template>
 			getProductOrItem(field) {
 				return this.activePhoto == -1 ? this.shopProduct[field] : (!this.shopItems[this.activePhoto][field] ? this.shopProduct[field] : this.shopItems[this.activePhoto][field]);
 			},
-			getUrl: src => url(src),
 			async getShopItems() {
 				await axios.get(`/api/shop_items/get_where?active=1&product_id=${this.shopProduct.id}`).then(res => {
 					this.shopItems = res.data;

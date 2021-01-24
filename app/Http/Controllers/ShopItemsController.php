@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Services\CrudService;
 use App\Http\Services\ShopItemsService;
 use App\Http\Resources\CrudResource;
+use App\Http\Resources\ShopItemsCollection;
 use Illuminate\Http\Request;
 
 class ShopItemsController extends Controller
@@ -25,7 +26,7 @@ class ShopItemsController extends Controller
 
 	public function getWhere(Request $request) {
 		$shop_items = CrudService::getWhere($request, 'asc');
-		return new CrudResource($shop_items);
+		return new ShopItemsCollection($shop_items);
 	}
 
 	public function store(Request $request) {

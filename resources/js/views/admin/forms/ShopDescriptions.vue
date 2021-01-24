@@ -17,6 +17,7 @@
 								<v-text-field  color="primary" v-model="currentObject.price" label="Cena:"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.currency" label="Waluta"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.discount" label="Rabat"></v-text-field>
+								<v-text-field  color="primary" v-model="currentObject.color" label="Kolor:"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.amount" label="Ilość"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.plus_icon" label="Ikona dodawania do koszyka"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.minus_icon" label="Ikona odejmowania z koszyka"></v-text-field>
