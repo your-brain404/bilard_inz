@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\DB;
 class NewsHelper {
 
 	private static function saveTags(News $news, array $tags) {
+		$news_tags = NewsTags::where('news_id', $news->id)->get();
+		foreach ($news_tags as $news_tag ) $news_tag->delete();
 		foreach ($tags as $tag) {
-			$news_tags = NewsTags::where('news_id', $news->id)->where('text', $tag['text'])->first();
-			if($news_tags == null) $news_tags = new NewsTags();
+			$news_tags = new NewsTags();
 			$news_tags->text = $tag['text'];
 			$news_tags->news_id = $news->id;
 

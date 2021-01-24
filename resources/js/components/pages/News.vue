@@ -16,7 +16,7 @@
 					</v-col>
 					<v-col cols="12" md="9">
 						<h2 class="font-weight-bold">{{ info.title }}</h2>
-						<p v-html="info.short_description ? info.short_description.substring(0, 200) + '...' : ''"></p>
+						<p>{{ info.short_description ? info.short_description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 200) + '...' : '' }}</p>
 						<router-link :to="`/aktualnosci/${info.id}/${slugify(info.title)}`">
 							<v-btn class="mt-5 offer-button"  link large block color="#da5a33" outlined>{{ info.button_name }}</v-btn>
 						</router-link>
