@@ -60,7 +60,7 @@
 								<div class="comment-chip-container" v-if="$store.getters.user.id == com.user_id">
 									<v-chip color="primary" class="comment-chip"  v-html="com.text.replace('\n', '<br>')">
 									</v-chip>
-									<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com.id)">{{ commentsDescriptions.delete }}</p>
+									<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com.id)">{{ commentsDescriptions.delete }}</p>
 								</div>
 								<div class="d-flex flex-column align-items-center">
 									<div class="bg-picture comment-photo" :style="`background-image: url(${avatar($store.getters.userById(com.user_id).photo)})`"></div>
@@ -70,7 +70,7 @@
 								<div class="comment-chip-container" v-if="$store.getters.user.id != com.user_id">
 									<v-chip   class="comment-chip" v-html="com.text.replace('\n', '<br>')">
 									</v-chip>
-									<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com)">{{ commentsDescriptions.delete }}</p>
+									<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com)">{{ commentsDescriptions.delete }}</p>
 								</div>
 							</div>
 							<div class="d-flex mt-4 flex-nowrap align-items-center" >
