@@ -62,7 +62,7 @@
 									</v-chip>
 									<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com.id)">{{ commentsDescriptions.delete }}</p>
 								</div>
-								<div class="d-flex flex-column align-items-center">
+								<div class="d-flex flex-column align-items-center user-comment-column">
 									<div class="bg-picture comment-photo" :style="`background-image: url(${avatar($store.getters.userById(com.user_id).photo)})`"></div>
 									<h5 class="m-0">{{ $store.getters.userById(com.user_id).name }}</h5>
 									<i>{{ getLocaleDate(com.created) }}</i>
@@ -303,12 +303,15 @@
 		width: 60px;
 		height: 60px;
 		border-radius: 50%;
+		margin-bottom: .7rem;
 	}
 	.show-more-comments {
 		cursor: pointer;
 		margin-bottom: 1rem;
 	}
-
+	.user-comment-column {
+		line-height: 12px;
+	}
 
 	
 	

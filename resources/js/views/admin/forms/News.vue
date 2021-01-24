@@ -16,7 +16,7 @@
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.category" label="Kategoria"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.button_name" label="Napis na przycisku"></v-text-field>
-								<TagsInput @tags="currentObject.tags = $event" />
+								<TagsInput :tags="currentObject.tags" @tags="currentObject.tags = $event" />
 								<div class="mt-3">
 									<p class="mb-1">Krótki Opis</p>
 									<vue-editor v-model="currentObject.short_description"></vue-editor>

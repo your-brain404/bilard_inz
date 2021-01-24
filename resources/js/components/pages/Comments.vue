@@ -15,7 +15,7 @@
 				</v-chip>
 				<p v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator' || $store.getters.user.id == com.user_id" class="error--text text-center delete-comment" @click="deleteComment(com.id)">{{ commentsDescriptions.delete }}</p>
 			</div>
-			<div class="d-flex flex-column align-items-center">
+			<div class="d-flex flex-column align-items-center user-comment-column">
 				<div class="bg-picture comment-photo" :style="`background-image: url(${avatar($store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).photo : null)})`"></div>
 				<h5 class="m-0">{{ $store.getters.userById(com.user_id) != undefined ? $store.getters.userById(com.user_id).name : null }}</h5>
 				<i>{{ getLocaleDate(com.created) }}</i>

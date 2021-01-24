@@ -13,6 +13,7 @@
 
 <script>
   export default {
+    props: ['tags'],
     data: () => ({
       activator: null,
       attach: null,
@@ -26,7 +27,11 @@
       y: 0,
     }),
 
+
     watch: {
+      tags() {
+        if(this.tags) this.model = this.tags;
+      },
       model (val, prev) {
         if (val.length === prev.length) return
 
