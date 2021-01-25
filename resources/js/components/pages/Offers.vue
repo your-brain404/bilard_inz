@@ -78,6 +78,9 @@
 </script>
 
 <style>
+	.offer-button {
+		transition: .15s all!important; 
+	}
 	.offer-button:hover{
 		color:white!important;
 		background-color: var(--first-color); 

@@ -151,10 +151,7 @@
 </script>
 
 <style>
-	*{
-		transition: all 0.15s!important;
-
-	}
+	
 	.header {
 		border-radius: unset!important;
 	}

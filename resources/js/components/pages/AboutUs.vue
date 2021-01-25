@@ -1,42 +1,40 @@
 <template>
 	<v-container >
-		<v-lazy :options="{ threshold: .5 }" transition="fade-transition" v-model="isActive">
-			<v-container v-for="row in about" :key="row.id">
-				<v-row class="justify-content-center">
-					<h2 class="about-title font-weight-bold text-center first-color">{{ row.title }}</h2>
-				</v-row>
+		<v-container v-for="row in about" :key="row.id">
+			<v-row class="justify-content-center">
+				<h2 class="about-title font-weight-bold text-center first-color">{{ row.title }}</h2>
+			</v-row>
+			<v-row>
+				<v-col cols="12" md="8">
+					<img @click="lightbox = true; activePhotoId = 0" class="about-photo" :src="url(row.photo)" :alt="row.photo_alt">
+				</v-col>
+				<v-col class="about-content" cols="12" md="4">
+					<h3 class="about-content-title">{{ row.subtitle }}</h3>
+					<p class="about-content-text" v-html="row.short_description"></p>
+					<router-link to="/o-klubie" class="">
+						<v-btn v-if="$route.path == '/'" outlined color="#da5a33" link class="w-100 offer-button">{{ row.button_name }}</v-btn>
+					</router-link>
+				</v-col>
+			</v-row>
+			<div v-if="$route.path == '/o-klubie' || $route.path == '/admin-panel/about_us'">
 				<v-row>
-					<v-col cols="12" md="8">
-						<img @click="lightbox = true; activePhotoId = 0" class="about-photo" :src="url(row.photo)" :alt="row.photo_alt">
-					</v-col>
-					<v-col class="about-content" cols="12" md="4">
-						<h3 class="about-content-title">{{ row.subtitle }}</h3>
-						<p class="about-content-text" v-html="row.short_description"></p>
-						<router-link to="/o-klubie" class="">
-							<v-btn v-if="$route.path == '/'" outlined color="#da5a33" link class="w-100 offer-button">{{ row.button_name }}</v-btn>
-						</router-link>
+					<v-col>
+						<p class="about-content-text" v-html="row.description"></p>
 					</v-col>
 				</v-row>
-				<div v-if="$route.path == '/o-klubie' || $route.path == '/admin-panel/about_us'">
-					<v-row>
-						<v-col>
-							<p class="about-content-text" v-html="row.description"></p>
-						</v-col>
-					</v-row>
 
-					<v-row >
-						<v-col v-for="(photo, i) in lightboxGallery" :key="i" cols="12" lg="4">
-							<div @click="activePhotoId = i+1; lightbox = true" class="bg-picture about-gallery-photo" :style="`background-image: url('${url(photo)}')`"></div>
-						</v-col>
-					</v-row>
-				</div>
+				<v-row >
+					<v-col v-for="(photo, i) in lightboxGallery" :key="i" cols="12" lg="4">
+						<div @click="activePhotoId = i+1; lightbox = true" class="bg-picture about-gallery-photo" :style="`background-image: url('${url(photo)}')`"></div>
+					</v-col>
+				</v-row>
+			</div>
 
-			</v-container>
+		</v-container>
 
-			<Lightbox v-if="$route.path != '/o-klubie'" :gallery="[about[0].photo]" :activePhotoId="activePhotoId" :lightbox="lightbox" @closeLightbox="lightbox = false" />
+		<Lightbox v-if="$route.path != '/o-klubie'" :gallery="[about[0].photo]" :activePhotoId="activePhotoId" :lightbox="lightbox" @closeLightbox="lightbox = false" />
 
-			<Lightbox v-else :gallery="gallery" :activePhotoId="activePhotoId" :lightbox="lightbox" @closeLightbox="lightbox = false" />
-		</v-lazy>
+		<Lightbox v-else :gallery="gallery" :activePhotoId="activePhotoId" :lightbox="lightbox" @closeLightbox="lightbox = false" />
 	</v-container>
 </template>
 
