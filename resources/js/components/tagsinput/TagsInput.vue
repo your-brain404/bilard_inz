@@ -5,13 +5,15 @@
         <span class="pr-2">
           {{ item.text }}
         </span>
-        <v-icon small @click="parent.selectItem(item)" >mdi-close</v-icon>
+        <v-icon small @click="deleteTag(item)" >mdi-close</v-icon>
       </v-chip>
     </template>
   </v-combobox>
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     props: ['tags'],
     data: () => ({
@@ -26,7 +28,12 @@
       search: null,
       y: 0,
     }),
-
+    methods: {
+      deleteTag(item) {
+        this.model.splice(this.model.indexOf(item), 1);
+        if(item.id) axios.delete(`/api/news_tags/delete/${item.id}`);
+      }
+    },
 
     watch: {
       tags() {

@@ -69,5 +69,7 @@ Route::put('/users/edit', 'UsersController@store')->middleware(['auth:api', 'use
 Route::post('/users/password_reminder', 'UsersController@passwordReminder');
 Route::post('/users/change_password', 'UsersController@changePassword');
 
+Route::delete('/news_tags/delete/{id}', 'NewsTagsController@destroy')->middleware(['admin', 'auth:api']);
+
 
 
