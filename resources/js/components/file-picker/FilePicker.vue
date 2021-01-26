@@ -28,12 +28,21 @@
 							<v-card-text>
 								<v-container>
 									<v-row class="d-flex align-items-center">
-										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(file.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="file in filteredFiles" :key="file.id">
+										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(file.id)" class="d-flex file-picker-col align-items-between flex-column" lg="2" md="3" sm="4" v-for="file in filteredFiles" :key="file.id">
 											<div class="d-flex justify-content-between">
 												<v-icon class="check-icon" :color="activeFile == file.id ? 'success' : 'white'">mdi-check</v-icon>
 												<v-icon @click="deleteFile(file.id)" :color="closeIcon == file.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
-											<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="100px" v-model="lazyFiles[i]">
+											<v-lazy v-if="file.type.split('/')[0] == 'image'" :options="{ threshold: .5 }" transition="fade-transition" min-height="100px" v-model="lazyFiles[i]">
+												<img @click="setFileClass(file.id)" class="image-picker-photo"  :src="url(file.path)">
+											</v-lazy>
+											<a v-if="file.type.split('/')[0] != 'image'" target="_blank" class="text-center" :href="url(file.path)">
+												<v-btn color="primary" >
+													<v-icon left>mdi-file</v-icon>
+													<span>Podgląd</span>
+												</v-btn>
+											</a>
+											<v-lazy v-if="file.type.split('/')[0] != 'image'" :options="{ threshold: .5 }" transition="fade-transition" min-height="100px" v-model="lazyFiles[i]">
 												<div @click="setFileClass(file.id)" class="file-picker-file">{{ file.path.split('/')[1] }}</div>
 											</v-lazy>
 										</v-col>
@@ -54,6 +63,7 @@
 <script>
 	import axios from 'axios';
 	import AddFiles from './AddFiles.vue';
+	import url from '@/helpers/photo/url';
 
 	export default {
 		props:['activeFilePath', 'title', 'loadFlag'],
@@ -67,7 +77,9 @@
 				multiple: false,
 				closeIcon: 0,
 				search: '',
-				lazyFiles: []
+				lazyFiles: [],
+				url,
+
 			}
 		},
 		components:{
@@ -109,7 +121,7 @@
 			
 			loadFiles(){
 				this.$emit('loadFiles');
-				axios.get('/api/media/get_files').then(res =>{
+				axios.get('/api/media/get_all').then(res =>{
 					this.files = res.data;
 					for(let file of this.files) {
 						this.lazyFiles.push(false);
@@ -163,5 +175,5 @@
 	.file-picker-file{
 		cursor: pointer;
 	}
-
+	
 </style>

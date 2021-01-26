@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CrudResource;
+use App\Http\Services\CrudService;
 use App\Media;
 use App\Http\Helpers\FileHelper;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller {
+
+	public function __construct() {
+		new CrudService('App\\'. str_replace('Controller', '', explode('\\', __CLASS__)[array_key_last(explode('\\', __CLASS__))]));
+	}
 
 	public function getFiles() {
 		return new CrudResource(Media::where([['type', '!=', 'image/jpeg'], ['type', '!=', 'image/jpg'], ['type', '!=', 'image/png'], ['type', '!=', 'image/bmp'], ['type', '!=', 'image/jfif']])->get());
@@ -26,6 +31,10 @@ class MediaController extends Controller {
 			$media = FileHelper::store($request->file('file'), 'media');
 			return new CrudResource($media);
 		}
+	}
+
+	public function getAll() {
+		return new CrudResource(CrudService::getAll());
 	}
 
 	public function destroy(String $id, Request $request){
