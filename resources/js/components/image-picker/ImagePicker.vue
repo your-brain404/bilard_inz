@@ -129,8 +129,11 @@
 			loadPhotos(){
 				axios.get('/api/media/get_photos').then(res =>{
 					this.photos = res.data;
-					for(let photo of this.photos) this.lazyPhotos.push(false);
-						this.setApiGallery();
+					for(let photo of this.photos) {
+						this.lazyPhotos.push(false);
+					}
+
+					this.setApiGallery();
 				});
 			},
 

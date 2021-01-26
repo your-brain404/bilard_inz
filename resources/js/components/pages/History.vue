@@ -105,7 +105,7 @@
 
 <style>
 	.history-photo {
-		height: 400px;
+		height: 500px;
 		width: 100%;
 	}
 	.history-description * {
