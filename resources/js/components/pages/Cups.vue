@@ -4,7 +4,7 @@
 			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ cupsDescriptions.title }}</h2>
 		</v-row>
 		<v-row>
-			<v-col v-for="(cup, i) in cups" :key="i" cols="12" lg="4">
+			<v-col v-for="(cup, i) in cups" :key="i" cols="12" md="4">
 				<router-link :to="`/puchary/${cup.id}/${slugify(cup.title)}`">
 					<v-card flat class="offer-card">
 						<div class="bg-picture cup-photo" :style="`background-image: url('${url(cup.photo)}')`"></div>
@@ -78,5 +78,8 @@
 		width: auto;
 		height: 200px;
 		margin: auto;
+	}
+	.v-card__title {
+		word-break: unset!important;
 	}
 </style>

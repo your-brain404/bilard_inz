@@ -8,7 +8,7 @@
 		<v-row>
 
 			<v-col cols="12" md="4">
-				<div @click="lightbox = true; activePhotoId = 0" class="news-picture single-news-picture" :style="`background-image: url(${getUrl(cup.photo)})`"></div>
+				<div @click="lightbox = true; activePhotoId = 0" class="news-picture single-news-picture single-cup-photo" :style="`background-image: url(${getUrl(cup.photo)})`"></div>
 			</v-col>
 			<v-col cols="12" md="8" class="d-flex flex-column justify-content-center">
 				<h2 class="font-weight-bold">{{ cup.title }}</h2>
@@ -96,5 +96,8 @@
 <style>
 	.cup p {
 		font-size: 1rem;
+	}
+	.single-cup-photo {
+		height: 400px;
 	}
 </style>

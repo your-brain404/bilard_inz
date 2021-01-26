@@ -5,7 +5,7 @@
 		</v-row>
 		<v-row v-for="(info, i) in history" :key="i" class="mb-12">
 			<v-col cols="12" lg="8">
-				<div class="bg-picture history-photo" :style="`background-image: url('${url(info.photo)}')`"></div>
+				<div class="bg-picture history-photo" @click="lightboxes.splice(i, 1, true); activePhotoIds.splice(i, 1, 0);" :style="`background-image: url('${url(info.photo)}')`"></div>
 			</v-col>
 			<v-col cols="12" lg="4" class="d-flex flex-column justify-content-center">
 				<h2 class="font-weight-bold">{{ info.title }}</h2>
