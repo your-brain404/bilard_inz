@@ -8,7 +8,12 @@
 			</template>
 			<v-card>
 				<v-card-title class="d-flex justify-content-between">
-					<div>Dodaj plik</div>
+					<div class="d-flex align-items-center">
+						<div>Dodaj plik</div>
+						<div class="ml-3">
+							<v-text-field label="Szukaj" prepend-icon="mdi-magnify" v-model="search" @change="searchPhoto"></v-text-field>
+						</div>
+					</div>
 					<v-icon @click="dialog = false">mdi-close</v-icon>
 				</v-card-title>
 				<v-tabs v-model="tab" background-color="primary" dark>
@@ -23,12 +28,14 @@
 							<v-card-text>
 								<v-container>
 									<v-row class="d-flex align-items-center">
-										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(file.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="file in files" :key="file.id">
+										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(file.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="file in filteredFiles" :key="file.id">
 											<div class="d-flex justify-content-between">
 												<v-icon class="check-icon" :color="activeFile == file.id ? 'success' : 'white'">mdi-check</v-icon>
 												<v-icon @click="deleteFile(file.id)" :color="closeIcon == file.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
-											<div @click="setFileClass(file.id)" class="file-picker-file">{{ file.path.split('/')[1] }}</div>
+											<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="200px" v-model="lazyPhotos[i]">
+												<div @click="setFileClass(file.id)" class="file-picker-file">{{ file.path.split('/')[1] }}</div>
+											</v-lazy>
 										</v-col>
 									</v-row>
 								</v-container>
@@ -47,7 +54,6 @@
 <script>
 	import axios from 'axios';
 	import AddFiles from './AddFiles.vue';
-	import url from '../../helpers/photo/url.js';
 
 	export default {
 		props:['activeFilePath', 'title', 'loadFlag'],
@@ -59,12 +65,24 @@
 				files: undefined,
 				activeFile: 0,
 				multiple: false,
-				closeIcon: 0
+				closeIcon: 0,
+				search: '',
 
 			}
 		},
 		components:{
 			AddFiles
+		},
+		computed: {
+			filteredFiles() {
+				let filteredFiles = [];
+				for(let file of this.files) {
+					if(file.path.toLowerCase().includes(this.search.toLowerCase())) {
+						filteredFiles.push(file);
+					}
+				}
+				return filteredFiles;
+			},
 		},
 		watch: {
 			files() {
@@ -75,7 +93,6 @@
 			}
 		},
 		methods:{
-			getUrl: src => url(src),
 			showCloseIcon(id){
 				this.closeIcon = id;
 			},

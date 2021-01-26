@@ -11,7 +11,12 @@
 			</template>
 			<v-card>
 				<v-card-title class="d-flex justify-content-between">
-					<div>Dodaj zdjęcia</div>
+					<div class="d-flex align-items-center">
+						<div>Dodaj zdjęcia</div>
+						<div class="ml-3">
+							<v-text-field label="Szukaj" prepend-icon="mdi-magnify" v-model="search" @change="searchPhoto"></v-text-field>
+						</div>
+					</div>
 					<v-icon @click="dialog = false">mdi-close</v-icon>
 				</v-card-title>
 				<v-tabs v-model="tab" background-color="primary" dark>
@@ -26,12 +31,15 @@
 							<v-card-text>
 								<v-container>
 									<v-row class="d-flex align-items-center">
-										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(photo.id)" class="d-flex align-items-between flex-column" lg="2" md="3" sm="4" v-for="photo in photos" :key="photo.id">
+										<v-col @mouseout="closeIcon = 0" @mouseover="showCloseIcon(photo.id)" class="d-flex align-items-between flex-column" lg="2" md="3" cols="6" sm="4" v-for="(photo, i) in filteredPhotos" :key="photo.id">
+											
 											<div class="d-flex justify-content-between">
 												<v-icon class="check-icon" :color="activePhotos.includes(photo.id) || activePhoto == photo.id ? 'success' : 'white'">mdi-check</v-icon>
 												<v-icon @click="deletePhoto(photo.id)" :color="closeIcon == photo.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
-											<v-img @click="setPhotoClass(photo.id)" class="image-picker-photo" :src="getUrl(photo.path)"></v-img>
+											<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="200px" v-model="lazyPhotos[i]">
+												<img @click="setPhotoClass(photo.id)" class="image-picker-photo" :src="url(photo.path)" />
+											</v-lazy>
 										</v-col>
 									</v-row>
 								</v-container>
@@ -60,11 +68,13 @@
 				tab: null,
 				tabs: ['Wybierz zdjęcie',  'Dodaj Nowe Zdjęcie'],
 				photos: [],
+				lazyPhotos: [],
 				activePhotos: [],
 				activePhoto: 0,
 				multiple: this.$route.path.split('/')[3] == 'gallery' ? true: false,
-				closeIcon: 0
-
+				closeIcon: 0,
+				url,
+				search: '',
 			}
 		},
 		components:{
@@ -76,11 +86,20 @@
 				this.activePhotos = [];
 			}
 		},
+		computed: {
+			filteredPhotos() {
+				let filteredPhotos = [];
+				for(let photo of this.photos) {
+					if(photo.path.toLowerCase().includes(this.search.toLowerCase())) {
+						filteredPhotos.push(photo);
+					}
+				}
+				return filteredPhotos;
+			},
+		},
 		
 		methods:{
-			getUrl(src){
-				return url(src);
-			},
+			
 			showCloseIcon(id){
 				this.closeIcon = id;
 			},
@@ -109,7 +128,8 @@
 			loadPhotos(){
 				axios.get('/api/media/get_photos').then(res =>{
 					this.photos = res.data;
-					this.setApiGallery();
+					for(let photo of this.photos) this.lazyPhotos.push(false);
+						this.setApiGallery();
 				});
 			},
 
@@ -172,6 +192,8 @@
 <style>
 	.image-picker-photo{
 		cursor: pointer;
+		height: auto;
+		width: 100%;
 	}
 
 </style>
