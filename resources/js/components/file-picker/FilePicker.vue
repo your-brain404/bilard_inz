@@ -33,7 +33,7 @@
 												<v-icon class="check-icon" :color="activeFile == file.id ? 'success' : 'white'">mdi-check</v-icon>
 												<v-icon @click="deleteFile(file.id)" :color="closeIcon == file.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
-											<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="200px" v-model="lazyPhotos[i]">
+											<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="100px" v-model="lazyPhotos[i]">
 												<div @click="setFileClass(file.id)" class="file-picker-file">{{ file.path.split('/')[1] }}</div>
 											</v-lazy>
 										</v-col>

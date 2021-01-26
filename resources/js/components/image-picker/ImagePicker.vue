@@ -37,9 +37,10 @@
 												<v-icon class="check-icon" :color="activePhotos.includes(photo.id) || activePhoto == photo.id ? 'success' : 'white'">mdi-check</v-icon>
 												<v-icon @click="deletePhoto(photo.id)" :color="closeIcon == photo.id ? 'black' : 'white'" class=" close-icon">mdi-close</v-icon>
 											</div>
-											<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="200px" v-model="lazyPhotos[i]">
+											<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="100px" v-model="lazyPhotos[i]">
 												<img @click="setPhotoClass(photo.id)" class="image-picker-photo" :src="url(photo.path)" />
 											</v-lazy>
+											<div>{{ photo.path }}</div>
 										</v-col>
 									</v-row>
 								</v-container>
