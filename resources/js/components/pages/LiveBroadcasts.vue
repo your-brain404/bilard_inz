@@ -6,7 +6,7 @@
 		<v-row v-for="(live, i) in liveBroadcasts" :key="i" class="mb-0">
 			<v-col cols="12" class="d-flex flex-column justify-content-center">
 				<a target="_blank" :href="live.link">
-					<v-btn color="#da5a33" outlined class="w-100">{{ live.title }}</v-btn>
+					<button class="live-button">{{ live.title }}</button>
 				</a>
 			</v-col>
 		</v-row>
@@ -56,3 +56,23 @@
 
 	}
 </script>
+
+<style scoped>
+	.live-button {
+		border: 1px solid var(--first-color);
+		background-color: white;
+		color: var(--first-color);
+		padding: .5rem 1rem;
+		outline: unset;
+		transition: .15s all;
+		width: 100%;
+		font-weight: 500;
+		letter-spacing: .0892857143em;
+		text-transform: uppercase;
+		font-size: .875rem;
+	}
+	.live-button:hover {
+		background-color: var(--first-color);
+		color: white;
+	}
+</style>

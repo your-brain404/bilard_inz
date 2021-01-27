@@ -129,6 +129,7 @@
 			viewDay ({ date }) {
 				this.focus = date
 				this.type = 'day'
+				this.showType = 'Dzień'
 			},
 			async getEvents () {
 				const events = []
@@ -140,7 +141,7 @@
 							start: data.entry,
 							end: data.leave,
 							color: data.active ? this.serviceEquipments.find(eq => eq.id == data.service_equipment_id).service.color : 'rgb(197 197 197)',
-							timed: true
+							timed: true,
 
 						})
 					}
@@ -173,5 +174,13 @@
 	.legend-color + p {
 		margin-bottom: 0!important;
 		margin-left: 1rem;
+	}
+
+	.v-event {
+		width: 100%!important;
+	}
+
+	.v-calendar .v-event-timed-container {
+		margin-right: 0!important;
 	}
 </style>

@@ -4,7 +4,7 @@
 			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ priceListDescriptions.title }}</h2>
 		</v-row>
 		<v-row justify="center">
-			<v-col  v-for="(category, i) in priceListCategories" :key="i" cols="12" lg="4">
+			<v-col  v-for="(category, i) in priceListCategories" :key="i" cols="12" md="4">
 				<v-simple-table >
 					<template v-slot:default>
 						<thead>

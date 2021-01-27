@@ -14,7 +14,7 @@
 					<v-text-field color="primary" v-model="contact_data.phone" :rules="[required]" :label="contactDescriptions.phone" required></v-text-field>
 					<v-text-field color="primary" v-model="contact_data.subject" :rules="[required]" :label="contactDescriptions.subject" required></v-text-field>
 					<v-textarea color="primary" v-model="contact_data.message" :rules="[required]" rows="5" :label="contactDescriptions.message" required></v-textarea>
-					<v-file-input v-model="files" show-size counter multiple :label="contactDescriptions.files" :prepend-icon="`mdi-${contactDescriptions.file_icon}`"></v-file-input>
+					<v-file-input :counter-size-string="dupa" v-model="files" show-size counter multiple :label="contactDescriptions.files" :rules="[]" :prepend-icon="`mdi-${contactDescriptions.file_icon}`"></v-file-input>
 					<v-checkbox @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-10" v-model="contact_data.rodo1">
 						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
 					</v-checkbox>
@@ -128,7 +128,11 @@
 			...Rules.computed,
 			user() {
 				return this.$store.getters.user;
-			}
+			},
+			counter() {
+				
+				return ''
+			},
 		},
 		watch: {
 			user() {
@@ -139,6 +143,7 @@
 		},
 		methods: {
 			...Rules.methods,
+
 			setUserData() {
 				this.contact_data.name = this.user.name;
 				this.contact_data.email = this.user.email;

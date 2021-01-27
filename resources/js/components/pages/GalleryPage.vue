@@ -4,7 +4,7 @@
 			<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ galleryDescriptions.title }}</h2>
 		</v-row>
 		<v-row>
-			<v-col @click="lightbox = true; activePhotoId = i" v-for="(photo, i) in gallery" :key="i" cols="12" lg="4">
+			<v-col @click="lightbox = true; activePhotoId = i" v-for="(photo, i) in gallery" :key="i" cols="12" md="6" lg="4">
 				<div class="bg-picture gallery-page-photo" :style="`background-image: url('${url(photo.path)}')`"></div>
 			</v-col>
 			<Lightbox :lightbox="lightbox" :gallery="galleryLightbox" :activePhotoId="activePhotoId" @closeLightbox="lightbox = false"/>
