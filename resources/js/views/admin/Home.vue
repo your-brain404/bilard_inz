@@ -23,7 +23,7 @@
 							</v-btn>
 						</router-link>
 					</v-card-title>
-					<v-data-table :headers="headers[i]" :items="block.table" :search="search"
+					<v-data-table locale="pl" :headers="headers[i]" :items="block.table" :search="search"
 					:items-per-page="5"
 					:footer-props="{
 					'items-per-page-options': [5,10,15]
@@ -77,7 +77,7 @@
 				<template v-slot:item.actions="{ item }">
 					<div class="d-flex justify-content-end">
 						<router-link v-if="block.list" class="form-link" :to="`/admin-panel/${block.list}/${item.id}`">
-							<v-btn small color="warning" class="white--text mr-2">
+							<v-btn small color="primary" class="white--text mr-2">
 								<v-icon left class="">mdi-format-list-bulleted</v-icon>
 								<span>Lista</span>
 							</v-btn>
@@ -88,7 +88,7 @@
 								<span>Galeria</span>
 							</v-btn>
 						</router-link>
-						<router-link class="form-link" :to="getEditLink(block, item)">
+						<router-link v-if="!block.non_editable" class="form-link" :to="getEditLink(block, item)">
 							<v-btn small color="primary" class="white--text mr-2">
 								<v-icon left class="">{{  block.answer ? 'mdi-eye' : 'mdi-pencil' }}</v-icon>
 								<span>{{ block.answer ? 'Pokaż' : 'Edytuj' }}</span>
@@ -100,12 +100,6 @@
 						</v-btn>
 					</div>
 				</template>
-				<template v-slot:footer="props">
-					<div style="display: none!important;">
-						{{ props.props.itemsPerPageText = 'Pokazuj na stronie:' }}
-					</div>
-				</template>
-
 			</v-data-table>
 		</v-card>
 
@@ -221,7 +215,6 @@
 					if(block.tablename == 'players' || block.tablename == 'users' || block.tablename == 'reservations') headers[0] = { text: 'Imię i nazwisko', align: 'start', value: 'name'};
 					if(block.is_paid) headers.splice(0,0, { text: 'Zapłacono', align: 'center', value: 'is_paid', width: '10%' });
 					if(block.active) headers.splice(0,0, { text: 'Aktywny', align: 'center', value: 'active', width: '10%' });
-					if(block.default) headers.splice(0,0, { text: 'Wyświetlaj jako główny', align: 'center', value: 'default', width: '10%' });
 					if(block.tablename == 'reservations') headers.splice(2,0, { text: 'Data i czas', align: 'center', value: 'entry', width: '20%' });
 					if(block.tablename == 'users') headers.splice(1,0, { text: 'Blokuj', align: 'center', value: 'blocked', width: '10%' });
 					if(block.home_page) headers.splice(0,0, { text: 'Pokaż na stronie głównej', align: 'center', value: 'home_page', width: '10%' });

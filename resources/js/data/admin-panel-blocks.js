@@ -116,7 +116,7 @@ export default {
 	],
 
 	gallery_page: [
-	{title: 'Galeria', component: GalleryPage, tablename: 'gallery_page', table: [], multiple: false, removable: false, gallery: true, active: false, home_page: false, answer: false},
+	{title: 'Galeria', component: GalleryPage, tablename: 'gallery_page', table: [{id: 1, title: 'Galeria'}], multiple: false, removable: false, gallery: true, non_editable: true},
 	{title: 'Galeria Opisy', component: GalleryDescriptions, tablename: 'gallery_descriptions', table: []},
 	],
 

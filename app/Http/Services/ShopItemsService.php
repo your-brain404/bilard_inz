@@ -14,7 +14,6 @@ class ShopItemsService {
 	public static function saveData(Request $request): Model{
 
 		$data = CrudService::prependData($request);
-		if(ShopItems::where('product_id', $data['product_id'])->first() == null) $data['default'] = 1;
 		$shop_item = $request->isMethod('put') ? ShopItems::where('id', $request->input('id'))->first()->fill($data) : ShopItems::create($data);
 
 		if ($shop_item->save()) {
