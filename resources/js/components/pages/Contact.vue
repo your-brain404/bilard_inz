@@ -2,12 +2,12 @@
 	<v-container class="py-12">
 		<v-row justify="center">
 			<v-col cols="12">
-				<h2 class="about-title font-weight-bold text-center first-color my-0 mb-5">{{ contactDescriptions.title }}</h2>
-				<h3 class="first-color text-center ">{{ contactDescriptions.subtitle }}</h3>
+				<h2 class="about-title font-weight-bold text-center first-color my-0">{{ contactDescriptions.title }}</h2>
+				<h4 class="first-color text-center ">{{ contactDescriptions.subtitle }}</h4>
 			</v-col>
 		</v-row>
 		<v-row>
-			<v-col cols="12" lg="8" >
+			<v-col cols="12" md="7" >
 				<v-form v-if="validationRules.id" ref="form" v-model="valid">
 					<v-text-field color="primary" v-model="contact_data.name" :rules="[required]" :label="contactDescriptions.name" required></v-text-field>
 					<v-text-field color="primary" v-model="contact_data.email" :rules="[required, email]" :label="contactDescriptions.email" required></v-text-field>
@@ -15,16 +15,16 @@
 					<v-text-field color="primary" v-model="contact_data.subject" :rules="[required]" :label="contactDescriptions.subject" required></v-text-field>
 					<v-textarea color="primary" v-model="contact_data.message" :rules="[required]" rows="5" :label="contactDescriptions.message" required></v-textarea>
 					<v-file-input :counter-size-string="counter" v-model="files"  show-size counter multiple :label="contactDescriptions.files" :rules="[filesSize]" :prepend-icon="`mdi-${contactDescriptions.file_icon}`"></v-file-input>
-					<v-checkbox @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-10" v-model="contact_data.rodo1">
+					<v-checkbox rules="[required]" @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-10" v-model="contact_data.rodo1">
 						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
 					</v-checkbox>
-					<v-checkbox @change="contact_data.rodo2 ? contact_data.rodo2 = 1 : contact_data.rodo2 = 0" color="primary" class="mt-0 mb-5"  v-model="contact_data.rodo2">
+					<v-checkbox rules="[required]" @change="contact_data.rodo2 ? contact_data.rodo2 = 1 : contact_data.rodo2 = 0" color="primary" class="mt-0 mb-5"  v-model="contact_data.rodo2">
 						<div slot="label" v-html="$store.getters.settings.rodo_2"></div>
 					</v-checkbox>
 					<v-btn :loading="loading" outlined color="primary" @click="saveMail">{{ contactDescriptions.button_name }}</v-btn>
 				</v-form>
 			</v-col>
-			<v-col col="12" lg="4" class="d-flex justify-content-center" >
+			<v-col col="12" md="5" class="d-flex justify-content-center" >
 				<div style="align-self: center">
 					<v-col v-if="$store.getters.contact.phone_1" cols="12"  >
 						<a class="d-flex align-items-center flex-column" :href="`tel:${$store.getters.contact.phone_1}`">
@@ -37,7 +37,7 @@
 						</a>
 					</v-col>
 					<v-col v-if="$store.getters.contact.phone_2" cols="12"  >
-						<a class="d-flex align-items-center flex-column" :href="`mailto:${$store.getters.contact.phone_2}`">
+						<a class="d-flex align-items-center flex-column" :href="`tel:${$store.getters.contact.phone_2}`">
 							<v-btn class="mx-2" fab dark large color="primary" >
 								<v-icon dark>
 									mdi-{{ contactDescriptions.phone_icon }}
@@ -77,14 +77,47 @@
 						</a>
 					</v-col>
 					<v-col cols="12"  >
-						<a class="d-flex align-items-center flex-column" target="_blank" :href="$store.getters.contact.fb">
-							<v-btn class="mx-2" fab dark large color="primary" >
-								<v-icon dark>
-									mdi-{{ contactDescriptions.account_icon }}
-								</v-icon>
-							</v-btn>
-							<p class="contact-description">{{ $store.getters.contact.name }}</p>
-						</a>
+						<v-row>
+							<v-col v-if="$store.getters.contact.fb" cols="3">
+								<a class="d-flex align-items-center flex-column" target="_blank" :href="$store.getters.contact.fb">
+									<v-btn class="mx-2" fab dark large color="#3b5998" >
+										<v-icon dark>
+											mdi-facebook
+										</v-icon>
+									</v-btn>
+								</a>
+							</v-col>
+
+							<v-col v-if="$store.getters.contact.yt" cols="3">
+								<a class="d-flex align-items-center flex-column" target="_blank" :href="$store.getters.contact.yt">
+									<v-btn class="mx-2" fab dark large color="#c4302b" >
+										<v-icon dark>
+											mdi-youtube
+										</v-icon>
+									</v-btn>
+								</a>
+							</v-col>
+
+							<v-col v-if="$store.getters.contact.ig" cols="3">
+								<a class="d-flex align-items-center flex-column" target="_blank" :href="$store.getters.contact.ig">
+									<v-btn class="mx-2 instagram" fab dark large >
+										<v-icon dark>
+											mdi-instagram
+										</v-icon>
+									</v-btn>
+								</a>
+							</v-col>
+
+							<v-col v-if="$store.getters.contact.tw" cols="3">
+								<a class="d-flex align-items-center flex-column" target="_blank" :href="$store.getters.contact.tw">
+									<v-btn class="mx-2" fab dark large color="#1DA1F2" >
+										<v-icon dark>
+											mdi-twitter
+										</v-icon>
+									</v-btn>
+								</a>
+							</v-col>
+						</v-row>
 					</v-col>
 				</div>
 			</v-col>
@@ -237,5 +270,8 @@
 	}
 	.v-input__slot {
 		align-items: unset!important;
+	}
+	.instagram {
+		background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)!important;
 	}
 </style>
