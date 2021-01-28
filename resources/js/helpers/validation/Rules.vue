@@ -1,6 +1,7 @@
 <template></template>	
 <script>
 	export default {
+		props: ['getFilesSize'],
 		computed: {
 			validationRules() {
 				return this.$store.getters.validationRules;
@@ -23,6 +24,9 @@
 			passwordConfirm(password, passwordConf) {
 				return password == passwordConf || this.validationRules.password_confirm;
 			},
+			filesSize(v) {
+				return v.length == 0 ? true : this.getFilesSize < 5 || this.validationRules.file_size;
+			}
 		},
 		
 		

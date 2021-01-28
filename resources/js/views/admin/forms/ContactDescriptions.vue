@@ -32,6 +32,7 @@
 							<v-text-field  color="primary" v-model="currentObject.subject" label="Temat"></v-text-field>
 							<v-text-field  color="primary" v-model="currentObject.message" label="Wiadomość"></v-text-field>
 							<v-text-field  color="primary" v-model="currentObject.files" label="Pliki (opcjonalnie)"></v-text-field>
+							<v-text-field  color="primary" v-model="currentObject.files_length" label="{ilosc} plik/plików ({rozmiar} MB w sumie) "></v-text-field>
 							<v-text-field  color="primary" v-model="currentObject.button_name" label="Napis na przycisku"></v-text-field>
 						</v-col>
 

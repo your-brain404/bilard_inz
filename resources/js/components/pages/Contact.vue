@@ -14,14 +14,14 @@
 					<v-text-field color="primary" v-model="contact_data.phone" :rules="[required]" :label="contactDescriptions.phone" required></v-text-field>
 					<v-text-field color="primary" v-model="contact_data.subject" :rules="[required]" :label="contactDescriptions.subject" required></v-text-field>
 					<v-textarea color="primary" v-model="contact_data.message" :rules="[required]" rows="5" :label="contactDescriptions.message" required></v-textarea>
-					<v-file-input :counter-size-string="dupa" v-model="files" show-size counter multiple :label="contactDescriptions.files" :rules="[]" :prepend-icon="`mdi-${contactDescriptions.file_icon}`"></v-file-input>
+					<v-file-input :counter-size-string="counter" v-model="files"  show-size counter multiple :label="contactDescriptions.files" :rules="[filesSize]" :prepend-icon="`mdi-${contactDescriptions.file_icon}`"></v-file-input>
 					<v-checkbox @change="contact_data.rodo1 ? contact_data.rodo1 = 1 : contact_data.rodo1 = 0" color="primary" class="mt-10" v-model="contact_data.rodo1">
 						<div slot="label" v-html="$store.getters.settings.rodo_1"></div>
 					</v-checkbox>
 					<v-checkbox @change="contact_data.rodo2 ? contact_data.rodo2 = 1 : contact_data.rodo2 = 0" color="primary" class="mt-0 mb-5"  v-model="contact_data.rodo2">
 						<div slot="label" v-html="$store.getters.settings.rodo_2"></div>
 					</v-checkbox>
-					<v-btn :loading="loading" outlined color="primary" :disabled="!valid" @click="saveMail">{{ contactDescriptions.button_name }}</v-btn>
+					<v-btn :loading="loading" outlined color="primary" @click="saveMail">{{ contactDescriptions.button_name }}</v-btn>
 				</v-form>
 			</v-col>
 			<v-col col="12" lg="4" class="d-flex justify-content-center" >
@@ -98,7 +98,7 @@
 			<iframe :src="$store.getters.contact.map" width="100%" height="500px" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 			
 		</v-row>
-		<Rules />
+		<Rules :getFilesSize="getFilesSize" />
 	</v-container>
 </template>
 
@@ -129,17 +129,26 @@
 			user() {
 				return this.$store.getters.user;
 			},
-			counter() {
-				
-				return ''
+			getFilesSize() {
+				if(this.files.length == 0) return 0;
+				let size = 0;
+				for(let file of this.files) {
+					size += file.size;
+				}
+				return (size/1000000).toFixed(2);
 			},
+			counter() {
+				return `${this.contactDescriptions.files_length?.replace('{ilosc}', this.files.length).replace('{rozmiar}', this.getFilesSize)}`;
+			},
+			
 		},
 		watch: {
 			user() {
 				if(this.user) {
 					this.setUserData();
 				}
-			}
+			},
+
 		},
 		methods: {
 			...Rules.methods,

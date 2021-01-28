@@ -210,8 +210,8 @@
 			},
 			user() {
 				if(this.user) {
-					// this.reservation.name = this.user.name;
-					// this.reservation.email = this.user.email;
+					this.reservation.name = this.user.name;
+					this.reservation.email = this.user.email;
 				}
 			},
 			date() {
