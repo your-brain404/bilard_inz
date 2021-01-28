@@ -13,8 +13,8 @@
 		<v-lazy min-height="652px" :options="{ threshold: .5 }" transition="fade-transition" v-model="offers">
 			<Offers />
 		</v-lazy>
-		<v-lazy min-height="452px" :options="{ threshold: .5 }" transition="fade-transition" v-model="luckyNumber">
-			<LuckyNumber />
+		<v-lazy v-if="showLuckyNumber" min-height="452px" :options="{ threshold: .5 }" transition="fade-transition" v-model="luckyNumber">
+			<LuckyNumber @showLuckyNumber="showLuckyNumber = $event" />
 		</v-lazy>
 	</div>
 </template>
@@ -38,6 +38,7 @@
 				aboutUs: false,
 				offers: false,
 				luckyNumber: false,
+				showLuckyNumber: true
 			}
 		},
 		components: {

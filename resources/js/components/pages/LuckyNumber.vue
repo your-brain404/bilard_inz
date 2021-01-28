@@ -33,6 +33,7 @@
 				await axios.get(`/api/lucky_number/get_one/1`).then(res => {
 					this.luckyNumber.push(res.data);
 					this.active = this.luckyNumber[0].active;
+					this.$emit('showLuckyNumber', this.active);
 					this.$emit('blockDataEmit', this.luckyNumber);
 					this.$store.commit('loading', false);
 				});
