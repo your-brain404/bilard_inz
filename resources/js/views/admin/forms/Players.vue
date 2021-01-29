@@ -11,7 +11,7 @@
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
 						
-						<v-col class="" cols="8">
+						<v-col class="" cols="12" md="8">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.first_name" :rules="rules.titleRules" label="Imię *" required></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.last_name" :rules="rules.titleRules" label="Nazwisko *" required></v-text-field>
@@ -30,7 +30,7 @@
 							</div>
 						</v-col>
 
-						<v-col cols="4" >
+						<v-col cols="12" md="4" >
 							<div class="pa-5">
 								<v-img :src="activePhoto" :alt="currentObject.photo_alt"></v-img>
 								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="currentObject.photo"/>

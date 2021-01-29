@@ -11,7 +11,7 @@
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
 						
-						<v-col class="" cols="8">
+						<v-col class="" cols="12" >
 							<div class="pa-5">
 								<v-text-field color="primary" v-model="currentObject.name" :rules="rules.titleRules" label="Imię i nazwisko *" required></v-text-field>
 								<v-select :items="['Admin', 'Klient', 'Zawodnik']" color="primary" v-model="currentObject.type" label="Typ użytkownika"></v-select>
@@ -20,13 +20,7 @@
 							</div>
 						</v-col>
 
-						<v-col cols="4" >
-							<div class="pa-5">
-								<v-img :src="activePhoto" :alt="currentObject.photo_alt"></v-img>
-								<ImagePicker @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="currentObject.photo"/>
-								
-							</div>
-						</v-col>
+						
 
 					</v-row>
 					<v-divider class="mb-0"></v-divider>

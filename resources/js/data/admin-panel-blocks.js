@@ -122,7 +122,7 @@ export default {
 
 	price_list_categories: [
 	{title: 'Cennik Kategorie', component: PriceListCategories, tablename: 'price_list_categories', table: [], multiple: true, removable: true, list: 'price_list', active: true, home_page: false, answer: false},
-	{title: 'Cennik opisy', component: PriceListDescriptions, tablename: 'price_list_descriptions', table: []},
+	{title: 'Cennik Opisy', component: PriceListDescriptions, tablename: 'price_list_descriptions', table: []},
 	],
 
 	price_list: [

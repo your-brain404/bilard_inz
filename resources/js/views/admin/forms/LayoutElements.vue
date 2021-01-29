@@ -11,13 +11,13 @@
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
 
-						<v-col cols="8">
+						<v-col cols="12" md="8">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 							</div>
 						</v-col>
 						
-						<v-col cols="4" >
+						<v-col cols="12" md="4" >
 							<div class="pa-5 d-flex flex-column justify-content-between">
 								<h3>Tocząca się bila na stronie głównej</h3>
 								<div>

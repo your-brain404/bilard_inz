@@ -11,7 +11,7 @@
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
 						
-						<v-col class="" cols="8">
+						<v-col class="" cols="12" md="8">
 							<div class="pa-5">
 								<v-text-field  color="primary" v-model="currentObject.register_title" label="Tytuł rejestracji"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.login_title" label="Tytuł logowania"></v-text-field>
@@ -37,7 +37,7 @@
 							</div>
 						</v-col>
 
-						<v-col cols="4" >
+						<v-col cols="12" md="4" >
 							<div class="pa-5 d-flex flex-column justify-content-between">
 								<div>
 									<v-img :src="currentObject.bg_register_photo ? getUrl(currentObject.bg_register_photo) : getImageDefaultPlaceholder()" :alt="currentObject.bg_register_photo_alt"></v-img>

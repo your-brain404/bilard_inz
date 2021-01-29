@@ -11,7 +11,7 @@
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
 						
-						<v-col class="" cols="6">
+						<v-col class="" cols="12" md="6">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.subtitle" label="Podtytuł"></v-text-field>
@@ -25,7 +25,7 @@
 							</div>
 						</v-col>
 
-						<v-col cols="6" >
+						<v-col cols="12" md="6" >
 							<v-text-field  color="primary" v-model="currentObject.name" label="Imię i nazwisko"></v-text-field>
 							<v-text-field  color="primary" v-model="currentObject.email" label="Adres e-mail"></v-text-field>
 							<v-text-field  color="primary" v-model="currentObject.phone" label="Numer telefonu"></v-text-field>

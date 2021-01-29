@@ -7,14 +7,14 @@
 				</v-btn>
 			</template>
 			<v-card>
-				<v-card-title class="d-flex justify-content-between">
+				<v-card-title class="d-flex justify-content-between position-relative">
 					<div class="d-flex align-items-center">
 						<div>Dodaj plik</div>
 						<div class="ml-3">
 							<v-text-field label="Szukaj" prepend-icon="mdi-magnify" v-model="search" @change="searchPhoto"></v-text-field>
 						</div>
 					</div>
-					<v-icon @click="dialog = false">mdi-close</v-icon>
+					<v-icon class="file-picker-close" @click="dialog = false">mdi-close</v-icon>
 				</v-card-title>
 				<v-tabs v-model="tab" background-color="primary" dark>
 					<v-tab v-for="tab in tabs" :key="tab">
@@ -174,6 +174,12 @@
 <style>
 	.file-picker-file{
 		cursor: pointer;
+	}
+
+	.file-picker-close {
+		position: absolute!important;
+		top: 14%;
+		right: 2%;
 	}
 	
 </style>

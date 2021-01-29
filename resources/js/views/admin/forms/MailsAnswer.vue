@@ -10,12 +10,12 @@
 				<v-divider class="mt-0"></v-divider>
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row class="px-5">
-						<v-col cols="12" lg="8">
+						<v-col cols="12" md="8">
 							<v-textarea  color="primary" :rules="rules.titleRules" rows="5" v-model="answer.answer_message" label="Twoja wiadomość"></v-textarea>
 							<v-file-input v-model="files" show-size counter label="Plik (opcjonalnie)" multiple prepend-icon="mdi-file"></v-file-input>
 
 						</v-col>
-						<v-col class="" cols="12" lg="4">
+						<v-col class="" cols="12" md="4">
 							<div class="pa-5">
 								<v-text-field color="primary" disabled v-model="mail.name" label="Imię i nazwisko"></v-text-field>
 								<v-text-field  color="primary" disabled v-model="mail.email" label="E-mail"></v-text-field>

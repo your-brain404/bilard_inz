@@ -10,7 +10,7 @@
 				<v-divider class="mt-0"></v-divider>
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
-						<v-col class="" lg="6" cols="12">
+						<v-col class="" md="6" cols="12">
 							<div class="pa-5">
 								<v-text-field color="primary" :rules="rules.titleRules" v-model="currentObject.title" label="Tytuł *"></v-text-field>
 								<v-text-field color="primary"  v-model="currentObject.category" label="Kategoria: "></v-text-field>
@@ -33,7 +33,7 @@
 							</div>
 						</v-col>
 
-						<v-col class="" lg="6" cols="12">
+						<v-col class="" md="6" cols="12">
 							<div class="pa-5">
 								<v-text-field color="primary"  v-model="currentObject.product_categories" label="Kategorie Produktów"></v-text-field>
 								<v-text-field  color="primary" v-model="currentObject.all" label="Wszystkie"></v-text-field>

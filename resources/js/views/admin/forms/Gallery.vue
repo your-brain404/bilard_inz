@@ -11,7 +11,7 @@
 				<v-form ref="form">
 					<v-row>
 						
-						<v-col class="" cols="8">
+						<v-col class="" cols="12" md="8">
 							<div class="pa-5">
 								<div class="gallery-container">
 									<v-row>
@@ -29,7 +29,7 @@
 							</div>
 						</v-col>
 
-						<v-col cols="4" >
+						<v-col cols="12" md="4" >
 							<div class="pa-5 d-flex flex-column justify-content-between">
 								<div>
 									<ImagePicker  @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="img" :apiGallery="apiGallery"/>
