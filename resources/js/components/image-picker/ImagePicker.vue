@@ -1,6 +1,6 @@
 <template>
-	<v-row justify="center" class="mt-5 mb-2 px-3">
-		<v-dialog v-model="dialog" persistent>
+	<v-row justify="center" class="mt-5 mb-2 px-3 image-picker">
+		<v-dialog v-model="dialog" persistent style="background-color: white!important">
 			<template v-slot:activator="{ on, attrs }">
 				<v-btn v-if="!title" color="primary" dark v-bind="attrs" v-on="on" class="w-100">
 					Dodaj {{ multiple ? 'zdjęcia' : $route.path.split('/')[2] == 'settings' ? 'logo' : 'zdjęcie' }} {{ banner ? 'banerowe' : '' }}
@@ -203,5 +203,9 @@
 		position: absolute!important;
 		top: 14%;
 		right: 2%;
+	}
+
+	.v-dialog {
+		background-color: white!important;
 	}
 </style>
