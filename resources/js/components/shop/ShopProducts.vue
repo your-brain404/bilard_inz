@@ -123,7 +123,7 @@
 				axios.get(`/api/shop_categories/${endpoint}`).then(res => {
 					this.$store.commit('loading', false);
 					this.shopCategory = res.data;
-					this.$emit('parent_data', this.shopCategory);
+					this.$emit('parentData', this.shopCategory);
 				}).catch(err => {
 					this.$store.commit('loading', false);
 					console.log(err);

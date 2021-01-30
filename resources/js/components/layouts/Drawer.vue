@@ -8,7 +8,7 @@
 						<img width="auto" height="120px" :src="url($store.getters.settings.photo)" :alt="$store.getters.settings.photo_alt">
 						<h3 class="mb-0">{{ $store.getters.settings.company }}</h3>
 					</v-list-item>
-					<v-list-item v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator'" @click="$router.push('/admin-panel')">
+					<v-list-item v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator'" @click="$router.push('/admin-panel/main')">
 						<v-btn class="header-button" color="primary"  dark icon  >
 							<v-icon>mdi-{{ drawerDescriptions.panel_icon }}</v-icon>
 						</v-btn>

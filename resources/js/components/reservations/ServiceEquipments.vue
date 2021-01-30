@@ -26,7 +26,7 @@
 				this.$store.commit('loading', true);
 				axios.get(`/api/services/get_one/${this.$route.params.parent_id}`).then(res => {
 					this.$store.commit('loading', false);
-					this.$emit('parent_data', res.data)
+					this.$emit('parentData', res.data)
 				}).catch(err => {
 					this.$store.commit('loading', false);
 					console.log(err);

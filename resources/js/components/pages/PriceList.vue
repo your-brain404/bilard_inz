@@ -61,7 +61,7 @@
 				await axios.get(`/api/price_list_categories/get_where?active=1`).then(res => {
 					this.$store.commit('loading', false);
 					this.priceListCategories = res.data;
-					if(this.$route.path.split('/')[1] == 'admin-panel') this.$emit('parent_data', this.priceListCategories.find(cat => cat.id == this.$route.params.parent_id));
+					if(this.$route.path.split('/')[1] == 'admin-panel') this.$emit('parentData', this.priceListCategories.find(cat => cat.id == this.$route.params.parent_id));
 				}).catch(err => {
 					this.$store.commit('loading', false);
 					console.log(err);

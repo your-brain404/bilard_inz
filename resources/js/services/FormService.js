@@ -100,11 +100,7 @@ export default {
 			this.$router.push(`/admin-panel${redirect}${hash}`);
 		},
 		add(formData){
-			axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData,{
-				headers:{
-					'Content-Type': 'application/json'
-				}
-			}).then(res=>{
+			axios.post(`/api/${this.$route.path.split('/')[2]}/add`, formData).then(res=>{
 				this.$store.commit('setSnackbar', SnackbarAlerts.success);
 				this.resetForm();
 				this.redirect();
@@ -113,12 +109,7 @@ export default {
 			});
 		},
 		edit(formData){
-
-			axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, formData, {
-				headers:{
-					'Content-Type': 'application/json'
-				}
-			}).then(res=>{
+			axios.put(`/api/${this.$route.path.split('/')[2]}/edit`, formData).then(res=>{
 				this.$store.commit('setSnackbar', SnackbarAlerts.success);
 				this.redirect();
 			}).catch(err=>{

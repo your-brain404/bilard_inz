@@ -44,7 +44,7 @@
 				drawer: true,
 				
 				items: [
-				{ title: 'Strona główna', icon: 'mdi-view-dashboard', path: '/admin-panel' },
+				{ title: 'Strona główna', icon: 'mdi-view-dashboard', path: '/admin-panel/main' },
 				{ title: 'Sklep', icon: 'mdi-cart', path: '/admin-panel/shop' },
 				{ title: 'Aktualności', icon: 'mdi-newspaper', path: '/admin-panel/news' },
 				{ title: 'O Klubie', icon: 'mdi-information', path: '/admin-panel/about_us' },

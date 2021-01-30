@@ -87,7 +87,7 @@ export default {
 	],
 
 	players: [
-	{title: 'Zawodnicy', component: Players, tablename: 'players', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false},
+	{title: 'Zawodnicy', component: Players, tablename: 'players', table: [], multiple: true, removable: true, gallery: true, active: true, home_page: false, split_name: true, name_column: true},
 	{title: 'Zawodnicy opisy', component: PlayersDescriptions, tablename: 'players_descriptions', table: []},
 	],
 
@@ -107,12 +107,12 @@ export default {
 	],
 
 	mails: [
-	{title: 'Skrzynka pocztowa', component: Mails, tablename: 'mails', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: true},
+	{title: 'Skrzynka pocztowa', component: Mails, tablename: 'mails', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: true, add_button_icon: 'mdi-email-plus', add_button_text: 'Napisz wiadomość', edit_button_icon: 'mdi-eye', edit_button_text: 'Pokaż'},
 	{title: 'Kontakt opisy', component: ContactDescriptions, tablename: 'contact_descriptions', table: []},
 	],
 
 	users: [
-	{title: 'Użytkownicy', component: Users, tablename: 'users', table: [], multiple: false, removable: true, gallery: false, active: true, home_page: false, answer: false},
+	{title: 'Użytkownicy', component: Users, tablename: 'users', table: [], multiple: false, removable: true, gallery: false, active: true, home_page: false, answer: false, name_column: true},
 	],
 
 	gallery_page: [
@@ -131,7 +131,7 @@ export default {
 
 	reservations: [
 	{title: 'Usługi', component: Services, tablename: 'services', table: [], multiple: true, removable: true, gallery: false, active: false, home_page: false, answer: false, list: 'service_equipments'},
-	{title: 'Rezerwacje', component: Reservations, tablename: 'reservations', table: [], multiple: false, removable: true, gallery: false, active: true, home_page: false, answer: false, is_paid: true },
+	{title: 'Rezerwacje', component: Reservations, tablename: 'reservations', table: [], multiple: false, removable: true, gallery: false, active: true, home_page: false, answer: false, is_paid: true, name_column: true },
 	{title: 'Rezerwacje opisy', component: ReservationsDescriptions, tablename: 'reservations_descriptions', table: []},
 	{title: 'Formaty dni (kalendarz)', component: DayFormats, tablename: 'day_formats', table: [], multiple: true, removable: true},
 	{title: 'Kalendarz opisy', component: CalendarDescriptions, tablename: 'calendar_descriptions', table: []},

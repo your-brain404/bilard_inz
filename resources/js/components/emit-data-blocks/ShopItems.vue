@@ -27,7 +27,7 @@
 				axios.get(`/api/shop_products/get_one/${this.$route.params.parent_id}`).then(res => {
 					this.$store.commit('loading', false);
 					this.shop_product = res.data;
-					this.$emit('parent_data', this.shop_product);
+					this.$emit('parentData', this.shop_product);
 				}).catch(err => {
 					this.$store.commit('loading', false);
 					console.log(err);

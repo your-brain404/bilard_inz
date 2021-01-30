@@ -116,7 +116,7 @@ const routes = [
 { path: '/sklep/:category_id/:page', component: Shop, name: 'ShopCategory' },
 { path: '/sklep/produkt/:id/:title', component: Shop, name: 'SingleProduct' },
 
-{ path: '/admin-panel', component: Home, name: 'AdminHome'},
+{ path: '/admin-panel/main', component: Home, name: 'AdminHome'},
 { path: '/admin-panel/news', component: Home, name: 'AdminNews'},
 { path: '/admin-panel/subpages', component: Home, name: 'AdminSubpages'},
 { path: '/admin-panel/about_us', component: Home, name: 'AdminAboutUs'},
@@ -267,7 +267,7 @@ const routes = [
 
 { path: '/admin-panel/shop_item_colors/form', component: ShopItemColorsForm, name: 'ShopItemColorsForm'},
 { path: '/admin-panel/shop_item_colors/form/:id', component: ShopItemColorsForm, name: 'ShopItemColorsFormEdit'},
-
+{ path: '*', redirect: '/'}
 
 ]
 
