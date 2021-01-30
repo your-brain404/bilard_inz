@@ -85,7 +85,7 @@
 			apiGallery() {
 				this.loadPhotos();
 				this.activePhotos = [];
-			}
+			},
 		},
 		computed: {
 			filteredPhotos() {
@@ -100,7 +100,13 @@
 		},
 		
 		methods:{
-			
+			setActivePhotoPath() {
+				for(let photo of this.photos) {
+					if(photo.path == this.activePhotoPath) {
+						this.activePhoto = photo.id;
+					} 
+				}
+			},
 			showCloseIcon(id){
 				this.closeIcon = id;
 			},
@@ -134,6 +140,7 @@
 					}
 
 					this.setApiGallery();
+					if(this.activePhotoPath) this.setActivePhotoPath();
 				});
 			},
 

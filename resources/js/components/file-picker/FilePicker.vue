@@ -42,9 +42,7 @@
 													<span>Podgląd</span>
 												</v-btn>
 											</a>
-											<v-lazy v-if="file.type.split('/')[0] != 'image'" :options="{ threshold: .5 }" transition="fade-transition" min-height="100px" v-model="lazyFiles[i]">
-												<div @click="setFileClass(file.id)" class="file-picker-file">{{ file.path.split('/')[1] }}</div>
-											</v-lazy>
+											<div @click="setFileClass(file.id)" class="file-picker-file">{{ file.path.split('/')[1] }}</div>
 										</v-col>
 									</v-row>
 								</v-container>

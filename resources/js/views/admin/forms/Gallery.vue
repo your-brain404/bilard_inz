@@ -15,7 +15,7 @@
 							<div class="pa-5">
 								<div class="gallery-container">
 									<v-row>
-										<v-col v-for="photo in gallery" :key="photo.path" cols="12" lg="4" md="4">
+										<v-col v-for="photo in gallery" :key="photo.path" cols="12" sm="6" md="4">
 											<div class="position-relative">
 												<img class="img-fluid" :src="getUrl(photo.path)" alt="">
 												<div class="close-icon-container">
