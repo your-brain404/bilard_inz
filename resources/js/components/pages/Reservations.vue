@@ -49,7 +49,7 @@
 		</v-row>
 		
 		<v-row justify="center">
-			<Calendar :reloadFlag="reservationReloadFlag" :services="services" :deleteFlag="deleteFlag" @events="events = $event" @blockDataEmit="$emit('blockDataEmit', $event)" :serviceEquipments="serviceEquipments"/>
+			<Calendar :reloadFlag="reservationReloadFlag" :services="services" @events="events = $event" @blockDataEmit="$emit('blockDataEmit', $event)" :serviceEquipments="serviceEquipments"/>
 		</v-row>
 		<Rules />
 	</v-container>
@@ -62,7 +62,7 @@
 	import Rules from '@/helpers/validation/Rules'
 
 	export default {
-		props: ['deleteFlag', 'reloadFlag'],
+		props: ['reloadFlag'],
 		data() {
 			return {
 				valid: true,

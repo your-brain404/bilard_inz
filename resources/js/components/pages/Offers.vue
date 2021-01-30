@@ -34,7 +34,6 @@
 	import slugify from '../../helpers/links/slug.js'
 
 	export default{
-		props:['deleteFlag'],
 		data(){
 			return{
 				offers: [],
@@ -66,13 +65,12 @@
 				})
 			},
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getOffers();
-				}
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getOffers();
 			}
-		}
+		},
 
 	}
 </script>

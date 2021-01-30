@@ -4,6 +4,12 @@
 	import axios from 'axios'
 
 	export default {
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		data() {
 			return {
 				contact: {}

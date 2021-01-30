@@ -28,7 +28,7 @@
 	import Lightbox from '../lightbox/Lightbox'
 
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
 		data() {
 			return {
 				history: [],
@@ -93,10 +93,9 @@
 			history() {
 				if(this.history.length > 0) this.getGalleries();
 			},
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getHistory();
-				}
+			
+			reloadFlag() {
+				if(this.reloadFlag) this.getHistory();
 			}
 		}
 

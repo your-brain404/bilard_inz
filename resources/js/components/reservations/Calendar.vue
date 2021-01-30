@@ -51,7 +51,7 @@
 	import axios from 'axios'
 
 	export default {
-		props: ['serviceEquipments', 'deleteFlag', 'services', 'reloadFlag'],
+		props: ['serviceEquipments', 'services', 'reloadFlag'],
 		data: () => ({
 			type: 'month',
 			showType: '',
@@ -82,11 +82,6 @@
 			},
 			showType() {
 				this.type = this.types[this.showTypes.indexOf(this.showType)];
-			},
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getEvents();
-				}
 			},
 			reloadFlag(){
 				if(this.reloadFlag){

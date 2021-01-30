@@ -14,7 +14,6 @@
 	import url from '../../helpers/photo/url.js'
 
 	export default{
-		props:['deleteFlag'],
 		data(){
 			return{
 				slides: [],
@@ -40,13 +39,12 @@
 			},
 			
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getSlider();
-				}
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getSlider();
 			}
-		}
+		},
 	}
 </script>
 

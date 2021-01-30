@@ -4,14 +4,19 @@
 	import axios from 'axios'
 
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		data() {
 			return  {
 				mails: []
 			}
 		},
 		methods: {
-			async getMails(){
+			async getData(){
 				this.$store.commit('loading', true);
 				await axios.get(`/api/mails/get_all`).then(res => {
 					this.$store.commit('loading', false);
@@ -25,14 +30,8 @@
 			},
 		},
 		created() {
-			this.getMails();
+			this.getData();
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getMails();
-				}
-			},
-		},
+		
 	}
 </script>

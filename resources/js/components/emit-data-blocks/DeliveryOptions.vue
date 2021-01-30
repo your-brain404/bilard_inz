@@ -4,14 +4,19 @@
 	import axios from 'axios'
 	
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		data() {
 			return {
 				delivery_options: [],
 			}
 		},
 		methods: {
-			async getDeliveryOptions(){
+			async getData(){
 				this.$store.commit('loading', true);
 				let endpoint = `get_all`;
 				if(this.$route.path == '/koszyk') endpoint = `get_where?active=1`;
@@ -28,15 +33,8 @@
 			
 		},
 		created() {
-			this.getDeliveryOptions();
+			this.getData();
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getDeliveryOptions();
-				}
-			},
-			
-		},
+		
 	}
 </script>

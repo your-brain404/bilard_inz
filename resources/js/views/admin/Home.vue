@@ -4,8 +4,8 @@
 			<v-card raised class="">
 				<Title :block="block" :parentData="parentData" />
 				<v-divider></v-divider>
-				<component :reloadFlag="reloadFlag" @parentData="parentData = $event" :is="block.component" :activeFlag="activeFlag" :deleteFlag="deleteFlag" @blockDataEmit="block.table = $event" class="panel-component mb-5"></component>
-				<Table :headers="headers" :block="block" :i="i" @activeFlag="activeFlag = $event" @reloadFlag="reloadFlag = $event" @deleteFlag="deleteFlag = $event" />
+				<component :reloadFlag="reloadFlag" @parentData="parentData = $event" :is="block.component" @blockDataEmit="block.table = $event" class="panel-component mb-5"></component>
+				<Table :headers="headers" :block="block" :i="i" @reloadFlag="reloadFlag = $event" />
 			</v-card>
 		</v-container>
 	</v-main>
@@ -24,8 +24,6 @@
 				blocks: [],
 				headers: [],
 				parentData: {},
-				deleteFlag: false,
-				activeFlag: false,
 				reloadFlag: false,
 			}
 		},

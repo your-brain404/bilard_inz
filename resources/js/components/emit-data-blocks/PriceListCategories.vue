@@ -4,7 +4,12 @@
 	import axios from 'axios'
 
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		
 		data() {
 			return {
@@ -12,7 +17,7 @@
 			}
 		},
 		methods: {
-			getCategories() {
+			getData() {
 				this.$store.commit('loading', true);
 				axios.get(`/api/price_list_categories/get_all`).then(res => {
 					this.$store.commit('loading', false);
@@ -24,15 +29,9 @@
 				})
 			}
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getCategories();
-				}
-			}
-		},
+		
 		created() {
-			this.getCategories();
+			this.getData();
 		}
 	}
 </script>

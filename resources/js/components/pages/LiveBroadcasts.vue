@@ -17,12 +17,10 @@
 	import axios from 'axios'
 
 	export default {
-		props:['deleteFlag'],
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getLiveBroadcasts();
-				}
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getLiveBroadcasts();
 			}
 		},
 		data() {

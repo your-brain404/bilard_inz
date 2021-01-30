@@ -4,14 +4,19 @@
 	import axios from 'axios'
 
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		data() {
 			return {
 				users: []
 			}
 		},
 		methods: {
-			getUsers(){
+			getData(){
 				this.$store.commit('loading', true);
 				axios.get(`/api/users/get_where`).then(res => {
 					this.$store.commit('loading', false);
@@ -24,17 +29,10 @@
 				})
 			},
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getUsers();
-				}
-			},
-			
-		},
+		
 		created() {
 			
-			this.getUsers();
+			this.getData();
 		}
 	}
 </script>

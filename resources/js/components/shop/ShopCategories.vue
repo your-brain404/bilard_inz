@@ -23,7 +23,7 @@
 	import axios from 'axios'
 	
 	export default {
-		props:['deleteFlag'],
+		props:['reloadFlag'],
 		data() {
 			return {
 				shopCategories: [],
@@ -61,10 +61,8 @@
 			this.getShopDescriptions();
 		},
 		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getCategories();
-				}
+			reloadFlag() {
+				if(this.reloadFlag) this.getCategories();
 			},
 			'$route'() {
 				this.emitCategory();

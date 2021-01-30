@@ -15,10 +15,15 @@
 <script>
 	import axios from 'axios'
 	import Lightbox from '../lightbox/Lightbox'
-	import url from '../../helpers/photo/url.js'
+	import url from '@/helpers/photo/url.js'
 
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getGallery();
+			}
+		},
 		data() {
 			return {
 				lightbox: false,
@@ -55,14 +60,7 @@
 		components: {
 			Lightbox
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getGallery();
-				}
-			},
-			
-		},
+		
 	}
 </script>
 

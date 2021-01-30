@@ -7,7 +7,7 @@
 	import Reservations from '../pages/Reservations'
 	
 	export default {
-		props:['deleteFlag'],
+		
 		components: {
 			Reservations
 		},
@@ -32,17 +32,19 @@
 					console.log(err);
 				})
 			},
+			getData() {
+				this.getService();
+				this.getServiceEquipments();
+			}
 		},
 		created() {
 			this.getServiceEquipments();
 			this.getService();
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getServiceEquipments();
-					this.getService();
-				}
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
 			}
 		},
 

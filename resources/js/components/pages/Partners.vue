@@ -16,7 +16,6 @@
 	import carousel from 'vue-owl-carousel2'
 
 	export default {
-		props:['deleteFlag'],
 		data() {
 			return {
 				partners: [],
@@ -54,13 +53,11 @@
 			this.setCarouselItems();
 			this.getPartnersDescriptions();
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getPartners();
-				}
-			},
-			
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getPartners();
+			}
 		},
 		components: {
 			carousel

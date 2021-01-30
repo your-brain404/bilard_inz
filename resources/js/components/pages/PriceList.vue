@@ -33,7 +33,7 @@
 	import axios from 'axios'
 
 	export default {
-		props:['deleteFlag', 'activeFlag'],
+		props:['reloadFlag'],
 		data() {
 			return {
 				priceList: [],
@@ -66,25 +66,20 @@
 					this.$store.commit('loading', false);
 					console.log(err);
 				});
+			},
+			getData() {
+				this.getPriceList();
+				this.getPriceListCategories();
 			}
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getPriceList();
-					this.getPriceListCategories();
-				}
-			},
-			activeFlag() {
-				if(this.activeFlag){
-					this.getPriceList();
-					this.getPriceListCategories();
-				}
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
 			}
 		},
 		created() {
-			this.getPriceListCategories();
-			this.getPriceList();
+			this.getData();
 			this.getPriceListDescriptions();
 		}
 	}

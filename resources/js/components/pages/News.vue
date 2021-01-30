@@ -106,7 +106,7 @@
 	import slugify from '../../helpers/links/slug.js'
 
 	export default{
-		props:['deleteFlag'],
+		props:['reloadFlag'],
 		data(){
 			return{
 				news: [],
@@ -225,15 +225,10 @@
 				}
 				return comments;
 			}
-			
-
-
 		},
 		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getNews();
-				}
+			reloadFlag() {
+				if(this.reloadFlag) this.getNews();
 			},
 			'$route'() {
 				this.getNews();

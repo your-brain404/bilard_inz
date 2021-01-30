@@ -4,16 +4,16 @@
 	import axios from 'axios'
 
 	export default {
-		props: ['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		data() {
 			return {
 				rows: [],
 				table: 'day_formats'
-			}
-		},
-		watch: {
-			deleteFlag() {
-				if(this.deleteFlag) this.getData();
 			}
 		},
 		methods: {

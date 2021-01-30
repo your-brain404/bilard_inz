@@ -54,7 +54,7 @@
 	import Pagination from '../pagination/Pagination'
 
 	export default {
-		props:['deleteFlag'],
+		props:['reloadFlag'],
 		data() {
 			return {
 				slugify,
@@ -129,6 +129,10 @@
 					console.log(err);
 				})
 			},
+			getData() {
+				this.getProducts();
+				this.getCategory();
+			}
 			
 		},
 		created() {
@@ -137,11 +141,8 @@
 			this.getShopDescriptions();
 		},
 		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getProducts();
-					this.getCategory();
-				}
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
 			},
 			'$route'() {
 				this.getProducts();

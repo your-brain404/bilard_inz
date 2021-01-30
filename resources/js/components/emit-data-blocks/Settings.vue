@@ -4,13 +4,19 @@
 	import axios from 'axios'
 
 	export default {
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		data() {
 			return {
 				settings: {}
 			}
 		},
 		methods: {
-			getSettings(){
+			getData(){
 				this.$store.commit('loading', true);
 				axios.get(`/api/settings/get_all`).then(res => {
 					this.$store.commit('loading', false);
@@ -23,7 +29,7 @@
 			},
 		},
 		created() {
-			this.getSettings();
+			this.getData();
 		},
 
 	}

@@ -30,7 +30,12 @@
 	import slugify from '../../helpers/links/slug.js'
 
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getCups();
+			}
+		},
 		data() {
 			return {
 				cups: [],
@@ -61,13 +66,7 @@
 			this.getCups();
 			this.getCupsDescriptions();
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getCups();
-				}
-			}
-		},
+		
 
 	}
 </script>

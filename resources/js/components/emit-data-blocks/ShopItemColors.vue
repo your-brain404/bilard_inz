@@ -3,15 +3,19 @@
 <script>
 	import axios from 'axios'
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		data() {
 			return {
 				shop_item_colors: []
 			}
 		},
 		methods: {
-			slug: title => slugify(title),
-			getColors(){
+			getData(){
 				this.$store.commit('loading', true);
 				axios.get(`/api/shop_item_colors/get_all`).then(res => {
 					this.$store.commit('loading', false);
@@ -24,14 +28,8 @@
 			},
 		},
 		created() {
-			this.getColors();
+			this.getData();
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getColors();
-				}
-			}
-		},
+		
 	}
 </script>

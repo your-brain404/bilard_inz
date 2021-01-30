@@ -20,7 +20,7 @@ class ShopOrdersService {
 	public static function prependData(Request $request): array {
 		$requestArr = $request->all();
 		$data = [
-			'paid' => 0,
+			'is_paid' => 0,
 			'sum' => $requestArr['sum'],
 			'delivery' => $requestArr['payments']['delivery'],
 			'payment' => $requestArr['payments']['payment'],

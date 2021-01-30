@@ -3,7 +3,12 @@
 <script>
 	import axios from 'axios'
 	export default {
-		props:['deleteFlag'],
+		props: ['reloadFlag'],
+		watch: {
+			reloadFlag() {
+				if(this.reloadFlag) this.getData();
+			}
+		},
 		data() {
 			return {
 				shop_items: [],
@@ -32,19 +37,15 @@
 					this.$store.commit('loading', false);
 					console.log(err);
 				})
+			},
+			getData() {
+				this.getItems();
+				this.getProduct();
 			}
 		},
 		created() {
-			this.getItems();
-			this.getProduct();
+			this.getData();
 		},
-		watch:{
-			deleteFlag(){
-				if(this.deleteFlag){
-					this.getItems();
-					this.getProduct();
-				}
-			}
-		},
+		
 	}
 </script>
