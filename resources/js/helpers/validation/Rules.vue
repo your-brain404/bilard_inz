@@ -26,7 +26,7 @@
 			},
 			filesSize(v) {
 				return v.length == 0 ? true : this.getFilesSize < 5 || this.validationRules.file_size;
-			}
+			},
 		},
 		
 		

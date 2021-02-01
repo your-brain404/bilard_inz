@@ -26,7 +26,7 @@
 
 					<p @click="openRegister" class="white--text text-center mt-5" style="cursor: pointer">{{ authDescriptions.register_now }}</p>	
 				</v-card>
-				<Rules />
+				<Rules ref="rules" />
 			</v-dialog>
 		</div>
 	</template>
@@ -78,9 +78,10 @@
 				openPasswordReminder() {
 					this.closeLogin();
 					this.$emit('openPasswordReminder');
-				}
+				},
 
 			},
+				
 
 
 		}

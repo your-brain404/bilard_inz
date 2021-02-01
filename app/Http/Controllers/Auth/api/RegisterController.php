@@ -9,7 +9,7 @@ use App\Http\Helpers\RegisterHelper;
 class RegisterController extends Controller
 {
 	public function register(Request $request){
-
+		
 		$response = RegisterHelper::register($request);
 		return $response;
 	}

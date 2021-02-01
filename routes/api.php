@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use App\Http\Helpers\DefaultCrudTables;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
-$default_crud_tables = ['about_us', 'subpages', 'partners', 'live_broadcasts', 'reservations', 'services', 'service_equipments', 'history', 'players', 'cups', 'slider', 'price_list', 'price_list_categories', 'offers', 'news', 'users', 'mails', 'attachments', 'gallery', 'media', 'shop_categories', 'shop_products', 'shop_items', 'shop_item_colors', 'delivery_options', 'shop_orders', 'documents', 'lucky_number', 'settings', 'contact', 'comments_descriptions', 'contact_descriptions', 'cups_descriptions', 'documents_descriptions', 'gallery_descriptions', 'history_descriptions', 'live_broadcasts_descriptions', 'news_descriptions', 'offers_descriptions', 'partners_descriptions', 'players_descriptions', 'price_list_descriptions', 'reservations_descriptions', 'calendar_descriptions', 'day_formats', 'shop_descriptions', 'cart_descriptions', 'breadcrumb_descriptions', 'layout_elements', 'drawer_descriptions', 'auth_descriptions', 'snackbar_alerts', 'validation_rules'];
 
-foreach ($default_crud_tables as $table) {
-	$controller = implode('', array_map(function($segment) {
-		return ucfirst($segment);
-	}, explode('_', $table))) . 'Controller';
+
+foreach (DefaultCrudTables::get() as $table) {
+	$controller = ucfirst(Str::of($table)->camel()) . 'Controller';
 
 	Route::get("/$table/get_all/", "$controller@getAll");
 	Route::get("/$table/get_one/{id}", "$controller@getOne");

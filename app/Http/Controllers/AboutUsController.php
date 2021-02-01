@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AboutUsController extends Controller {
 
 	public function __construct() {
-		new CrudService('App\\'. str_replace('Controller', '', explode('\\', __CLASS__)[array_key_last(explode('\\', __CLASS__))]));
+		CrudService::$model = 'App\\'. str_replace('Controller', '', explode('\\', __CLASS__)[array_key_last(explode('\\', __CLASS__))]);
 	}
 
 	public function getAll() {

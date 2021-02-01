@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CrudService {
 
-	private static $model;
+	public static $model;
 
 	public function __construct(String $model) {
 		self::$model = $model;

@@ -2,6 +2,7 @@
 namespace App\Http\Helpers;
 
 use App\Http\Helpers\WebpHelper;
+use App\SnackbarAlerts;
 use App\Media;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -65,7 +66,7 @@ class FileHelper {
 			FileHelper::deleteFilesFromStorage($media->path, $folder);
 			return new MediaResource($media);
 		}else{
-			return new MediaResource(['message' => 'Something went wrong...']);
+			return new MediaResource(['message' => SnackbarAlerts::find(1)->error]);
 		}
 
 	}

@@ -12,7 +12,7 @@ use App\User;
 class UsersController extends Controller
 {
 	public function __construct() {
-		new CrudService('App\User');
+		CrudService::$model = 'App\User';
 	}
 	
     public function getAll(Request $request){
