@@ -37,11 +37,11 @@
 								<v-col>
 									<div class="w-100 d-flex flex-column align-items-center justify-content-center mb-3">
 										<v-avatar >
-											<img v-if="!edit" :src="userData.photo != '' ? avatar(userData.photo) : url(drawerDescriptions.placeholder)">
-											<img v-else :src="blob != '' ? blob : (userData.photo != '' ? avatar(userData.photo) : url(drawerDescriptions.placeholder))">
+											<img v-if="!edit" :src="userData.photo ? avatar(userData.photo) : avatar(drawerDescriptions.placeholder)">
+											<img v-else :src="blob != '' ? blob : (userData.photo ? avatar(userData.photo) : avatar(drawerDescriptions.placeholder))">
 										</v-avatar>
 									</div>
-									<p v-if="edit" @click="userData.photo = ''" style="cursor: pointer" class="error--text text-center mb-0">{{ drawerDescriptions.delete_photo }}</p>
+									<p v-if="edit" @click="userData.photo = null" style="cursor: pointer" class="error--text text-center mb-0">{{ drawerDescriptions.delete_photo }}</p>
 									<v-file-input @change="createBlob" :label="drawerDescriptions.photo_text" class="pt-0" v-if="edit" v-model="file"></v-file-input>
 									<h4 class="text-center" v-if="!edit">{{ user.name }}</h4>
 									<v-text-field :label="drawerDescriptions.name" v-else v-model="userData.name"></v-text-field>
@@ -185,6 +185,7 @@
 			},
 			async getDrawerDescriptions() {
 				await axios.get('/api/drawer_descriptions/get_one/1').then(res => this.drawerDescriptions = res.data);
+				console.log(avatar(this.drawerDescriptions.placeholder))
 			}
 		},
 		computed: {

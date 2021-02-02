@@ -1,20 +1,6 @@
 import {db} from '../../../firebase/firebase.js'
 
 export default {
-	async fetchAllComments({commit}) {
-		await db.collection("comments")
-		.orderBy('created','asc')
-		.get()
-		.then(querySnapshot =>{
-			let comments = [];
-			querySnapshot.forEach(doc => {
-				let comment = doc.data();
-				comment.id = doc.id;
-				comments.push(comment);
-			});
-			commit('comments', comments);
-		});
-	},
 	async fetchCommentsWhere({commit, dispatch}, news_ids) {
 		await db.collection("comments")
 		.onSnapshot(querySnapshot => {

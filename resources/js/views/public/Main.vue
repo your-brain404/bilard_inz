@@ -6,7 +6,7 @@
 		<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="568px" v-model="news">
 			<News />
 		</v-lazy>
-		<img class="eight-ball" width="auto" height="200px" v-lazy="url(layoutElements.eight_ball)" alt="layoutElements.eight_ball_alt">
+		<img class="eight-ball" width="auto" height="200px" v-lazy="url(layoutElements.eight_ball).replace('.webp', '')" alt="layoutElements.eight_ball_alt">
 		<v-lazy v-model="aboutUs" :options="{ threshold: .5 }" transition="fade-transition" min-height="552px">
 			<AboutUs />
 		</v-lazy>
