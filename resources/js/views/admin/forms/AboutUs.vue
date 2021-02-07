@@ -83,3 +83,9 @@
 		...vueComponents
 	}
 </script>
+
+<style>
+	.panel-title-header{
+		font-size: 3rem;
+	}
+</style>

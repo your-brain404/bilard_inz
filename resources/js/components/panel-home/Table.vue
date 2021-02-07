@@ -28,6 +28,11 @@
 					<v-checkbox v-model="item.answer" disabled></v-checkbox>
 				</div>
 			</template>
+			<template #item.is_paid="{ item }" >
+				<div class="d-flex justify-content-center">
+					<v-checkbox v-model="item.is_paid" disabled></v-checkbox>
+				</div>
+			</template>
 			<template #item.service_equipment="{ item }" >
 				{{ item.service_equipment.title }}
 			</template>
@@ -70,7 +75,7 @@
 		data() {
 			return {
 				search: '',
-				templateCheckboxes: ['home_page', 'active', 'order', 'blocked', 'is_paid']
+				templateCheckboxes: ['home_page', 'active', 'order', 'blocked', 'is_paid', 'sent']
 			}
 		},
 		methods: {
@@ -105,7 +110,14 @@
 				})
 			},
 			setCheckbox(table, item) {
-				if(table == 'reservations' && !item.active) if(!confirm('Czy na pewno potwierdzić rezerwację? Zostanie wysłane potwierdzenie na maila użytkownika!')) return;
+				if(table == 'reservations' && item.active) if(!confirm('Czy na pewno potwierdzić rezerwację? Zostanie wysłane potwierdzenie na maila użytkownika!')) {
+					this.block.table.find(row => item.id == row.id).active = false;
+					return;
+				}
+				if(table == 'shop_orders' && item.sent) if(!confirm('Czy na pewno oznaczyć jako wysłane? Zostanie wysłane potwierdzenie na maila użytkownika!')) {
+					this.block.table.find(row => item.id == row.id).sent = false;
+					return;
+				}
 
 				axios.put(`/api/${table}/edit`, item).then(res => {
 					this.$emit('reloadFlag', true);

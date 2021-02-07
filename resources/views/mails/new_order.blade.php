@@ -1,6 +1,6 @@
 @component('mail::message')
 <h1>Pojawiło się nowe zamówienie!</h1> 
-
+<h2>Numer zamówienia: #{{ $order->id }}</h2>
 <h3>Dane kupującego:</h3>
 <br>
 <p>Imię i nazwisko: {{ $order->main_name }}</p>

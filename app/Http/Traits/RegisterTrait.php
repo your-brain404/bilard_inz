@@ -16,7 +16,7 @@ trait RegisterTrait {
 			'type' => 'required|string'
 		]);
 
-		return $validator->fails();
+		return !$validator->fails();
 	}
 
 	public static function createUser(array $data) {

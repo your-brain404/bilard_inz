@@ -9,8 +9,6 @@ use App\ShopItems;
 
 class ShopItemsService {
 
-	
-
 	public static function saveData(Request $request): Model{
 
 		$data = CrudService::prependData($request);

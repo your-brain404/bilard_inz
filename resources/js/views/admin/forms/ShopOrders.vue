@@ -1,5 +1,5 @@
 <template>
-	<v-content class="">
+	<v-main class="">
 		<v-container>
 			<v-card>
 				<v-card-title class="justify-content-center">
@@ -11,31 +11,52 @@
 				<v-form ref="form" v-model="valid" lazy-validation>
 					<v-row>
 						
-						<v-col class="" cols="12" md="8">
+						<v-col class="pa-0" cols="12" md="6">
 							<div class="pa-5">
-								<v-text-field color="primary"  v-model="currentObject.title" :rules="rules.titleRules" label="Tytuł *" required></v-text-field>
-								<v-text-field  color="primary" v-model="currentObject.subtitle" label="Podtytuł"></v-text-field>
-								<v-text-field  color="primary" v-model="currentObject.button_name" label="Napis na przycisku"></v-text-field>
+								<h3>Główny adres</h3>
+								<v-text-field color="primary"  readonly v-model="currentObject.main_name" label="Imię i nazwisko" required></v-text-field>
+								<v-text-field  color="primary" readonly v-model="currentObject.main_email" label="Adres E-mail"></v-text-field>
+								<v-text-field  color="primary" readonly v-model="currentObject.main_phone" label="Telefon"></v-text-field>
+								<v-text-field  color="primary" readonly v-model="currentObject.main_street" label="Ulica"></v-text-field>
+								<v-text-field  color="primary" readonly v-model="currentObject.main_house_number" label="Numer domu"></v-text-field>
+								<v-text-field  color="primary" readonly v-model="currentObject.main_flat_number" label="Numer mieszkania"></v-text-field>
+								<v-text-field  color="primary" readonly v-model="currentObject.main_zip_code" label="Kod pocztowy"></v-text-field>
+								<v-text-field  color="primary" readonly v-model="currentObject.main_city" label="Miasto"></v-text-field>
 								<div class="mt-3">
-									<p class="mb-1">Krótki Opis</p>
-									<vue-editor v-model="currentObject.short_description"></vue-editor>
+									<p class="mb-1">Uwagi do zamówienia</p>
+									<vue-editor disabled v-model="currentObject.main_message"></vue-editor>
 								</div>
-								<div class="mt-3">
-									<p class="mb-1">Opis</p>
-									<vue-editor v-model="currentObject.description"></vue-editor>
-								</div>
+								
 							</div>
 						</v-col>
 
-						<v-col cols="12" md="4" >
-							<div class="pa-5 d-flex flex-column justify-content-between">
-								<div>
-									<v-img :src="activePhoto" :alt="currentObject.photo_alt"></v-img>
-									<ImagePicker  @updateDeletedPhoto="updateDeletedPhoto" :activePhotoPath="currentObject.photo" @loadedImage="setImagePlaceholder" :img="currentObject.photo"/>
-								</div>
-								
-								<v-text-field color="primary"  v-model="currentObject.photo_alt" label="Tekst alternatywny zdjęcia"></v-text-field>
+						<v-col cols="12" md="6" class="pa-5">
+							<h3>Wysyłka na inny adres</h3>
+							<v-text-field color="primary"  readonly v-model="currentObject.second_name"  label="Imię i nazwisko" required></v-text-field>
+							<v-text-field  color="primary" readonly v-model="currentObject.second_phone" label="Telefon"></v-text-field>
+							<v-text-field  color="primary" readonly v-model="currentObject.second_street" label="Ulica"></v-text-field>
+							<v-text-field  color="primary" readonly v-model="currentObject.second_house_number" label="Numer domu"></v-text-field>
+							<v-text-field  color="primary" readonly v-model="currentObject.second_flat_number" label="Numer mieszkania"></v-text-field>
+							<v-text-field  color="primary" readonly v-model="currentObject.second_zip_code" label="Kod pocztowy"></v-text-field>
+							<v-text-field  color="primary" readonly v-model="currentObject.second_city" label="Miasto"></v-text-field>
+							<div class="mt-3">
+								<p class="mb-1">Uwagi do zamówienia</p>
+								<vue-editor disabled v-model="currentObject.second_message"></vue-editor>
 							</div>
+						</v-col>
+
+						<v-col cols="12" class="pa-5">
+							<h4 class="cart-menu-title" >Przesyłka</h4>
+							<v-radio-group readonly :disabled="summary != undefined" v-model="currentObject.delivery" column >
+								<v-radio v-for="(delivery, i) in deliveryOptions" :key="i" :label="deliveryLabel(delivery)" :value="delivery.value"></v-radio>
+							</v-radio-group>
+							<h4 class="cart-menu-title mt-5">Płatność</h4>
+							<v-radio-group readonly :disabled="summary != undefined" v-model="currentObject.payment" column >
+								<v-radio v-if="currentObject.delivery != 'in_advance'" :label="cartDescriptions.traditional" value="traditional" ></v-radio>
+								<v-radio v-if="currentObject.delivery != 'courier'" :label="cartDescriptions.personal" value="personal" ></v-radio>
+							</v-radio-group>
+
+							<h2>Kwota: {{ currentObject.sum }}{{ shopDescriptions.currency }} </h2>
 						</v-col>
 
 					</v-row>
@@ -55,11 +76,13 @@
 			</v-card>
 			
 		</v-container>
-	</v-content>
+	</v-main>
 </template>
 
 <script>
 	import FormService from '../../../services/FormService.js'
+	import axios from 'axios';
+
 	let data = {};
 	let vueComponents = {};
 	
@@ -78,8 +101,22 @@
 					photo_alt: '',
 					button_name: ''
 				},
+				deliveryOptions: [],
+				cartDescriptions: {},
+				shopDescriptions: {}
 			}
 		},
-		...vueComponents
+		...vueComponents,
+		methods: {
+			...vueComponents.methods,
+			deliveryLabel(delivery) {
+				return `${delivery.title} ${delivery.price.toFixed(2)} ${this.shopDescriptions?.currency}`;
+			} 
+		},
+		mounted() {
+			axios.get('/api/delivery_options/get_all').then(res => this.deliveryOptions = res.data);
+			axios.get('/api/cart_descriptions/get_one/1').then(res => this.cartDescriptions = res.data);
+			axios.get('/api/shop_descriptions/get_one/1').then(res => this.shopDescriptions = res.data);
+		}
 	}
 </script>

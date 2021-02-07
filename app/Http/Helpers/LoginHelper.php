@@ -31,7 +31,7 @@ class LoginHelper {
 	}
 
 	public static function fbLogin(){
-		self::findUser(['email' => $_COOKIE['email']]);
+		self::findUser($_COOKIE['email']);
 		unset($_COOKIE['email']);
 		Auth::login(self::$user);
 

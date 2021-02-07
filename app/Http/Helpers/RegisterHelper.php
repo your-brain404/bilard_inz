@@ -23,7 +23,7 @@ class RegisterHelper {
 
 		if(!self::validator($data)) return ResponseHelper::validateResponse();
 
-		if(self::findUser($data)) return ResponseHelper::findUserResponse(); 
+		if(self::findUser($data['email'])) return ResponseHelper::findUserResponse(); 
 
 		self::createUser($data);
 		

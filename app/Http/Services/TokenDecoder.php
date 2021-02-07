@@ -6,14 +6,16 @@ use App\Http\Services\CrudService;
 
 class TokenDecoder {
 
-	public static function decode($request): object {
-		$token = $request->bearerToken();
-        $tokenParts = explode(".", $token);  
-        $tokenHeader = base64_decode($tokenParts[0]);
-        $tokenPayload = base64_decode($tokenParts[1]);
-        $jwtHeader = json_decode($tokenHeader);
-        $jwtPayload = json_decode($tokenPayload);
+	public static function decode(string $bearerToken): object {
+		$tokenParts = explode(".", $bearerToken);
 
-        return $jwtPayload;
+		if(count($tokenParts) != 3 || !$bearerToken) {
+			throw new \Exception("Invalid Bearer Token!");
+		} 
+		$tokenPayload = base64_decode($tokenParts[1]);
+		$jwtPayload = json_decode($tokenPayload);
+		if($jwtPayload == null) throw new \Exception("Invalid Bearer Token!");
+
+		return $jwtPayload;
 	}
 }

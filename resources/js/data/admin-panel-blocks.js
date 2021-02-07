@@ -143,7 +143,7 @@ export default {
 
 	shop: [
 	{title: 'Kategorie Sklepu', component: ShopCategories, tablename: 'shop_categories', table: [], multiple: true, removable: true, gallery: false, active: true, home_page: false, list:'shop_products'},
-	{title: 'Zamówienia', component: ShopOrders, tablename: 'shop_orders', table: [], multiple: true, removable: true, is_paid: true },
+	{title: 'Zamówienia', component: ShopOrders, tablename: 'shop_orders', table: [], multiple: true, removable: true, is_paid: true, id: true },
 	{title: 'Opcje wysyłki', component: DeliveryOptions, tablename: 'delivery_options', table: [], active: true},
 	{title: 'Sklep opisy', component: ShopDescriptions, tablename: 'shop_descriptions', table: []},
 	{title: 'Koszyk opisy', component: CartDescriptions, tablename: 'cart_descriptions', table: []},

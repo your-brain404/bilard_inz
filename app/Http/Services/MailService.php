@@ -47,8 +47,8 @@ class MailService {
 		$validator = Validator::make($data, [
 			'answer_message' => 'required|string',
 			'subject' => 'required|string',
-			'answer' => 'numeric',
-			'id' => 'numeric',
+			'answer' => 'integer',
+			'id' => 'integer',
 			'email' => 'required|string|email'
 		]);
 

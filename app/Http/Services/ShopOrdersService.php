@@ -69,28 +69,32 @@ class ShopOrdersService {
 	public static function saveData(Request $request) {
 
 		$data = $request->isMethod('post') ? self::prependData($request) : CrudService::prependData($request);
+		if($request->isMethod('post')) {
+			$availableResponse = self::checkProductsAvailability($request->all()['products']);
 
-		$availableResponse = self::checkProductsAvailability($request->all()['products']);
-
-		if(!empty($availableResponse)) return ResponseHelper::productsAvailableError($availableResponse);
-
-		$shop_order = $request->isMethod('put') ? self::$model::where('id', $request->input('id'))->first()->fill($data) : self::$model::create($data);
-
-		foreach($request->all()['products'] as $product) {
-			$field = isset($product['product']['product_id']) ? 'item_id' : 'product_id';
-			$insert[$field] = $product['product']['id'];
-			$insert['shop_order_id'] = $shop_order->id;
-			$insert['amount'] = $product['amount'];
-			$model = isset($product['product']['product_id']) ? 'App\ShopItems' : 'App\ShopProducts';
-			$model = $model::find($product['product']['id']);
-			$model->amount -= $insert['amount'];
-			$model->save();
-			OrderedProducts::create($insert);
-			unset($insert);
+			if(!empty($availableResponse)) return ResponseHelper::productsAvailableError($availableResponse);
 		}
 
-		Mail::to(Contact::find(1)->email_1)->send(new NewOrder($shop_order));
-		Mail::to($shop_order->main_email)->send(new YourOrder($shop_order));
+
+		$shop_order = $request->isMethod('put') ? self::$model::where('id', $request->input('id'))->first()->fill($data) : self::$model::create($data);
+		
+		if($request->isMethod('post')) {
+			foreach($request->all()['products'] as $product) {
+				$field = isset($product['product']['product_id']) ? 'item_id' : 'product_id';
+				$insert[$field] = $product['product']['id'];
+				$insert['shop_order_id'] = $shop_order->id;
+				$insert['amount'] = $product['amount'];
+				$model = isset($product['product']['product_id']) ? 'App\ShopItems' : 'App\ShopProducts';
+				$model = $model::find($product['product']['id']);
+				$model->amount -= $insert['amount'];
+				$model->save();
+				OrderedProducts::create($insert);
+				unset($insert);
+			}
+
+			Mail::to(Contact::find(1)->email_1)->send(new NewOrder($shop_order));
+			Mail::to($shop_order->main_email)->send(new YourOrder($shop_order));
+		}
 
 		$shop_order->save(); 
 

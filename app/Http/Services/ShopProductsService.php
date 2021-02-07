@@ -15,7 +15,5 @@ class ShopProductsService {
 		if($request->active) $where['active'] = $request->active;
 		return ShopProducts::where($where)->orderBy($request->field, $request->sort)->paginate();
 	}
-
-	
 	
 }

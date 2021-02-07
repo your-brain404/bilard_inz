@@ -27,8 +27,8 @@ trait LoginTrait {
 		return self::$user->blocked;
 	}
 
-	public static function findUser(array $data): bool {
-		self::$user = User::where('email', $data['email'])->first();
+	public static function findUser(string $email): bool {
+		self::$user = User::where('email', $email)->first();
 		return self::$user ? true : false;
 	}
 

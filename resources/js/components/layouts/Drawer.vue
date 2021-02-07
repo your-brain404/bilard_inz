@@ -5,7 +5,7 @@
 			<v-list nav dense>
 				<v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
 					<v-list-item @click="$route.path != '/' ? $router.push('/') : true" class="d-flex justify-content-center flex-column">
-						<img width="auto" height="120px" :src="url($store.getters.settings.photo)" :alt="$store.getters.settings.photo_alt">
+						<img width="auto" height="120px" :src="url($store.getters.settings.photo).replace('.webp', '')" :alt="$store.getters.settings.photo_alt">
 						<h3 class="mb-0">{{ $store.getters.settings.company }}</h3>
 					</v-list-item>
 					<v-list-item v-if="$store.getters.user.type == 'Admin' || $store.getters.user.type == 'Moderator'" @click="$router.push('/admin-panel/main')">
