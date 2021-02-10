@@ -70,4 +70,8 @@
 		display: flex;
 		align-items: center;
 	}
+
+	.owl-item {
+		background-color: white!important;
+	}
 </style>

@@ -16,7 +16,7 @@
 					</v-col>
 					<v-col cols="12" md="9">
 						<h2 class="font-weight-bold">{{ info.title }}</h2>
-						<p>{{ info.short_description ? info.short_description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 200) + '...' : '' }}</p>
+						<p>{{ info.short_description ? info.short_description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 200) + (info.short_description.replace(/<\/?[^>]+(>|$)/g, "").length > 200 ? '...' : '' ) : '' }}</p>
 						<router-link :to="`/aktualnosci/${info.id}/${slugify(info.title)}`">
 							<v-btn class="mt-5 offer-button"  link large block color="#da5a33" outlined>{{ info.button_name }}</v-btn>
 						</router-link>
@@ -140,7 +140,7 @@
 				if(this.$route.params.page != event) this.$router.push({name: 'NewsListingPage', params: {page: event}});
 			},
 			async deleteComment(comment) {
-				await db.collection('comments').doc(comment.id).delete().then(() => {
+				await db.collection('comments').doc(comment).delete().then(() => {
 					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.delete_comment);
 				}).catch(err => {
 					this.$store.commit('setSnackbar', this.$store.getters.snackbarAlerts.error);
