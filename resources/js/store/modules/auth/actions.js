@@ -2,8 +2,9 @@ import axios from 'axios'
 import parseJwt from '../../../helpers/auth/tokenDecoder.js'
 
 export default {
-	async fbLogin({commit}){
+	async fbLogin({dispatch, commit}){
 		await axios.get('api/facebook/login/get_token').then(res => {
+			if(res.data == '') dispatch('logout');
 			localStorage.setItem('token', res.data.token);
 			localStorage.setItem('user', JSON.stringify(res.data.data));
 			commit('setToken', res.data.token);
@@ -46,10 +47,11 @@ export default {
 		}).catch(err => {console.log(err); commit('loading', false);});
 	},
 	logout({commit}){
+		console.log('logout');
 		localStorage.removeItem('token');
+		localStorage.removeItem('user');
 		localStorage.removeItem('fbLogin');
 		localStorage.removeItem('authLogin');
-		localStorage.removeItem('user');
 		commit('setUser', {});
 		commit('setToken', '');
 	}

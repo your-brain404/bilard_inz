@@ -185,7 +185,6 @@
 			},
 			async getDrawerDescriptions() {
 				await axios.get('/api/drawer_descriptions/get_one/1').then(res => this.drawerDescriptions = res.data);
-				console.log(avatar(this.drawerDescriptions.placeholder))
 			}
 		},
 		computed: {
@@ -197,7 +196,7 @@
 		created() {
 			this.loadUserData();
 			this.getDrawerDescriptions();
-			if(!localStorage.getItem('user')) this.getAuthDescriptions();
+			if(!localStorage.getItem('user') || localStorage.getItem('user') == 'undefined') this.getAuthDescriptions();
 		}
 
 	}

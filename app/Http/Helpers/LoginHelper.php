@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Http\Helpers;
 
 use Illuminate\Http\Request;
@@ -8,7 +9,8 @@ use App\Http\Resources\LoginResource;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
-class LoginHelper {
+class LoginHelper
+{
 
 	use LoginTrait {
 		LoginTrait::login as signIn;
@@ -16,21 +18,24 @@ class LoginHelper {
 
 	protected static $user, $token;
 
-	public static function login(Request $request) {
+	public static function login(Request $request)
+	{
 
 		$data = $request->all();
-		if(!self::validator($data) || !self::findUser($data)) return ResponseHelper::validateResponse();
+		if (!self::validator($data) || !self::findUser($data)) return ResponseHelper::validateResponse();
 
-		if(!self::isActivated()) return ResponseHelper::nonActivatedAccount();	
+		if (!self::isActivated()) return ResponseHelper::nonActivatedAccount();
 
-		if(self::isBlocked()) return ResponseHelper::blockedUser();
-		
-		if(!self::signIn($data)) return ResponseHelper::validateResponse();
+		if (self::isBlocked()) return ResponseHelper::blockedUser();
+
+		if (!self::signIn($data)) return ResponseHelper::validateResponse();
 
 		return self::getResource();
 	}
 
-	public static function fbLogin(){
+	public static function fbLogin()
+	{
+		if (!isset($_COOKIE['email'])) return null;
 		self::findUser($_COOKIE['email']);
 		unset($_COOKIE['email']);
 		Auth::login(self::$user);
@@ -38,8 +43,5 @@ class LoginHelper {
 		self::$token = Auth::user()->createToken('authToken')->accessToken;
 
 		return self::getResource();
-
 	}
-
-
 }
