@@ -34,42 +34,41 @@ foreach (DefaultCrudTables::get() as $table) {
 }
 
 
-Route::get('/news/get_pagination', 'NewsController@getPagination'); 
+Route::get('/news/get_pagination', 'NewsController@getPagination');
 
-Route::get('/shop_products/get_pagination', 'ShopProductsController@getPagination'); 
+Route::get('/shop_products/get_pagination', 'ShopProductsController@getPagination');
 
-Route::get('/media/get_photos/', 'MediaController@getPhotos'); 
-Route::get('/media/get_files/', 'MediaController@getFiles'); 
+Route::get('/media/get_photos/', 'MediaController@getPhotos');
+Route::get('/media/get_files/', 'MediaController@getFiles');
 
-Route::post('/avatars/add/', 'AvatarsController@store')->middleware('auth:api'); 
+Route::get('/ordered_products/get_where/', 'OrderedProductsController@getWhere');
 
-Route::post('/reservations/accept/', 'ReservationsController@accept')->middleware(['admin', 'auth:api']); 
+Route::post('/avatars/add/', 'AvatarsController@store')->middleware('auth:api');
 
-Route::post('/auth/register', 'Auth\api\RegisterController@register'); 
-Route::post('/auth/login', 'Auth\api\LoginController@login'); 
+Route::post('/reservations/accept/', 'ReservationsController@accept')->middleware(['admin', 'auth:api']);
 
-
-
-Route::group(['middleware' => ['web']], function () {  
-	Route::get('/facebook/login', 'Auth\api\LoginController@redirectToProvider'); 
-	Route::get('/facebook/login/callback', 'Auth\api\LoginController@handleProviderCallback'); 
-}); 
-
-Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken'); 
-
-Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos'); 
-
-Route::get('/users/get_commentators', 'UsersController@getCommentators'); 
+Route::post('/auth/register', 'Auth\api\RegisterController@register');
+Route::post('/auth/login', 'Auth\api\LoginController@login');
 
 
-Route::post('/mails/send/', 'MailsController@send'); 
-Route::put('/mails/answer/', 'MailsController@store')->middleware(['admin', 'auth:api']); 
+
+Route::group(['middleware' => ['web']], function () {
+	Route::get('/facebook/login', 'Auth\api\LoginController@redirectToProvider');
+	Route::get('/facebook/login/callback', 'Auth\api\LoginController@handleProviderCallback');
+});
+
+Route::get('facebook/login/get_token', 'Auth\api\LoginController@getToken');
+
+Route::get('/gallery/get_photos/{table}/{id}', 'GalleryController@getPhotos');
+
+Route::get('/users/get_commentators', 'UsersController@getCommentators');
+
+
+Route::post('/mails/send/', 'MailsController@send');
+Route::put('/mails/answer/', 'MailsController@store')->middleware(['admin', 'auth:api']);
 
 Route::put('/users/edit', 'UsersController@store')->middleware(['auth:api', 'user.edit']);
 Route::post('/users/password_reminder', 'UsersController@passwordReminder');
 Route::post('/users/change_password', 'UsersController@changePassword');
 
 Route::delete('/news_tags/delete/{id}', 'NewsTagsController@destroy')->middleware(['admin', 'auth:api']);
-
-
-
