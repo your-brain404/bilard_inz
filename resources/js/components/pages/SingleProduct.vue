@@ -135,7 +135,6 @@ v<template>
 			getMaxAmount() {
 				let cart = JSON.parse(localStorage.getItem('cart'));
 				let max = this.getProductOrItem('amount');
-				console.log(max)
 				if(cart != null) {
 					let productIndex = this.getProductIndex(cart, this.product);
 					if(productIndex != -1) max -= cart[productIndex].amount;
@@ -180,6 +179,7 @@ v<template>
 					this.$store.commit('loading', false);
 					this.getShopItems();
 					this.$emit('meta_title', res.data.title)
+					this.$emit('product_category', res.data.category_id);
 				}).catch(err => {
 					this.$store.commit('loading', false);
 				})

@@ -8,10 +8,10 @@
 		</v-row>
 		<v-row>
 			<v-col cols="12" md="3">
-				<ShopCategories @category="category = $event" />
+				<ShopCategories @category_id="category_id = $event" :category_id="category_id" @category="category = $event" />
 			</v-col>
 			<v-col cols="12" md="9">
-				<component @meta_title="$emit('meta_title', $event)" :is="getComponent"></component>
+				<component @product_category="category_id = $event" @meta_title="$emit('meta_title', $event)" :is="getComponent"></component>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -27,7 +27,8 @@
 		data() {
 			return {
 				category: {},
-				shopDescriptions: {}
+				shopDescriptions: {},
+				category_id: null,
 			}
 		},
 		computed: {

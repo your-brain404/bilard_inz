@@ -3,7 +3,7 @@
 		<h3 class="shop-categories-title">{{ shopDescriptions.product_categories }}</h3>
 		<v-list-item-group color="primary" >
 			<router-link to="/sklep">
-				<v-list-item link :class="['shop-category', {'v-list-item--active': !$route.params.category_id}]">
+				<v-list-item link :class="['shop-category', {'v-list-item--active': !$route.params.category_id && $route.name != 'SingleProduct'}]">
 					<v-list-item-content>
 						<v-list-item-title class="shop-category-title" v-text="shopDescriptions.all"></v-list-item-title>
 					</v-list-item-content>
@@ -23,7 +23,7 @@
 	import axios from 'axios'
 	
 	export default {
-		props:['reloadFlag'],
+		props:['reloadFlag', 'category_id'],
 		data() {
 			return {
 				shopCategories: [],
@@ -53,7 +53,7 @@
 				this.$emit('category', this.shopCategories.find(cat => cat.id == this.$route.params.category_id));
 			},
 			activeCategory(id) {
-				return this.$route.params.category_id == id;
+				return this.$route.params.category_id == id || id == this.category_id;
 			}
 		},
 		created() {
@@ -66,6 +66,7 @@
 			},
 			'$route'() {
 				this.emitCategory();
+				if(this.$route.name != 'SingleProduct') this.$emit('category_id', null)
 			}
 		},
 	}
