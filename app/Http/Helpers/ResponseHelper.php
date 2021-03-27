@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Helpers;
 
@@ -6,9 +6,11 @@ use Illuminate\Http\Response;
 use App\Http\Resources\ResponseResource;
 use App\SnackbarAlerts;
 
-class ResponseHelper {
+class ResponseHelper
+{
 
-	public static function validateResponse() {
+	public static function validateResponse()
+	{
 		return new Response(json_encode([
 			'error' => [
 				'message' => SnackbarAlerts::find(1)->validate,
@@ -18,7 +20,8 @@ class ResponseHelper {
 		]), 200);
 	}
 
-	public static function productsAvailableError($availableResponse) {
+	public static function productsAvailableError($availableResponse)
+	{
 		return [
 			"error" => [
 				'data' => $availableResponse,
@@ -28,7 +31,8 @@ class ResponseHelper {
 		];
 	}
 
-	public static function passwordError() {
+	public static function passwordError()
+	{
 		return new Response(json_encode([
 			'error' => [
 				'message' => SnackbarAlerts::find(1)->password_error,
@@ -38,7 +42,8 @@ class ResponseHelper {
 		]), 200);
 	}
 
-	public static function changePasswordSuccess() {
+	public static function changePasswordSuccess()
+	{
 		return new Response(json_encode([
 			'success' => [
 				'message' => SnackbarAlerts::find(1)->change_password_success,
@@ -48,7 +53,19 @@ class ResponseHelper {
 		]), 200);
 	}
 
-	public static function nonActivatedAccount() {
+	public static function luckyNumber($number)
+	{
+		return new Response(json_encode([
+			'success' => [
+				'message' => str_replace('{id}', $number, SnackbarAlerts::find(1)->lucky_number),
+				'code' => 200,
+				'status' => true
+			]
+		]), 200);
+	}
+
+	public static function nonActivatedAccount()
+	{
 		return new Response(json_encode([
 			'error' => [
 				'message' => SnackbarAlerts::find(1)->non_activated_account,
@@ -58,7 +75,8 @@ class ResponseHelper {
 		]), 200);
 	}
 
-	public static function blockedUser() {
+	public static function blockedUser()
+	{
 		return new Response(json_encode([
 			'error' => [
 				'message' => SnackbarAlerts::find(1)->blocked_user,
@@ -68,7 +86,8 @@ class ResponseHelper {
 		]), 200);
 	}
 
-	public static function findUserResponse(){
+	public static function findUserResponse()
+	{
 		return new Response(json_encode([
 			'error' => [
 				'message' => SnackbarAlerts::find(1)->user_exist,
@@ -78,7 +97,8 @@ class ResponseHelper {
 		]), 200);
 	}
 
-	public static function userDoesNotExist(){
+	public static function userDoesNotExist()
+	{
 		return new Response(json_encode([
 			'error' => [
 				'message' => SnackbarAlerts::find(1)->user_does_not_exist,
@@ -88,7 +108,8 @@ class ResponseHelper {
 		]), 200);
 	}
 
-	public static function mailSuccessResponse(){
+	public static function mailSuccessResponse()
+	{
 		return [
 			"success" => [
 				'message' => SnackbarAlerts::find(1)->mail_success,
@@ -98,7 +119,8 @@ class ResponseHelper {
 		];
 	}
 
-	public static function passwordReminderSuccess(){
+	public static function passwordReminderSuccess()
+	{
 		return new Response(json_encode([
 			"success" => [
 				'message' => SnackbarAlerts::find(1)->password_reminder_success,
@@ -108,7 +130,8 @@ class ResponseHelper {
 		]), 200);
 	}
 
-	public static function mailErrorResponse(){
+	public static function mailErrorResponse()
+	{
 		return [
 			"error" => [
 				'message' => SnackbarAlerts::find(1)->mail_error,
@@ -118,7 +141,8 @@ class ResponseHelper {
 		];
 	}
 
-	public static function invalidRecaptcha(){
+	public static function invalidRecaptcha()
+	{
 		return [
 			"error" => [
 				'message' => SnackbarAlerts::find(1)->recaptcha_error,
@@ -127,4 +151,4 @@ class ResponseHelper {
 			]
 		];
 	}
-} 
+}

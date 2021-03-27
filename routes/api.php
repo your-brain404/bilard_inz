@@ -74,3 +74,4 @@ Route::post('/users/password_reminder', 'UsersController@passwordReminder');
 Route::post('/users/change_password', 'UsersController@changePassword');
 
 Route::delete('/news_tags/delete/{id}', 'NewsTagsController@destroy')->middleware(['admin', 'auth:api']);
+Route::get('/lucky_number/dice', 'LuckyNumberController@dice')->middleware(['admin']);

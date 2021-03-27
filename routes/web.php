@@ -20,7 +20,4 @@ use App\ShopOrders;
 Auth::routes();
 
 Route::get('/auth/confirm_account/{id}', 'UsersController@confirm');
-Route::get('/product', function () {
-    return new ShippingConfirmation(ShopOrders::find(26));
-});
 Route::get('/{catch?}', 'HomeController@index')->name('home')->where('catch', '^(?!api).*$');
