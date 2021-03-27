@@ -21,7 +21,6 @@ import PriceListCategories from '../components/emit-data-blocks/PriceListCategor
 import ShopCategories from '../components/shop/ShopCategories'
 import ShopProducts from '../components/shop/ShopProducts'
 import ShopItems from '../components/emit-data-blocks/ShopItems'
-import ShopItemColors from '../components/emit-data-blocks/ShopItemColors'
 import DeliveryOptions from '../components/emit-data-blocks/DeliveryOptions'
 import Settings from '@/components/emit-data-blocks/Settings'
 import Contact from '@/components/emit-data-blocks/Contact'

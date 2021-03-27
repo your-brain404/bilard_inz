@@ -33,6 +33,11 @@
 					<v-checkbox @change="setCheckbox(block.tablename, item)" v-model="item.is_paid"></v-checkbox>
 				</div>
 			</template>
+			<template #item.order="{ item }" >
+				<div class="d-flex justify-content-center">
+					<v-text-field @change="setCheckbox(block.tablename, item)" v-model="item.order"></v-text-field>
+				</div>
+			</template>
 			<template #item.sent="{ item }" >
 				<div class="d-flex justify-content-center">
 					<v-checkbox :disabled="item.sent" @change="setCheckbox(block.tablename, item)" v-model="item.sent"></v-checkbox>
@@ -80,7 +85,7 @@
 		data() {
 			return {
 				search: '',
-				templateCheckboxes: ['home_page', 'active', 'order', 'blocked', 'is_paid', 'sent']
+				templateCheckboxes: ['home_page', 'active', 'blocked', 'is_paid', 'sent']
 			}
 		},
 		methods: {
