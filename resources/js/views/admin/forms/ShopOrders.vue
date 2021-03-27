@@ -9,7 +9,7 @@
         </v-card-title>
         <v-divider class="mt-0"></v-divider>
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-row>
+          <v-row class="px-3 py-4">
             <v-col class="pa-0" cols="12" md="6">
               <div class="pa-5">
                 <h3>Główny adres</h3>
@@ -159,10 +159,64 @@
                   value="personal"
                 ></v-radio>
               </v-radio-group>
-
-              <h2>
-                Kwota: {{ currentObject.sum }}{{ shopDescriptions.currency }}
-              </h2>
+              <h4 class="cart-menu-title mt-5">Zamówione produkty</h4>
+              <div
+                class="d-flex justify-content-between align-items-center mb-2 flex-wrap"
+                v-for="(product, i) in orderedProducts"
+                :key="i"
+              >
+                <div class="d-flex align-items-center product-data-container">
+                  <router-link
+                    :to="`/sklep/produkt/${getField(product, 'id')}/${getField(
+                      product,
+                      'title'
+                    )}`"
+                  >
+                    <div
+                      class="cart-menu-product-photo bg-picture"
+                      :style="`background-image: url('${url(
+                        getField(product, 'photo')
+                      )}')`"
+                      :alt="getField(product, 'alt')"
+                    ></div>
+                  </router-link>
+                  <div class="ml-2 cart-menu-product-content">
+                    <p class="mb-0 cart-menu-product-title">
+                      {{
+                        getField(product, "title") +
+                        " " +
+                        getField(product, "subtitle")
+                      }}
+                    </p>
+                    <div class="d-flex">
+                      <p
+                        :class="[
+                          { discounted: getField(product, 'discount') },
+                          'mb-0',
+                        ]"
+                      >
+                        {{ getField(product, "price").toFixed(2) }}
+                        {{ shopDescriptions.currency }}
+                      </p>
+                      <p class="pl-3" v-if="getField(product, 'discount')">
+                        {{
+                          getDiscountedPrice(
+                            getField(product, "price"),
+                            getField(product, "discount")
+                          ).toFixed(2)
+                        }}
+                        {{ shopDescriptions.currency }}
+                      </p>
+                    </div>
+                    <div class="product-amount">
+                      Ilość: {{ product.amount }} szt.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h4 class="cart-menu-title mt-5">
+                Kwota: {{ currentObject.sum }} {{ shopDescriptions.currency }}
+              </h4>
             </v-col>
           </v-row>
           <v-divider class="mb-0"></v-divider>
@@ -191,6 +245,7 @@
 <script>
 import FormService from "../../../services/FormService.js";
 import axios from "axios";
+import url from "@/helpers/photo/url";
 
 let data = {};
 let vueComponents = {};
@@ -216,6 +271,7 @@ export default {
       cartDescriptions: {},
       shopDescriptions: {},
       orderedProducts: [],
+      url,
     };
   },
   ...vueComponents,
@@ -226,11 +282,15 @@ export default {
         this.shopDescriptions?.currency
       }`;
     },
+    getField(product, field) {
+      return product[product.product_id ? "shop_product" : "shop_item"][field];
+    },
+    getDiscountedPrice: (price, discount) => price * ((100 - discount) / 100),
   },
   watch: {
     currentObject: {
       deep: true,
-      handler() { 
+      handler() {
         axios
           .get(
             `/api/ordered_products/get_where?shop_order_id=${this.currentObject.id}`
@@ -252,3 +312,18 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.product-amount {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.cart-menu-product-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.cart-menu-product-photo {
+  width: 100px;
+  height: 100px;
+}
+</style>

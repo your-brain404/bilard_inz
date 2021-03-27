@@ -33,6 +33,11 @@
 					<v-checkbox @change="setCheckbox(block.tablename, item)" v-model="item.is_paid"></v-checkbox>
 				</div>
 			</template>
+			<template #item.sent="{ item }" >
+				<div class="d-flex justify-content-center">
+					<v-checkbox :disabled="item.sent" @change="setCheckbox(block.tablename, item)" v-model="item.sent"></v-checkbox>
+				</div>
+			</template>
 			<template #item.service_equipment="{ item }" >
 				{{ item.service_equipment.title }}
 			</template>
