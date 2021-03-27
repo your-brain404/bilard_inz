@@ -1,8 +1,8 @@
 <template>
 	<div class="position-relative" style="overflow: hidden;">
-		<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="80vh" v-model="slider">
+		<!-- <v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="80vh" v-model="slider"> -->
 			<Slider />
-		</v-lazy>
+		<!-- </v-lazy> -->
 		<v-lazy :options="{ threshold: .5 }" transition="fade-transition" min-height="568px" v-model="news">
 			<News />
 		</v-lazy>

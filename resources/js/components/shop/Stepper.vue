@@ -42,7 +42,14 @@
             <div class="mb-12">
                 <Summary :deliveryOptions="deliveryOptions" :cartDescriptions="cartDescriptions" @cartData="cartData = $event" :payments="payments" :shippingDetails="shippingDetails" />
             </div>
-            <v-btn color="primary" @click="realize">{{ cartDescriptions.realize }}</v-btn>
+            <v-checkbox v-model="regulations">
+                <span slot="label">
+                    {{ authDescriptions.shop_regulations }} <a @click.stop="" class="register-checkbox-link" download :href="url($store.getters.settings.shop_regulations)">
+                        <v-btn class="ml-2" color="primary" small outlined>{{ authDescriptions.download }}</v-btn>
+                    </a>
+                </span>
+            </v-checkbox>
+            <v-btn :disabled="!regulations" color="primary" @click="realize">{{ cartDescriptions.realize }}</v-btn>
             <v-btn @click="e1 = 3" text>{{ cartDescriptions.back }}</v-btn>
         </v-stepper-content>
     </v-stepper-items>
@@ -57,6 +64,7 @@ import Payments from './Payments'
 import Summary from './Summary'
 import axios from 'axios'
 import DeliveryOptions from '@/components/emit-data-blocks/DeliveryOptions'
+import url from '@/helpers/photo/url';
 
 export default {
     data() {
@@ -69,7 +77,10 @@ export default {
             shippingDetails: {},
             payments: {},
             cartData: {},
-            deliveryOptions: []
+            deliveryOptions: [],
+            regulations: false,
+            authDescriptions: {},
+            url
         }
     },
     components: {
@@ -122,8 +133,11 @@ export default {
                 this.$store.commit('cart', cart);
             }
         },
+        getAuthDescriptions() {
+            axios.get('/api/auth_descriptions/get_one/1').then(res => this.authDescriptions = res.data);
+        },
         realize() {
-            if (!confirm(this.shopDescriptions.order_confirm)) return;
+            if (!confirm(this.shopDescriptions.order_confirm) || !this.regulations) return;
 
             this.$store.commit('loading', true);
             axios.post('/api/shop_orders/add', this.cartData).then(res => {
@@ -153,7 +167,14 @@ export default {
         if (localStorage.getItem('e1')) {
             this.e1 = localStorage.getItem('e1');
         }
+        this.getAuthDescriptions();
 
     }
 }
 </script>
+
+<style>
+.v-stepper__wrapper {
+    overflow: unset !important;
+}
+</style>
