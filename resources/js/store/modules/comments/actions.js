@@ -23,6 +23,15 @@ export default {
 				if(doc.data().user_id == user_id) db.collection('comments').doc(doc.id).delete();
 			});
 		})
+	},
+	async deleteComments(context, news_id) {
+		await db.collection('comments')
+		.onSnapshot(querySnapshot => {
+			querySnapshot.forEach(doc => {
+				if(doc.data().news_id == news_id) db.collection('comments').doc(doc.id).delete();
+			});
+		})
+
 	}
 
 

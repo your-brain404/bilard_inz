@@ -8,12 +8,12 @@ class OrderedProducts extends Model
 {
     protected $guarded = ['id'];
 
-    public function shopProducts()
+    public function shopProduct()
     {
         return $this->belongsTo('App\ShopProducts', 'product_id');
     }
 
-    public function shopItems()
+    public function shopItem()
     {
         return $this->belongsTo('App\ShopItems', 'item_id');
     }

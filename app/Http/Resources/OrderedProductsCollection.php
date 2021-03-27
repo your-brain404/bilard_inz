@@ -17,8 +17,8 @@ class OrderedProductsCollection extends ResourceCollection
     public function toArray($request)
     {
         for ($i = 0; $i < $this->count(); $i++) {
-            $this->collection[$i]->shopProducts;
-            $this->collection[$i]->shopItems;
+            $this->collection[$i]->shopProduct;
+            $this->collection[$i]->shopItem;
         }
 
         return parent::toArray($request);

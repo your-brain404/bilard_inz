@@ -43,6 +43,8 @@ Route::get('/media/get_files/', 'MediaController@getFiles');
 
 Route::get('/ordered_products/get_where/', 'OrderedProductsController@getWhere');
 
+Route::post('/shop_orders/shipping_confirmation/', 'ShopOrdersController@shippingConfirmation');
+
 Route::post('/avatars/add/', 'AvatarsController@store')->middleware('auth:api');
 
 Route::post('/reservations/accept/', 'ReservationsController@accept')->middleware(['admin', 'auth:api']);

@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Mail\ReservationAccept;
+use App\Mail\ShippingConfirmation;
 use App\Reservations;
+use App\ShopOrders;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +20,7 @@ use App\Reservations;
 Auth::routes();
 
 Route::get('/auth/confirm_account/{id}', 'UsersController@confirm');
-
+Route::get('/product', function () {
+    return new ShippingConfirmation(ShopOrders::find(26));
+});
 Route::get('/{catch?}', 'HomeController@index')->name('home')->where('catch', '^(?!api).*$');
-
-

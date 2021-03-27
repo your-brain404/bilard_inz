@@ -30,7 +30,7 @@
 			</template>
 			<template #item.is_paid="{ item }" >
 				<div class="d-flex justify-content-center">
-					<v-checkbox v-model="item.is_paid" disabled></v-checkbox>
+					<v-checkbox @change="setCheckbox(block.tablename, item)" v-model="item.is_paid"></v-checkbox>
 				</div>
 			</template>
 			<template #item.service_equipment="{ item }" >
@@ -90,6 +90,7 @@
 						this.$emit('reloadFlag', true);
 						this.$store.commit('loading', false);
 						this.$store.commit('setSnackbar', snackbarAlerts.delete)
+						if(block.tablename == 'news') this.$store.dispatch('deleteComments', item.id);
 						setTimeout(()=> this.$emit('reloadFlag', false), 200);
 					}).catch(err => {
 						this.$store.commit('loading', false);
@@ -109,6 +110,17 @@
 					this.$store.commit('setSnackbar', snackbarAlerts.error)
 				})
 			},
+			sendShippingConfirmation(item) {
+				axios.post('/api/shop_orders/shipping_confirmation', item).then(res => {
+					if(res.data.success) this.$store.commit('setSnackbar', res.data.success.message);
+					if(res.data.error) this.$store.commit('setSnackbar', res.data.error.message);
+					this.$emit('reloadFlag', true);
+					setTimeout(() => this.$emit('reloadFlag', false), 200);
+				}).catch(err => {
+					console.log(err);
+					this.$store.commit('setSnackbar', snackbarAlerts.error)
+				})
+			},
 			setCheckbox(table, item) {
 				if(table == 'reservations' && item.active) if(!confirm('Czy na pewno potwierdzić rezerwację? Zostanie wysłane potwierdzenie na maila użytkownika!')) {
 					this.block.table.find(row => item.id == row.id).active = false;
@@ -117,7 +129,10 @@
 				if(table == 'shop_orders' && item.sent) if(!confirm('Czy na pewno oznaczyć jako wysłane? Zostanie wysłane potwierdzenie na maila użytkownika!')) {
 					this.block.table.find(row => item.id == row.id).sent = false;
 					return;
+				} else {
+					this.sendShippingConfirmation(item);
 				}
+
 
 				axios.put(`/api/${table}/edit`, item).then(res => {
 					this.$emit('reloadFlag', true);

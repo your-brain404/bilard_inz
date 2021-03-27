@@ -9,32 +9,44 @@ use Illuminate\Http\Request;
 
 class ShopOrdersController extends Controller
 {
-    public function __construct() {
-		CrudService::$model = 'App\\'. str_replace('Controller', '', explode('\\', __CLASS__)[array_key_last(explode('\\', __CLASS__))]);
+	public function __construct()
+	{
+		CrudService::$model = 'App\\' . str_replace('Controller', '', explode('\\', __CLASS__)[array_key_last(explode('\\', __CLASS__))]);
 	}
 
-    public function getAll() {
+	public function getAll()
+	{
 		$shop_orders = CrudService::getAll();
 		return new CrudResource($shop_orders);
 	}
 
-	public function getOne($id) {
+	public function getOne($id)
+	{
 		$shop_order = CrudService::getOne($id);
 		return new CrudResource($shop_order);
 	}
 
-	public function getWhere(Request $request) {
+	public function getWhere(Request $request)
+	{
 		$shop_orders = CrudService::getWhere($request, 'asc');
 		return new CrudResource($shop_orders);
 	}
 
-	public function store(Request $request) {
+	public function store(Request $request)
+	{
 		$shop_order = ShopOrdersService::saveData($request);
 		return new CrudResource($shop_order);
 	}
-	
-	public function destroy($id) {
+
+	public function destroy($id)
+	{
 		$shop_order = CrudService::destroy($id);
-		return new CrudResource($shop_order); 
+		return new CrudResource($shop_order);
+	}
+
+	public function shippingConfirmation(Request $request)
+	{
+		$shop_order = ShopOrdersService::sendShippingConfirmation($request->all());
+		return new CrudResource($shop_order);
 	}
 }
